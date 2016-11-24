@@ -19,7 +19,7 @@
                     <label class="xtei_label"> <?php esc_attr_e( 'Eventbrite Personal OAuth token','xt-eventbrite-import' ); ?> : </label>
                     <input class="xtei_eventbrite_oauth_token" name="xtei_eventbrite_oauth_token" type="text" required="required" value="<?php if ( isset( $xtei_options['eventbrite_oauth_token'] ) ) { echo $xtei_options['eventbrite_oauth_token']; } ?>" />
                     <span class="xtei_small">
-                        <?php _e( 'Insert your eventbrite.com Personal OAuth token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/ target="_blank">here</a>.', 'xt-eventbrite-import' ); ?>
+                        <?php _e( 'Insert your eventbrite.com Personal OAuth token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'xt-eventbrite-import' ); ?>
                     </span>
                 </div>
                 <div class="xtei_element">
