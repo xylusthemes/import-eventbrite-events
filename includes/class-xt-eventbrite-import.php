@@ -50,7 +50,7 @@ class XT_Eventbrite_Import {
 	public function __construct() {
 
 		$this->plugin_name = 'eventbrite-import-for-the-events-calendar';
-		$this->version = '1.0.0';
+		$this->version = '1.0.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -106,7 +106,6 @@ class XT_Eventbrite_Import {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-xt-eventbrite-import-display.php';
 
-
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
@@ -145,6 +144,7 @@ class XT_Eventbrite_Import {
 		$xtei_manage_imports = new XT_Eventbrite_Import_Manage_Import( $this->get_plugin_name(), $this->get_version() );
 		$xtei_display = new XT_Eventbrite_Import_Display( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu',$plugin_admin, 'xtei_add_import_menu', 30 );
 
 	}

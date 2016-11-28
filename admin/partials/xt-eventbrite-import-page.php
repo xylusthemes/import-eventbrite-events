@@ -20,7 +20,7 @@
         <div id="post-body" class="metabox-holder columns-2">
 
             <div id="postbox-container-1" class="postbox-container">
-
+                <?php require_once 'xt-eventbrite-import-admin-sidebar.php'; ?>
             </div>
             <div id="postbox-container-2" class="postbox-container">
 
@@ -43,6 +43,12 @@
                         <?php esc_html_e( 'Events Manager import', 'xt-eventbrite-import' ); ?>
                     </a>
                     <?php } ?>
+                    <a href="<?php echo esc_url( add_query_arg( 'tab', 'auto_import' ) ); ?>" class="nav-tab <?php if ( $active_tab == 'auto_import' ) { echo 'nav-tab-active'; } ?>">
+                        <?php esc_html_e( 'Automatic import', 'xt-eventbrite-import' ); ?>
+                        <span style="color: red">
+                           <?php esc_html_e( '(Pro)', 'xt-eventbrite-import' ); ?>
+                        </span>
+                    </a>
                 </h2>
                 <?php
                     if ( $active_tab == 'settings' ) {
@@ -53,6 +59,11 @@
                     } elseif( $active_tab == 'eem_import' ) {
                         $xtei_event_em_cats = get_terms( XTEI_EM_TAXONOMY, array( 'hide_empty' => 0 ) );
                         require_once 'xt-eventbrite-import-em-tab-content.php';
+                    } elseif( $active_tab == 'auto_import' ) {
+                        $xtei_event_cats = get_terms( XTEI_TEC_TAXONOMY, array( 'hide_empty' => 0 ) );
+                        $xtei_event_em_cats = get_terms( XTEI_EM_TAXONOMY, array( 'hide_empty' => 0 ) );
+                        $user_info = 
+                        require_once 'xt-eventbrite-import-auto-import-tab-content.php';
                     }
                     ?>
                 </div>

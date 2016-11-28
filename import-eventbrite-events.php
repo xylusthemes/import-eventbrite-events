@@ -3,7 +3,7 @@
  * Plugin Name:       Import Eventbrite Events
  * Plugin URI:        https://xylusthemes.com/plugins/import-eventbrite-events/
  * Description:       Import Eventbrite Events allows you to import Eventbrite ( eventbrite.com ) events into The Events Calendar or Events Manager.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            xylus
  * Author URI:        http://xylusthemes.com/
  * License:           GPL-2.0+
@@ -28,6 +28,8 @@ define( 'XTEI_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'XTEI_ADMIN_PATH', plugin_dir_path( __FILE__ ) . 'admin/' );
 define( 'XTEI_INCLUDES_PATH', plugin_dir_path( __FILE__ ) . 'includes/' );
 define( 'XTEI_OPTIONS', 'xtei_eventbrite_options' );
+define( 'XTEI_AUTO_OPTIONS', 'xtei_auto_import_options' );
+define( 'XTEI_PLUGIN_BUY_NOW_URL', 'https://xylusthemes.com/plugins/import-eventbrite-events/' );
 
 define( 'XTEI_TEC_TAXONOMY', 'tribe_events_cat' );
 if ( class_exists( 'Tribe__Events__Main' ) ) {
@@ -94,6 +96,20 @@ register_deactivation_hook( __FILE__, 'deactivate_xt_eventbrite_import' );
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-xt-eventbrite-import.php';
 
+
+/**
+ * is plugin active.
+ *
+ * @since    1.0.0
+ */
+function xt_is_plugin_active( $plugin = '' ) {
+
+	if( $plugin != ''){
+
+	}
+	return false;
+}
+
 /**
  * Begins execution of the plugin.
  *
@@ -107,3 +123,4 @@ function run_xt_eventbrite_import() {
 
 }
 run_xt_eventbrite_import();
+

@@ -4,11 +4,11 @@ Donate link: http://xylusthemes.com/
 Tags: events, calendar, event, eventbrite, eventbrite event, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events
 Requires at least: 3.9
 Tested up to: 4.6.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Import Eventbrite Events allows you to import Eventbrite ( eventbrite.com ) events into The Events Calendar or Events Manager.
+Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into The Events Calendar or Events Manager.
 
 == Description ==
 
@@ -16,7 +16,15 @@ This plugin allows you to import events from [eventbrite.com](https://www.eventb
 
 This is add-on plugin for [The Events Calendar](https://wordpress.org/plugins/the-events-calendar/ "The Events Calendar") and [Events Manager](https://wordpress.org/plugins/events-manager/ "Events Manager"), which allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into The Events Calendar and Events Calendar. As an add-on plugin this plugin need The Events Calendar or Events Manager Installed and activated.
 
-You can configure settings for this plugin at **Eventbrite Import** in your WordPress dashboard. You can insert your [eventbrite.com OAuth Token](http://secure.eventbrite.com/eventbrite_api/key/) in settings section. After configure settings you can import eventbrite event from there.
+You can configure settings for this plugin at **Eventbrite Import** in your WordPress dashboard. You can insert your [eventbrite.com OAuth Token](http://www.eventbrite.com/myaccount/apps/) in settings section. After configure settings you can import eventbrite event from there.
+
+**Additional [PRO Version](https://xylusthemes.com/plugins/import-eventbrite-events/) Features**
+
+* Scheduled import events.
+
+**Contributing**
+
+You can contribute to development of the plugin on [Github](https://github.com/xylusthemes/import-eventbrite-events/).
 
 == Installation ==
 
@@ -36,11 +44,16 @@ It can also be installed manually.
 
 == Screenshots ==
 
-1. Eventbrite Import Settings
-2. Eventbrite Import Screen for The Events Calendar
-3. Eventbrite Import Screen for Events Manager
+1. Settings
+2. Eventbrite Import for The Events Calendar
+3. Eventbrite Import for Events Manager
+4. Automatic event import (Pro).
+5. Front-end side event ticket display.
 
 == Changelog ==
+
+= 1.0.1 =
+* some bug fixes.
 
 = 1.0.0 =
 * Initial Version.

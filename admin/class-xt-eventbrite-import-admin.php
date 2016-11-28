@@ -54,6 +54,17 @@ class XT_Eventbrite_Import_Admin {
 	}
 
 	/**
+	 * Register the javascripts for the admin area.
+	 *
+	 * @since    1.0.1
+	 */
+	public function enqueue_scripts() {
+
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/xt-eventbrite-import-admin.js', array( 'jquery' ) );
+
+	}
+
+	/**
 	 * Add submenu for import page.
 	 *
 	 * @since    1.0.0
@@ -77,6 +88,7 @@ class XT_Eventbrite_Import_Admin {
 	 */
 	public function xtei_event_import_page() {
 		$xtei_options = get_option( XTEI_OPTIONS, array() );
+		$xtei_auto_options = get_option( XTEI_AUTO_OPTIONS, array() );
 		include XTEI_ADMIN_PATH . 'partials/xt-eventbrite-import-page.php';
 	}
 }

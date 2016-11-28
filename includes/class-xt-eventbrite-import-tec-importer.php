@@ -237,8 +237,8 @@ class XT_Eventbrite_Import_Tec_Importer {
 			if ( is_array( $oraganizer ) && ! isset( $oraganizer['errors'] ) ) {
 				if ( ! empty( $oraganizer ) && array_key_exists( 'id', $oraganizer ) ) {
 					$creat_organizer = tribe_create_organizer( array(
-						'Organizer' => ( $oraganizer['name'] ) ? $oraganizer['name'] : '',
-						'Website' => ( $oraganizer['website'] ) ? $oraganizer['website'] : '',
+						'Organizer' => isset( $oraganizer['name'] ) ? $oraganizer['name'] : '',
+						'Website' => isset( $oraganizer['website'] ) ? $oraganizer['website'] : '',
 					) );
 
 					if ( $creat_organizer ) {
