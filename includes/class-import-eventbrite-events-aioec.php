@@ -183,9 +183,9 @@ class Import_Eventbrite_Events_Aioec {
 				'contact_name' 	   => $org_name,
 				'contact_phone'    => $org_phone,
 				'contact_email'    => $org_email,
-				'contact_url' 	   => $event_uri,			
+				'contact_url' 	   => $org_url,			
 				'cost'   		   => '',
-				'ticket_url' 	   => '',
+				'ticket_url' 	   => $event_uri,
 				'ical_uid' 	  	   => $this->get_ical_uid_for_event( $inserted_event_id ),
 				'show_coordinates' => $show_coordinates,
 			);

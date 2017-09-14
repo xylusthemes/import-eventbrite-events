@@ -125,7 +125,7 @@ class Import_Eventbrite_Events_Cpt {
 				'label'                 => __( 'Events', 'import-eventbrite-events' ),
 				'description'           => __( 'Post type for Events', 'import-eventbrite-events' ),
 				'labels'                => $event_labels,
-				'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields' ),
+				'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions' ),
 				'taxonomies'            => array( $this->event_category, $this->event_tag ),
 				'hierarchical'          => false,
 				'public'                => true,
@@ -486,6 +486,11 @@ class Import_Eventbrite_Events_Cpt {
 		$event_end_minute     = isset( $_POST['event_end_minute'] ) ? sanitize_text_field($_POST['event_end_minute']) : '';
 		$event_end_meridian   = isset( $_POST['event_end_meridian'] ) ? sanitize_text_field($_POST['event_end_meridian']) : '';
 
+		$start_time = $event_start_date.' '.$event_start_hour.':'.$event_start_minute.' '.$event_start_meridian;
+		$end_time = $event_end_date.' '.$event_end_hour.':'.$event_end_minute.' '.$event_end_meridian;
+		$start_ts = strtotime( $start_time );
+		$end_ts = strtotime( $end_time );
+
 		// Venue Deatails
 		$venue_name    = isset( $_POST['venue_name'] ) ? sanitize_text_field( $_POST['venue_name'] ) : '';
 		$venue_address = isset( $_POST['venue_address'] ) ? sanitize_text_field( $_POST['venue_address'] ) : '';
@@ -513,6 +518,8 @@ class Import_Eventbrite_Events_Cpt {
 		update_post_meta( $post_id, 'event_end_hour', $event_end_hour );
 		update_post_meta( $post_id, 'event_end_minute', $event_end_minute );
 		update_post_meta( $post_id, 'event_end_meridian', $event_end_meridian );
+		update_post_meta( $post_id, 'start_ts', $start_ts );
+		update_post_meta( $post_id, 'end_ts', $end_ts );
 
 		// Venue
 		update_post_meta( $post_id, 'venue_name', $venue_name );
@@ -594,6 +601,10 @@ class Import_Eventbrite_Events_Cpt {
 	public function eventbrite_events_archive( $atts = array() ){
 
 		$current_date = current_time('Y-m-d');
+		$paged = ( get_query_var('paged') ? get_query_var('paged') : 1 );
+		if( is_front_page() ){
+			$paged = ( get_query_var('page') ? get_query_var('page') : 1 );
+		}
 		$eve_args = array(
 		    'post_type' => 'eventbrite_events',
 		    'post_status' => 'publish',
@@ -604,14 +615,58 @@ class Import_Eventbrite_Events_Cpt {
 						            'value' => $current_date,
 						        )
 				            ),
-		    'meta_key' => 'event_end_date',
+		    'meta_key' => 'event_start_date',
 		    'orderby' => 'meta_value',
 		    'order' => 'ASC',
-		    'paged' => ( get_query_var('paged') ? get_query_var('paged') : 1 ),
+		    'paged' => $paged,
 		);
+
+		if( isset( $atts['category'] ) && $atts['category'] != '' ){
+			$categories = explode(',', $atts['category'] );
+			$tax_field = 'slug';
+			if( is_numeric( implode('', $categories ) ) ){
+				$tax_field = 'term_id';
+			}
+			if( !empty( $categories ) ){
+				$eve_args['tax_query'] = array(
+					array(
+						'taxonomy' => $this->event_category,
+						'field'    => $tax_field,
+						'terms'    => $categories,
+					)
+				);
+			}
+		}
 
 		if( isset( $atts['posts_per_page'] ) && $atts['posts_per_page'] != '' && is_numeric( $atts['posts_per_page'] ) ){
 			$eve_args['posts_per_page'] = $atts['posts_per_page'];
+		}
+
+		$col = 3;
+		$css_class = 'col-iee-md-4';
+		if( isset( $atts['col'] ) && $atts['col'] != '' && is_numeric( $atts['col'] ) ){
+			$col = $atts['col'];
+			switch ( $col ) {
+				case '1':
+					$css_class = 'col-iee-md-12';
+					break;
+
+				case '2':
+					$css_class = 'col-iee-md-6';
+					break;
+
+				case '3':
+					$css_class = 'col-iee-md-4';
+					break;
+
+				case '4':
+					$css_class = 'col-iee-md-3';
+					break;
+				
+				default:
+					$css_class = 'col-iee-md-4';
+					break;
+			}
 		}
 
 		$eventbrite_events = new WP_Query( $eve_args );
@@ -621,7 +676,7 @@ class Import_Eventbrite_Events_Cpt {
 		
 		ob_start();
 		?>
-		<div class="row_grid">
+		<div class="iee_archive row_grid">
 			<?php
 			if( $eventbrite_events->have_posts() ):
 				while ( $eventbrite_events->have_posts() ) : $eventbrite_events->the_post();

@@ -3,7 +3,7 @@
  * Plugin Name:       Import Eventbrite Events
  * Plugin URI:        http://xylusthemes.com/plugins/import-eventbrite-events/
  * Description:       Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into your WordPress site.
- * Version:           1.1.1
+ * Version:           1.2.0
  * Author:            Xylus Themes
  * Author URI:        http://xylusthemes.com
  * License:           GPL-2.0+
@@ -110,7 +110,7 @@ class Import_Eventbrite_Events{
 
 		// Plugin version.
 		if( ! defined( 'IEE_VERSION' ) ){
-			define( 'IEE_VERSION', '1.1.0' );
+			define( 'IEE_VERSION', '1.2.0' );
 		}
 
 		// Plugin folder Path.
