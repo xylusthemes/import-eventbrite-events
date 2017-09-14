@@ -4,7 +4,7 @@ Donate link: http://xylusthemes.com/
 Tags: events, calendar, event, eventbrite, eventbrite event, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 3.9
 Tested up to: 4.7
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,8 @@ Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events
 This plugin allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into your WordPress site. you can also schedule import for effortless import in Pro version.
 
 This Plugin is works as a stand alone as well as add-on plugin for below listed Events plugins, which allows you to run imports from eventbrite right from your dashboard. As a stand alone plugin this plugin work independently for event import and Event Management.
+
+You can use `[eventbrite_events]` for display in-built Eventbrite events list.
 
 **Import Events into**
 
@@ -81,6 +83,8 @@ It can also be installed manually.
 9. Front-end side event ticket display.
 
 == Changelog ==
+= 1.1.1 =
+* FIXED: some bug fixes in events manage.
 
 = 1.1.0 =
 * Added: in-built Event management.
