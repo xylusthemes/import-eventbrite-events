@@ -81,9 +81,13 @@ class Import_Eventbrite_Events_Admin {
 	 */
 	function enqueue_admin_styles( $hook ) {
 
-	  	$css_dir = IEE_PLUGIN_URL . 'assets/css/';
-	 	wp_enqueue_style('jquery-ui', $css_dir . 'jquery-ui.css', false, "1.12.0" );
-	 	wp_enqueue_style('import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, "" );
+		global $pagenow;
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
+		if( 'eventbrite_event' == $page || $pagenow == 'widgets.php' || 'post.php' == $pagenow || 'post-new.php' == $pagenow ){
+		  	$css_dir = IEE_PLUGIN_URL . 'assets/css/';
+		 	wp_enqueue_style('jquery-ui', $css_dir . 'jquery-ui.css', false, "1.12.0" );
+		 	wp_enqueue_style('import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, "" );
+		 }
 	}
 
 	/**
