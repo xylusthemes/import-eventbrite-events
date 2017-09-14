@@ -1,20 +1,37 @@
 === Import Eventbrite Events ===
 Contributors: xylus
 Donate link: http://xylusthemes.com/
-Tags: events, calendar, event, eventbrite, eventbrite event, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events
+Tags: events, calendar, event, eventbrite, eventbrite event, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 3.9
 Tested up to: 4.7
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into The Events Calendar or Events Manager.
+Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into your WordPress site.
 
 == Description ==
 
-This plugin allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into The Events Calendar and Events Manager.
+This plugin allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into your WordPress site. you can also schedule import for effortless import in Pro version.
 
-This is add-on plugin for [The Events Calendar](https://wordpress.org/plugins/the-events-calendar/ "The Events Calendar") and [Events Manager](https://wordpress.org/plugins/events-manager/ "Events Manager"), which allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into The Events Calendar and Events Calendar. As an add-on plugin this plugin need The Events Calendar or Events Manager Installed and activated.
+This Plugin is works as a stand alone as well as add-on plugin for below listed Events plugins, which allows you to run imports from eventbrite right from your dashboard. As a stand alone plugin this plugin work independently for event import and Event Management.
+
+**Import Events into**
+
+* [The Events Calendar](https://wordpress.org/plugins/the-events-calendar/)
+* [Events manager](https://wordpress.org/plugins/events-manager/)
+* [All-in-One Event Calendar](https://wordpress.org/plugins/all-in-one-event-calendar/)
+* [Event Organiser](https://wordpress.org/plugins/event-organiser/)
+* [EventON](https://codecanyon.net/item/eventon-wordpress-event-calendar-plugin/1211017)
+* [My Calendar](https://wordpress.org/plugins/my-calendar/)
+* In-built Events Management.
+
+**Additional [PRO Version](https://xylusthemes.com/plugins/import-eventbrite-events/?utm_source=wprepo&utm_campaign=EventbriteEvents&utm_medium=readme&utm_content=wprepo-readme) Features**
+
+* Scheduled import events.
+* Import events by Eventbrite organiser ID.
+* Import events by your Eventbrite account.
+* Import multiple events easily
 
 ><strong>New All in one Event Import Tool!</strong><br>
 >We’ve developed bulk event imports tool. This add-on service for The Events Calendar allows you import events from your favorite sources like Facebook, Meetup, Eventbrite, iCalendar, and ICS.
@@ -22,18 +39,15 @@ This is add-on plugin for [The Events Calendar](https://wordpress.org/plugins/th
 >[Check out WP Event Aggregator now](https://wordpress.org/plugins/wp-event-aggregator/).
 >
 
-You can configure settings for this plugin at **Eventbrite Import** in your WordPress dashboard. You can insert your [eventbrite.com OAuth Token](http://www.eventbrite.com/myaccount/apps/) in settings section. After configure settings you can import eventbrite event from there.
-
-**Additional [PRO Version](https://xylusthemes.com/plugins/import-eventbrite-events/) Features**
-
-* Scheduled import events.
-
-><strong>Our Plugins!</strong>
+ 
+><strong>Our Plugins for importing events!</strong>
 > 
 * [WP Event Aggregator](https://wordpress.org/plugins/wp-event-aggregator/)
-* [WP Bulk Delete](https://wordpress.org/plugins/wp-bulk-delete/)
+* [Import Facebook Events](https://wordpress.org/plugins/import-facebook-events/)
 * [Import Meetup Events](https://wordpress.org/plugins/import-meetup-events/)
+* [WP Bulk Delete](https://wordpress.org/plugins/wp-bulk-delete/)
 >
+
 = Contributing =
 
 You can contribute to development of the plugin on [Github](https://github.com/xylusthemes/import-eventbrite-events/).
@@ -56,19 +70,34 @@ It can also be installed manually.
 
 == Screenshots ==
 
-1. Settings
-2. Eventbrite Import for The Events Calendar
-3. Eventbrite Import for Events Manager
-4. Automatic event import (Pro).
-5. Front-end side event ticket display.
+1. Events page using '[eventbrite_events posts_per_page="12"]' shortcode
+2. Single Event page (Twenty Sixteen Theme).
+3. Import Eventbrite events by Event ID.
+4. Eventbrite Import for your profile Events(Pro)
+5. Import Eventbrite events by Organiser ID.(Pro)
+6. Scheduled Eventbrite Imports (Pro).
+7. Import History
+8. Settings
+9. Front-end side event ticket display.
 
 == Changelog ==
 
+= 1.1.0 =
+* Added: in-built Event management.
+* Added: Import into My Calendar
+* Added: Import into eventON
+* Added: import into All-in-One Event Calendar
+* Added: import into Event Organizer
+* Added: Import history
+* Added: support links.
+* Improvements in scheduled imports
+* Fixes: some bug fixes
+
 = 1.0.2 =
-* some bug fixes.
+* Fixes: some bug fixes
 
 = 1.0.1 =
-* some bug fixes.
+* Fixes: some bug fixes
 
 = 1.0.0 =
 * Initial Version.
