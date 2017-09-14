@@ -176,7 +176,7 @@ class Import_Eventbrite_Events{
 		load_plugin_textdomain(
 			'import-eventbrite-events',
 			false,
-			IEE_PLUGIN_DIR . '/languages/'
+			basename( dirname( __FILE__ ) ) . '/languages'
 		);
 	
 	}
