@@ -3,8 +3,8 @@ Contributors: xylus
 Donate link: http://xylusthemes.com/
 Tags: events, calendar, event, eventbrite, eventbrite event, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events
 Requires at least: 3.9
-Tested up to: 4.6.1
-Stable tag: 1.0.1
+Tested up to: 4.7
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,13 +16,25 @@ This plugin allows you to import events from [eventbrite.com](https://www.eventb
 
 This is add-on plugin for [The Events Calendar](https://wordpress.org/plugins/the-events-calendar/ "The Events Calendar") and [Events Manager](https://wordpress.org/plugins/events-manager/ "Events Manager"), which allows you to import events from [eventbrite.com](https://www.eventbrite.com/) into The Events Calendar and Events Calendar. As an add-on plugin this plugin need The Events Calendar or Events Manager Installed and activated.
 
+><strong>New All in one Event Import Tool!</strong><br>
+>We’ve developed bulk event imports tool. This add-on service for The Events Calendar allows you import events from your favorite sources like Facebook, Meetup, Eventbrite, iCalendar, and ICS.
+>
+>[Check out WP Event Aggregator now](https://wordpress.org/plugins/wp-event-aggregator/).
+>
+
 You can configure settings for this plugin at **Eventbrite Import** in your WordPress dashboard. You can insert your [eventbrite.com OAuth Token](http://www.eventbrite.com/myaccount/apps/) in settings section. After configure settings you can import eventbrite event from there.
 
 **Additional [PRO Version](https://xylusthemes.com/plugins/import-eventbrite-events/) Features**
 
 * Scheduled import events.
 
-**Contributing**
+><strong>Our Plugins!</strong>
+> 
+* [WP Event Aggregator](https://wordpress.org/plugins/wp-event-aggregator/)
+* [WP Bulk Delete](https://wordpress.org/plugins/wp-bulk-delete/)
+* [Import Meetup Events](https://wordpress.org/plugins/import-meetup-events/)
+>
+= Contributing =
 
 You can contribute to development of the plugin on [Github](https://github.com/xylusthemes/import-eventbrite-events/).
 
@@ -51,6 +63,9 @@ It can also be installed manually.
 5. Front-end side event ticket display.
 
 == Changelog ==
+
+= 1.0.2 =
+* some bug fixes.
 
 = 1.0.1 =
 * some bug fixes.

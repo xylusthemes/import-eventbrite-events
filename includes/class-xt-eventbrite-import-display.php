@@ -97,7 +97,7 @@ class XT_Eventbrite_Import_Display {
 			ob_start();
 			?>
 			<div class="eventbrite-ticket-section" style="width:100%; text-align:left;">
-				<iframe id="eventbrite-tickets-<?php echo $eventbrite_id; ?>" src="http://www.eventbrite.com/tickets-external?eid=<?php echo $eventbrite_id; ?>" style="width:100%;height:300px; border: 0px;"></iframe>
+				<iframe id="eventbrite-tickets-<?php echo $eventbrite_id; ?>" src="//www.eventbrite.com/tickets-external?eid=<?php echo $eventbrite_id; ?>" style="width:100%;height:300px; border: 0px;"></iframe>
 			</div>
 			<?php
 			$ticket = ob_get_clean();

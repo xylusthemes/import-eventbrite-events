@@ -3,7 +3,7 @@
  * Plugin Name:       Import Eventbrite Events
  * Plugin URI:        https://xylusthemes.com/plugins/import-eventbrite-events/
  * Description:       Import Eventbrite Events allows you to import Eventbrite ( eventbrite.com ) events into The Events Calendar or Events Manager.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            xylus
  * Author URI:        http://xylusthemes.com/
  * License:           GPL-2.0+
