@@ -71,6 +71,41 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
             </table>
             <br/>
 
+            <h3 class="setting_bar"><?php esc_attr_e( 'Import Eventbrite Events Settings', 'import-eventbrite-events' ); ?></h3>
+            <table class="form-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <?php _e( 'Disable Eventbrite Events', 'import-eventbrite-events' ); ?> : 
+                        </th>
+                        <td>
+                            <?php 
+                            $deactive_ieevents = isset( $eventbrite_options['deactive_ieevents'] ) ? $eventbrite_options['deactive_ieevents'] : 'no';
+                            ?>
+                            <input type="checkbox" name="eventbrite[deactive_ieevents]" value="yes" <?php if( $deactive_ieevents == 'yes' ) { echo 'checked="checked"'; } ?> />
+                            <span>
+                                <?php _e( 'Check to disable inbuilt event management system.', 'import-eventbrite-events' ); ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e( 'Delete Import Eventbrite Events data on Uninstall', 'import-eventbrite-events' ); ?> : 
+                        </th>
+                        <td>
+                            <?php 
+                            $delete_ieedata = isset( $eventbrite_options['delete_ieedata'] ) ? $eventbrite_options['delete_ieedata'] : 'no';
+                            ?>
+                            <input type="checkbox" name="eventbrite[delete_ieedata]" value="yes" <?php if( $delete_ieedata == 'yes' ) { echo 'checked="checked"'; } ?> />
+                            <span>
+                                <?php _e( 'Delete Import Eventbrite Events data like settings, scheduled imports, import history on Uninstall', 'import-eventbrite-events' ); ?>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+
             <div class="iee_element">
                 <input type="hidden" name="iee_action" value="iee_save_settings" />
                 <?php wp_nonce_field( 'iee_setting_form_nonce_action', 'iee_setting_form_nonce' ); ?>

@@ -175,8 +175,13 @@ class Import_Eventbrite_Events_Common {
 		// check My Calendar
 		if ( is_plugin_active( 'my-calendar/my-calendar.php' ) ) {
 			$supported_plugins['my_calendar'] = __( 'My Calendar', 'import-eventbrite-events' );
-		}		
-		$supported_plugins['iee'] = __( 'Eventbrite Events', 'import-eventbrite-events' );
+		}
+		$iee_options = get_option( IEE_OPTIONS );
+		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
+		if( $deactive_ieevents != 'yes' ){
+			$supported_plugins['iee'] = __( 'Eventbrite Events', 'import-eventbrite-events' );
+		}
+		
 		return $supported_plugins;
 	}
 

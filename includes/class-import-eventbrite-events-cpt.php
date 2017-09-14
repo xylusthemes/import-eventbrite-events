@@ -37,16 +37,20 @@ class Import_Eventbrite_Events_Cpt {
 		$this->event_category = 'eventbrite_category';
 		$this->event_tag = 'eventbrite_tag';
 
-		add_action( 'init', array( $this, 'register_event_post_type' ) );
-		add_action( 'init', array( $this, 'register_event_taxonomy' ) );
-		add_action( 'add_meta_boxes', array($this, 'add_event_meta_boxes' ) );
-		add_action( 'save_post', array($this, 'save_event_meta_boxes'), 10, 2);
-		
-		add_filter( 'manage_eventbrite_events_posts_columns', array( $this, 'eventbrite_events_columns' ), 10, 1 );
-		add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 ); 
+		$iee_options = get_option( IEE_OPTIONS );
+		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
+		if( $deactive_ieevents != 'yes' ){
+			add_action( 'init', array( $this, 'register_event_post_type' ) );
+			add_action( 'init', array( $this, 'register_event_taxonomy' ) );
+			add_action( 'add_meta_boxes', array($this, 'add_event_meta_boxes' ) );
+			add_action( 'save_post', array($this, 'save_event_meta_boxes'), 10, 2);
+			
+			add_filter( 'manage_eventbrite_events_posts_columns', array( $this, 'eventbrite_events_columns' ), 10, 1 );
+			add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 ); 
 
-		add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) ); 
-		add_shortcode('eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
+			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) ); 
+			add_shortcode('eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
+		}
  	
 	}
 

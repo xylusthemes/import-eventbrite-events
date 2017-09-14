@@ -65,8 +65,6 @@ class Import_Eventbrite_Events_Manage_Import {
 			$is_update = update_option( IEE_OPTIONS, $iee_options );
 			if( $is_update ){
 				$iee_success_msg[] = __( 'Import settings has been saved successfully.', 'import-eventbrite-events' );
-			}else{
-				$iee_errors[] = __( 'Something went wrong! please try again.', 'import-eventbrite-events' );
 			}
 		}
 	}
