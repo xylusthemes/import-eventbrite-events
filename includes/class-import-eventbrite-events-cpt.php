@@ -615,7 +615,7 @@ class Import_Eventbrite_Events_Cpt {
 						            'value' => $current_date,
 						        )
 				            ),
-		    'meta_key' => 'event_start_date',
+		    'meta_key' => 'start_ts',
 		    'orderby' => 'meta_value',
 		    'order' => 'ASC',
 		    'paged' => $paged,
