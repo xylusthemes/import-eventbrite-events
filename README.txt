@@ -1,10 +1,11 @@
 === Import Eventbrite Events ===
-Contributors: xylus
+Contributors: xylus,dharm1025
 Donate link: http://xylusthemes.com/
 Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 4.0
+Requires PHP: 5.3
 Tested up to: 4.8
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +28,8 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 * Import Eventbrite events into all WordPress leading Events plugins.
 * Import multiple events using multiple event IDs at one time ([Pro][1]).
 * Auto Scheduled event import (Automatic import). Import Hourly, Once a Day, Twice a day, Weekly, Monthly from account, IDs  ([Pro][1]).
+* Edit schedule import later on ([Pro][1]).
+* Advanced Synchronization with Eventbrite Organiser Profile ([Pro][1]).
 * Simple and Effective in-built Event Management.
 * Powerful shortcode for render Event listing (`[eventbrite_events]`)
 * Responsive and impresive event listing design
@@ -136,6 +139,14 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.3.0 =
+* ADDED: functionality for Edit Scheduled import.(Pro)
+* ADDED: Advanced Synchronization option (Pro)
+* ADDED: option for disable in-built events management system
+* ADDED: ption for delete data on plugin uninstall. default : data will not delete.
+* IMPROVEMENTS: Some Improvements
+* Fixes: some bug fixes
 
 = 1.2.0 =
 * ADDED: Upcoming Eventbrite Events Widget (Pro)
