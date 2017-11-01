@@ -68,6 +68,7 @@ class Import_Eventbrite_Events{
 			self::$instance->event_organizer = new Import_Eventbrite_Events_Event_Organizer();
 			self::$instance->aioec = new Import_Eventbrite_Events_Aioec();
 			self::$instance->my_calendar = new Import_Eventbrite_Events_My_Calendar();
+			self::$instance->ee4 = new Import_Eventbrite_Events_EE4();
 			
 		}
 		return self::$instance;	
@@ -161,6 +162,7 @@ class Import_Eventbrite_Events{
 		require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-event_organizer.php';
 		require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-aioec.php';
 		require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-my-calendar.php';
+		require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ee4.php';
 
 	}
 

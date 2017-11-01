@@ -232,7 +232,12 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 								
 						}elseif( $import_plugin == 'iee' ){
 
-							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );	
+							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );
+
+						}elseif( $import_plugin == 'ee4' ){
+
+							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );
+
 						}else{
 							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );
 						}
@@ -501,7 +506,12 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 								
 						}elseif( $import_plugin == 'iee' ){
 
-							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );	
+							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );
+
+						}elseif( $import_plugin == 'ee4' ){
+
+							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );
+							
 						}else{
 							
 							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );

@@ -111,6 +111,10 @@ class Import_Eventbrite_Events_Common {
 			case 'my_calendar':
 				$event_taxonomy = $iee_events->my_calendar->get_taxonomy();
 				break;
+
+			case 'ee4':
+				$event_taxonomy = $iee_events->ee4->get_taxonomy();
+				break;
 			
 			default:
 				break;
@@ -176,6 +180,12 @@ class Import_Eventbrite_Events_Common {
 		if ( is_plugin_active( 'my-calendar/my-calendar.php' ) ) {
 			$supported_plugins['my_calendar'] = __( 'My Calendar', 'import-eventbrite-events' );
 		}
+
+		// check EE4
+		if ( defined( 'EVENT_ESPRESSO_VERSION' ) &&  defined( 'EVENT_ESPRESSO_MAIN_FILE' ) ) {
+			$supported_plugins['ee4'] = __( 'Event Espresso (EE4)', 'import-eventbrite-events' );
+		}
+
 		$iee_options = get_option( IEE_OPTIONS );
 		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
 		if( $deactive_ieevents != 'yes' ){
@@ -465,6 +475,10 @@ class Import_Eventbrite_Events_Common {
 
 			case 'my_calendar':
 				$import_result = $iee_events->my_calendar->import_event( $centralize_array, $event_args );
+				break;
+
+			case 'ee4':
+				$import_result = $iee_events->ee4->import_event( $centralize_array, $event_args );
 				break;
 				
 			default:

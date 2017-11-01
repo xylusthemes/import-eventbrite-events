@@ -18,7 +18,7 @@ global $iee_events;
 					        <td>
 					            <select name="eventbrite_import_by" id="eventbrite_import_by">
 			                    	<option value="event_id"><?php esc_attr_e( 'Event ID','import-eventbrite-events' ); ?></option>
-			                    	<option value="your_events"><?php esc_attr_e( 'Your Events','import-eventbrite-events' ); ?></option>
+			                    	<option value="your_events" disabled="disabled"><?php esc_attr_e( 'Your Events','import-eventbrite-events' ); ?></option>
 			                    	<option value="organizer_id"><?php esc_attr_e( 'Organazer ID','import-eventbrite-events' ); ?></option>
 			                    </select>
 			                    <span class="iee_small">
