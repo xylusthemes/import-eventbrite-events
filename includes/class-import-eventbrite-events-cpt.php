@@ -603,28 +603,103 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 */
 	public function eventbrite_events_archive( $atts = array() ){
-
-		$current_date = current_time('Y-m-d');
+		//[eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+		$current_date = time();
 		$paged = ( get_query_var('paged') ? get_query_var('paged') : 1 );
 		if( is_front_page() ){
 			$paged = ( get_query_var('page') ? get_query_var('page') : 1 );
 		}
+
 		$eve_args = array(
-		    'post_type' => 'eventbrite_events',
+		    'post_type'   => 'eventbrite_events',
 		    'post_status' => 'publish',
-		    'meta_query' => array(
+		    'meta_key'    => 'start_ts',
+		    'paged' 	  => $paged,
+		);
+
+		// posts per page
+		if( isset( $atts['posts_per_page'] ) && $atts['posts_per_page'] != '' && is_numeric( $atts['posts_per_page'] ) ){
+			$eve_args['posts_per_page'] = $atts['posts_per_page'];
+		}
+
+		// Past Events
+		if( ( isset( $atts['start_date'] ) && $atts['start_date'] != '' ) || ( isset( $atts['end_date'] ) && $atts['end_date'] != '') ){
+			$start_date_str = $end_date_str = '';
+			if( isset( $atts['start_date'] ) && $atts['start_date'] != '' ){
+				try {
+				    $start_date_str = strtotime( sanitize_text_field( $atts['start_date'] ));
+				} catch (Exception $e) {
+					$start_date_str = '';
+				}	
+			}
+			if( isset( $atts['end_date'] ) && $atts['end_date'] != '' ){
+				try {
+				    $end_date_str = strtotime( sanitize_text_field( $atts['end_date'] ));
+				} catch (Exception $e) {
+					$end_date_str = '';
+				}
+			}
+
+			
+			if( $start_date_str != '' && $end_date_str != '' ){
+				$eve_args['meta_query'] = array(
+						   'relation' => 'AND',                        
+					        array(
+					            'key' => 'end_ts',
+					            'compare' => '>=',
+					            'value' => $start_date_str,
+					        ),
+					        array(
+					            'key' => 'start_ts',
+					            'compare' => '<=',
+					            'value' => $end_date_str,
+					        ),
+				        );
+			}elseif(  $start_date_str != '' ){
+				$eve_args['meta_query'] = array(
+					        array(
+					            'key' => 'end_ts',
+					            'compare' => '>=',
+					            'value' => $start_date_str,
+					        )
+				        );
+			}elseif(  $end_date_str != '' ){
+				$eve_args['meta_query'] = array(
+						   'relation' => 'AND',                        
+					        array(
+					            'key' => 'end_ts',
+					            'compare' => '>=',
+					            'value' => strtotime( date( 'Y-m-d' ) ),
+					        ),
+					        array(
+					            'key' => 'start_ts',
+					            'compare' => '<=',
+					            'value' => $end_date_str,
+					        ),
+				        );
+			}
+
+		}else{
+			if( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' ){
+				$eve_args['meta_query'] = array(
 						        array(
-						            'key' => 'event_end_date',
+						            'key' => 'end_ts',
+						            'compare' => '<=',
+						            'value' => $current_date,
+						        )
+				            );
+			}else{
+				$eve_args['meta_query'] = array(
+						        array(
+						            'key' => 'end_ts',
 						            'compare' => '>=',
 						            'value' => $current_date,
 						        )
-				            ),
-		    'meta_key' => 'start_ts',
-		    'orderby' => 'meta_value',
-		    'order' => 'ASC',
-		    'paged' => $paged,
-		);
+				            );
+			}
+		}
 
+		// Category 
 		if( isset( $atts['category'] ) && $atts['category'] != '' ){
 			$categories = explode(',', $atts['category'] );
 			$tax_field = 'slug';
@@ -642,9 +717,32 @@ class Import_Eventbrite_Events_Cpt {
 			}
 		}
 
-		if( isset( $atts['posts_per_page'] ) && $atts['posts_per_page'] != '' && is_numeric( $atts['posts_per_page'] ) ){
-			$eve_args['posts_per_page'] = $atts['posts_per_page'];
+		// Order by
+		if( isset( $atts['orderby'] ) && $atts['orderby'] != '' ){
+			if( $atts['orderby'] == 'event_start_date' || $atts['orderby'] == 'event_end_date' ){
+				if( $atts['orderby'] == 'event_end_date' ){
+					$eve_args['meta_key'] = 'end_ts';
+				}
+				$eve_args['orderby'] = 'meta_value';
+			}else{
+				$eve_args['orderby'] = sanitize_text_field( $atts['orderby'] );
+			}
+		}else{
+			$eve_args['orderby'] = 'meta_value';
 		}
+
+		// Order
+		if( isset( $atts['order'] ) && $atts['order'] != '' ){
+			if( strtoupper( $atts['order'] ) == 'DESC' || strtoupper( $atts['order'] ) == 'ASC' ){
+				$eve_args['order'] = sanitize_text_field( $atts['order'] );
+			}
+		}else{
+			if( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' && $eve_args['orderby'] == 'meta_value' ){
+				$eve_args['order'] = 'DESC';
+			}else{
+				$eve_args['order'] = 'ASC';
+			}
+		}		
 
 		$col = 3;
 		$css_class = 'col-iee-md-4';
@@ -677,7 +775,12 @@ class Import_Eventbrite_Events_Cpt {
 
 		$wp_list_events = '';
 		/* Start the Loop */
-		
+		if( is_front_page() ){
+			$curr_paged = $paged;
+			global $paged;
+			$temp_paged = $paged;
+			$paged = $curr_paged;
+		}
 		ob_start();
 		?>
 		<div class="iee_archive row_grid">
@@ -710,6 +813,10 @@ class Import_Eventbrite_Events_Cpt {
 		$wp_list_events = ob_get_contents();
 		ob_end_clean();
 		wp_reset_postdata();
+		if( is_front_page() ){
+			global $paged;
+			$paged = $temp_paged;
+		}
 		return $wp_list_events;
 
 	}
