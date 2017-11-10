@@ -232,7 +232,10 @@ class Import_Eventbrite_Events_Common {
 			if( has_post_thumbnail( $event_id ) ){
 				$attachment_id = get_post_thumbnail_id( $event_id );
 				$attach_filename = basename( get_attached_file( $attachment_id ) );
-				if( $attach_filename == $file_array['name'] ){
+				$image_ext = array( '.jpg','.jpeg','.gif','.png','.jpe');
+				$attach_filename = str_replace( $image_ext, '', $attach_filename );
+				$new_file_name = str_replace( $image_ext, '', $file_array['name'] );
+				if( $attach_filename == $new_file_name ){
 					return false;
 				}
 			}
