@@ -141,10 +141,8 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 == Changelog ==
 
 = 1.4.0 =
-* ADDED: functionality for Edit Scheduled import.(Pro)
-* ADDED: Advanced Synchronization option (Pro)
-* ADDED: option for disable in-built events management system
-* ADDED: ption for delete data on plugin uninstall. default : data will not delete.
+* ADDED: Import into Event Espresso 4 support.
+* ADDED: Some more options in shortcode like past_events, start_date, end_date etc.
 * IMPROVEMENTS: Some Improvements
 * Fixes: some bug fixes
 
