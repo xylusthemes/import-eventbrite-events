@@ -25,7 +25,7 @@ class Import_Eventbrite_Events_EE4 {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.3.0
+	 * @since    1.4.0
 	 */
 	public function __construct() {
 		
@@ -54,7 +54,7 @@ class Import_Eventbrite_Events_EE4 {
 	/**
 	 * import event into EE4
 	 *
-	 * @since    1.3.0
+	 * @since    1.4.0
 	 * @param  array $centralize event array.
 	 * @return array
 	 */
