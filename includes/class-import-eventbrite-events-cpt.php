@@ -804,6 +804,8 @@ class Import_Eventbrite_Events_Cpt {
 						</nav>
 					</div>
 				<?php endif;
+			else:
+				echo apply_filters( 'iee_no_events_found_message', __( 'There are no upcoming Events at this time.', 'import-eventbrite-events-pro' ) );
 			endif;
 
 			?>
