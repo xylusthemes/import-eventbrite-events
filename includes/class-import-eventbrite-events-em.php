@@ -150,6 +150,11 @@ class Import_Eventbrite_Events_EM {
 			update_post_meta( $inserted_event_id, '_event_all_day', 0 );
 			update_post_meta( $inserted_event_id, '_event_start_date', date( 'Y-m-d', $start_time ) );
 			update_post_meta( $inserted_event_id, '_event_end_date', date( 'Y-m-d', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_timezone', 'UTC' );
+			update_post_meta( $inserted_event_id, '_event_start', date( 'Y-m-d H:i:s', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end', date( 'Y-m-d H:i:s', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_start_local', date( 'Y-m-d H:i:s', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end_local', date( 'Y-m-d H:i:s', $end_time ) );
 			update_post_meta( $inserted_event_id, '_location_id', $location_id );
 			update_post_meta( $inserted_event_id, '_event_status', $event_status );
 			update_post_meta( $inserted_event_id, '_event_private', 0 );
@@ -175,6 +180,13 @@ class Import_Eventbrite_Events_EM {
 				'event_status' 	   => $event_status,
 				'event_date_created' => $inserted_event->post_date,
 			);
+			if( defined( 'EM_VERSION' ) ){
+				if ( version_compare( EM_VERSION, '5.9', '>=' ) ){
+					$event_array['event_start'] = date( 'Y-m-d H:i:s', $start_time );
+					$event_array['event_end'] 	= date( 'Y-m-d H:i:s', $end_time );
+					$event_array['event_timezone'] 	= 'UTC';
+				}
+			}
 
 			$event_table = ( defined( 'EM_EVENTS_TABLE' ) ? EM_EVENTS_TABLE : $wpdb->prefix . 'em_events' );
 			if ( $is_exitsing_event ) {
