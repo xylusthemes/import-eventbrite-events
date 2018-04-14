@@ -205,6 +205,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				$importdata_query->the_post();
 
 				$import_id = get_the_ID();
+				$import_title = get_the_title();
 				$import_data = get_post_meta( $import_id, 'import_eventdata', true );
 				$import_origin = get_post_meta( $import_id, 'import_origin', true );
 				$import_plugin = isset( $import_data['import_into'] ) ? $import_data['import_into'] : '';
@@ -216,40 +217,8 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				if ( $import_terms && ! empty( $import_terms ) ) {
 					foreach ( $import_terms as $term ) {
 						$get_term = '';
-						if( $import_plugin == 'tec' ){
-
-							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );	
-
-						}elseif( $import_plugin == 'em' ){
-
-							$get_term = get_term( $term, $iee_events->em->get_taxonomy() );	
-
-						}elseif( $import_plugin == 'eventon' ){
-
-							$get_term = get_term( $term, $iee_events->eventon->get_taxonomy() );
-
-						}elseif( $import_plugin == 'event_organizer' ){
-
-							$get_term = get_term( $term, $iee_events->event_organizer->get_taxonomy() );
-
-						}elseif( $import_plugin == 'aioec' ){
-
-							$get_term = get_term( $term, $iee_events->aioec->get_taxonomy() );	
-
-						}elseif( $import_plugin == 'my_calendar' ){
-
-							$get_term = get_term( $term, $iee_events->my_calendar->get_taxonomy() );
-								
-						}elseif( $import_plugin == 'iee' ){
-
-							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );
-
-						}elseif( $import_plugin == 'ee4' ){
-
-							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );	
-
-						}else{
-							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );
+						if( $import_plugin != '' && !empty( $iee_events->$import_plugin ) ){
+							$get_term = get_term( $term, $iee_events->$import_plugin->get_taxonomy() );
 						}
 
 						if( !is_wp_error( $get_term ) && !empty( $get_term ) ){
@@ -278,13 +247,13 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				wp_reset_postdata();
 
 				$scheduled_import_data['import_data'][] = array(
-					'ID' => $import_id,
-					'title' => get_the_title(),
-					'import_status'   => ucfirst( $import_status ),
-					'import_category' => implode( ', ', $term_names ),
-					'import_frequency'=> isset( $import_data['import_frequency'] ) ? ucfirst( $import_data['import_frequency'] ) : '',
-					'import_origin'   => $import_origin,
-					'last_import'     => $last_import_history_date,
+					'ID' 				=> $import_id,
+					'title' 			=> $import_title,
+					'import_status'   	=> ucfirst( $import_status ),
+					'import_category' 	=> implode( ', ', $term_names ),
+					'import_frequency'	=> isset( $import_data['import_frequency'] ) ? ucfirst( $import_data['import_frequency'] ) : '',
+					'import_origin'   	=> $import_origin,
+					'last_import'     	=> $last_import_history_date,
 				);
 			}
 		}
@@ -490,42 +459,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 				if ( $import_terms && ! empty( $import_terms ) ) {
 					foreach ( $import_terms as $term ) {
 						$get_term = '';
-						if( $import_plugin == 'tec' ){
-
-							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );
-
-						}elseif( $import_plugin == 'em' ){
-
-							$get_term = get_term( $term, $iee_events->em->get_taxonomy() );
-
-						}elseif( $import_plugin == 'eventon' ){
-
-							$get_term = get_term( $term, $iee_events->eventon->get_taxonomy() );
-
-						}elseif( $import_plugin == 'event_organizer' ){
-
-							$get_term = get_term( $term, $iee_events->event_organizer->get_taxonomy() );
-
-						}elseif( $import_plugin == 'aioec' ){
-
-							$get_term = get_term( $term, $iee_events->aioec->get_taxonomy() );	
-
-						}elseif( $import_plugin == 'my_calendar' ){
-
-							$get_term = get_term( $term, $iee_events->my_calendar->get_taxonomy() );
-								
-						}elseif( $import_plugin == 'iee' ){
-
-							$get_term = get_term( $term, $iee_events->iee->get_taxonomy() );
-
-						}elseif( $import_plugin == 'ee4' ){
-
-							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );
-
-						}else{
-							
-							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );
-
+						if( $import_plugin != '' && !empty( $iee_events->$import_plugin ) ){
+							$get_term = get_term( $term, $iee_events->$import_plugin->get_taxonomy() );
 						}
 						
 						if( !is_wp_error( $get_term ) && !empty( $get_term ) ){
