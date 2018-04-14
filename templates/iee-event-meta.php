@@ -99,7 +99,9 @@ $website = get_post_meta( $event_id, 'iee_event_link', true );
 		    	<a href="<?php echo 'tel:'.$org_phone; ?>"><?php echo $org_phone; ?></a>
 		    <?php } ?>
 		    <?php if( $website != '' ){ ?>
-		    	<strong><?php esc_html_e( 'Website','import-eventbrite-events' ); ?>:</strong>
+		    	<strong style="display: block;">
+		    		<?php esc_html_e( 'Website','import-eventbrite-events' ); ?>:
+		    	</strong>
 		    	<a href="<?php echo esc_url( $org_url ); ?>"><?php echo $org_url; ?></a>
 		    <?php }
 		}

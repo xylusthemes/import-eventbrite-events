@@ -14,7 +14,6 @@ $event_date = get_post_meta( get_the_ID(), 'event_start_date', true );
 if( $event_date != '' ){
 	$event_date = strtotime( $event_date );	
 }
-
 $event_address = get_post_meta( get_the_ID(), 'venue_name', true );
 $venue_address = get_post_meta( get_the_ID(), 'venue_address', true );
 if( $event_address != '' && $venue_address != '' ){
@@ -23,13 +22,16 @@ if( $event_address != '' && $venue_address != '' ){
 	$event_address = $venue_address;
 }
 
-
 $image_url =  array();
 if ( '' !== get_the_post_thumbnail() ){
 	$image_url =  wp_get_attachment_image_src( get_post_thumbnail_id(  get_the_ID() ), 'full' );
 }else{
 	$image_date = date_i18n('F+d', $event_date );
 	$image_url[] =  "http://placehold.it/420x150?text=".$image_date;
+}
+
+if ( '' !== get_the_post_thumbnail() ){
+	$image_url =  wp_get_attachment_image_src( get_post_thumbnail_id(  get_the_ID() ), 'full' );
 }
 ?>
 <a href="<?php echo esc_url( get_permalink() ) ?>">	
@@ -46,7 +48,7 @@ if ( '' !== get_the_post_thumbnail() ){
 					<?php the_title( '<div class="event_title">','</div>' ); ?>
 					</a>
 					<?php if( $event_address != '' ){ ?>
-						<div class="event_address"><?php echo $event_address; ?></div>
+						<div class="event_address"><i class="fa fa-map-marker"></i>  <?php echo $event_address; ?></div>
 					<?php }	?>
 				</div>
 				<div style="clear: both"></div>

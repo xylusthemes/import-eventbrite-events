@@ -48,10 +48,9 @@ class Import_Eventbrite_Events_Cpt {
 			add_filter( 'manage_eventbrite_events_posts_columns', array( $this, 'eventbrite_events_columns' ), 10, 1 );
 			add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 ); 
 
-			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) ); 
+			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) );
 			add_shortcode('eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
-		}
- 	
+		} 	
 	}
 
 	/**
@@ -548,7 +547,7 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 */ 
 	function eventbrite_events_columns( $cols ) {
-		$cols['iee_event_start_date'] = __('Start Date', 'event-list-calendar');
+		$cols['iee_event_start_date'] = __('Start Date', 'import-eventbrite-events' );
 		return $cols;
 	}
 
@@ -590,8 +589,8 @@ class Import_Eventbrite_Events_Cpt {
 	function eventbrite_events_get_event_meta( $event_id = '' ){	
 
 		ob_start();
-			
-			include IEE_PLUGIN_DIR . '/templates/event-meta.php';
+
+		get_iee_template( 'iee-event-meta.php' );
 
 		$event_meta_details = ob_get_contents();
 		ob_end_clean();
@@ -609,12 +608,11 @@ class Import_Eventbrite_Events_Cpt {
 		if( is_front_page() ){
 			$paged = ( get_query_var('page') ? get_query_var('page') : 1 );
 		}
-
 		$eve_args = array(
-		    'post_type'   => 'eventbrite_events',
-		    'post_status' => 'publish',
-		    'meta_key'    => 'start_ts',
-		    'paged' 	  => $paged,
+		    'post_type' 	=> 'eventbrite_events',
+		    'post_status' 	=> 'publish',
+		    'meta_key' 		=> 'start_ts',
+		    'paged' 		=> $paged,
 		);
 
 		// posts per page
@@ -742,7 +740,8 @@ class Import_Eventbrite_Events_Cpt {
 			}else{
 				$eve_args['order'] = 'ASC';
 			}
-		}		
+		}
+
 
 		$col = 3;
 		$css_class = 'col-iee-md-4';
@@ -770,7 +769,6 @@ class Import_Eventbrite_Events_Cpt {
 					break;
 			}
 		}
-
 		$eventbrite_events = new WP_Query( $eve_args );
 
 		$wp_list_events = '';
@@ -785,10 +783,13 @@ class Import_Eventbrite_Events_Cpt {
 		?>
 		<div class="iee_archive row_grid">
 			<?php
+			$template_args = array();
+			$template_args['css_class'] = $css_class;
+
 			if( $eventbrite_events->have_posts() ):
 				while ( $eventbrite_events->have_posts() ) : $eventbrite_events->the_post();
 					
-					include IEE_PLUGIN_DIR . '/templates/archive-content.php';
+					get_iee_template( 'iee-archive-content.php', $template_args );
 					
 				endwhile; // End of the loop.
 
@@ -805,9 +806,8 @@ class Import_Eventbrite_Events_Cpt {
 					</div>
 				<?php endif;
 			else:
-				echo apply_filters( 'iee_no_events_found_message', __( 'There are no upcoming Events at this time.', 'import-eventbrite-events-pro' ) );
+				echo apply_filters( 'iee_no_events_found_message', __( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
 			endif;
-
 			?>
 		</div>
 		<?php
@@ -820,6 +820,5 @@ class Import_Eventbrite_Events_Cpt {
 			$paged = $temp_paged;
 		}
 		return $wp_list_events;
-
 	}
 }

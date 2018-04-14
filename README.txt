@@ -139,7 +139,6 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
-
 = 1.4.1 =
 * ADDED: Support for Events Manager 5.9
 

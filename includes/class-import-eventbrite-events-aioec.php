@@ -74,7 +74,10 @@ class Import_Eventbrite_Events_Aioec {
 			$options = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
 			if ( 'yes' != $update_events ) {
-				return array( 'status'=> 'skipped' );
+				return array(
+					'status' => 'skipped',
+					'id' 	 => $is_exitsing_event
+				);
 			}
 		}
 
@@ -159,6 +162,16 @@ class Import_Eventbrite_Events_Aioec {
 			if( $lat != '' && $lon != '' ){
 				$show_map = $show_coordinates = 1;
 			}
+			$full_address = $address;
+			if( $city != '' ){
+				$full_address .= ', '.$city;
+			}
+			if( $state != '' ){
+				$full_address .= ', '.$state;
+			}
+			if( $zip != '' ){
+				$full_address .= ' '.$zip;
+			}
 
 			$organizer = isset( $centralize_array['organizer'] ) ? $centralize_array['organizer'] : '';
 			$org_name  = isset( $organizer['name'] ) ? $organizer['name'] : '';
@@ -175,7 +188,7 @@ class Import_Eventbrite_Events_Aioec {
 				'instant_event'    => 0,
 				'venue' 	  	   => $location_name,
 				'country' 	  	   => $country,
-				'address' 	  	   => $address,
+				'address' 	  	   => $full_address,
 				'city' 	       	   => $city,
 				'province' 	       => $state,
 				'postal_code' 	   => $zip,

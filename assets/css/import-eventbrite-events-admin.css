@@ -252,3 +252,6 @@ table.iee_form_table tr td:nth-child(1) {
         float: none;
     }
 }
+.vc_ui-panel .iee_datepicker .ui-datepicker-inline {
+  display: none !important;
+}

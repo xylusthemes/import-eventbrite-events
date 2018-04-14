@@ -61,8 +61,18 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'iee_action' => 'iee_simport_delete',
 			'import_id'  => absint( $item['ID'] ),
 		);
+
+		$page = wp_unslash( $_REQUEST['page'] );
+		$tab = 'scheduled';
+		$wp_redirect = admin_url( 'admin.php?page='.$page );
+		$iee_url_edit_args = array(
+			'tab'    =>  wp_unslash( $tab ),
+			'edit'  => absint( $item['ID'] ),
+		);
+
 		// Build row actions.
 		$actions = array(
+			'edit' => sprintf( '<a href="%1$s">%2$s</a>',esc_url( add_query_arg( $iee_url_edit_args, $wp_redirect ) ), esc_html__( 'Edit', 'import-eventbrite-events' ) ),
 		    'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>',esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
@@ -236,7 +246,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 
 						}elseif( $import_plugin == 'ee4' ){
 
-							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );
+							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );	
 
 						}else{
 							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );
@@ -511,7 +521,7 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 						}elseif( $import_plugin == 'ee4' ){
 
 							$get_term = get_term( $term, $iee_events->ee4->get_taxonomy() );
-							
+
 						}else{
 							
 							$get_term = get_term( $term, $iee_events->tec->get_taxonomy() );

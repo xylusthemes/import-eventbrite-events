@@ -62,7 +62,10 @@ class Import_Eventbrite_Events_My_Calendar {
 			$options = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
 			if ( 'yes' != $update_events ) {
-				return array( 'status'=> 'skipped' );
+				return array(
+					'status' => 'skipped',
+					'id' 	 => $is_exitsing_event
+				);
 			}
 		}
 
@@ -303,6 +306,7 @@ class Import_Eventbrite_Events_My_Calendar {
 				'%f',
 				'%f'
 			);
+			
 			$db_event_id = $wpdb->get_var( $wpdb->prepare( "SELECT `event_id` FROM ".my_calendar_table()." WHERE `event_title` = %s AND `event_post`= %d LIMIT 1", sanitize_text_field( $inserted_event->post_title ), $inserted_event_id ) );
 			if( $db_event_id > 0 && is_numeric( $db_event_id ) && !empty( $db_event_id ) ){
 				

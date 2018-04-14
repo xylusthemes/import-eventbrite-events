@@ -7,6 +7,23 @@
 			changeYear: true,
 			dateFormat: 'yy-mm-dd'
 		});
+		jQuery(".iee_datepicker").live("click", function(){
+		    jQuery(this).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'yy-mm-dd',
+				showOn:'focus'
+			}).focus();
+		});
+
+		jQuery(document).on("click", ".vc_ui-panel .iee_datepicker input[type='text']", function(){
+		    jQuery(this).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'yy-mm-dd',
+				showOn:'focus'
+			}).focus();
+		});
 	});
 	
 	jQuery(document).ready(function(){
@@ -54,9 +71,14 @@
 	    jQuery('.eventbrite_event_plugin').on( 'change', function() {
 
 	    	var event_plugin = jQuery(this).val();
+	    	var taxo_cats = jQuery('#iee_taxo_cats').val();
+	    	var taxo_tags = jQuery('#iee_taxo_tags').val();
+
 	    	var data = {
 	            'action': 'iee_render_terms_by_plugin',
-	            'event_plugin': event_plugin
+	            'event_plugin': event_plugin,
+	            'taxo_cats': taxo_cats,
+	            'taxo_tags': taxo_tags
 	        };
 
 	        var terms_space = jQuery('.event_taxo_terms_wraper');
