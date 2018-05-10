@@ -59,14 +59,17 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
                             <?php _e( 'Advanced Synchronization', 'import-eventbrite-events' ); ?> : 
                         </th>
                         <td>
-                            <input type="checkbox" value="yes" disabled="disabled" />
+                            <?php 
+                            $advanced_sync = isset( $eventbrite_options['advanced_sync'] ) ? $eventbrite_options['advanced_sync'] : 'no';
+                            ?>
+                            <input type="checkbox" name="eventbrite[advanced_sync]" value="yes" <?php if( $advanced_sync == 'yes' ) { echo 'checked="checked"'; } if ( !iee_is_pro() ){ echo 'disabled="disabled"'; } ?> />
                             <span>
                                 <?php _e( 'Check to enable advanced synchronization, this will delete events which are removed from Eventbrite. Also, it deletes passed events.', 'import-eventbrite-events' ); ?>
                             </span>
                             <?php do_action( 'iee_render_pro_notice' ); ?>
                         </td>
                     </tr>
-         		
+                    <?php do_action( 'iee_after_eventbrite_settings_section' ); ?> 
             	</tbody>
             </table>
             <br/>
@@ -102,6 +105,7 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
                             </span>
                         </td>
                     </tr>
+                    <?php do_action( 'iee_after_settings_section' ); ?>
                 </tbody>
             </table>
             <br/>

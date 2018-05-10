@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 4.9
-Stable tag: 1.4.1
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,13 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.5.0 =
+* ADDED: Element for Visual Composer ( WPBackery Page Builder)
+* ADDED: Template Overrides from Theme
+* ADDED: Merged Pro & Free codebase, Introduced Pro as an add-on
+* IMPROVEMENT: Some Improvements
+* FIXED: some bug fixes.
 
 = 1.4.1 =
 * ADDED: Support for Events Manager 5.9

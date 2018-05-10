@@ -84,7 +84,10 @@ class Import_Eventbrite_Events_EM {
 			$options = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
 			if ( 'yes' != $update_events ) {
-				return array( 'status'=> 'skipped' );
+				return array(
+					'status' => 'skipped',
+					'id' 	 => $is_exitsing_event
+				);
 			}
 		}
 
@@ -180,6 +183,7 @@ class Import_Eventbrite_Events_EM {
 				'event_status' 	   => $event_status,
 				'event_date_created' => $inserted_event->post_date,
 			);
+
 			if( defined( 'EM_VERSION' ) ){
 				if ( version_compare( EM_VERSION, '5.9', '>=' ) ){
 					$event_array['event_start'] = date( 'Y-m-d H:i:s', $start_time );
@@ -187,7 +191,7 @@ class Import_Eventbrite_Events_EM {
 					$event_array['event_timezone'] 	= 'UTC';
 				}
 			}
-
+			
 			$event_table = ( defined( 'EM_EVENTS_TABLE' ) ? EM_EVENTS_TABLE : $wpdb->prefix . 'em_events' );
 			if ( $is_exitsing_event ) {
 				$eve_id = get_post_meta( $inserted_event_id, '_event_id', true );

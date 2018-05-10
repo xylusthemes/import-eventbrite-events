@@ -855,3 +855,10 @@
   color: #039ED7;
   line-height: 1.3em;
 }
+
+@media (max-width: 768px){
+    .iee_event_meta .details,.iee_event_meta .organizer, .iee_event_meta .venue, .iee_event_meta .map{
+      float: none !important;
+      width:100% !important;
+  }
+}
