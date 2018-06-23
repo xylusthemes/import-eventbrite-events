@@ -165,10 +165,9 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-list-table.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-admin.php';
 			if( iee_is_pro() ){
+				$pro_dir = plugin_dir_path( __DIR__ ) . 'import-eventbrite-events-pro/';
 				if( defined( 'IEEPRO_PLUGIN_DIR' ) ){
 					$pro_dir = IEEPRO_PLUGIN_DIR;
-				}else{
-					$pro_dir = plugin_dir_path( __DIR__ ) . 'import-eventbrite-events-pro/';
 				}
 				require_once $pro_dir . 'includes/class-import-eventbrite-events-manage-import.php';
 			}else{
