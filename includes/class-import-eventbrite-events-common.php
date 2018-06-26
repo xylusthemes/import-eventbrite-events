@@ -218,6 +218,29 @@ class Import_Eventbrite_Events_Common {
 				return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
 			}
 
+			$args = array(
+				'post_type'   => 'attachment',
+				'post_status' => 'any',
+				'fields'      => 'ids',
+				'meta_query'  => array( // @codingStandardsIgnoreLine.
+					array(
+						'value' => $image_url,
+						'key'   => '_iee_attachment_source',
+					),
+				),
+			);
+
+			$id = 0;
+			$ids = get_posts( $args ); // @codingStandardsIgnoreLine.
+			if ( $ids ) {
+				$id = current( $ids );
+			}
+
+			if( $id && $id > 0 ){
+				set_post_thumbnail( $event_id, $id );
+				return $id;
+			}
+
 			$file_array = array();
 			$file_array['name'] = $event->ID . '_image_'.basename( $matches[0] );
 			
@@ -252,6 +275,9 @@ class Import_Eventbrite_Events_Common {
 			if ($att_id) {
 				set_post_thumbnail($event_id, $att_id);
 			}
+
+			// Save attachment source for future reference.
+			update_post_meta( $att_id, '_iee_attachment_source', $image_url );
 
 			return $att_id;
 		}

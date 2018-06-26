@@ -4,7 +4,7 @@
  */	
 global $iee_events;
 
-if( $event_id == '' ){
+if( !isset( $event_id ) || empty( $event_id ) ){
 	$event_id = get_the_ID();
 }
 
