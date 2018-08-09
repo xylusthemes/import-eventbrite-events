@@ -9,7 +9,9 @@
  * @subpackage Import_Eventbrite_Events/includes
  */
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Import_Eventbrite_Events_TEC {
 
@@ -31,23 +33,23 @@ class Import_Eventbrite_Events_TEC {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		
+
 		$this->taxonomy = 'tribe_events_cat';
 		if ( class_exists( 'Tribe__Events__Main' ) ) {
 			$this->event_posttype = Tribe__Events__Main::POSTTYPE;
-		}else{
+		} else {
 			$this->event_posttype = 'tribe_events';
 		}
 
 		if ( class_exists( 'Tribe__Events__Organizer' ) ) {
 			$this->oraganizer_posttype = Tribe__Events__Organizer::POSTTYPE;
-		}else{
+		} else {
 			$this->oraganizer_posttype = 'tribe_organizer';
 		}
 
 		if ( class_exists( 'Tribe__Events__Venue' ) ) {
 			$this->venue_posttype = Tribe__Events__Venue::POSTTYPE;
-		}else{
+		} else {
 			$this->venue_posttype = 'tribe_venue';
 		}
 
@@ -57,16 +59,16 @@ class Import_Eventbrite_Events_TEC {
 	 *
 	 * @return string
 	 */
-	public function get_event_posttype(){
+	public function get_event_posttype() {
 		return $this->event_posttype;
-	}	
-	public function get_oraganizer_posttype(){
+	}
+	public function get_oraganizer_posttype() {
 		return $this->oraganizer_posttype;
 	}
-	public function get_venue_posttype(){
+	public function get_venue_posttype() {
 		return $this->venue_posttype;
 	}
-	public function get_taxonomy(){
+	public function get_taxonomy() {
 		return $this->taxonomy;
 	}
 
@@ -77,24 +79,24 @@ class Import_Eventbrite_Events_TEC {
 	 * @param  array $centralize event array.
 	 * @return array
 	 */
-	public function import_event( $centralize_array, $event_args ){
+	public function import_event( $centralize_array, $event_args ) {
 		global $iee_events;
 
 		$is_exitsing_event = $iee_events->common->get_event_by_event_id( $this->event_posttype, $centralize_array['ID'] );
-		$formated_args = $this->format_event_args_for_tec( $centralize_array );
-		if( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ){
+		$formated_args     = $this->format_event_args_for_tec( $centralize_array );
+		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
 			$formated_args['post_status'] = $event_args['event_status'];
 		}
 
 		if ( $is_exitsing_event && is_numeric( $is_exitsing_event ) && $is_exitsing_event > 0 ) {
-			$options = iee_get_import_options( $centralize_array['origin'] );
+			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
 			if ( 'yes' == $update_events ) {
 				return $this->update_event( $is_exitsing_event, $centralize_array, $formated_args, $event_args );
-			}else{
+			} else {
 				return array(
 					'status' => 'skipped',
-					'id' 	 => $is_exitsing_event
+					'id'     => $is_exitsing_event,
 				);
 			}
 		} else {
@@ -117,10 +119,10 @@ class Import_Eventbrite_Events_TEC {
 		global $iee_events;
 		$new_event_id = tribe_create_event( $formated_args );
 		if ( $new_event_id ) {
-			update_post_meta( $new_event_id, 'iee_event_id',  $centralize_array['ID'] );
-			update_post_meta( $new_event_id, 'iee_event_origin',  $event_args['import_origin'] );
+			update_post_meta( $new_event_id, 'iee_event_id', $centralize_array['ID'] );
+			update_post_meta( $new_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $new_event_id, 'iee_event_link', esc_url( $centralize_array['url'] ) );
-			
+
 			// Asign event category.
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
@@ -132,18 +134,18 @@ class Import_Eventbrite_Events_TEC {
 				wp_set_object_terms( $new_event_id, $iee_cats, $this->taxonomy );
 			}
 
-			$event_featured_image  = $centralize_array['image_url'];
-			if( $event_featured_image != '' ){
+			$event_featured_image = $centralize_array['image_url'];
+			if ( $event_featured_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $new_event_id, $event_featured_image );
 			}
 
-			do_action( 'iee_after_create_tec_'.$centralize_array["origin"].'_event', $new_event_id, $formated_args, $centralize_array );
+			do_action( 'iee_after_create_tec_' . $centralize_array['origin'] . '_event', $new_event_id, $formated_args, $centralize_array );
 			return array(
 				'status' => 'created',
-				'id' 	 => $new_event_id
+				'id'     => $new_event_id,
 			);
 
-		}else{
+		} else {
 			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
 			return;
 		}
@@ -163,12 +165,12 @@ class Import_Eventbrite_Events_TEC {
 		// Update event using TEC advanced functions.
 		global $iee_events;
 
-		$update_event_id =  tribe_update_event( $event_id, $formated_args );
+		$update_event_id = tribe_update_event( $event_id, $formated_args );
 		if ( $update_event_id ) {
-			update_post_meta( $update_event_id, 'iee_event_id',  $centralize_array['ID'] );
-			update_post_meta( $update_event_id, 'iee_event_origin',  $event_args['import_origin'] );
+			update_post_meta( $update_event_id, 'iee_event_id', $centralize_array['ID'] );
+			update_post_meta( $update_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $update_event_id, 'iee_event_link', esc_url( $centralize_array['url'] ) );
-			
+
 			// Asign event category.
 			$iee_cats = isset( $event_args['event_cats'] ) ? (array) $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
@@ -180,19 +182,19 @@ class Import_Eventbrite_Events_TEC {
 				wp_set_object_terms( $update_event_id, $iee_cats, $this->taxonomy );
 			}
 
-			$event_featured_image  = $centralize_array['image_url'];
-			if( $event_featured_image != '' ){
+			$event_featured_image = $centralize_array['image_url'];
+			if ( $event_featured_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $update_event_id, $event_featured_image );
-			}else{
+			} else {
 				delete_post_thumbnail( $update_event_id );
 			}
 
-			do_action( 'iee_after_update_tec_'.$centralize_array["origin"].'_event', $update_event_id, $formated_args, $centralize_array );
+			do_action( 'iee_after_update_tec_' . $centralize_array['origin'] . '_event', $update_event_id, $formated_args, $centralize_array );
 			return array(
 				'status' => 'updated',
-				'id' 	 => $update_event_id
+				'id'     => $update_event_id,
 			);
-		}else{
+		} else {
 			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
 			return;
 		}
@@ -208,29 +210,29 @@ class Import_Eventbrite_Events_TEC {
 	 */
 	public function format_event_args_for_tec( $centralize_array ) {
 
-		if( empty( $centralize_array ) ){
+		if ( empty( $centralize_array ) ) {
 			return;
 		}
 		$start_time = $centralize_array['starttime_local'];
-		$end_time = $centralize_array['endtime_local'];
-		$event_args  = array(
-			'post_type'             => $this->event_posttype,
-			'post_title'            => $centralize_array['name'],
-			'post_status'           => 'pending',
-			'post_content'          => $centralize_array['description'],
-			'EventStartDate'        => date( 'Y-m-d', $start_time ),
-			'EventStartHour'        => date( 'h', $start_time ),
-			'EventStartMinute'      => date( 'i', $start_time ),
-			'EventStartMeridian'    => date( 'a', $start_time ),
-			'EventEndDate'          => date( 'Y-m-d', $end_time ),
-			'EventEndHour'          => date( 'h', $end_time ),
-			'EventEndMinute'        => date( 'i', $end_time ),
-			'EventEndMeridian'      => date( 'a', $end_time ),
-			'EventStartDateUTC'     => !empty( $centralize_array['startime_utc'] ) ? date( 'Y-m-d H:i:s', $centralize_array['startime_utc'] ) : '',
-			'EventEndDateUTC'       => !empty( $centralize_array['endtime_utc'] ) ? date( 'Y-m-d H:i:s', $centralize_array['endtime_utc'] ) : '',
-			'EventURL'              => $centralize_array['url'],
-			'EventShowMap' 			=> 1,
-			'EventShowMapLink'		=> 1,
+		$end_time   = $centralize_array['endtime_local'];
+		$event_args = array(
+			'post_type'          => $this->event_posttype,
+			'post_title'         => $centralize_array['name'],
+			'post_status'        => 'pending',
+			'post_content'       => $centralize_array['description'],
+			'EventStartDate'     => date( 'Y-m-d', $start_time ),
+			'EventStartHour'     => date( 'h', $start_time ),
+			'EventStartMinute'   => date( 'i', $start_time ),
+			'EventStartMeridian' => date( 'a', $start_time ),
+			'EventEndDate'       => date( 'Y-m-d', $end_time ),
+			'EventEndHour'       => date( 'h', $end_time ),
+			'EventEndMinute'     => date( 'i', $end_time ),
+			'EventEndMeridian'   => date( 'a', $end_time ),
+			'EventStartDateUTC'  => ! empty( $centralize_array['startime_utc'] ) ? date( 'Y-m-d H:i:s', $centralize_array['startime_utc'] ) : '',
+			'EventEndDateUTC'    => ! empty( $centralize_array['endtime_utc'] ) ? date( 'Y-m-d H:i:s', $centralize_array['endtime_utc'] ) : '',
+			'EventURL'           => $centralize_array['url'],
+			'EventShowMap'       => 1,
+			'EventShowMapLink'   => 1,
 		);
 
 		if ( array_key_exists( 'organizer', $centralize_array ) ) {
@@ -252,7 +254,7 @@ class Import_Eventbrite_Events_TEC {
 	 */
 	public function get_organizer_args( $centralize_org_array ) {
 
-		if ( !isset( $centralize_org_array['ID'] ) ) {
+		if ( ! isset( $centralize_org_array['ID'] ) ) {
 			return null;
 		}
 		$existing_organizer = $this->get_organizer_by_id( $centralize_org_array['ID'] );
@@ -262,12 +264,14 @@ class Import_Eventbrite_Events_TEC {
 			);
 		}
 
-		$create_organizer = tribe_create_organizer( array(
-			'Organizer' => isset( $centralize_org_array['name'] ) ? $centralize_org_array['name'] : '',
-			'Phone' => isset( $centralize_org_array['phone'] ) ? $centralize_org_array['phone'] : '',
-			'Email' => isset( $centralize_org_array['email'] ) ? $centralize_org_array['email'] : '',
-			'Website' => isset( $centralize_org_array['url'] ) ? $centralize_org_array['url'] : '',
-		) );
+		$create_organizer = tribe_create_organizer(
+			array(
+				'Organizer' => isset( $centralize_org_array['name'] ) ? $centralize_org_array['name'] : '',
+				'Phone'     => isset( $centralize_org_array['phone'] ) ? $centralize_org_array['phone'] : '',
+				'Email'     => isset( $centralize_org_array['email'] ) ? $centralize_org_array['email'] : '',
+				'Website'   => isset( $centralize_org_array['url'] ) ? $centralize_org_array['url'] : '',
+			)
+		);
 
 		if ( $create_organizer ) {
 			update_post_meta( $create_organizer, 'iee_event_organizer_id', $centralize_org_array['ID'] );
@@ -286,9 +290,9 @@ class Import_Eventbrite_Events_TEC {
 	 * @return array
 	 */
 	public function get_venue_args( $venue ) {
-		global $iee_events; 
+		global $iee_events;
 
-		if ( !isset( $venue['ID'] ) ) {
+		if ( ! isset( $venue['ID'] ) ) {
 			return null;
 		}
 		$existing_venue = $this->get_venue_by_id( $venue['ID'] );
@@ -300,20 +304,22 @@ class Import_Eventbrite_Events_TEC {
 		}
 
 		$country = isset( $venue['country'] ) ? $venue['country'] : '';
-		if( strlen( $country ) > 2 && $country != '' ){
+		if ( strlen( $country ) > 2 && $country != '' ) {
 			$country = $iee_events->common->iee_get_country_code( $country );
 		}
-		$create_venue = tribe_create_venue( array(
-			'Venue'   => isset( $venue['name'] ) ? $venue['name'] : '',
-			'Address' => isset( $venue['full_address'] ) ? $venue['full_address'] : $venue['address_1'],
-			'City'    => isset( $venue['city'] ) ? $venue['city'] : '',
-			'State'   => isset( $venue['state'] ) ? $venue['state'] : '',
-			'Country' => $country,
-			'Zip'     => isset( $venue['zip'] ) ? $venue['zip'] : '',
-			'Phone'   => isset( $venue['phone'] ) ? $venue['phone'] : '',
-			'ShowMap' => true,
-			'ShowMapLink' => true,
-		) );
+		$create_venue = tribe_create_venue(
+			array(
+				'Venue'       => isset( $venue['name'] ) ? $venue['name'] : '',
+				'Address'     => isset( $venue['full_address'] ) ? $venue['full_address'] : $venue['address_1'],
+				'City'        => isset( $venue['city'] ) ? $venue['city'] : '',
+				'State'       => isset( $venue['state'] ) ? $venue['state'] : '',
+				'Country'     => $country,
+				'Zip'         => isset( $venue['zip'] ) ? $venue['zip'] : '',
+				'Phone'       => isset( $venue['phone'] ) ? $venue['phone'] : '',
+				'ShowMap'     => true,
+				'ShowMapLink' => true,
+			)
+		);
 
 		if ( $create_venue ) {
 			update_post_meta( $create_venue, 'iee_event_venue_id', $venue['ID'] );
@@ -321,7 +327,7 @@ class Import_Eventbrite_Events_TEC {
 				'VenueID' => $create_venue,
 			);
 		}
-		return false;		
+		return false;
 	}
 
 	/**
@@ -332,13 +338,15 @@ class Import_Eventbrite_Events_TEC {
 	 * @return int/boolean
 	 */
 	public function get_organizer_by_id( $organizer_id ) {
-		$existing_organizer = get_posts( array(
-			'posts_per_page' => 1,
-			'post_type' => $this->oraganizer_posttype,
-			'meta_key' => 'iee_event_organizer_id',
-			'meta_value' => $organizer_id,
-			'suppress_filters' => false,
-		) );
+		$existing_organizer = get_posts(
+			array(
+				'posts_per_page'   => 1,
+				'post_type'        => $this->oraganizer_posttype,
+				'meta_key'         => 'iee_event_organizer_id',
+				'meta_value'       => $organizer_id,
+				'suppress_filters' => false,
+			)
+		);
 
 		if ( is_array( $existing_organizer ) && ! empty( $existing_organizer ) ) {
 			return $existing_organizer[0]->ID;
@@ -354,13 +362,15 @@ class Import_Eventbrite_Events_TEC {
 	 * @return int/boolean
 	 */
 	public function get_venue_by_id( $venue_id ) {
-		$existing_organizer = get_posts( array(
-			'posts_per_page' => 1,
-			'post_type' => $this->venue_posttype,
-			'meta_key' => 'iee_event_venue_id',
-			'meta_value' => $venue_id,
-			'suppress_filters' => false,
-		) );
+		$existing_organizer = get_posts(
+			array(
+				'posts_per_page'   => 1,
+				'post_type'        => $this->venue_posttype,
+				'meta_key'         => 'iee_event_venue_id',
+				'meta_value'       => $venue_id,
+				'suppress_filters' => false,
+			)
+		);
 
 		if ( is_array( $existing_organizer ) && ! empty( $existing_organizer ) ) {
 			return $existing_organizer[0]->ID;

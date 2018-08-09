@@ -9,7 +9,9 @@
  * @subpackage Import_Eventbrite_Events/includes
  */
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Import_Eventbrite_Events_Eventbrite {
 
@@ -22,7 +24,7 @@ class Import_Eventbrite_Events_Eventbrite {
 	 */
 	public function __construct() {
 		global $iee_events;
-		$options = iee_get_import_options( 'eventbrite' );
+		$options           = iee_get_import_options( 'eventbrite' );
 		$this->oauth_token = isset( $options['eventbrite_oauth_token'] ) ? $options['eventbrite_oauth_token'] : '';
 	}
 
@@ -33,22 +35,22 @@ class Import_Eventbrite_Events_Eventbrite {
 	 * @param array $eventdata  import event data.
 	 * @return /boolean
 	 */
-	public function import_event_by_event_id( $event_data = array() ){
+	public function import_event_by_event_id( $event_data = array() ) {
 		global $iee_errors, $iee_events;
-		$options = iee_get_import_options( 'eventbrite' );
+		$options                = iee_get_import_options( 'eventbrite' );
 		$eventbrite_oauth_token = isset( $options['eventbrite_oauth_token'] ) ? $options['eventbrite_oauth_token'] : '';
-		$eventbrite_id = isset( $event_data['eventbrite_event_id'] ) ? $event_data['eventbrite_event_id'] : 0;
+		$eventbrite_id          = isset( $event_data['eventbrite_event_id'] ) ? $event_data['eventbrite_event_id'] : 0;
 
 		if ( ! $eventbrite_id || $this->oauth_token == '' ) {
-			$iee_errors[] = __( 'Please insert Eventbrite "Personal OAuth token".', 'import-eventbrite-events');
+			$iee_errors[] = __( 'Please insert Eventbrite "Personal OAuth token".', 'import-eventbrite-events' );
 			return;
 		}
 
-		$eventbrite_api_url = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/?token=' .  $this->oauth_token;
-	    $eventbrite_response = wp_remote_get( $eventbrite_api_url , array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$eventbrite_api_url  = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/?token=' . $this->oauth_token;
+		$eventbrite_response = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( is_wp_error( $eventbrite_response ) ) {
-			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events');
+			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
 			return;
 		}
 
@@ -56,9 +58,9 @@ class Import_Eventbrite_Events_Eventbrite {
 		if ( is_array( $eventbrite_event ) && ! isset( $eventbrite_event['error'] ) ) {
 
 			return $this->save_eventbrite_event( $eventbrite_event, $event_data );
-			
-		}else{
-			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events');
+
+		} else {
+			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
 			return;
 		}
 	}
@@ -68,8 +70,8 @@ class Import_Eventbrite_Events_Eventbrite {
 	 * Save (Create or update) Eventbrite imported to The Event Calendar Events from a Eventbrite.com event.
 	 *
 	 * @since  1.0.0
-	 * @param array  $eventbrite_event Event array get from Eventbrite.com.
-	 * @param int    $post_id Eventbrite Url id.
+	 * @param array $eventbrite_event Event array get from Eventbrite.com.
+	 * @param int   $post_id Eventbrite Url id.
 	 * @return void
 	 */
 	public function save_eventbrite_event( $eventbrite_event = array(), $event_args = array() ) {
@@ -81,7 +83,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		}
 	}
 
-	
+
 	/**
 	 * Format events arguments as per TEC
 	 *
@@ -92,34 +94,33 @@ class Import_Eventbrite_Events_Eventbrite {
 	public function generate_centralize_array( $eventbrite_event ) {
 		global $iee_events;
 
-		if( ! isset( $eventbrite_event['id'] ) ){
+		if ( ! isset( $eventbrite_event['id'] ) ) {
 			return false;
 		}
 
 		$start_time = $start_time_utc = time();
-		$end_time = $end_time_utc = time();
+		$end_time   = $end_time_utc = time();
 		$utc_offset = '';
 
 		if ( array_key_exists( 'start', $eventbrite_event ) ) {
-			$start_time = isset( $eventbrite_event['start']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['local'] ) ) : strtotime( date( 'Y-m-d H:i:s') );
+			$start_time     = isset( $eventbrite_event['start']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['local'] ) ) : strtotime( date( 'Y-m-d H:i:s' ) );
 			$start_time_utc = isset( $eventbrite_event['start']['utc'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['utc'] ) ) : '';
-			$utc_offset = $iee_events->common->get_utc_offset( $eventbrite_event['start']['local'] );
+			$utc_offset     = $iee_events->common->get_utc_offset( $eventbrite_event['start']['local'] );
 		}
 
 		if ( array_key_exists( 'end', $eventbrite_event ) ) {
-			$end_time = isset( $eventbrite_event['end']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['end']['local'] ) ) : $start_time;
+			$end_time     = isset( $eventbrite_event['end']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['end']['local'] ) ) : $start_time;
 			$end_time_utc = isset( $eventbrite_event['end']['utc'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['end']['utc'] ) ) : $start_time_utc;
 
 		}
-		
-		$timezone = isset( $eventbrite_event['start']['timezone'] ) ? $eventbrite_event['start']['timezone']:'';
-		$event_name = isset( $eventbrite_event['name']['text']) ? sanitize_text_field( $eventbrite_event['name']['text'] ) : '';
-		$event_description = isset( $eventbrite_event['description']['html'] ) ? $eventbrite_event['description']['html'] : '';
-		$event_url = array_key_exists( 'url', $eventbrite_event ) ? esc_url($eventbrite_event['url']): '';
-		$event_image  = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
-		$image = explode( '?s=', $event_image );
-		$image_url = esc_url( urldecode( str_replace('https://img.evbuc.com/', '', $image[0] ) ) );
 
+		$timezone          = isset( $eventbrite_event['start']['timezone'] ) ? $eventbrite_event['start']['timezone'] : '';
+		$event_name        = isset( $eventbrite_event['name']['text'] ) ? sanitize_text_field( $eventbrite_event['name']['text'] ) : '';
+		$event_description = isset( $eventbrite_event['description']['html'] ) ? $eventbrite_event['description']['html'] : '';
+		$event_url         = array_key_exists( 'url', $eventbrite_event ) ? esc_url( $eventbrite_event['url'] ) : '';
+		$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
+		$image             = explode( '?s=', $event_image );
+		$image_url         = esc_url( urldecode( str_replace( 'https://img.evbuc.com/', '', $image[0] ) ) );
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -161,16 +162,16 @@ class Import_Eventbrite_Events_Eventbrite {
 			return null;
 		}
 		$event_organizer = $eventbrite_event['organizer_id'];
-		$get_oraganizer = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $event_organizer .'/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$get_oraganizer  = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $event_organizer . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( ! is_wp_error( $get_oraganizer ) ) {
 			$oraganizer = json_decode( $get_oraganizer['body'], true );
 			if ( is_array( $oraganizer ) && ! isset( $oraganizer['errors'] ) ) {
 				if ( ! empty( $oraganizer ) && array_key_exists( 'id', $oraganizer ) ) {
 
-					$org_image  = isset( $oraganizer['logo']['original']['url'] ) ? urldecode( $oraganizer['logo']['original']['url'] ) : '';
-					$image = explode( '?s=', $org_image );
-					$image_url = esc_url( urldecode( str_replace('https://img.evbuc.com/', '', $image[0] ) ) );
+					$org_image = isset( $oraganizer['logo']['original']['url'] ) ? urldecode( $oraganizer['logo']['original']['url'] ) : '';
+					$image     = explode( '?s=', $org_image );
+					$image_url = esc_url( urldecode( str_replace( 'https://img.evbuc.com/', '', $image[0] ) ) );
 
 					$event_organizer = array(
 						'ID'          => isset( $oraganizer['id'] ) ? $oraganizer['id'] : '',
@@ -200,7 +201,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			return null;
 		}
 		$event_venue_id = $eventbrite_event['venue_id'];
-		$get_venue = wp_remote_get( 'https://www.eventbriteapi.com/v3/venues/' . $event_venue_id .'/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$get_venue      = wp_remote_get( 'https://www.eventbriteapi.com/v3/venues/' . $event_venue_id . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( ! is_wp_error( $get_venue ) ) {
 			$venue = json_decode( $get_venue['body'], true );
@@ -216,12 +217,12 @@ class Import_Eventbrite_Events_Eventbrite {
 						'city'         => isset( $venue['address']['city'] ) ? $venue['address']['city'] : '',
 						'state'        => isset( $venue['address']['region'] ) ? $venue['address']['region'] : '',
 						'country'      => isset( $venue['address']['country'] ) ? $venue['address']['country'] : '',
-						'zip'	       => isset( $venue['address']['postal_code'] ) ? $venue['address']['postal_code'] : '',
-						'lat'     	   => isset( $venue['address']['latitude'] ) ? $venue['address']['latitude'] : '',
-						'long'		   => isset( $venue['address']['longitude'] ) ? $venue['address']['longitude'] : '',
+						'zip'          => isset( $venue['address']['postal_code'] ) ? $venue['address']['postal_code'] : '',
+						'lat'          => isset( $venue['address']['latitude'] ) ? $venue['address']['latitude'] : '',
+						'long'         => isset( $venue['address']['longitude'] ) ? $venue['address']['longitude'] : '',
 						'full_address' => isset( $venue['address']['localized_address_display'] ) ? $venue['address']['localized_address_display'] : $venue['address']['address_1'],
 						'url'          => '',
-						'image_url'    => ''
+						'image_url'    => '',
 					);
 					return $event_location;
 				}
@@ -238,12 +239,12 @@ class Import_Eventbrite_Events_Eventbrite {
 	 * @return array
 	 */
 	public function get_organizer_name_by_id( $organizer_id ) {
-		
-		if( !$organizer_id || $organizer_id == '' ){
+
+		if ( ! $organizer_id || $organizer_id == '' ) {
 			return;
 		}
 
-		$get_oraganizer = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $organizer_id .'/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$get_oraganizer = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $organizer_id . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( ! is_wp_error( $get_oraganizer ) ) {
 			$oraganizer = json_decode( $get_oraganizer['body'], true );

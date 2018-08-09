@@ -49,7 +49,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @return object| Import Eventbrite Events the one true Import Eventbrite Events.
 		 */
 		public static function instance() {
-			if ( ! isset( self::$instance ) && ! (self::$instance instanceof Import_Eventbrite_Events ) ) {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Import_Eventbrite_Events ) ) {
 				self::$instance = new Import_Eventbrite_Events();
 				self::$instance->setup_constants();
 
@@ -58,23 +58,23 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				add_action( 'wp_enqueue_scripts', array( self::$instance, 'iee_enqueue_script' ) );
 
 				self::$instance->includes();
-				self::$instance->common = new Import_Eventbrite_Events_Common();
-				self::$instance->cpt    = new Import_Eventbrite_Events_Cpt();
+				self::$instance->common     = new Import_Eventbrite_Events_Common();
+				self::$instance->cpt        = new Import_Eventbrite_Events_Cpt();
 				self::$instance->eventbrite = new Import_Eventbrite_Events_Eventbrite();
-				self::$instance->admin = new Import_Eventbrite_Events_Admin();
-				if( iee_is_pro() ){
+				self::$instance->admin      = new Import_Eventbrite_Events_Admin();
+				if ( iee_is_pro() ) {
 					self::$instance->manage_import = new Import_Eventbrite_Events_Pro_Manage_Import();
-				}else{
-					self::$instance->manage_import = new Import_Eventbrite_Events_Manage_Import();	
+				} else {
+					self::$instance->manage_import = new Import_Eventbrite_Events_Manage_Import();
 				}
-				self::$instance->iee    = new Import_Eventbrite_Events_IEE();
-				self::$instance->tec = new Import_Eventbrite_Events_TEC();
-				self::$instance->em = new Import_Eventbrite_Events_EM();
-				self::$instance->eventon = new Import_Eventbrite_Events_EventON();
+				self::$instance->iee             = new Import_Eventbrite_Events_IEE();
+				self::$instance->tec             = new Import_Eventbrite_Events_TEC();
+				self::$instance->em              = new Import_Eventbrite_Events_EM();
+				self::$instance->eventon         = new Import_Eventbrite_Events_EventON();
 				self::$instance->event_organizer = new Import_Eventbrite_Events_Event_Organizer();
-				self::$instance->aioec = new Import_Eventbrite_Events_Aioec();
-				self::$instance->my_calendar = new Import_Eventbrite_Events_My_Calendar();
-				self::$instance->ee4 = new Import_Eventbrite_Events_EE4();
+				self::$instance->aioec           = new Import_Eventbrite_Events_Aioec();
+				self::$instance->my_calendar     = new Import_Eventbrite_Events_My_Calendar();
+				self::$instance->ee4             = new Import_Eventbrite_Events_EE4();
 
 			}
 			return self::$instance;
@@ -164,15 +164,15 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-common.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-list-table.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-admin.php';
-			if( iee_is_pro() ){
+			if ( iee_is_pro() ) {
 				$pro_dir = plugin_dir_path( __DIR__ ) . 'import-eventbrite-events-pro/';
-				if( defined( 'IEEPRO_PLUGIN_DIR' ) ){
+				if ( defined( 'IEEPRO_PLUGIN_DIR' ) ) {
 					$pro_dir = IEEPRO_PLUGIN_DIR;
 				}
 				require_once $pro_dir . 'includes/class-import-eventbrite-events-manage-import.php';
-			}else{
-				require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-manage-import.php';	
-			}			
+			} else {
+				require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-manage-import.php';
+			}
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-cpt.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-eventbrite.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-iee.php';
