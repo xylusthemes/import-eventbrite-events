@@ -146,6 +146,8 @@ class Import_Eventbrite_Events_Eventbrite {
 			$xt_event['location'] = $this->get_location( $eventbrite_event );
 		}
 
+		$xt_event = apply_filters( 'iee_eventbrite_centralize_array', $xt_event, $eventbrite_event );
+
 		return $xt_event;
 	}
 
