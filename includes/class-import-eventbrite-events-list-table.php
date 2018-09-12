@@ -9,10 +9,12 @@
  * @subpackage Import_Eventbrite_Events/includes
  */
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -27,12 +29,14 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 		global $status, $page;
-	        // Set parent defaults.
-	        parent::__construct( array(
-	            'singular'  => 'iee_scheduled_import',     // singular name of the listed records.
-	            'plural'    => 'iee_scheduled_import',    // plural name of the listed records.
-	            'ajax'      => false,        // does this table support ajax?
-	        ) );
+			// Set parent defaults.
+			parent::__construct(
+				array(
+					'singular' => 'iee_scheduled_import',     // singular name of the listed records.
+					'plural'   => 'iee_scheduled_import',    // plural name of the listed records.
+					'ajax'     => false,        // does this table support ajax?
+				)
+			);
 	}
 
 	/**
@@ -57,31 +61,32 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'   => wp_unslash( $_REQUEST['page'] ),
+			'page'       => wp_unslash( $_REQUEST['page'] ),
 			'iee_action' => 'iee_simport_delete',
 			'import_id'  => absint( $item['ID'] ),
 		);
 
-		$page = wp_unslash( $_REQUEST['page'] );
-		$tab = 'scheduled';
-		$wp_redirect = admin_url( 'admin.php?page='.$page );
+		$page              = wp_unslash( $_REQUEST['page'] );
+		$tab               = 'scheduled';
+		$wp_redirect       = admin_url( 'admin.php?page=' . $page );
 		$iee_url_edit_args = array(
-			'tab'    =>  wp_unslash( $tab ),
-			'edit'  => absint( $item['ID'] ),
+			'tab'  => wp_unslash( $tab ),
+			'edit' => absint( $item['ID'] ),
 		);
 
 		// Build row actions.
 		$actions = array(
-			'edit' => sprintf( '<a href="%1$s">%2$s</a>',esc_url( add_query_arg( $iee_url_edit_args, $wp_redirect ) ), esc_html__( 'Edit', 'import-eventbrite-events' ) ),
-		    'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>',esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
+			'edit'   => sprintf( '<a href="%1$s">%2$s</a>', esc_url( add_query_arg( $iee_url_edit_args, $wp_redirect ) ), esc_html__( 'Edit', 'import-eventbrite-events' ) ),
+			'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>', esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
 		// Return the title contents.
-		return sprintf('<strong>%1$s</strong><span>%4$s</span> <span style="color:silver">(id:%2$s)</span>%3$s',
-		    $item['title'],
-		    $item['ID'],
-		    $this->row_actions( $actions ),
-		    __('Origin', 'import-eventbrite-events') . ': <b>' . ucfirst( $item["import_origin"] ) . '</b>'
+		return sprintf(
+			'<strong>%1$s</strong><span>%4$s</span> <span style="color:silver">(id:%2$s)</span>%3$s',
+			$item['title'],
+			$item['ID'],
+			$this->row_actions( $actions ),
+			__( 'Origin', 'import-eventbrite-events' ) . ': <b>' . ucfirst( $item['import_origin'] ) . '</b>'
 		);
 	}
 
@@ -95,26 +100,27 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_action( $item ) {
 
 		$xtmi_run_import_args = array(
-			'page'   => wp_unslash( $_REQUEST['page'] ),
+			'page'       => wp_unslash( $_REQUEST['page'] ),
 			'iee_action' => 'iee_run_import',
 			'import_id'  => $item['ID'],
 		);
 
 		// Return the title contents.
-		return sprintf( '<a class="button-primary" href="%1$s">%2$s</a><br/>%3$s',
+		return sprintf(
+			'<a class="button-primary" href="%1$s">%2$s</a><br/>%3$s',
 			esc_url( wp_nonce_url( add_query_arg( $xtmi_run_import_args ), 'iee_run_import_nonce' ) ),
 			esc_html__( 'Import Now', 'import-eventbrite-events' ),
 			$item['last_import']
 		);
 	}
 
-	function column_cb($item){
-        return sprintf(
-            '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("video")
-            /*$2%s*/ $item['ID']             //The value of the checkbox should be the record's id
-        );
-    }
+	function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
+			/*$1%s*/ $this->_args['singular'],  // Let's simply repurpose the table's singular label ("video")
+			/*$2%s*/ $item['ID']             // The value of the checkbox should be the record's id
+		);
+	}
 
 	/**
 	 * Get column title.
@@ -123,23 +129,23 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = array(
-		 'cb'    => '<input type="checkbox" />',
-		 'title'     => __( 'Scheduled import', 'import-eventbrite-events' ),
-		 'import_status'   => __( 'Import Event Status', 'import-eventbrite-events' ),
-		 'import_category'   => __( 'Import Category', 'import-eventbrite-events' ),
-		 'import_frequency'   => __( 'Import Frequency', 'import-eventbrite-events' ),
-		 'action'   => __( 'Action', 'import-eventbrite-events' ),
+			'cb'               => '<input type="checkbox" />',
+			'title'            => __( 'Scheduled import', 'import-eventbrite-events' ),
+			'import_status'    => __( 'Import Event Status', 'import-eventbrite-events' ),
+			'import_category'  => __( 'Import Category', 'import-eventbrite-events' ),
+			'import_frequency' => __( 'Import Frequency', 'import-eventbrite-events' ),
+			'action'           => __( 'Action', 'import-eventbrite-events' ),
 		);
 		return $columns;
 	}
 
 	public function get_bulk_actions() {
 
-        return array(
-            'delete' => __( 'Delete', 'import-eventbrite-events' ),
-        );
+		return array(
+			'delete' => __( 'Delete', 'import-eventbrite-events' ),
+		);
 
-    }
+	}
 
 	/**
 	 * Prepare Meetup url data.
@@ -148,30 +154,32 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	 */
 	function prepare_items( $origin = '' ) {
 		$per_page = 10;
-		$columns = $this->get_columns();
-		$hidden = array( 'ID' );
+		$columns  = $this->get_columns();
+		$hidden   = array( 'ID' );
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		$this->process_bulk_action();
-		
-		if( $origin != '' ){
-			$data = $this->get_scheduled_import_data( $origin );	
-		}else{
+
+		if ( $origin != '' ) {
+			$data = $this->get_scheduled_import_data( $origin );
+		} else {
 			$data = $this->get_scheduled_import_data();
 		}
-		
-		if ( ! empty( $data ) ) {
-			$total_items = ( $data['total_records'] )? (int) $data['total_records'] : 0;
-			// Set data to items.
-			$this->items = ( $data['import_data'] )? $data['import_data'] : array();
 
-			$this->set_pagination_args( array(
-			    'total_items' => $total_items,  // WE have to calculate the total number of items.
-			    'per_page'    => $per_page, // WE have to determine how many items to show on a page.
-			    'total_pages' => ceil( $total_items / $per_page ), // WE have to calculate the total number of pages.
-			) );
+		if ( ! empty( $data ) ) {
+			$total_items = ( $data['total_records'] ) ? (int) $data['total_records'] : 0;
+			// Set data to items.
+			$this->items = ( $data['import_data'] ) ? $data['import_data'] : array();
+
+			$this->set_pagination_args(
+				array(
+					'total_items' => $total_items,  // WE have to calculate the total number of items.
+					'per_page'    => $per_page, // WE have to determine how many items to show on a page.
+					'total_pages' => ceil( $total_items / $per_page ), // WE have to calculate the total number of pages.
+				)
+			);
 		}
 	}
 
@@ -183,57 +191,60 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function get_scheduled_import_data( $origin = '' ) {
 		global $iee_events;
 
-		$scheduled_import_data = array( 'total_records' => 0, 'import_data' => array() );
-		$per_page = 10;
-		$current_page = $this->get_pagenum();
+		$scheduled_import_data = array(
+			'total_records' => 0,
+			'import_data'   => array(),
+		);
+		$per_page              = 10;
+		$current_page          = $this->get_pagenum();
 
 		$query_args = array(
-			'post_type' => 'iee_scheduled_import',
+			'post_type'      => 'iee_scheduled_import',
 			'posts_per_page' => $per_page,
-			'paged' => $current_page,
+			'paged'          => $current_page,
 		);
 
-		if( $origin != '' ){
-			$query_args['meta_key'] = 'import_origin';
+		if ( $origin != '' ) {
+			$query_args['meta_key']   = 'import_origin';
 			$query_args['meta_value'] = esc_attr( $origin );
 		}
-		$importdata_query = new WP_Query( $query_args );
+		$importdata_query                       = new WP_Query( $query_args );
 		$scheduled_import_data['total_records'] = ( $importdata_query->found_posts ) ? (int) $importdata_query->found_posts : 0;
 		// The Loop.
 		if ( $importdata_query->have_posts() ) {
 			while ( $importdata_query->have_posts() ) {
 				$importdata_query->the_post();
 
-				$import_id = get_the_ID();
-				$import_title = get_the_title();
-				$import_data = get_post_meta( $import_id, 'import_eventdata', true );
+				$import_id     = get_the_ID();
+				$import_title  = get_the_title();
+				$import_data   = get_post_meta( $import_id, 'import_eventdata', true );
 				$import_origin = get_post_meta( $import_id, 'import_origin', true );
 				$import_plugin = isset( $import_data['import_into'] ) ? $import_data['import_into'] : '';
 				$import_status = isset( $import_data['event_status'] ) ? $import_data['event_status'] : '';
-				
-				$term_names = array();
-				$import_terms = isset( $import_data['event_cats'] ) ? $import_data['event_cats'] : array(); 
-				
+
+				$term_names   = array();
+				$import_terms = isset( $import_data['event_cats'] ) ? $import_data['event_cats'] : array();
+
 				if ( $import_terms && ! empty( $import_terms ) ) {
 					foreach ( $import_terms as $term ) {
 						$get_term = '';
-						if( $import_plugin != '' && !empty( $iee_events->$import_plugin ) ){
+						if ( $import_plugin != '' && ! empty( $iee_events->$import_plugin ) ) {
 							$get_term = get_term( $term, $iee_events->$import_plugin->get_taxonomy() );
 						}
 
-						if( !is_wp_error( $get_term ) && !empty( $get_term ) ){
+						if ( ! is_wp_error( $get_term ) && ! empty( $get_term ) ) {
 							$term_names[] = $get_term->name;
 						}
 					}
-				}	
+				}
 
 				$last_import_history_date = '';
-				$history_args = array(
-					'post_type'   => 'iee_import_history',
-					'post_status' => 'publish',
+				$history_args             = array(
+					'post_type'      => 'iee_import_history',
+					'post_status'    => 'publish',
 					'posts_per_page' => 1,
-					'meta_key'   => 'schedule_import_id',
-					'meta_value' => $import_id,
+					'meta_key'       => 'schedule_import_id',
+					'meta_value'     => $import_id,
 
 				);
 
@@ -247,13 +258,13 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				wp_reset_postdata();
 
 				$scheduled_import_data['import_data'][] = array(
-					'ID' 				=> $import_id,
-					'title' 			=> $import_title,
-					'import_status'   	=> ucfirst( $import_status ),
-					'import_category' 	=> implode( ', ', $term_names ),
-					'import_frequency'	=> isset( $import_data['import_frequency'] ) ? ucfirst( $import_data['import_frequency'] ) : '',
-					'import_origin'   	=> $import_origin,
-					'last_import'     	=> $last_import_history_date,
+					'ID'               => $import_id,
+					'title'            => $import_title,
+					'import_status'    => ucfirst( $import_status ),
+					'import_category'  => implode( ', ', $term_names ),
+					'import_frequency' => isset( $import_data['import_frequency'] ) ? ucfirst( $import_data['import_frequency'] ) : '',
+					'import_origin'    => $import_origin,
+					'last_import'      => $last_import_history_date,
 				);
 			}
 		}
@@ -275,12 +286,14 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 		global $status, $page;
-	        // Set parent defaults.
-	        parent::__construct( array(
-	            'singular'  => 'import_history',     // singular name of the listed records.
-	            'plural'    => 'iee_import_histories',   // plural name of the listed records.
-	            'ajax'      => false,        // does this table support ajax?
-	        ) );
+			// Set parent defaults.
+			parent::__construct(
+				array(
+					'singular' => 'import_history',     // singular name of the listed records.
+					'plural'   => 'iee_import_histories',   // plural name of the listed records.
+					'ajax'     => false,        // does this table support ajax?
+				)
+			);
 	}
 
 	/**
@@ -305,21 +318,22 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'   => wp_unslash( $_REQUEST['page'] ),
-			'tab'   => wp_unslash( $_REQUEST['tab'] ),
+			'page'       => wp_unslash( $_REQUEST['page'] ),
+			'tab'        => wp_unslash( $_REQUEST['tab'] ),
 			'iee_action' => 'iee_history_delete',
-			'history_id'  => absint( $item['ID'] ),
+			'history_id' => absint( $item['ID'] ),
 		);
 		// Build row actions.
 		$actions = array(
-		    'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this import history? Import history will be permanatly deleted.\')">%2$s</a>',esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_history_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
+			'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this import history? Import history will be permanatly deleted.\')">%2$s</a>', esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_history_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
 		// Return the title contents.
-		return sprintf('<strong>%1$s</strong><span>%3$s</span> %2$s',
-		    $item['title'],
-		    $this->row_actions( $actions ),
-		    __('Origin', 'import-eventbrite-events') . ': <b>' . ucfirst( get_post_meta( $item['ID'], 'import_origin', true ) ) . '</b>'
+		return sprintf(
+			'<strong>%1$s</strong><span>%3$s</span> %2$s',
+			$item['title'],
+			$this->row_actions( $actions ),
+			__( 'Origin', 'import-eventbrite-events' ) . ': <b>' . ucfirst( get_post_meta( $item['ID'], 'import_origin', true ) ) . '</b>'
 		);
 	}
 
@@ -337,28 +351,28 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		$skipped = get_post_meta( $item['ID'], 'skipped', true );
 
 		$success_message = '<span style="color: silver"><strong>';
-		if( $created > 0 ){
-			$success_message .= sprintf( __( '%d Created', 'import-eventbrite-events' ), $created )."<br>";
+		if ( $created > 0 ) {
+			$success_message .= sprintf( __( '%d Created', 'import-eventbrite-events' ), $created ) . '<br>';
 		}
-		if( $updated > 0 ){
-			$success_message .= sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated )."<br>";
+		if ( $updated > 0 ) {
+			$success_message .= sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated ) . '<br>';
 		}
-		if( $skipped > 0 ){
-			$success_message .= sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped ) ."<br>";
+		if ( $skipped > 0 ) {
+			$success_message .= sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped ) . '<br>';
 		}
-		$success_message .= "</strong></span>";
+		$success_message .= '</strong></span>';
 
 		// Return the title contents.
 		return $success_message;
 	}
 
-	function column_cb($item){
-        return sprintf(
-            '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("video")
-            /*$2%s*/ $item['ID']                //The value of the checkbox should be the record's id
-        );
-    }
+	function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
+			/*$1%s*/ $this->_args['singular'],  // Let's simply repurpose the table's singular label ("video")
+			/*$2%s*/ $item['ID']                // The value of the checkbox should be the record's id
+		);
+	}
 
 	/**
 	 * Get column title.
@@ -367,22 +381,22 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		$columns = array(
-		 'cb'    => '<input type="checkbox" />',
-		 'title'     => __( 'Import', 'import-eventbrite-events' ),
-		 'import_category' => __( 'Import Category', 'import-eventbrite-events' ),
-		 'import_date'  => __( 'Import Date', 'import-eventbrite-events' ),
-		 'stats' => __( 'Import Stats', 'import-eventbrite-events' ),
+			'cb'              => '<input type="checkbox" />',
+			'title'           => __( 'Import', 'import-eventbrite-events' ),
+			'import_category' => __( 'Import Category', 'import-eventbrite-events' ),
+			'import_date'     => __( 'Import Date', 'import-eventbrite-events' ),
+			'stats'           => __( 'Import Stats', 'import-eventbrite-events' ),
 		);
 		return $columns;
 	}
 
 	public function get_bulk_actions() {
 
-        return array(
-            'delete' => __( 'Delete', 'import-eventbrite-events' ),
-        );
+		return array(
+			'delete' => __( 'Delete', 'import-eventbrite-events' ),
+		);
 
-    }
+	}
 
 	/**
 	 * Prepare Meetup url data.
@@ -391,30 +405,32 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	 */
 	function prepare_items( $origin = '' ) {
 		$per_page = 10;
-		$columns = $this->get_columns();
-		$hidden = array( 'ID' );
+		$columns  = $this->get_columns();
+		$hidden   = array( 'ID' );
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		$this->process_bulk_action();
-		
-		if( $origin != '' ){
-			$data = $this->get_import_history_data( $origin );	
-		}else{
+
+		if ( $origin != '' ) {
+			$data = $this->get_import_history_data( $origin );
+		} else {
 			$data = $this->get_import_history_data();
 		}
-		
-		if ( ! empty( $data ) ) {
-			$total_items = ( $data['total_records'] )? (int) $data['total_records'] : 0;
-			// Set data to items.
-			$this->items = ( $data['import_data'] )? $data['import_data'] : array();
 
-			$this->set_pagination_args( array(
-			    'total_items' => $total_items,  // WE have to calculate the total number of items.
-			    'per_page'    => $per_page, // WE have to determine how many items to show on a page.
-			    'total_pages' => ceil( $total_items / $per_page ), // WE have to calculate the total number of pages.
-			) );
+		if ( ! empty( $data ) ) {
+			$total_items = ( $data['total_records'] ) ? (int) $data['total_records'] : 0;
+			// Set data to items.
+			$this->items = ( $data['import_data'] ) ? $data['import_data'] : array();
+
+			$this->set_pagination_args(
+				array(
+					'total_items' => $total_items,  // WE have to calculate the total number of items.
+					'per_page'    => $per_page, // WE have to determine how many items to show on a page.
+					'total_pages' => ceil( $total_items / $per_page ), // WE have to calculate the total number of pages.
+				)
+			);
 		}
 	}
 
@@ -426,54 +442,57 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	function get_import_history_data( $origin = '' ) {
 		global $iee_events;
 
-		$scheduled_import_data = array( 'total_records' => 0, 'import_data' => array() );
-		$per_page = 10;
-		$current_page = $this->get_pagenum();
+		$scheduled_import_data = array(
+			'total_records' => 0,
+			'import_data'   => array(),
+		);
+		$per_page              = 10;
+		$current_page          = $this->get_pagenum();
 
 		$query_args = array(
-			'post_type' => 'iee_import_history',
+			'post_type'      => 'iee_import_history',
 			'posts_per_page' => $per_page,
-			'paged' => $current_page,
+			'paged'          => $current_page,
 		);
 
-		if( $origin != '' ){
-			$query_args['meta_key'] = 'import_origin';
+		if ( $origin != '' ) {
+			$query_args['meta_key']   = 'import_origin';
 			$query_args['meta_value'] = esc_attr( $origin );
 		}
 
-		$importdata_query = new WP_Query( $query_args );
+		$importdata_query                       = new WP_Query( $query_args );
 		$scheduled_import_data['total_records'] = ( $importdata_query->found_posts ) ? (int) $importdata_query->found_posts : 0;
 		// The Loop.
 		if ( $importdata_query->have_posts() ) {
 			while ( $importdata_query->have_posts() ) {
 				$importdata_query->the_post();
 
-				$import_id = get_the_ID();
-				$import_data = get_post_meta( $import_id, 'import_data', true );
+				$import_id     = get_the_ID();
+				$import_data   = get_post_meta( $import_id, 'import_data', true );
 				$import_origin = get_post_meta( $import_id, 'import_origin', true );
 				$import_plugin = isset( $import_data['import_into'] ) ? $import_data['import_into'] : '';
 
-				$term_names = array();
+				$term_names   = array();
 				$import_terms = isset( $import_data['event_cats'] ) ? $import_data['event_cats'] : array();
 
 				if ( $import_terms && ! empty( $import_terms ) ) {
 					foreach ( $import_terms as $term ) {
 						$get_term = '';
-						if( $import_plugin != '' && !empty( $iee_events->$import_plugin ) ){
+						if ( $import_plugin != '' && ! empty( $iee_events->$import_plugin ) ) {
 							$get_term = get_term( $term, $iee_events->$import_plugin->get_taxonomy() );
 						}
-						
-						if( !is_wp_error( $get_term ) && !empty( $get_term ) ){
+
+						if ( ! is_wp_error( $get_term ) && ! empty( $get_term ) ) {
 							$term_names[] = $get_term->name;
 						}
 					}
 				}
 
 				$scheduled_import_data['import_data'][] = array(
-					'ID' => $import_id,
-					'title' => get_the_title(),
+					'ID'              => $import_id,
+					'title'           => get_the_title(),
 					'import_category' => implode( ', ', $term_names ),
-					'import_date' => get_the_date("F j Y, h:i A"),
+					'import_date'     => get_the_date( 'F j Y, h:i A' ),
 				);
 			}
 		}

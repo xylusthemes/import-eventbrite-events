@@ -9,7 +9,9 @@
  * @subpackage Import_Eventbrite_Events/includes
  */
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Import_Eventbrite_Events_Aioec {
 
@@ -31,13 +33,13 @@ class Import_Eventbrite_Events_Aioec {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		
+
 		global $wpdb;
-		$this->event_posttype = 'ai1ec_event';
-		$this->taxonomy = 'events_categories';
-		$this->event_db_table = "{$wpdb->prefix}ai1ec_events";
+		$this->event_posttype        = 'ai1ec_event';
+		$this->taxonomy              = 'events_categories';
+		$this->event_db_table        = "{$wpdb->prefix}ai1ec_events";
 		$this->event_instances_table = "{$wpdb->prefix}ai1ec_event_instances";
-		
+
 	}
 
 
@@ -46,10 +48,10 @@ class Import_Eventbrite_Events_Aioec {
 	 *
 	 * @return string
 	 */
-	public function get_event_posttype(){
+	public function get_event_posttype() {
 		return $this->event_posttype;
-	}	
-	public function get_taxonomy(){
+	}
+	public function get_taxonomy() {
 		return $this->taxonomy;
 	}
 
@@ -60,33 +62,33 @@ class Import_Eventbrite_Events_Aioec {
 	 * @param  array $centralize event array.
 	 * @return array
 	 */
-	public function import_event( $centralize_array, $event_args ){
+	public function import_event( $centralize_array, $event_args ) {
 		global $wpdb, $iee_events;
 
-		if( empty( $centralize_array ) || !isset( $centralize_array['ID'] ) ){
+		if ( empty( $centralize_array ) || ! isset( $centralize_array['ID'] ) ) {
 			return false;
 		}
 
 		$is_exitsing_event = $iee_events->common->get_event_by_event_id( $this->event_posttype, $centralize_array['ID'] );
-		
+
 		if ( $is_exitsing_event ) {
 			// Update event or not?
-			$options = iee_get_import_options( $centralize_array['origin'] );
+			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
-					'id' 	 => $is_exitsing_event
+					'id'     => $is_exitsing_event,
 				);
 			}
 		}
 
-		$origin_event_id = $centralize_array['ID'];
-		$post_title = isset( $centralize_array['name'] ) ? $centralize_array['name'] : '';
+		$origin_event_id  = $centralize_array['ID'];
+		$post_title       = isset( $centralize_array['name'] ) ? $centralize_array['name'] : '';
 		$post_description = isset( $centralize_array['description'] ) ? $centralize_array['description'] : '';
-		$start_time = $centralize_array['starttime_local'];
-		$end_time = $centralize_array['endtime_local'];
-		$event_uri = $centralize_array['url'];
+		$start_time       = $centralize_array['starttime_local'];
+		$end_time         = $centralize_array['endtime_local'];
+		$event_uri        = $centralize_array['url'];
 
 		$eo_eventdata = array(
 			'post_title'   => $post_title,
@@ -98,7 +100,7 @@ class Import_Eventbrite_Events_Aioec {
 			$eo_eventdata['ID'] = $is_exitsing_event;
 		}
 
-		if( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ){
+		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
 			$eo_eventdata['post_status'] = $event_args['event_status'];
 		}
 
@@ -106,7 +108,8 @@ class Import_Eventbrite_Events_Aioec {
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
 			$inserted_event = get_post( $inserted_event_id );
-			if ( empty( $inserted_event ) ) { return '';}
+			if ( empty( $inserted_event ) ) {
+				return '';}
 
 			// Asign event category.
 			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
@@ -121,10 +124,10 @@ class Import_Eventbrite_Events_Aioec {
 
 			// Assign Featured images
 			$event_image = $centralize_array['image_url'];
-			if( $event_image != '' ){
+			if ( $event_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $inserted_event_id, $event_image );
-			}else{
-				if( $is_exitsing_event ){
+			} else {
+				if ( $is_exitsing_event ) {
 					delete_post_thumbnail( $inserted_event_id );
 				}
 			}
@@ -133,44 +136,44 @@ class Import_Eventbrite_Events_Aioec {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $event_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
-			
+
 			// Custom table Details
 			$event_array = array(
 				'post_id' => $inserted_event_id,
 				'start'   => $start_time,
-				'end' 	  => $end_time,
+				'end'     => $end_time,
 			);
 
-			$event_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_instances_table WHERE `post_id` = ".absint( $inserted_event_id ) );
-			if( $event_count > 0 && is_numeric( $event_count ) ){
+			$event_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_instances_table WHERE `post_id` = " . absint( $inserted_event_id ) );
+			if ( $event_count > 0 && is_numeric( $event_count ) ) {
 				$where = array( 'post_id' => absint( $inserted_event_id ) );
-				$wpdb->update( $this->event_instances_table , $event_array, $where );	
-			}else{
-				$wpdb->insert( $this->event_instances_table , $event_array );
+				$wpdb->update( $this->event_instances_table, $event_array, $where );
+			} else {
+				$wpdb->insert( $this->event_instances_table, $event_array );
 			}
 
-			$venue   = isset( $centralize_array['location'] ) ? $centralize_array['location'] : '';
+			$venue         = isset( $centralize_array['location'] ) ? $centralize_array['location'] : '';
 			$location_name = isset( $venue['name'] ) ? $venue['name'] : '';
-			$address = isset( $venue['full_address'] ) ? $venue['full_address'] : $venue['address_1'];
-			$city 	 = isset( $venue['city'] ) ? $venue['city'] : '';
-			$state   = isset( $venue['state'] ) ? $venue['state'] : '';
-			$zip     = isset( $venue['zip'] ) ? $venue['zip'] : '';
-			$lat     = isset( $venue['lat'] ) ? $venue['lat'] : '';
-			$lon     = isset( $venue['long'] ) ? $venue['long'] : '';
-			$country = isset( $venue['country'] ) ? $venue['country'] : '';
-			$show_map = $show_coordinates = 0;
-			if( $lat != '' && $lon != '' ){
+			$address       = isset( $venue['full_address'] ) ? $venue['full_address'] : $venue['address_1'];
+			$city          = isset( $venue['city'] ) ? $venue['city'] : '';
+			$state         = isset( $venue['state'] ) ? $venue['state'] : '';
+			$zip           = isset( $venue['zip'] ) ? $venue['zip'] : '';
+			$lat           = isset( $venue['lat'] ) ? $venue['lat'] : '';
+			$lon           = isset( $venue['long'] ) ? $venue['long'] : '';
+			$country       = isset( $venue['country'] ) ? $venue['country'] : '';
+			$show_map      = $show_coordinates = 0;
+			if ( $lat != '' && $lon != '' ) {
 				$show_map = $show_coordinates = 1;
 			}
 			$full_address = $address;
-			if( $city != '' ){
-				$full_address .= ', '.$city;
+			if ( $city != '' ) {
+				$full_address .= ', ' . $city;
 			}
-			if( $state != '' ){
-				$full_address .= ', '.$state;
+			if ( $state != '' ) {
+				$full_address .= ', ' . $state;
 			}
-			if( $zip != '' ){
-				$full_address .= ' '.$zip;
+			if ( $zip != '' ) {
+				$full_address .= ' ' . $zip;
 			}
 
 			$organizer = isset( $centralize_array['organizer'] ) ? $centralize_array['organizer'] : '';
@@ -180,35 +183,34 @@ class Import_Eventbrite_Events_Aioec {
 			$org_url   = isset( $organizer['url'] ) ? $organizer['url'] : '';
 
 			$event_table_array = array(
-				'post_id' 		   => $inserted_event_id,
+				'post_id'          => $inserted_event_id,
 				'start'            => $start_time,
-				'end' 	  		   => $end_time,
+				'end'              => $end_time,
 				'timezone_name'    => '',
-				'allday' 	  	   => 0,
+				'allday'           => 0,
 				'instant_event'    => 0,
-				'venue' 	  	   => $location_name,
-				'country' 	  	   => $country,
-				'address' 	  	   => $full_address,
-				'city' 	       	   => $city,
-				'province' 	       => $state,
-				'postal_code' 	   => $zip,
-				'show_map' 	       => $show_map,
-				'contact_name' 	   => $org_name,
+				'venue'            => $location_name,
+				'country'          => $country,
+				'address'          => $full_address,
+				'city'             => $city,
+				'province'         => $state,
+				'postal_code'      => $zip,
+				'show_map'         => $show_map,
+				'contact_name'     => $org_name,
 				'contact_phone'    => $org_phone,
 				'contact_email'    => $org_email,
-				'contact_url' 	   => $org_url,			
-				'cost'   		   => '',
-				'ticket_url' 	   => $event_uri,
-				'ical_uid' 	  	   => $this->get_ical_uid_for_event( $inserted_event_id ),
+				'contact_url'      => $org_url,
+				'cost'             => '',
+				'ticket_url'       => $event_uri,
+				'ical_uid'         => $this->get_ical_uid_for_event( $inserted_event_id ),
 				'show_coordinates' => $show_coordinates,
 			);
-			if( $lat != '' ){
+			if ( $lat != '' ) {
 				$event_table_array['latitude'] = $lat;
 			}
-			if( $lon != '' ){
+			if ( $lon != '' ) {
 				$event_table_array['longitude'] = $lon;
 			}
-			
 
 			$event_format = array(
 				'%d',  // post_id
@@ -233,37 +235,39 @@ class Import_Eventbrite_Events_Aioec {
 				'%s',  // ical_uid
 				'%d',  // show_coordinates
 			);
-			if( $lat != '' ){
+			if ( $lat != '' ) {
 				$event_format[] = '%f';  // latitude
 			}
-			if( $lon != '' ){
+			if ( $lon != '' ) {
 				$event_format[] = '%f';  // longitude
 			}
 
-			$event_exist_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = ".absint( $inserted_event_id ) );
-			if( $event_exist_count > 0 && is_numeric( $event_exist_count ) ){
+			$event_exist_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = " . absint( $inserted_event_id ) );
+			if ( $event_exist_count > 0 && is_numeric( $event_exist_count ) ) {
 				$where = array( 'post_id' => absint( $inserted_event_id ) );
-				$wpdb->update( $this->event_db_table, $event_table_array, $where, $event_format );	
-			}else{
+				$wpdb->update( $this->event_db_table, $event_table_array, $where, $event_format );
+			} else {
 				$wpdb->insert( $this->event_db_table, $event_table_array, $event_format );
 			}
 
 			if ( $is_exitsing_event ) {
-				do_action( 'iee_after_update_event_organizer_'.$centralize_array["origin"].'_event', $inserted_event_id, $centralize_array );
+				do_action( 'iee_after_update_event_organizer_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(
 					'status' => 'updated',
-					'id' 	 => $inserted_event_id
+					'id'     => $inserted_event_id,
 				);
-			}else{
-				do_action( 'iee_after_create_event_organizer_'.$centralize_array["origin"].'_event', $inserted_event_id, $centralize_array );
+			} else {
+				do_action( 'iee_after_create_event_organizer_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(
 					'status' => 'created',
-					'id' 	 => $inserted_event_id
+					'id'     => $inserted_event_id,
 				);
 			}
-
-		}else{
-			return array( 'status'=> 0, 'message'=> 'Something went wrong, please try again.' );
+		} else {
+			return array(
+				'status'  => 0,
+				'message' => 'Something went wrong, please try again.',
+			);
 		}
 	}
 
@@ -273,8 +277,8 @@ class Import_Eventbrite_Events_Aioec {
 	 * @since    1.0.0
 	 * @param int $event_id event id.
 	 * @return str
-	 */	
-	public function get_ical_uid_for_event( $event_id ){
+	 */
+	public function get_ical_uid_for_event( $event_id ) {
 		$site_url = parse_url( ai1ec_get_site_url() );
 		$format   = 'ai1ec-%d@' . $site_url['host'];
 		if ( isset( $site_url['path'] ) ) {

@@ -9,7 +9,9 @@
  * @subpackage Import_Eventbrite_Events/includes
  */
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Import_Eventbrite_Events_Cpt {
 
@@ -18,10 +20,10 @@ class Import_Eventbrite_Events_Cpt {
 
 	// Event post type.
 	protected $event_posttype;
-	
+
 	// Event post type.
 	protected $event_category;
-	
+
 	// Event post type.
 	protected $event_tag;
 
@@ -31,26 +33,26 @@ class Import_Eventbrite_Events_Cpt {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		
-		$this->event_slug = 'eventbrite-event';				
+
+		$this->event_slug     = 'eventbrite-event';
 		$this->event_posttype = 'eventbrite_events';
 		$this->event_category = 'eventbrite_category';
-		$this->event_tag = 'eventbrite_tag';
+		$this->event_tag      = 'eventbrite_tag';
 
-		$iee_options = get_option( IEE_OPTIONS );
+		$iee_options       = get_option( IEE_OPTIONS );
 		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
-		if( $deactive_ieevents != 'yes' ){
+		if ( $deactive_ieevents != 'yes' ) {
 			add_action( 'init', array( $this, 'register_event_post_type' ) );
 			add_action( 'init', array( $this, 'register_event_taxonomy' ) );
-			add_action( 'add_meta_boxes', array($this, 'add_event_meta_boxes' ) );
-			add_action( 'save_post', array($this, 'save_event_meta_boxes'), 10, 2);
-			
+			add_action( 'add_meta_boxes', array( $this, 'add_event_meta_boxes' ) );
+			add_action( 'save_post', array( $this, 'save_event_meta_boxes' ), 10, 2 );
+
 			add_filter( 'manage_eventbrite_events_posts_columns', array( $this, 'eventbrite_events_columns' ), 10, 1 );
-			add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 ); 
+			add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 );
 
 			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) );
-			add_shortcode('eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
-		} 	
+			add_shortcode( 'eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
+		}
 	}
 
 	/**
@@ -58,16 +60,16 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 * @since    1.0.0
 	 */
-	public function get_event_posttype(){
+	public function get_event_posttype() {
 		return $this->event_posttype;
 	}
-	
+
 	/**
 	 * get events category taxonomy
 	 *
 	 * @since    1.0.0
 	 */
-	public function get_event_categroy_taxonomy(){
+	public function get_event_categroy_taxonomy() {
 		return $this->event_category;
 	}
 
@@ -76,7 +78,7 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 * @since    1.0.0
 	 */
-	public function get_event_tag_taxonomy(){
+	public function get_event_tag_taxonomy() {
 		return $this->event_tag;
 	}
 
@@ -85,64 +87,64 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 * @since    1.0.0
 	 */
-	public function register_event_post_type(){
+	public function register_event_post_type() {
 
 		/*
 		 * Event labels
 		 */
-		$event_labels = array(
-				'name'                  => _x( 'Eventbrite Events', 'Post Type General Name', 'import-eventbrite-events' ),
-				'singular_name'         => _x( 'Eventbrite Event', 'Post Type Singular Name', 'import-eventbrite-events' ),
-				'menu_name'             => __( 'Eventbrite Events', 'import-eventbrite-events' ),
-				'name_admin_bar'        => __( 'Eventbrite Event', 'import-eventbrite-events' ),
-				'archives'              => __( 'Event Archives', 'import-eventbrite-events' ),
-				'parent_item_colon'     => __( 'Parent Event:', 'import-eventbrite-events' ),
-				'all_items'             => __( 'Eventbrite Events', 'import-eventbrite-events' ),
-				'add_new_item'          => __( 'Add New Event', 'import-eventbrite-events' ),
-				'add_new'               => __( 'Add New', 'import-eventbrite-events' ),
-				'new_item'              => __( 'New Event', 'import-eventbrite-events' ),
-				'edit_item'             => __( 'Edit Event', 'import-eventbrite-events' ),
-				'update_item'           => __( 'Update Event', 'import-eventbrite-events' ),
-				'view_item'             => __( 'View Event', 'import-eventbrite-events' ),
-				'search_items'          => __( 'Search Event', 'import-eventbrite-events' ),
-				'not_found'             => __( 'Not found', 'import-eventbrite-events' ),
-				'not_found_in_trash'    => __( 'Not found in Trash', 'import-eventbrite-events' ),
-				'featured_image'        => __( 'Featured Image', 'import-eventbrite-events' ),
-				'set_featured_image'    => __( 'Set featured image', 'import-eventbrite-events' ),
-				'remove_featured_image' => __( 'Remove featured image', 'import-eventbrite-events' ),
-				'use_featured_image'    => __( 'Use as featured image', 'import-eventbrite-events' ),
-				'insert_into_item'      => __( 'Insert into Event', 'import-eventbrite-events' ),
-				'uploaded_to_this_item' => __( 'Uploaded to this Event', 'import-eventbrite-events' ),
-				'items_list'            => __( 'Event Items list', 'import-eventbrite-events' ),
-				'items_list_navigation' => __( 'Event Items list navigation', 'import-eventbrite-events' ),
-				'filter_items_list'     => __( 'Filter Event items list', 'import-eventbrite-events' ),
+		$event_labels   = array(
+			'name'                  => _x( 'Eventbrite Events', 'Post Type General Name', 'import-eventbrite-events' ),
+			'singular_name'         => _x( 'Eventbrite Event', 'Post Type Singular Name', 'import-eventbrite-events' ),
+			'menu_name'             => __( 'Eventbrite Events', 'import-eventbrite-events' ),
+			'name_admin_bar'        => __( 'Eventbrite Event', 'import-eventbrite-events' ),
+			'archives'              => __( 'Event Archives', 'import-eventbrite-events' ),
+			'parent_item_colon'     => __( 'Parent Event:', 'import-eventbrite-events' ),
+			'all_items'             => __( 'Eventbrite Events', 'import-eventbrite-events' ),
+			'add_new_item'          => __( 'Add New Event', 'import-eventbrite-events' ),
+			'add_new'               => __( 'Add New', 'import-eventbrite-events' ),
+			'new_item'              => __( 'New Event', 'import-eventbrite-events' ),
+			'edit_item'             => __( 'Edit Event', 'import-eventbrite-events' ),
+			'update_item'           => __( 'Update Event', 'import-eventbrite-events' ),
+			'view_item'             => __( 'View Event', 'import-eventbrite-events' ),
+			'search_items'          => __( 'Search Event', 'import-eventbrite-events' ),
+			'not_found'             => __( 'Not found', 'import-eventbrite-events' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'import-eventbrite-events' ),
+			'featured_image'        => __( 'Featured Image', 'import-eventbrite-events' ),
+			'set_featured_image'    => __( 'Set featured image', 'import-eventbrite-events' ),
+			'remove_featured_image' => __( 'Remove featured image', 'import-eventbrite-events' ),
+			'use_featured_image'    => __( 'Use as featured image', 'import-eventbrite-events' ),
+			'insert_into_item'      => __( 'Insert into Event', 'import-eventbrite-events' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this Event', 'import-eventbrite-events' ),
+			'items_list'            => __( 'Event Items list', 'import-eventbrite-events' ),
+			'items_list_navigation' => __( 'Event Items list navigation', 'import-eventbrite-events' ),
+			'filter_items_list'     => __( 'Filter Event items list', 'import-eventbrite-events' ),
 		);
-		$rewrite = array(
-				'slug'                  => $this->event_slug,
-				'with_front'            => false,
-				'pages'                 => true,
-				'feeds'                 => true,
-				'ep_mask'               => EP_NONE
+		$rewrite        = array(
+			'slug'       => $this->event_slug,
+			'with_front' => false,
+			'pages'      => true,
+			'feeds'      => true,
+			'ep_mask'    => EP_NONE,
 		);
 		$event_cpt_args = array(
-				'label'                 => __( 'Events', 'import-eventbrite-events' ),
-				'description'           => __( 'Post type for Events', 'import-eventbrite-events' ),
-				'labels'                => $event_labels,
-				'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions' ),
-				'taxonomies'            => array( $this->event_category, $this->event_tag ),
-				'hierarchical'          => false,
-				'public'                => true,
-				'show_ui'               => true,
-				'show_in_menu'          => true,
-				'menu_position'         => 5,
-				'menu_icon'             => 'dashicons-calendar',
-				'show_in_admin_bar'     => true,
-				'show_in_nav_menus'     => true,
-				'can_export'            => true,
-				'has_archive'           => true,
-				'exclude_from_search'   => false,
-				'publicly_queryable'    => true,
-				'rewrite'               => $rewrite,
+			'label'               => __( 'Events', 'import-eventbrite-events' ),
+			'description'         => __( 'Post type for Events', 'import-eventbrite-events' ),
+			'labels'              => $event_labels,
+			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions' ),
+			'taxonomies'          => array( $this->event_category, $this->event_tag ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 5,
+			'menu_icon'           => 'dashicons-calendar',
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => true,
+			'can_export'          => true,
+			'has_archive'         => true,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'rewrite'             => $rewrite,
 		);
 		register_post_type( $this->event_posttype, $event_cpt_args );
 	}
@@ -153,34 +155,36 @@ class Import_Eventbrite_Events_Cpt {
 	 *
 	 * @since    1.0.0
 	 */
-	 public function register_event_taxonomy(){
+	public function register_event_taxonomy() {
 
-		 /* Register the Event Category taxonomy. */
-		 register_taxonomy( $this->event_category, array( $this->event_posttype ), array(
-				 'labels'                     => array(
-					 'name'                       => __( 'Event Categories',     'import-eventbrite-events' ),
-					 'singular_name'              => __( 'Event Category',       'import-eventbrite-events' ),
-					 'menu_name'                  => __( 'Event Categories',     'import-eventbrite-events' ),
-					 'name_admin_bar'             => __( 'Event Category',       'import-eventbrite-events' ),
-					 'search_items'               => __( 'Search Categories',    'import-eventbrite-events' ),
-					 'popular_items'              => __( 'Popular Categories',   'import-eventbrite-events' ),
-					 'all_items'                  => __( 'All Categories',       'import-eventbrite-events' ),
-					 'edit_item'                  => __( 'Edit Category',        'import-eventbrite-events' ),
-					 'view_item'                  => __( 'View Category',        'import-eventbrite-events' ),
-					 'update_item'                => __( 'Update Category',      'import-eventbrite-events' ),
-					 'add_new_item'               => __( 'Add New Category',     'import-eventbrite-events' ),
-					 'new_item_name'              => __( 'New Category Name',    'import-eventbrite-events' ),
-					 ),
-				 'public'                     => true,
-				 'show_ui'                    => true,
-				 'show_in_nav_menus'          => true,
-				 'show_admin_column'   		  => true,
-				 'hierarchical'               => true,
-				 'query_var'    			  => true,
-		 ) );
+		/* Register the Event Category taxonomy. */
+		register_taxonomy(
+			$this->event_category, array( $this->event_posttype ), array(
+				'labels'            => array(
+					'name'           => __( 'Event Categories', 'import-eventbrite-events' ),
+					'singular_name'  => __( 'Event Category', 'import-eventbrite-events' ),
+					'menu_name'      => __( 'Event Categories', 'import-eventbrite-events' ),
+					'name_admin_bar' => __( 'Event Category', 'import-eventbrite-events' ),
+					'search_items'   => __( 'Search Categories', 'import-eventbrite-events' ),
+					'popular_items'  => __( 'Popular Categories', 'import-eventbrite-events' ),
+					'all_items'      => __( 'All Categories', 'import-eventbrite-events' ),
+					'edit_item'      => __( 'Edit Category', 'import-eventbrite-events' ),
+					'view_item'      => __( 'View Category', 'import-eventbrite-events' ),
+					'update_item'    => __( 'Update Category', 'import-eventbrite-events' ),
+					'add_new_item'   => __( 'Add New Category', 'import-eventbrite-events' ),
+					'new_item_name'  => __( 'New Category Name', 'import-eventbrite-events' ),
+				),
+				'public'            => true,
+				'show_ui'           => true,
+				'show_in_nav_menus' => true,
+				'show_admin_column' => true,
+				'hierarchical'      => true,
+				'query_var'         => true,
+			)
+		);
 
-		 /* Register the event Tag taxonomy. */
-		 register_taxonomy(
+		/* Register the event Tag taxonomy. */
+		register_taxonomy(
 			$this->event_tag,
 			array( $this->event_posttype ),
 			array(
@@ -192,30 +196,30 @@ class Import_Eventbrite_Events_Cpt {
 				'hierarchical'      => false,
 				'query_var'         => $this->event_tag,
 				/* Labels used when displaying taxonomy and terms. */
-				'labels' => array(
-				'name'                       => __( 'Event Tags',                    'import-eventbrite-events' ),
-				'singular_name'              => __( 'Event Tag',                     'import-eventbrite-events' ),
-				'menu_name'                  => __( 'Event Tags',                    'import-eventbrite-events' ),
-				'name_admin_bar'             => __( 'Event Tag',                     'import-eventbrite-events' ),
-				'search_items'               => __( 'Search Tags',                   'import-eventbrite-events' ),
-				'popular_items'              => __( 'Popular Tags',                  'import-eventbrite-events' ),
-				'all_items'                  => __( 'All Tags',                      'import-eventbrite-events' ),
-				'edit_item'                  => __( 'Edit Tag',                      'import-eventbrite-events' ),
-				'view_item'                  => __( 'View Tag',                      'import-eventbrite-events' ),
-				'update_item'                => __( 'Update Tag',                    'import-eventbrite-events' ),
-				'add_new_item'               => __( 'Add New Tag',                   'import-eventbrite-events' ),
-				'new_item_name'              => __( 'New Tag Name',                  'import-eventbrite-events' ),
-				'separate_items_with_commas' => __( 'Separate tags with commas',     'import-eventbrite-events' ),
-				'add_or_remove_items'        => __( 'Add or remove tags',            'import-eventbrite-events' ),
-				'choose_from_most_used'      => __( 'Choose from the most used tags','import-eventbrite-events' ),
-				'not_found'                  => __( 'No tags found',                 'import-eventbrite-events' ),
-				'parent_item'                => null,
-				'parent_item_colon'          => null,
-			 )
+				'labels'            => array(
+					'name'                       => __( 'Event Tags', 'import-eventbrite-events' ),
+					'singular_name'              => __( 'Event Tag', 'import-eventbrite-events' ),
+					'menu_name'                  => __( 'Event Tags', 'import-eventbrite-events' ),
+					'name_admin_bar'             => __( 'Event Tag', 'import-eventbrite-events' ),
+					'search_items'               => __( 'Search Tags', 'import-eventbrite-events' ),
+					'popular_items'              => __( 'Popular Tags', 'import-eventbrite-events' ),
+					'all_items'                  => __( 'All Tags', 'import-eventbrite-events' ),
+					'edit_item'                  => __( 'Edit Tag', 'import-eventbrite-events' ),
+					'view_item'                  => __( 'View Tag', 'import-eventbrite-events' ),
+					'update_item'                => __( 'Update Tag', 'import-eventbrite-events' ),
+					'add_new_item'               => __( 'Add New Tag', 'import-eventbrite-events' ),
+					'new_item_name'              => __( 'New Tag Name', 'import-eventbrite-events' ),
+					'separate_items_with_commas' => __( 'Separate tags with commas', 'import-eventbrite-events' ),
+					'add_or_remove_items'        => __( 'Add or remove tags', 'import-eventbrite-events' ),
+					'choose_from_most_used'      => __( 'Choose from the most used tags', 'import-eventbrite-events' ),
+					'not_found'                  => __( 'No tags found', 'import-eventbrite-events' ),
+					'parent_item'                => null,
+					'parent_item_colon'          => null,
+				),
 			)
-		 );
+		);
 
-	 }
+	}
 
 
 	/*
@@ -223,12 +227,12 @@ class Import_Eventbrite_Events_Cpt {
      */
 	public function add_event_meta_boxes() {
 		add_meta_box(
-				'eventbrite_events_metabox',
-				__( 'Events Details', 'import-eventbrite-events' ),
-				array($this,'render_event_meta_boxes'),
-				array( $this->event_posttype ),
-				'normal',
-				'high'
+			'eventbrite_events_metabox',
+			__( 'Events Details', 'import-eventbrite-events' ),
+			array( $this, 'render_event_meta_boxes' ),
+			array( $this->event_posttype ),
+			'normal',
+			'high'
 		);
 	}
 
@@ -239,28 +243,28 @@ class Import_Eventbrite_Events_Cpt {
 
 		// Use nonce for verification
 		wp_nonce_field( IEE_PLUGIN_DIR, 'iee_event_metabox_nonce' );
-		
-		$start_hour = get_post_meta($post->ID, 'event_start_hour', true);
-		$start_minute = get_post_meta($post->ID, 'event_start_minute', true);
-		$start_meridian = get_post_meta($post->ID, 'event_start_meridian', true);
-		$end_hour = get_post_meta($post->ID, 'event_end_hour', true);
-		$end_minute = get_post_meta($post->ID, 'event_end_minute', true);
-		$end_meridian = get_post_meta($post->ID, 'event_end_meridian', true);
+
+		$start_hour     = get_post_meta( $post->ID, 'event_start_hour', true );
+		$start_minute   = get_post_meta( $post->ID, 'event_start_minute', true );
+		$start_meridian = get_post_meta( $post->ID, 'event_start_meridian', true );
+		$end_hour       = get_post_meta( $post->ID, 'event_end_hour', true );
+		$end_minute     = get_post_meta( $post->ID, 'event_end_minute', true );
+		$end_meridian   = get_post_meta( $post->ID, 'event_end_meridian', true );
 		?>
 		<table class="iee_form_table">
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e('Time & Date', 'import-eventbrite-events'); ?>
+					<?php _e( 'Time & Date', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td><?php _e('Start Date & Time', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo get_post_meta($post->ID, 'event_start_date', true); ?>" /> @ 
+				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo get_post_meta( $post->ID, 'event_start_date', true ); ?>" /> @ 
 				<?php
 				$this->generate_dropdown( 'event_start', 'hour', $start_hour );
 				$this->generate_dropdown( 'event_start', 'minute', $start_minute );
@@ -269,9 +273,9 @@ class Import_Eventbrite_Events_Cpt {
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e('End Date & Time', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo get_post_meta($post->ID, 'event_end_date', true); ?>" /> @ 
+					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo get_post_meta( $post->ID, 'event_end_date', true ); ?>" /> @ 
 					<?php
 					$this->generate_dropdown( 'event_end', 'hour', $end_hour );
 					$this->generate_dropdown( 'event_end', 'minute', $end_minute );
@@ -286,7 +290,7 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e('Location Details', 'import-eventbrite-events'); ?>
+					<?php _e( 'Location Details', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
@@ -294,65 +298,65 @@ class Import_Eventbrite_Events_Cpt {
 
 			<tbody>
 			<tr>
-				<td><?php _e('Venue', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Venue', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_name" id="venue_name" value="<?php echo get_post_meta($post->ID, 'venue_name', true); ?>" />
+					<input type="text" name="venue_name" id="venue_name" value="<?php echo get_post_meta( $post->ID, 'venue_name', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('Address', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Address', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_address" id="venue_address" value="<?php echo get_post_meta($post->ID, 'venue_address', true); ?>" />
+					<input type="text" name="venue_address" id="venue_address" value="<?php echo get_post_meta( $post->ID, 'venue_address', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('City', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'City', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_city" id="venue_city" value="<?php echo get_post_meta($post->ID, 'venue_city', true); ?>" />
+					<input type="text" name="venue_city" id="venue_city" value="<?php echo get_post_meta( $post->ID, 'venue_city', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('State', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'State', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_state" id="venue_state" value="<?php echo get_post_meta($post->ID, 'venue_state', true); ?>" />
+					<input type="text" name="venue_state" id="venue_state" value="<?php echo get_post_meta( $post->ID, 'venue_state', true ); ?>" />
 				</td>
 			</tr>
 			
 			<tr>
-				<td><?php _e('Country', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Country', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_country" id="venue_country" value="<?php echo get_post_meta($post->ID, 'venue_country', true); ?>" />
+					<input type="text" name="venue_country" id="venue_country" value="<?php echo get_post_meta( $post->ID, 'venue_country', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('Zipcode', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Zipcode', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo get_post_meta($post->ID, 'venue_zipcode', true); ?>" />
+					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo get_post_meta( $post->ID, 'venue_zipcode', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('Latitude', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo get_post_meta($post->ID, 'venue_lat', true); ?>" />
+					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo get_post_meta( $post->ID, 'venue_lat', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('Latitude', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo get_post_meta($post->ID, 'venue_lon', true); ?>" />
+					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo get_post_meta( $post->ID, 'venue_lon', true ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e('Website', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_url" id="venue_url" value="<?php echo get_post_meta($post->ID, 'venue_url', true); ?>" />
+					<input type="text" name="venue_url" id="venue_url" value="<?php echo get_post_meta( $post->ID, 'venue_url', true ); ?>" />
 				</td>
 			</tr>
 			</tbody>
@@ -362,34 +366,34 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e('Organizer Details', 'import-eventbrite-events'); ?>
+					<?php _e( 'Organizer Details', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td><?php _e('Organizer Name', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Organizer Name', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo get_post_meta($post->ID, 'organizer_name', true); ?>" />
+					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo get_post_meta( $post->ID, 'organizer_name', true ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e('Email', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Email', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo get_post_meta($post->ID, 'organizer_email', true); ?>" />
+					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo get_post_meta( $post->ID, 'organizer_email', true ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e('Phone', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Phone', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo get_post_meta($post->ID, 'organizer_phone', true); ?>" />
+					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo get_post_meta( $post->ID, 'organizer_phone', true ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e('Website', 'import-eventbrite-events'); ?>:</td>
+				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo get_post_meta($post->ID, 'organizer_url', true); ?>" />
+					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo get_post_meta( $post->ID, 'organizer_url', true ); ?>" />
 				</td>
 			</tr>
 			</tbody>
@@ -400,16 +404,15 @@ class Import_Eventbrite_Events_Cpt {
 
 	/**
 	 * generate dropdowns for event time.
-	 *
 	 */
-	function generate_dropdown( $start_end, $type, $selected = '' ){
-		if( $start_end == '' || $type == '' ){	
+	function generate_dropdown( $start_end, $type, $selected = '' ) {
+		if ( $start_end == '' || $type == '' ) {
 			return;
 		}
-		$select_name = $start_end.'_'.$type;
-		if( $type == 'hour'){
+		$select_name = $start_end . '_' . $type;
+		if ( $type == 'hour' ) {
 			?>
-			<select name="<?php echo $select_name;?>">
+			<select name="<?php echo $select_name; ?>">
 				<option value="01" <?php selected( $selected, '01' ); ?>>01</option>
 				<option value="02" <?php selected( $selected, '02' ); ?>>02</option>
 				<option value="03" <?php selected( $selected, '03' ); ?>>03</option>
@@ -424,9 +427,9 @@ class Import_Eventbrite_Events_Cpt {
 				<option value="12" <?php selected( $selected, '12' ); ?>>12</option>
 			</select>
 			<?php
-		}elseif( $type == 'minute'){
+		} elseif ( $type == 'minute' ) {
 			?>
-			<select name="<?php echo $select_name;?>">
+			<select name="<?php echo $select_name; ?>">
 				<option value="00" <?php selected( $selected, '00' ); ?>>00</option>
 				<option value="05" <?php selected( $selected, '05' ); ?>>05</option>
 				<option value="10" <?php selected( $selected, '10' ); ?>>10</option>
@@ -441,9 +444,9 @@ class Import_Eventbrite_Events_Cpt {
 				<option value="55" <?php selected( $selected, '55' ); ?>>55</option>
 			</select>
 			<?php
-		}elseif( $type == 'meridian'){
+		} elseif ( $type == 'meridian' ) {
 			?>
-			<select name="<?php echo $select_name;?>">
+			<select name="<?php echo $select_name; ?>">
 				<option value="am" <?php selected( $selected, 'am' ); ?>>am</option>
 				<option value="pm" <?php selected( $selected, 'pm' ); ?>>pm</option>
 			</select>
@@ -453,46 +456,42 @@ class Import_Eventbrite_Events_Cpt {
 
 	/**
 	 * Save Testimonial meta box Options
-     *
-     */
-	public function save_event_meta_boxes($post_id, $post)
-	{
-
+	 */
+	public function save_event_meta_boxes( $post_id, $post ) {
 		// Verify the nonce before proceeding.
-		if ( !isset( $_POST['iee_event_metabox_nonce'] ) || !wp_verify_nonce( $_POST['iee_event_metabox_nonce'], IEE_PLUGIN_DIR ) ){
+		if ( ! isset( $_POST['iee_event_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['iee_event_metabox_nonce'], IEE_PLUGIN_DIR ) ) {
 			return $post_id;
 		}
 
 		// check user capability to edit post
-		if(!current_user_can("edit_post", $post_id)){
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $post_id;
 		}
 
 		// can't save if auto save
-		if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE){
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
 		}
 
 		// check if team then save it.
-		if($post->post_type !=  $this->event_posttype ){
+		if ( $post->post_type != $this->event_posttype ) {
 			return $post_id;
 		}
 
-		
 		// Event Date & time Details
-		$event_start_date     = isset( $_POST['event_start_date'] ) ? sanitize_text_field($_POST['event_start_date']) : '';
-		$event_end_date       = isset( $_POST['event_end_date'] ) ? sanitize_text_field($_POST['event_end_date']) : '';
-		$event_start_hour     = isset( $_POST['event_start_hour'] ) ? sanitize_text_field($_POST['event_start_hour']) : '';
-		$event_start_minute   = isset( $_POST['event_start_minute'] ) ? sanitize_text_field($_POST['event_start_minute']) : '';
-		$event_start_meridian = isset( $_POST['event_start_meridian'] ) ? sanitize_text_field($_POST['event_start_meridian']) : '';
-		$event_end_hour       = isset( $_POST['event_end_hour'] ) ? sanitize_text_field($_POST['event_end_hour']) : '';
-		$event_end_minute     = isset( $_POST['event_end_minute'] ) ? sanitize_text_field($_POST['event_end_minute']) : '';
-		$event_end_meridian   = isset( $_POST['event_end_meridian'] ) ? sanitize_text_field($_POST['event_end_meridian']) : '';
+		$event_start_date     = isset( $_POST['event_start_date'] ) ? sanitize_text_field( $_POST['event_start_date'] ) : '';
+		$event_end_date       = isset( $_POST['event_end_date'] ) ? sanitize_text_field( $_POST['event_end_date'] ) : '';
+		$event_start_hour     = isset( $_POST['event_start_hour'] ) ? sanitize_text_field( $_POST['event_start_hour'] ) : '';
+		$event_start_minute   = isset( $_POST['event_start_minute'] ) ? sanitize_text_field( $_POST['event_start_minute'] ) : '';
+		$event_start_meridian = isset( $_POST['event_start_meridian'] ) ? sanitize_text_field( $_POST['event_start_meridian'] ) : '';
+		$event_end_hour       = isset( $_POST['event_end_hour'] ) ? sanitize_text_field( $_POST['event_end_hour'] ) : '';
+		$event_end_minute     = isset( $_POST['event_end_minute'] ) ? sanitize_text_field( $_POST['event_end_minute'] ) : '';
+		$event_end_meridian   = isset( $_POST['event_end_meridian'] ) ? sanitize_text_field( $_POST['event_end_meridian'] ) : '';
 
-		$start_time = $event_start_date.' '.$event_start_hour.':'.$event_start_minute.' '.$event_start_meridian;
-		$end_time = $event_end_date.' '.$event_end_hour.':'.$event_end_minute.' '.$event_end_meridian;
-		$start_ts = strtotime( $start_time );
-		$end_ts = strtotime( $end_time );
+		$start_time = $event_start_date . ' ' . $event_start_hour . ':' . $event_start_minute . ' ' . $event_start_meridian;
+		$end_time   = $event_end_date . ' ' . $event_end_hour . ':' . $event_end_minute . ' ' . $event_end_meridian;
+		$start_ts   = strtotime( $start_time );
+		$end_ts     = strtotime( $end_time );
 
 		// Venue Deatails
 		$venue_name    = isset( $_POST['venue_name'] ) ? sanitize_text_field( $_POST['venue_name'] ) : '';
@@ -544,49 +543,45 @@ class Import_Eventbrite_Events_Cpt {
 
 	/**
 	 * Add column to event listing in admin
-	 *
-	 */ 
+	 */
 	function eventbrite_events_columns( $cols ) {
-		$cols['iee_event_start_date'] = __('Start Date', 'import-eventbrite-events' );
+		$cols['iee_event_start_date'] = __( 'Start Date', 'import-eventbrite-events' );
 		return $cols;
 	}
 
 	/**
 	 * set column data
-	 *
-	 */ 
+	 */
 	function eventbrite_events_columns_data( $column, $post_id ) {
 		switch ( $column ) {
-			case "iee_event_start_date":
-			  $start_date = get_post_meta( $post_id, 'event_start_date', true);
-			  if( $start_date != '' ){
-			  	$start_date = strtotime( $start_date );
-			  	echo date( 'F j, Y', $start_date );	
-			  }else{
-			  	echo '-';
-			  }
-			  
-			  break;
+			case 'iee_event_start_date':
+				$start_date = get_post_meta( $post_id, 'event_start_date', true );
+				if ( $start_date != '' ) {
+					$start_date = strtotime( $start_date );
+					echo date( 'F j, Y', $start_date );
+				} else {
+					echo '-';
+				}
+
+				break;
 		}
 	}
 
 	/**
 	 * render event information above event content
-	 *
 	 */
-	function eventbrite_events_meta_before_content( $content ) { 
-	    if ( is_singular( $this->event_posttype ) ) {
+	function eventbrite_events_meta_before_content( $content ) {
+		if ( is_singular( $this->event_posttype ) ) {
 			$event_details = $this->eventbrite_events_get_event_meta( get_the_ID() );
-			$content = $event_details . $content;
+			$content       = $event_details . $content;
 		}
-	    return $content;
+		return $content;
 	}
 
 	/**
 	 * get meta information for event.
-	 *
 	 */
-	function eventbrite_events_get_event_meta( $event_id = '' ){	
+	function eventbrite_events_get_event_meta( $event_id = '' ) {
 
 		ob_start();
 
@@ -594,158 +589,154 @@ class Import_Eventbrite_Events_Cpt {
 
 		$event_meta_details = ob_get_contents();
 		ob_end_clean();
-		return $event_meta_details;		
+		return $event_meta_details;
 	}
 
 	/**
 	 * render events lisiting.
-	 *
 	 */
-	public function eventbrite_events_archive( $atts = array() ){
-		//[eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+	public function eventbrite_events_archive( $atts = array() ) {
+		// [eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
 		$current_date = time();
-		$paged = ( get_query_var('paged') ? get_query_var('paged') : 1 );
-		if( is_front_page() ){
-			$paged = ( get_query_var('page') ? get_query_var('page') : 1 );
+		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
+		if ( is_front_page() ) {
+			$paged = ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
 		}
 		$eve_args = array(
-		    'post_type' 	=> 'eventbrite_events',
-		    'post_status' 	=> 'publish',
-		    'meta_key' 		=> 'start_ts',
-		    'paged' 		=> $paged,
+			'post_type'   => 'eventbrite_events',
+			'post_status' => 'publish',
+			'meta_key'    => 'start_ts',
+			'paged'       => $paged,
 		);
 
 		// posts per page
-		if( isset( $atts['posts_per_page'] ) && $atts['posts_per_page'] != '' && is_numeric( $atts['posts_per_page'] ) ){
+		if ( isset( $atts['posts_per_page'] ) && $atts['posts_per_page'] != '' && is_numeric( $atts['posts_per_page'] ) ) {
 			$eve_args['posts_per_page'] = $atts['posts_per_page'];
 		}
 
 		// Past Events
-		if( ( isset( $atts['start_date'] ) && $atts['start_date'] != '' ) || ( isset( $atts['end_date'] ) && $atts['end_date'] != '') ){
+		if ( ( isset( $atts['start_date'] ) && $atts['start_date'] != '' ) || ( isset( $atts['end_date'] ) && $atts['end_date'] != '' ) ) {
 			$start_date_str = $end_date_str = '';
-			if( isset( $atts['start_date'] ) && $atts['start_date'] != '' ){
+			if ( isset( $atts['start_date'] ) && $atts['start_date'] != '' ) {
 				try {
-				    $start_date_str = strtotime( sanitize_text_field( $atts['start_date'] ));
-				} catch (Exception $e) {
+					$start_date_str = strtotime( sanitize_text_field( $atts['start_date'] ) );
+				} catch ( Exception $e ) {
 					$start_date_str = '';
-				}	
+				}
 			}
-			if( isset( $atts['end_date'] ) && $atts['end_date'] != '' ){
+			if ( isset( $atts['end_date'] ) && $atts['end_date'] != '' ) {
 				try {
-				    $end_date_str = strtotime( sanitize_text_field( $atts['end_date'] ));
-				} catch (Exception $e) {
+					$end_date_str = strtotime( sanitize_text_field( $atts['end_date'] ) );
+				} catch ( Exception $e ) {
 					$end_date_str = '';
 				}
 			}
 
-			
-			if( $start_date_str != '' && $end_date_str != '' ){
+			if ( $start_date_str != '' && $end_date_str != '' ) {
 				$eve_args['meta_query'] = array(
-						   'relation' => 'AND',                        
-					        array(
-					            'key' => 'end_ts',
-					            'compare' => '>=',
-					            'value' => $start_date_str,
-					        ),
-					        array(
-					            'key' => 'start_ts',
-					            'compare' => '<=',
-					            'value' => $end_date_str,
-					        ),
-				        );
-			}elseif(  $start_date_str != '' ){
+					'relation' => 'AND',
+					array(
+						'key'     => 'end_ts',
+						'compare' => '>=',
+						'value'   => $start_date_str,
+					),
+					array(
+						'key'     => 'start_ts',
+						'compare' => '<=',
+						'value'   => $end_date_str,
+					),
+				);
+			} elseif ( $start_date_str != '' ) {
 				$eve_args['meta_query'] = array(
-					        array(
-					            'key' => 'end_ts',
-					            'compare' => '>=',
-					            'value' => $start_date_str,
-					        )
-				        );
-			}elseif(  $end_date_str != '' ){
+					array(
+						'key'     => 'end_ts',
+						'compare' => '>=',
+						'value'   => $start_date_str,
+					),
+				);
+			} elseif ( $end_date_str != '' ) {
 				$eve_args['meta_query'] = array(
-						   'relation' => 'AND',                        
-					        array(
-					            'key' => 'end_ts',
-					            'compare' => '>=',
-					            'value' => strtotime( date( 'Y-m-d' ) ),
-					        ),
-					        array(
-					            'key' => 'start_ts',
-					            'compare' => '<=',
-					            'value' => $end_date_str,
-					        ),
-				        );
+					'relation' => 'AND',
+					array(
+						'key'     => 'end_ts',
+						'compare' => '>=',
+						'value'   => strtotime( date( 'Y-m-d' ) ),
+					),
+					array(
+						'key'     => 'start_ts',
+						'compare' => '<=',
+						'value'   => $end_date_str,
+					),
+				);
 			}
-
-		}else{
-			if( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' ){
+		} else {
+			if ( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' ) {
 				$eve_args['meta_query'] = array(
-						        array(
-						            'key' => 'end_ts',
-						            'compare' => '<=',
-						            'value' => $current_date,
-						        )
-				            );
-			}else{
+					array(
+						'key'     => 'end_ts',
+						'compare' => '<=',
+						'value'   => $current_date,
+					),
+				);
+			} else {
 				$eve_args['meta_query'] = array(
-						        array(
-						            'key' => 'end_ts',
-						            'compare' => '>=',
-						            'value' => $current_date,
-						        )
-				            );
+					array(
+						'key'     => 'end_ts',
+						'compare' => '>=',
+						'value'   => $current_date,
+					),
+				);
 			}
 		}
 
-		// Category 
-		if( isset( $atts['category'] ) && $atts['category'] != '' ){
-			$categories = explode(',', $atts['category'] );
-			$tax_field = 'slug';
-			if( is_numeric( implode('', $categories ) ) ){
+		// Category
+		if ( isset( $atts['category'] ) && $atts['category'] != '' ) {
+			$categories = explode( ',', $atts['category'] );
+			$tax_field  = 'slug';
+			if ( is_numeric( implode( '', $categories ) ) ) {
 				$tax_field = 'term_id';
 			}
-			if( !empty( $categories ) ){
+			if ( ! empty( $categories ) ) {
 				$eve_args['tax_query'] = array(
 					array(
 						'taxonomy' => $this->event_category,
 						'field'    => $tax_field,
 						'terms'    => $categories,
-					)
+					),
 				);
 			}
 		}
 
 		// Order by
-		if( isset( $atts['orderby'] ) && $atts['orderby'] != '' ){
-			if( $atts['orderby'] == 'event_start_date' || $atts['orderby'] == 'event_end_date' ){
-				if( $atts['orderby'] == 'event_end_date' ){
+		if ( isset( $atts['orderby'] ) && $atts['orderby'] != '' ) {
+			if ( $atts['orderby'] == 'event_start_date' || $atts['orderby'] == 'event_end_date' ) {
+				if ( $atts['orderby'] == 'event_end_date' ) {
 					$eve_args['meta_key'] = 'end_ts';
 				}
 				$eve_args['orderby'] = 'meta_value';
-			}else{
+			} else {
 				$eve_args['orderby'] = sanitize_text_field( $atts['orderby'] );
 			}
-		}else{
+		} else {
 			$eve_args['orderby'] = 'meta_value';
 		}
 
 		// Order
-		if( isset( $atts['order'] ) && $atts['order'] != '' ){
-			if( strtoupper( $atts['order'] ) == 'DESC' || strtoupper( $atts['order'] ) == 'ASC' ){
+		if ( isset( $atts['order'] ) && $atts['order'] != '' ) {
+			if ( strtoupper( $atts['order'] ) == 'DESC' || strtoupper( $atts['order'] ) == 'ASC' ) {
 				$eve_args['order'] = sanitize_text_field( $atts['order'] );
 			}
-		}else{
-			if( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' && $eve_args['orderby'] == 'meta_value' ){
+		} else {
+			if ( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' && $eve_args['orderby'] == 'meta_value' ) {
 				$eve_args['order'] = 'DESC';
-			}else{
+			} else {
 				$eve_args['order'] = 'ASC';
 			}
 		}
 
-
-		$col = 3;
+		$col       = 3;
 		$css_class = 'col-iee-md-4';
-		if( isset( $atts['col'] ) && $atts['col'] != '' && is_numeric( $atts['col'] ) ){
+		if ( isset( $atts['col'] ) && $atts['col'] != '' && is_numeric( $atts['col'] ) ) {
 			$col = $atts['col'];
 			switch ( $col ) {
 				case '1':
@@ -763,7 +754,7 @@ class Import_Eventbrite_Events_Cpt {
 				case '4':
 					$css_class = 'col-iee-md-3';
 					break;
-				
+
 				default:
 					$css_class = 'col-iee-md-4';
 					break;
@@ -773,27 +764,29 @@ class Import_Eventbrite_Events_Cpt {
 
 		$wp_list_events = '';
 		/* Start the Loop */
-		if( is_front_page() ){
+		if ( is_front_page() ) {
 			$curr_paged = $paged;
 			global $paged;
 			$temp_paged = $paged;
-			$paged = $curr_paged;
+			$paged      = $curr_paged;
 		}
 		ob_start();
 		?>
 		<div class="iee_archive row_grid">
 			<?php
-			$template_args = array();
+			$template_args              = array();
 			$template_args['css_class'] = $css_class;
 
-			if( $eventbrite_events->have_posts() ):
-				while ( $eventbrite_events->have_posts() ) : $eventbrite_events->the_post();
-					
+			if ( $eventbrite_events->have_posts() ) :
+				while ( $eventbrite_events->have_posts() ) :
+					$eventbrite_events->the_post();
+
 					get_iee_template( 'iee-archive-content.php', $template_args );
-					
+
 				endwhile; // End of the loop.
 
-				if ($eventbrite_events->max_num_pages > 1) : // custom pagination  ?>
+				if ( $eventbrite_events->max_num_pages > 1 ) : // custom pagination
+				?>
 					<div class="col-iee-md-12">
 						<nav class="prev-next-posts">
 							<div class="prev-posts-link alignright">
@@ -804,8 +797,9 @@ class Import_Eventbrite_Events_Cpt {
 							</div>
 						</nav>
 					</div>
-				<?php endif;
-			else:
+				<?php
+				endif;
+			else :
 				echo apply_filters( 'iee_no_events_found_message', __( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
 			endif;
 			?>
@@ -815,7 +809,7 @@ class Import_Eventbrite_Events_Cpt {
 		$wp_list_events = ob_get_contents();
 		ob_end_clean();
 		wp_reset_postdata();
-		if( is_front_page() ){
+		if ( is_front_page() ) {
 			global $paged;
 			$paged = $temp_paged;
 		}
