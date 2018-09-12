@@ -22,7 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Import_Eventbrite_Events_Admin {
 
-
+	/**
+	 * Admin page URL
+	 *
+	 * @var string
+	 */
 	public $adminpage_url;
 
 	/**
@@ -85,7 +89,7 @@ class Import_Eventbrite_Events_Admin {
 	public function enqueue_admin_styles( $hook ) {
 
 		global $pagenow;
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // input var okay.
 		if ( 'eventbrite_event' === $page || 'widgets.php' === $pagenow || 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
 			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
 			wp_enqueue_style( 'jquery-ui', $css_dir . 'jquery-ui.css', false, '1.12.0' );
@@ -106,8 +110,8 @@ class Import_Eventbrite_Events_Admin {
 			<h2><?php esc_html_e( 'Import Eventbrite Events', 'import-eventbrite-events' ); ?></h2>
 			<?php
 			// Set Default Tab to Import.
-			$tab  = isset( $_GET['tab'] ) ? $_GET['tab'] : 'eventbrite';
-			$ntab = isset( $_GET['ntab'] ) ? $_GET['ntab'] : 'import';
+			$tab  = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'eventbrite'; // input var okay.
+			$ntab = isset( $_GET['ntab'] ) ? sanitize_text_field( wp_unslash( $_GET['ntab'] ) ) : 'import'; // input var okay.
 			?>
 			<div id="poststuff">
 				<div id="post-body" class="metabox-holder columns-2">
@@ -124,7 +128,7 @@ class Import_Eventbrite_Events_Admin {
 						<h1 class="nav-tab-wrapper">
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'eventbrite', $this->adminpage_url ) ); ?>" class="nav-tab 
 												<?php
-												if ( $tab == 'eventbrite' ) {
+												if ( 'eventbrite' === $tab ) {
 													echo 'nav-tab-active'; }
 ?>
 ">
@@ -133,7 +137,7 @@ class Import_Eventbrite_Events_Admin {
 
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'scheduled', $this->adminpage_url ) ); ?>" class="nav-tab 
 												<?php
-												if ( $tab == 'scheduled' ) {
+												if ( 'scheduled' === $tab ) {
 													echo 'nav-tab-active'; }
 ?>
 ">
@@ -142,7 +146,7 @@ class Import_Eventbrite_Events_Admin {
 
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'history', $this->adminpage_url ) ); ?>" class="nav-tab 
 												<?php
-												if ( $tab == 'history' ) {
+												if ( 'history' === $tab ) {
 													echo 'nav-tab-active'; }
 ?>
 ">
@@ -151,7 +155,7 @@ class Import_Eventbrite_Events_Admin {
 
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'settings', $this->adminpage_url ) ); ?>" class="nav-tab 
 												<?php
-												if ( $tab == 'settings' ) {
+												if ( 'settings' === $tab ) {
 													echo 'nav-tab-active'; }
 ?>
 ">
@@ -160,7 +164,7 @@ class Import_Eventbrite_Events_Admin {
 
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'support', $this->adminpage_url ) ); ?>" class="nav-tab 
 												<?php
-												if ( $tab == 'support' ) {
+												if ( 'support' === $tab ) {
 													echo 'nav-tab-active'; }
 ?>
 ">
@@ -169,38 +173,28 @@ class Import_Eventbrite_Events_Admin {
 						</h1>
 
 						<div class="import-eventbrite-events-page">
-
 							<?php
-							if ( $tab == 'eventbrite' ) {
-
+							if ( 'eventbrite' === $tab ) {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/eventbrite-import-events.php';
-
-							} elseif ( $tab == 'settings' ) {
-
-												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-settings.php';
-
-							} elseif ( $tab == 'scheduled' ) {
+							} elseif ( 'settings' === $tab ) {
+								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-settings.php';
+							} elseif ( 'scheduled' === $tab ) {
 								if ( iee_is_pro() ) {
 									require_once IEEPRO_PLUGIN_DIR . '/templates/admin/scheduled-import-events.php';
 								} else {
 									do_action( 'iee_render_pro_notice' );
 								}
-							} elseif ( $tab == 'history' ) {
-
-												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
-
-							} elseif ( $tab == 'support' ) {
-
+							} elseif ( 'history' === $tab ) {
+								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
+							} elseif ( 'support' === $tab ) {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-support.php';
-
 							}
 							?>
 							<div style="clear: both"></div>
 						</div>
 
 				</div>
-		
-					</div>
+			</div>
 		</div>
 		<?php
 	}
@@ -218,7 +212,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_errors as $error ) :
 				?>
 				<div class="notice notice-error is-dismissible">
-					<p><?php echo $error; ?></p>
+					<p><?php echo esc_textarea( $error ); ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -228,7 +222,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_success_msg as $success ) :
 				?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php echo $success; ?></p>
+					<p><?php echo esc_textarea( $success ); ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -238,7 +232,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_warnings as $warning ) :
 				?>
 				<div class="notice notice-warning is-dismissible">
-					<p><?php echo $warning; ?></p>
+					<p><?php echo esc_textarea( $warning ); ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -248,7 +242,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_info_msg as $info ) :
 				?>
 				<div class="notice notice-info is-dismissible">
-					<p><?php echo $info; ?></p>
+					<p><?php echo esc_textarea( $info ); ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -348,15 +342,17 @@ class Import_Eventbrite_Events_Admin {
 	/**
 	 * Add Import Eventbrite Events ratting text
 	 *
-	 * @since 1.0
-	 * @return void
+	 * @since  1.0
+	 * @param  string $footer_text WP Admin Footer text.
+	 * @return string $footer_text Altered WP Admin Footer text.
 	 */
 	public function add_event_aggregator_credit( $footer_text ) {
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
-		if ( $page != '' && $page == 'eventbrite_event' ) {
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // input var okey.
+		if ( ! empty( $page ) && 'eventbrite_event' === $page ) {
 			$rate_url = 'https://wordpress.org/support/plugin/import-eventbrite-events/reviews/?rate=5#new-post';
 
 			$footer_text .= sprintf(
+				/* translators: leave %1$s, %2$s and %3$s */
 				esc_html__( ' Rate %1$sImport Eventbrite Events%2$s %3$s', 'import-eventbrite-events' ),
 				'<strong>',
 				'</strong>',
@@ -372,7 +368,7 @@ class Import_Eventbrite_Events_Admin {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function database_upgrade_notice( $footer_text ) {
+	public function database_upgrade_notice() {
 		global $iee_info_msg;
 		$auto_import_options = get_option( 'xtei_auto_import_options', array() );
 		if ( ! empty( $auto_import_options ) ) {
@@ -392,13 +388,13 @@ class Import_Eventbrite_Events_Admin {
 	}
 
 	/**
-	 * database upgrade Proceed.
+	 * Database upgrade Proceed.
 	 *
 	 * @since 1.1.0
 	 * @return void
 	 */
 	public function maybe_proceed_database_upgrade() {
-		if ( isset( $_GET['iee_upgrade_action'] ) && $_GET['iee_upgrade_action'] == 'database' && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'iee_upgrade_action_nonce' ) ) {
+		if ( isset( $_GET['iee_upgrade_action'] ) && 'database' === sanitize_text_field( wp_unslash( $_GET['iee_upgrade_action'] ) ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ), 'iee_upgrade_action_nonce' ) ) {  // input var okey.
 
 			$auto_import_options = get_option( 'xtei_auto_import_options', array() );
 			$auto_import         = isset( $auto_import_options['enable_auto_import'] ) ? $auto_import_options['enable_auto_import'] : array();
@@ -408,10 +404,10 @@ class Import_Eventbrite_Events_Admin {
 				foreach ( $auto_import as $import_into ) {
 					$event_data = $event_cats = array();
 
-					if ( $import_into == 'tec' ) {
+					if ( 'tec' === $import_into ) {
 						$event_cats = isset( $auto_import_options['xtei_event_cats'] ) ? $auto_import_options['xtei_event_cats'] : array();
 					}
-					if ( $import_into == 'em' ) {
+					if ( 'em' === $import_into ) {
 						$event_cats = isset( $auto_import_options['xtei_event_em_cats'] ) ? $auto_import_options['xtei_event_em_cats'] : array();
 					}
 					$event_data['import_into']         = $import_into;
@@ -440,8 +436,8 @@ class Import_Eventbrite_Events_Admin {
 					wp_schedule_event( time(), $import_frequency, 'iee_run_scheduled_import', array( 'post_id' => $insert ) );
 				}
 				delete_option( 'xtei_auto_import_options' );
-				$page        = isset( $_GET['page'] ) ? $_GET['page'] : 'eventbrite_event';
-				$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'scheduled';
+				$page        = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : 'eventbrite_event'; // input var okey.
+				$tab         = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'scheduled'; // input var okey.
 				$wp_redirect = admin_url( 'admin.php' );
 				$query_args  = array(
 					'page'    => $page,
@@ -473,12 +469,13 @@ class Import_Eventbrite_Events_Admin {
 	/**
 	 * Get Plugin Details.
 	 *
-	 * @since 1.1.0
+	 * @since  1.1.0
+	 * @param  string $slug Plugin Slug.
 	 * @return array
 	 */
 	public function get_wporg_plugin( $slug ) {
 
-		if ( $slug == '' ) {
+		if ( empty( $slug ) ) {
 			return false;
 		}
 
@@ -503,7 +500,7 @@ class Import_Eventbrite_Events_Admin {
 			if ( ! is_wp_error( $plugin_data ) ) {
 				set_transient( $transient_name, $plugin_data, 24 * HOUR_IN_SECONDS );
 			} else {
-				// If there was a bug on the Current Request just leave
+				// If there was a bug on the Current Request just leave.
 				return false;
 			}
 		}
