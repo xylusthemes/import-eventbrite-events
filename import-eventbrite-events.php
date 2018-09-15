@@ -183,7 +183,8 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-aioec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-my-calendar.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ee4.php';
-
+			// Gutenberg Block.
+			require_once IEE_PLUGIN_DIR . 'blocks/eventbrite-events/index.php';
 		}
 
 		/**

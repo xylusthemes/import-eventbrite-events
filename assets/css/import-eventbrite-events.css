@@ -862,3 +862,10 @@
       width:100% !important;
   }
 }
+
+.iee-start-date__dialog .components-popover__content, .iee-end-date__dialog .components-popover__content {
+  padding: 10px;
+}
+.components-panel__row.iee-start-date.iee_hidden, .components-panel__row.iee-end-date.iee_hidden{
+  display: none;
+}
