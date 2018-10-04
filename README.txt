@@ -126,16 +126,17 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 1. Events page using '[eventbrite_events posts_per_page="12"]' shortcode
 2. Single Event page (Twenty Sixteen Theme).
-3. Import Eventbrite events by Event IDs (Pro) -Free version has one Event ID at a time.
-4. Eventbrite Import for your profile Events(Pro)
-5. Import Eventbrite events by Organiser ID.(Pro)
-6. Scheduled Eventbrite Imports (Pro).
-7. Import History
-8. Settings
-9. Front-end side event ticket display.
-10. Upcoming Eventbrite Events widget in backend (Pro)
-11. Upcoming Eventbrite Events widget in front-end with Event image(Pro)
-12. Upcoming Eventbrite Events widget in front-end without Event image(Pro)
+3. Eventbrite Events Gutenberg Block
+4. Import Eventbrite events by Event IDs (Pro) -Free version has one Event ID at a time.
+5. Eventbrite Import for your profile Events(Pro)
+6. Import Eventbrite events by Organiser ID.(Pro)
+7. Scheduled Eventbrite Imports (Pro).
+8. Import History
+9. Settings
+10. Front-end side event ticket display.
+11. Upcoming Eventbrite Events widget in backend (Pro)
+12. Upcoming Eventbrite Events widget in front-end with Event image(Pro)
+13. Upcoming Eventbrite Events widget in front-end without Event image(Pro)
 
 
 == Changelog ==
