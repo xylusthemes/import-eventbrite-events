@@ -20,12 +20,9 @@ global $iee_events;
 							<td>
 								<select name="eventbrite_import_by" id="eventbrite_import_by">
 									<option value="event_id"><?php esc_attr_e( 'Event ID', 'import-eventbrite-events' ); ?></option>
-									<option value="your_events" 
-									<?php
-									if ( ! iee_is_pro() ) {
-										echo 'disabled="disabled"'; }
-?>
-><?php esc_attr_e( 'Your Events', 'import-eventbrite-events' ); ?></option>
+									<option value="your_events" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> >
+										<?php esc_attr_e( 'Your Events', 'import-eventbrite-events' ); ?>
+									</option>
 									<option value="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></option>
 								</select>
 								<span class="iee_small">
@@ -58,12 +55,7 @@ global $iee_events;
 								<?php esc_attr_e( 'Eventbrite Organizer ID', 'import-eventbrite-events' ); ?> : 
 							</th>
 							<td>
-								<input class="iee_text" name="iee_organizer_id" type="text" 
-								<?php
-								if ( ! iee_is_pro() ) {
-									echo 'disabled="disabled"'; }
-?>
-/>
+								<input class="iee_text" name="iee_organizer_id" type="text" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
 								<span class="iee_small">
 									<?php _e( 'Insert eventbrite organizer ID ( Eg. https://www.eventbrite.com/o/cept-university-<span class="borderall">9151813372</span>  ).', 'import-eventbrite-events' ); ?>
 								</span>
@@ -88,7 +80,7 @@ global $iee_events;
 					</tbody>
 				</table>
 
-								<div class="iee_element">
+				<div class="iee_element">
 					<input type="hidden" name="import_origin" value="eventbrite" />
 					<input type="hidden" name="iee_action" value="iee_import_submit" />
 					<?php wp_nonce_field( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ); ?>

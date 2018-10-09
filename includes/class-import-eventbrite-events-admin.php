@@ -126,48 +126,23 @@ class Import_Eventbrite_Events_Admin {
 					<div id="postbox-container-2" class="postbox-container">
 
 						<h1 class="nav-tab-wrapper">
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'eventbrite', $this->adminpage_url ) ); ?>" class="nav-tab 
-												<?php
-												if ( 'eventbrite' === $tab ) {
-													echo 'nav-tab-active'; }
-?>
-">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'eventbrite', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'eventbrite' === $tab ) { echo 'nav-tab-active'; } ?> ">
 								<?php esc_html_e( 'Eventbrite', 'import-eventbrite-events' ); ?>
 							</a>
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'scheduled', $this->adminpage_url ) ); ?>" class="nav-tab 
-												<?php
-												if ( 'scheduled' === $tab ) {
-													echo 'nav-tab-active'; }
-?>
-">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'scheduled', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'scheduled' === $tab ) { echo 'nav-tab-active'; } ?>">
 								<?php esc_html_e( 'Scheduled Imports', 'import-eventbrite-events' ); ?>
 							</a>
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'history', $this->adminpage_url ) ); ?>" class="nav-tab 
-												<?php
-												if ( 'history' === $tab ) {
-													echo 'nav-tab-active'; }
-?>
-">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'history', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'history' === $tab ) { echo 'nav-tab-active'; } ?>">
 								<?php esc_html_e( 'Import History', 'import-eventbrite-events' ); ?>
 							</a>
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'settings', $this->adminpage_url ) ); ?>" class="nav-tab 
-												<?php
-												if ( 'settings' === $tab ) {
-													echo 'nav-tab-active'; }
-?>
-">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'settings', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'settings' === $tab ) { echo 'nav-tab-active'; } ?>">
 								<?php esc_html_e( 'Settings', 'import-eventbrite-events' ); ?>
 							</a>
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'support', $this->adminpage_url ) ); ?>" class="nav-tab 
-												<?php
-												if ( 'support' === $tab ) {
-													echo 'nav-tab-active'; }
-?>
-">
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'support', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'support' === $tab ) { echo 'nav-tab-active'; } ?>">
 								<?php esc_html_e( 'Support & Help', 'import-eventbrite-events' ); ?>
 							</a>
 						</h1>
@@ -212,7 +187,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_errors as $error ) :
 				?>
 				<div class="notice notice-error is-dismissible">
-					<p><?php echo esc_textarea( $error ); ?></p>
+					<p><?php echo $error; ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -222,7 +197,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_success_msg as $success ) :
 				?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php echo esc_textarea( $success ); ?></p>
+					<p><?php echo $success; ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -232,7 +207,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_warnings as $warning ) :
 				?>
 				<div class="notice notice-warning is-dismissible">
-					<p><?php echo esc_textarea( $warning ); ?></p>
+					<p><?php echo $warning; ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -242,7 +217,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_info_msg as $info ) :
 				?>
 				<div class="notice notice-info is-dismissible">
-					<p><?php echo esc_textarea( $info ); ?></p>
+					<p><?php echo $info; ?></p>
 				</div>
 				<?php
 			endforeach;

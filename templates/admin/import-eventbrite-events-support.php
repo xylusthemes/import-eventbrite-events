@@ -68,19 +68,15 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 									'number' => $plugin->num_ratings,
 								)
 							);
-								?>
+							?>
 
 							<?php if ( $plugin->version != '' ) { ?>
 								<p><strong><?php _e( 'Version:', 'import-eventbrite-events' ); ?> </strong><?php echo $plugin->version; ?></p>
 							<?php } ?>
 
 							<?php if ( $plugin->requires != '' ) { ?>
-								<p><strong><?php _e( 'Requires:', 'import-eventbrite-events' ); ?> </strong> 
-														<?php
-														_e( 'WordPress ', 'import-eventbrite-events' );
-														echo $plugin->requires;
-?>
-+</p>
+								<p>
+									<strong><?php _e( 'Requires:', 'import-eventbrite-events' ); ?> </strong> <?php _e( 'WordPress ', 'import-eventbrite-events' ); echo $plugin->requires; ?>+</p>
 							<?php } ?>
 
 							<?php if ( $plugin->active_installs != '' ) { ?>

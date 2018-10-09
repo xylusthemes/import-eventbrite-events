@@ -122,12 +122,7 @@ class Import_Eventbrite_Events_Common {
 		?>
 			<select name="event_cats[]" multiple="multiple">
 				<?php foreach ( $terms as $term ) { ?>
-					<option value="<?php echo $term->term_id; ?>" 
-												<?php
-												if ( in_array( $term->term_id, $taxo_cats ) ) {
-													echo 'selected="selected"'; }
-?>
- >
+					<option value="<?php echo $term->term_id; ?>" <?php if ( in_array( $term->term_id, $taxo_cats ) ) { echo 'selected="selected"'; } ?> >
 						<?php echo $term->name; ?>                                	
 					</option>
 				<?php } ?> 
@@ -426,15 +421,15 @@ class Import_Eventbrite_Events_Common {
 		$updated = isset( $import_status['updated'] ) ? count( $import_status['updated'] ) : 0;
 		$skipped = isset( $import_status['skipped'] ) ? count( $import_status['skipped'] ) : 0;
 
-		$success_message = esc_html__( 'Event(s) are imported successfully.', 'import-eventbrite-events' ) . '<br>';
+		$success_message = esc_html__( 'Event(s) are imported successfully.', 'import-eventbrite-events' ) . "<br>";
 		if ( $created > 0 ) {
-			$success_message .= '<strong>' . sprintf( __( '%d Created', 'import-eventbrite-events' ), $created ) . '</strong><br>';
+			$success_message .= "<strong>" . sprintf( __( '%d Created', 'import-eventbrite-events' ), $created ) . "</strong><br>";
 		}
 		if ( $updated > 0 ) {
-			$success_message .= '<strong>' . sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated ) . '</strong><br>';
+			$success_message .= "<strong>" . sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated ) . "</strong><br>";
 		}
 		if ( $skipped > 0 ) {
-			$success_message .= '<strong>' . sprintf( __( '%d Skipped (Already exists)', 'import-eventbrite-events' ), $skipped ) . '</strong><br>';
+			$success_message .= "<strong>" . sprintf( __( '%d Skipped (Already exists)', 'import-eventbrite-events' ), $skipped ) . "</strong><br>";
 		}
 		$iee_success_msg[] = $success_message;
 
@@ -489,12 +484,7 @@ class Import_Eventbrite_Events_Common {
 	 */
 	function render_import_frequency( $selected = 'daily' ) {
 		?>
-		<select name="import_frequency" class="import_frequency" 
-		<?php
-		if ( ! iee_is_pro() ) {
-			echo 'disabled="disabled"'; }
-?>
->
+		<select name="import_frequency" class="import_frequency" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> >
 			<option value='hourly' <?php selected( $selected, 'hourly' ); ?>>
 				<?php esc_html_e( 'Once Hourly', 'import-eventbrite-events' ); ?>
 			</option>
@@ -522,19 +512,11 @@ class Import_Eventbrite_Events_Common {
 	 */
 	function render_import_type() {
 		?>
-		<select name="import_type" id="import_type" 
-		<?php
-		if ( ! iee_is_pro() ) {
-			echo 'disabled="disabled"'; }
-?>
->
+		<select name="import_type" id="import_type" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> >
 			<option value="onetime" ><?php esc_attr_e( 'One-time Import', 'import-eventbrite-events' ); ?></option>
-			<option value="scheduled" 
-			<?php
-			if ( ! iee_is_pro() ) {
-				echo 'disabled="disabled"  selected="selected"'; }
-?>
- ><?php esc_attr_e( 'Scheduled Import', 'import-eventbrite-events' ); ?></option>
+			<option value="scheduled" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"  selected="selected"'; } ?> >
+				<?php esc_attr_e( 'Scheduled Import', 'import-eventbrite-events' ); ?>
+			</option>
 		</select>
 		<span class="hide_frequency">
 			<?php $this->render_import_frequency(); ?>
