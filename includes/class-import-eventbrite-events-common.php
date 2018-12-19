@@ -212,11 +212,15 @@ class Import_Eventbrite_Events_Common {
 		$event_title = $event->post_title;
 
 		if ( ! empty( $image_url ) ) {
-
+			$without_ext = false;
 			// Set variables for storage, fix file filename for query strings.
 			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image_url, $matches );
 			if ( ! $matches ) {
-				return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+				if(strpos($image_url, "https://cdn.evbuc.com") === 0 || strpos($image_url, "https://img.evbuc.com") === 0){
+					$without_ext = true;
+				}else{
+					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+				}
 			}
 
 			$args = array(
@@ -243,7 +247,12 @@ class Import_Eventbrite_Events_Common {
 			}
 
 			$file_array         = array();
-			$file_array['name'] = $event->ID . '_image_' . basename( $matches[0] );
+			$file_array['name'] = $event->ID . '_image';
+			if($without_ext === true){
+				$file_array['name'] .= '.jpg';
+			}else{
+				$file_array['name'] .=  '_'.basename( $matches[0] );
+			}
 
 			if ( has_post_thumbnail( $event_id ) ) {
 				$attachment_id   = get_post_thumbnail_id( $event_id );
