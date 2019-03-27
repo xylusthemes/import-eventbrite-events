@@ -47,6 +47,7 @@ class Import_Eventbrite_Events_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'admin_notices', array( $this, 'display_notices' ) );
 		add_filter( 'admin_footer_text', array( $this, 'add_event_aggregator_credit' ) );
+		add_action( 'admin_action_iee_view_import_history',  array( $this, 'iee_view_import_history_handler' ) );
 	}
 
 	/**
@@ -481,4 +482,88 @@ class Import_Eventbrite_Events_Admin {
 		}
 		return $plugin_data;
 	}
+
+	/**
+	 * Render imported Events in history Page.
+	 *
+	 * @return void
+	 */
+	public function iee_view_import_history_handler() {
+	    define( 'IFRAME_REQUEST', true );
+	    iframe_header();
+	    $history_id = isset($_GET['history']) ? absint($_GET['history']) : 0;
+	    if( $history_id > 0){
+	    	$imported_data = get_post_meta($history_id, 'imported_data', true);
+	    	if(!empty($imported_data)){
+	    		?>
+			    <table class="widefat fixed striped">
+				<thead>
+					<tr>
+						<th id="title" class="column-title column-primary"><?php esc_html_e( 'Event', 'import-eventbrite-events' ); ?></th>
+						<th id="action" class="column-operation"><?php esc_html_e( 'Created/Updated', 'import-eventbrite-events' ); ?></th>
+						<th id="action" class="column-date"><?php esc_html_e( 'Action', 'import-eventbrite-events' ); ?></th>
+					</tr>
+				</thead>
+				<tbody id="the-list">
+					<?php
+					foreach ($imported_data as $event) {
+						?>
+						<tr>
+							<td class="title column-title">
+								<?php 
+								printf(
+									'<a href="%1$s" target="_blank">%2$s</a>',
+									get_the_permalink($event['id']),
+									get_the_title($event['id'])
+								);
+								?>
+							</td>
+							<td class="title column-title">
+								<?php echo ucfirst($event['status']); ?>
+							</td>
+							<td class="title column-action">
+								<?php 
+								printf(
+									'<a href="%1$s" target="_blank">%2$s</a>',
+									get_edit_post_link($event['id']),
+									__( 'Edit', 'import-eventbrite-events' )
+								);
+								?>
+							</td>
+						</tr>
+						<?php
+					}
+					?>
+					</tbody>
+				</table>
+				<?php
+	    		?>
+	    		<?php
+	    	}else{
+	    		?>
+	    		<div class="iee_no_import_events">
+		    		<?php esc_html_e( 'No data found', 'import-eventbrite-events' ); ?>
+		    	</div>
+	    		<?php
+	    	}
+	    }else{
+	    	?>
+    		<div class="iee_no_import_events">
+	    		<?php esc_html_e( 'No data found', 'import-eventbrite-events' ); ?>
+	    	</div>
+    		<?php
+	    }
+	    ?>
+	    <style>
+	    	.iee_no_import_events{
+				text-align: center;
+				margin-top: 60px;
+				font-size: 1.4em;
+			}
+	    </style>
+	    <?php
+	    iframe_footer();
+	    exit;
+	}
+
 }

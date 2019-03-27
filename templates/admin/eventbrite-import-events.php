@@ -20,13 +20,13 @@ global $iee_events;
 							<td>
 								<select name="eventbrite_import_by" id="eventbrite_import_by">
 									<option value="event_id"><?php esc_attr_e( 'Event ID', 'import-eventbrite-events' ); ?></option>
+									<option value="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></option>
 									<option value="your_events" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> >
 										<?php esc_attr_e( 'Your Events', 'import-eventbrite-events' ); ?>
 									</option>
-									<option value="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></option>
 								</select>
 								<span class="iee_small">
-									<?php _e( 'Select Event source. 1. by Event ID, 2. Your Events ( Events associted with your Eventbrite account ), 3. by Oraganizer ID.', 'import-eventbrite-events' ); ?>
+									<?php _e( 'Select Event source. 1. by Event ID, 2. by Oraganizer ID, 3. Your Events ( For Eventbrite oraganizer account only.)', 'import-eventbrite-events' ); ?>
 								</span>
 							</td>
 						</tr>
