@@ -80,6 +80,11 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>', esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
+
+		$organizer_id = $item["eventbrite_id"];
+		if( is_numeric($organizer_id)){
+			$organizer_id = '<a href="https://www.eventbrite.com/o/'.$item["eventbrite_id"].'" target="_blank">'.$item["eventbrite_id"].'</a>';
+		}
 		return sprintf( '<strong>%1$s</strong>
 			<span>%2$s</span></br>
 			<span>%3$s</span></br>
@@ -89,7 +94,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			$item['title'],
 			__('Origin', 'import-eventbrite-events') . ': <b>' . ucfirst( $item["import_origin"] ) . '</b>',
 			__('Import By', 'import-eventbrite-events') . ': <b>' . $item["import_by"] . '</b>',
-			__('Eventbrite ID', 'import-eventbrite-events') . ': <b>' . $item["eventbrite_id"] . '</b>',
+			__('Eventbrite ID', 'import-eventbrite-events') . ': <b>' . $organizer_id . '</b>',
 			__('Import Into', 'import-eventbrite-events') . ': <b>' . $item["import_into"] . '</b>',
 			$item['ID'],
 			$this->row_actions( $actions )
@@ -226,7 +231,11 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 		$batches = iee_get_inprogress_import();
 		if(!empty($batches)){
 			foreach ($batches as $batch) {
-				$batch = isset( $batch->option_value ) ? maybe_unserialize( $batch->option_value ) : array();
+				if ( is_multisite() ) {
+					$batch = isset( $batch->meta_value ) ? maybe_unserialize( $batch->meta_value ) : array();
+				}else{
+				    $batch = isset( $batch->option_value ) ? maybe_unserialize( $batch->option_value ) : array();
+				}
 				if( !empty( $batch ) && is_array( $batch ) ){
 					$batch = current( $batch );
 					$import_data = isset( $batch['imported_events'] ) ? $batch['imported_events'] : array(); 
@@ -479,12 +488,17 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		    'height'    => '500'
 		), admin_url( 'admin.php' ) );
 
-		return sprintf(
-			'<a href="%1$s" title="%2$s" class="open-history-details-modal button button-primary thickbox">%3$s</a>',
-			$url,
-			$item['title'],
-			__( 'View Imported Events', 'import-eventbrite-events' )
-		);
+		$imported_data = get_post_meta($item['ID'], 'imported_data', true);
+	    if(!empty($imported_data)){
+			return sprintf(
+				'<a href="%1$s" title="%2$s" class="open-history-details-modal button button-primary thickbox">%3$s</a>',
+				$url,
+				$item['title'],
+				__( 'View Imported Events', 'import-eventbrite-events' )
+			);
+		}else{
+			return '-';
+		}
 	}
 
 	function column_cb( $item ) {
