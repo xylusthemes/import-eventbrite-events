@@ -56,7 +56,10 @@ class Import_Eventbrite_Events_Eventbrite {
 
 		$eventbrite_event = json_decode( $eventbrite_response['body'], true );
 		if ( is_array( $eventbrite_event ) && ! isset( $eventbrite_event['error'] ) ) {
-
+			$description = $this->get_eventbrite_event_description($eventbrite_id);
+			if(!empty($description)){
+				$eventbrite_event['description']['html'] = $description;
+			}
 			return $this->save_eventbrite_event( $eventbrite_event, $event_data );
 
 		} else {
@@ -65,6 +68,22 @@ class Import_Eventbrite_Events_Eventbrite {
 		}
 	}
 
+	/**
+	 * Get Event description from eventbrite.
+	 *
+	 * @param $eventbrite_id
+	 * @return string description
+	 */
+	function get_eventbrite_event_description($eventbrite_id){
+		$description = '';
+		$eventbrite_desc_url  = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/description/?token=' . $this->oauth_token;
+		$eventbrite_response = wp_remote_get( $eventbrite_desc_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		if ( !is_wp_error( $eventbrite_response ) ) {
+			$event_desc = json_decode( wp_remote_retrieve_body($eventbrite_response) );
+			$description = isset( $event_desc->description ) ? $event_desc->description : '';
+		}
+		return $description;
+	}
 
 	/**
 	 * Save (Create or update) Eventbrite imported to The Event Calendar Events from a Eventbrite.com event.
