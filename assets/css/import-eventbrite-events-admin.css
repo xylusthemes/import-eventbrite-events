@@ -313,6 +313,14 @@ table.iee_form_table tr td:nth-child(1) {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#iee_setting_form .checkout_model_option{
+  margin-left: 20px;
+}
+
+#iee_setting_form .checkout_model_option input[type="radio"]{
+  margin: 2px;
+}
+
 @media screen and (max-width: 830px) {
   .toplevel_page_eventbrite_event #TB_closeWindowButton {
     right: 0;
