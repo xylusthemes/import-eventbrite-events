@@ -870,3 +870,7 @@
 .components-panel__row.iee-start-date.iee_hidden, .components-panel__row.iee-end-date.iee_hidden{
   display: none;
 }
+
+#iee-eventbrite-checkout-widget {
+  border: 1px solid #eeedf2;
+}

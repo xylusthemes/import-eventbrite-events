@@ -33,11 +33,20 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 						<td>
 							<?php
 							$enable_ticket_sec = isset( $eventbrite_options['enable_ticket_sec'] ) ? $eventbrite_options['enable_ticket_sec'] : 'no';
+							$ticket_model = isset( $eventbrite_options['ticket_model'] ) ? $eventbrite_options['ticket_model'] : '0';
 							?>
-							<input type="checkbox" name="eventbrite[enable_ticket_sec]" value="yes" <?php if ( $enable_ticket_sec == 'yes' ) { echo 'checked="checked"'; } ?> />
+							<input type="checkbox" class="enable_ticket_sec" name="eventbrite[enable_ticket_sec]" value="yes" <?php if ( $enable_ticket_sec == 'yes' ) { echo 'checked="checked"'; } ?> />
 							<span class="xtei_small">
 								<?php _e( 'Check to display ticket option after event.', 'import-eventbrite-events' ); ?>
 							</span>
+							<?php if(is_ssl()){ ?>
+							<div class="iee_small checkout_model_option">
+								<input type="radio" name="eventbrite[ticket_model]" value="0" <?php checked( $ticket_model, '0'); ?>>
+									<?php _e( 'Non-Modal Checkout', 'import-eventbrite-events' ); ?><br/>
+								<input type="radio" name="eventbrite[ticket_model]" value="1" <?php checked( $ticket_model, '1'); ?>>
+									<?php _e( 'Popup Checkout Widget (Display your checkout as a modal popup)', 'import-eventbrite-events' ); ?><br/>
+							</div>
+							<?php } ?>
 						</td>
 					</tr>
 					<tr>

@@ -367,17 +367,26 @@ class Import_Eventbrite_Events_Common {
 		$options = iee_get_import_options( 'eventbrite' );
 
 		$enable_ticket_sec = isset( $options['enable_ticket_sec'] ) ? $options['enable_ticket_sec'] : 'no';
+		$ticket_model = isset( $options['ticket_model'] ) ? $options['ticket_model'] : '0';
 		if ( 'yes' != $enable_ticket_sec ) {
 			return '';
 		}
 
 		if ( $eventbrite_id > 0 ) {
 			ob_start();
-			?>
-			<div class="eventbrite-ticket-section" style="width:100%; text-align:left;">
-				<iframe id="eventbrite-tickets-<?php echo $eventbrite_id; ?>" src="//www.eventbrite.com/tickets-external?eid=<?php echo $eventbrite_id; ?>" style="width:100%;height:300px; border: 0px;"></iframe>
-			</div>
-			<?php
+			if( is_ssl() ){
+				if('1'=== $ticket_model ){
+					echo iee_model_checkout_markup($eventbrite_id);
+				}else{
+					echo iee_nonmodel_checkout_markup($eventbrite_id);
+				}
+			} else {
+				?>
+				<div class="eventbrite-ticket-section" style="width:100%; text-align:left;">
+					<iframe id="eventbrite-tickets-<?php echo $eventbrite_id; ?>" src="//www.eventbrite.com/tickets-external?eid=<?php echo $eventbrite_id; ?>" style="width:100%;height:300px; border: 0px;"></iframe>
+				</div>
+				<?php
+			}
 			$ticket = ob_get_clean();
 			return $ticket;
 		} else {
@@ -1194,4 +1203,59 @@ function iee_get_inprogress_import(){
 	}
 	$batches = $wpdb->get_results( $batch_query );
 	return $batches;
+}
+
+/**
+ * Get Markup for eventbrite non-model checkout.
+ *
+ * @return string
+ */
+function iee_nonmodel_checkout_markup( $eventbrite_id ){
+	ob_start();
+	?>
+	<div id="iee-eventbrite-checkout-widget"></div>
+	<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
+	<script type="text/javascript">
+		var orderCompleteCallback = function() {
+			console.log("Order complete!");
+		};
+		window.EBWidgets.createWidget({
+			widgetType: "checkout",
+			eventId: "<?php echo $eventbrite_id; ?>",
+			iframeContainerId: "iee-eventbrite-checkout-widget",
+			iframeContainerHeight: <?php echo apply_filters('iee_embeded_checkout_height', 530); ?>,
+			onOrderComplete: orderCompleteCallback
+		});
+	</script>
+	<?php
+	return ob_get_clean();
+}
+
+/**
+ * Get Markup for eventbrite model checkout.
+ *
+ * @return string
+ */
+function iee_model_checkout_markup( $eventbrite_id ){
+	ob_start();
+	?>
+	<button id="iee-eventbrite-checkout-trigger" type="button">
+		<?php esc_html_e( 'Buy Tickets', 'import-eventbrite-events' ); ?>
+	</button>
+	<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
+	<script type="text/javascript">
+		var orderCompleteCallback = function() {
+			console.log("Order complete!");
+		};
+
+		window.EBWidgets.createWidget({
+			widgetType: "checkout",
+			eventId: "<?php echo $eventbrite_id; ?>",
+			modal: true,
+			modalTriggerElementId: "iee-eventbrite-checkout-trigger",
+			onOrderComplete: orderCompleteCallback
+		});
+	</script>
+	<?php
+	return ob_get_clean();
 }
