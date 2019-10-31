@@ -12,17 +12,17 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 			<form method="post" id="iee_setting_form">                
 
 			<h3 class="setting_bar"><?php esc_attr_e( 'Eventbrite Settings', 'import-eventbrite-events' ); ?></h3>
-			<p><?php _e( 'You need a Eventbrite Personal OAuth token to import your events from Eventbrite.', 'import-eventbrite-events' ); ?> </p>
+			<p><?php _e( 'You need a Eventbrite Private token to import your events from Eventbrite.', 'import-eventbrite-events' ); ?> </p>
 			<table class="form-table">
 				<tbody>
 					<tr>
 						<th scope="row">
-							<?php _e( 'Eventbrite Personal OAuth token', 'import-eventbrite-events' ); ?> : 
+							<?php _e( 'Eventbrite Private token', 'import-eventbrite-events' ); ?> : 
 						</th>
 						<td>
 							<input class="eventbrite_oauth_token" name="eventbrite[eventbrite_oauth_token]" type="text" value="<?php if ( isset( $eventbrite_options['eventbrite_oauth_token'] ) ) { echo $eventbrite_options['eventbrite_oauth_token']; } ?>" />
 							<span class="xtei_small">
-								<?php _e( 'Insert your eventbrite.com Personal OAuth token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'xt-eventbrite-import-pro' ); ?>
+								<?php _e( 'Insert your eventbrite.com Private token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'xt-eventbrite-import-pro' ); ?>
 							</span>
 						</td>
 					</tr>		
