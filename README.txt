@@ -4,8 +4,8 @@ Donate link: http://xylusthemes.com/
 Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 4.0
 Requires PHP: 5.3
-Tested up to: 5.1
-Stable tag: 1.5.6
+Tested up to: 5.3
+Stable tag: 1.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,10 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.5.7 =
+* ADDED: Embeded Chekout and popup checkout
+* IMPROVEMENT: Some Improvements
 
 = 1.5.6 =
 * FIXED: fetch full description from eventbrite issue for some event.
