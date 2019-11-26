@@ -770,12 +770,18 @@ class Import_Eventbrite_Events_Cpt {
 			$temp_paged = $paged;
 			$paged      = $curr_paged;
 		}
+		$iee_options = get_option( IEE_OPTIONS );
+		$direct_link = isset( $iee_options['direct_link'] ) ? $iee_options['direct_link'] : 'no';
+		if ( ! iee_is_pro() ) {
+			$direct_link = 'no';
+		}
 		ob_start();
 		?>
 		<div class="iee_archive row_grid">
 			<?php
 			$template_args              = array();
 			$template_args['css_class'] = $css_class;
+			$template_args['direct_link'] = $direct_link;
 
 			if ( $eventbrite_events->have_posts() ) :
 				while ( $eventbrite_events->have_posts() ) :

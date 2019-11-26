@@ -33,8 +33,16 @@ if ( '' !== get_the_post_thumbnail() ) {
 if ( '' !== get_the_post_thumbnail() ) {
 	$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
 }
+
+$event_url = esc_url( get_permalink() );
+$target = '';
+if ( 'yes' === $direct_link ){
+	$event_url = get_post_meta( get_the_ID(), 'iee_event_link', true );
+	$target = 'target="_blank"';
+}
+
 ?>
-<a href="<?php echo esc_url( get_permalink() ); ?>">	
+<a href="<?php echo $event_url; ?>" <?php echo $target; ?>>	
 	<div class="<?php echo $css_class; ?> archive-event <?php post_class(); ?>">
 		<div class="iee_event" >
 			<div class="img_placeholder" style=" background: url('<?php echo $image_url[0]; ?>') no-repeat left top;"></div>
@@ -44,7 +52,7 @@ if ( '' !== get_the_post_thumbnail() ) {
 					<span class="date"> <?php echo date_i18n( 'd', $event_date ); ?> </span>
 				</div>
 				<div class="event_desc">
-					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark">
+					<a href="<?php echo $event_url; ?>" rel="bookmark">
 					<?php the_title( '<div class="event_title">', '</div>' ); ?>
 					</a>
 					<?php if ( $event_address != '' ) { ?>

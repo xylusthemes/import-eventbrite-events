@@ -65,6 +65,21 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 					</tr>
 					<tr>
 						<th scope="row">
+							<?php _e( 'Direct link to Eventbrite', 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$direct_link = isset( $eventbrite_options['direct_link'] ) ? $eventbrite_options['direct_link'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[direct_link]" value="yes" <?php if ( $direct_link == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
+							<span>
+								<?php _e( 'Check to enable direct event link to eventbrite instead of event detail page.', 'import-eventbrite-events' ); ?>
+							</span>
+							<?php do_action( 'iee_render_pro_notice' ); ?>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
 							<?php _e( 'Advanced Synchronization', 'import-eventbrite-events' ); ?> : 
 						</th>
 						<td>
