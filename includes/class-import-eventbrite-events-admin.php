@@ -73,7 +73,7 @@ class Import_Eventbrite_Events_Admin {
 	public function enqueue_admin_scripts( $hook ) {
 
 		$js_dir = IEE_PLUGIN_URL . 'assets/js/';
-		wp_register_script( 'import-eventbrite-events', $js_dir . 'import-eventbrite-events-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker' ), IEE_VERSION );
+		wp_register_script( 'import-eventbrite-events', $js_dir . 'import-eventbrite-events-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'wp-color-picker' ), IEE_VERSION );
 		wp_enqueue_script( 'import-eventbrite-events' );
 
 	}
@@ -95,6 +95,7 @@ class Import_Eventbrite_Events_Admin {
 			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
 			wp_enqueue_style( 'jquery-ui', $css_dir . 'jquery-ui.css', false, '1.12.0' );
 			wp_enqueue_style( 'import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, '' );
+			wp_enqueue_style('wp-color-picker');
 		}
 	}
 

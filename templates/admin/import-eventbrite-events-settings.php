@@ -93,6 +93,22 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 							<?php do_action( 'iee_render_pro_notice' ); ?>
 						</td>
 					</tr>
+
+					<tr>
+						<th scope="row">
+							<?php esc_attr_e( 'Accent Color', 'import-eventbrite-events' ); ?> :
+						</th>
+						<td>
+						<?php
+						$accent_color = isset( $eventbrite_options['accent_color'] ) ? $eventbrite_options['accent_color'] : '#039ED7';
+						?>
+						<input class="iee_color_field" type="text" name="eventbrite[accent_color]" value="<?php echo esc_attr( $accent_color ); ?>"/>
+						<span class="iee_small">
+							<?php esc_attr_e( 'Choose accent color for front-end event grid and event widget.', 'import-eventbrite-events' ); ?>
+						</span>
+						</td>
+					</tr>
+
 					<?php do_action( 'iee_after_eventbrite_settings_section' ); ?> 
 				</tbody>
 			</table>

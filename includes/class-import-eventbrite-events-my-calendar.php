@@ -83,6 +83,7 @@ class Import_Eventbrite_Events_My_Calendar {
 			'post_content' => $post_description,
 			'post_type'    => $this->event_posttype,
 			'post_status'  => 'pending',
+			'post_author'  => isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id()
 		);
 		if ( $is_exitsing_event ) {
 			$mc_eventdata['ID'] = $is_exitsing_event;
@@ -128,10 +129,7 @@ class Import_Eventbrite_Events_My_Calendar {
 			$time    = date( 'H:i:s', $start_time );
 			$endtime = date( 'H:i:s', $end_time );
 
-			$event_author = $host = 0;
-			if ( is_user_logged_in() ) {
-				$event_author = $host = get_current_user_id();
-			}
+			$event_author = $host = isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id();
 			$event_category = 1;
 			if ( ! empty( $ife_cats ) ) {
 				$event_cat      = $ife_cats[0];
