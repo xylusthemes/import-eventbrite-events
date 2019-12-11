@@ -771,6 +771,7 @@ class Import_Eventbrite_Events_Cpt {
 			$paged      = $curr_paged;
 		}
 		$iee_options = get_option( IEE_OPTIONS );
+		$accent_color = isset( $iee_options['accent_color'] ) ? $iee_options['accent_color'] : '#039ED7';
 		$direct_link = isset( $iee_options['direct_link'] ) ? $iee_options['direct_link'] : 'no';
 		if ( ! iee_is_pro() ) {
 			$direct_link = 'no';
@@ -810,6 +811,14 @@ class Import_Eventbrite_Events_Cpt {
 			endif;
 			?>
 		</div>
+		<style type="text/css">
+			.iee_archive .iee_event .event_date{
+			    background-color: <?php echo $accent_color;?>;
+			}
+			.iee_archive .iee_event .event_desc .event_title{
+			    color: <?php echo $accent_color;?>;
+			}
+		</style>
 		<?php
 		do_action( 'iee_after_event_list', $eventbrite_events );
 		$wp_list_events = ob_get_contents();

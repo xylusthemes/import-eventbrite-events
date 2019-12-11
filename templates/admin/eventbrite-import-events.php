@@ -10,8 +10,7 @@ global $iee_events;
 		<div class="iee-column iee_well">
 			<h3><?php esc_attr_e( 'Eventbrite Import', 'import-eventbrite-events' ); ?></h3>
 			<form method="post" enctype="multipart/form-data" id="iee_eventbrite_form">
-	
-							  <table class="form-table">
+				<table class="form-table">
 					<tbody>
 						<tr>
 							<th scope="row">
@@ -21,16 +20,12 @@ global $iee_events;
 								<select name="eventbrite_import_by" id="eventbrite_import_by">
 									<option value="event_id"><?php esc_attr_e( 'Event ID', 'import-eventbrite-events' ); ?></option>
 									<option value="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></option>
-									<option value="your_events" <?php if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> >
-										<?php esc_attr_e( 'Your Events', 'import-eventbrite-events' ); ?>
-									</option>
 								</select>
 								<span class="iee_small">
-									<?php _e( 'Select Event source. 1. by Event ID, 2. by Oraganizer ID, 3. Your Events ( For Eventbrite oraganizer account only.)', 'import-eventbrite-events' ); ?>
+									<?php _e( 'Select Event source. 1. by Event ID, 2. by Oraganizer ID', 'import-eventbrite-events' ); ?>
 								</span>
 							</td>
 						</tr>
-					
 							<tr class="eventbrite_event_id">
 							<th scope="row">
 								<?php esc_attr_e( 'Eventbrite Event ID', 'import-eventbrite-events' ); ?> : 
@@ -77,6 +72,17 @@ global $iee_events;
 						$iee_events->common->render_import_into_and_taxonomy();
 						$iee_events->common->render_eventstatus_input();
 						?>
+						<tr>
+							<th scope="row">
+								<?php _e('Author','import-eventbrite-events'); ?> :
+							</th>
+							<td>
+								<?php wp_dropdown_users( array( 'show_option_none' => esc_attr__( 'Select Author','import-eventbrite-events'), 'name' => 'event_author' ) ); ?>
+								<span class="iee_small">
+									<?php _e( 'Select event author for imported events. Default event auther is current loggedin user.', 'import-eventbrite-events' ); ?>
+								</span>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 

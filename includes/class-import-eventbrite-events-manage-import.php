@@ -44,6 +44,7 @@ class Import_Eventbrite_Events_Manage_Import {
 			$event_data['import_frequency'] = isset( $_POST['import_frequency'] ) ? sanitize_text_field( $_POST['import_frequency'] ) : 'daily';
 			$event_data['event_status']     = isset( $_POST['event_status'] ) ? sanitize_text_field( $_POST['event_status'] ) : 'pending';
 			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? $_POST['event_cats'] : array();
+			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? $_POST['event_author'] : get_current_user_id();
 
 			$this->handle_eventbrite_import_form_submit( $event_data );
 		}

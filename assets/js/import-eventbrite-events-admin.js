@@ -35,23 +35,14 @@
 				jQuery('.eventbrite_organizer_id .iee_organizer_id').removeAttr( 'required' );
 				jQuery('.eventbrite_event_id').show();
 				jQuery('.eventbrite_event_id .iee_eventbrite_id').attr('required', 'required');
-
-			} else if( jQuery(this).val() == 'your_events' ){
-				jQuery('.import_type_wrapper').show();
-				jQuery('.eventbrite_organizer_id').hide();
-				jQuery('.eventbrite_organizer_id .iee_organizer_id').removeAttr( 'required' );
-				jQuery('.eventbrite_event_id').hide();
-				jQuery('.eventbrite_event_id .iee_eventbrite_id').removeAttr( 'required' );
-
+			
 			} else if( jQuery(this).val() == 'organizer_id' ){
 				jQuery('.import_type_wrapper').show();
 				jQuery('.eventbrite_organizer_id').show();
 				jQuery('.eventbrite_organizer_id .iee_organizer_id').attr('required', 'required');
 				jQuery('.eventbrite_event_id').hide();
 				jQuery('.eventbrite_event_id .iee_eventbrite_id').removeAttr( 'required' );
-			
 			}
-
 		});
 
 		jQuery('#import_type').on('change', function(){
@@ -105,6 +96,13 @@
 			}
 	    });
 	    jQuery(".enable_ticket_sec").trigger('change');
+	});
+
+	// Color Picker
+	jQuery(document).ready(function($){
+		$('.iee_color_field').each(function(){
+			$(this).wpColorPicker();
+		});
 	});
 
 })( jQuery );

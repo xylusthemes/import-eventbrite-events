@@ -93,6 +93,7 @@ class Import_Eventbrite_Events_EE4 {
 			'post_content' => $post_description,
 			'post_type'    => $this->event_posttype,
 			'post_status'  => 'pending',
+			'post_author'  => isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id()
 		);
 		if ( $is_exitsing_event ) {
 			$emeventdata['ID'] = $is_exitsing_event;
