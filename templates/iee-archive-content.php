@@ -43,7 +43,7 @@ if ( 'yes' === $direct_link ){
 
 ?>
 <a href="<?php echo $event_url; ?>" <?php echo $target; ?>>	
-	<div <?php post_class( array( $css_class, 'archive-event' ) ); ?>>
+	<div <?php post_class( array( $css_class, 'archive-event' ) ); ?>>	
 		<div class="iee_event" >
 			<div class="img_placeholder" style=" background: url('<?php echo $image_url[0]; ?>') no-repeat left top;"></div>
 			<div class="event_details">
