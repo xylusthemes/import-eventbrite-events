@@ -146,6 +146,21 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 							</span>
 						</td>
 					</tr>
+					<tr>
+						<th scope="row">
+							<?php _e( 'Import Private Organizer Eventbrite Events', 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$private_events = isset( $eventbrite_options['private_events'] ) ? $eventbrite_options['private_events'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[private_events]" value="yes" <?php if ( $private_events == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
+							<span>
+								<?php _e( 'Check to enable Private Eventbrite Event.', 'import-eventbrite-events' ); ?>
+							</span>
+							<?php do_action( 'iee_render_pro_notice' ); ?>
+						</td>
+					</tr>
 					<?php do_action( 'iee_after_settings_section' ); ?>
 				</tbody>
 			</table>
