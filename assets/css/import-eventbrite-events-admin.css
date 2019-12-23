@@ -2,28 +2,32 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
- .upgrade_to_pro{
-	padding-top: 100px;
-	padding: 15px;
-	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	margin-bottom: 20px;
-	background: url('../images/xt_logo.png') no-repeat bottom 5%right 5% #fff;
-	background-size: 20%;
-}
-.upgrade_to_pro h2{
-	font-size: 22px !important;
-	padding: 0px !important; 
-}
-.upgrade_button{
-	height: 36px !important;
-	padding: 4px 20px !important;
-	font-size: 16px !important;
+
+.upgrade_to_pro {
+    padding-top: 100px;
+    padding: 15px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+    margin-bottom: 20px;
+    background: url('../images/xt_logo.png') no-repeat bottom 5%right 5% #fff;
+    background-size: 20%;
 }
 
-.hide_frequency .import_frequency, .iee_eventbrite_form tr.eventbrite_organizer_id{
-  display: none;
+.upgrade_to_pro h2 {
+    font-size: 22px !important;
+    padding: 0px !important;
+}
+
+.upgrade_button {
+    height: 36px !important;
+    padding: 4px 20px !important;
+    font-size: 16px !important;
+}
+
+.hide_frequency .import_frequency,
+.iee_eventbrite_form tr.eventbrite_organizer_id {
+    display: none;
 }
 
 .setting_bar {
@@ -32,31 +36,29 @@
     padding: 6px 0 6px 12px;
 }
 
-.import_events_nav{
-	background-color: #fafafa;
+.import_events_nav {
+    background-color: #fafafa;
 }
 
-.import_events_nav ul.vercal_tabs{
-	position: relative;
-	float: left;
-	list-style: none;
-	width: 200px;
-	line-height: 1em;
-	margin: 0 0 -1px 0;
-	padding: 0;
-	background-color: #fafafa;
-	border-right: 1px solid #eee;
-	box-sizing: border-box;
+.import_events_nav ul.vercal_tabs {
+    position: relative;
+    float: left;
+    list-style: none;
+    width: 200px;
+    line-height: 1em;
+    margin: 0 0 -1px 0;
+    padding: 0;
+    background-color: #fafafa;
+    border-right: 1px solid #eee;
+    box-sizing: border-box;
 }
 
 .import_events_nav ul.vercal_tabs li {
-
     display: block;
     position: relative;
     margin: 0;
     padding: 0;
     line-height: 20px;
-
 }
 
 .import_events_nav ul.vercal_tabs li a {
@@ -85,107 +87,117 @@
     margin-left: -1px;
     border-left: 1px solid #eee;
     padding: 20px;
-	box-sizing: border-box;
-	background-color: #fff;
+    box-sizing: border-box;
+    background-color: #fff;
 }
 
-.import-eventbrite-events-page-content{
-	background-color: #fff;
-	border: 1px solid #ccc;	
-	margin: 20px 0;
+.import-eventbrite-events-page-content {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 20px 0;
 }
 
-@media ( max-width: 460px ){
-	.import_events_nav ul.vercal_tabs{
-		float: none;
-		width: 100%;
-	}
-	.import_events_nav_content {
-	    float: none;
-	    width: 100%;
-	}
+@media ( max-width: 460px) {
+    .import_events_nav ul.vercal_tabs {
+        float: none;
+        width: 100%;
+    }
+    .import_events_nav_content {
+        float: none;
+        width: 100%;
+    }
 }
 
 .iee_container * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 .iee_container *:before,
 .iee_container *:after {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 .iee_container {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .iee_row {
-  margin-left: -15px;
-  margin-right: -15px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.xtei-column{
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+.xtei-column {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .iee_container:before,
 .iee_container:after,
 .iee_row:before,
 .iee_row:after {
-  content: " ";
-  display: table;
+    content: " ";
+    display: table;
 }
 
 .iee_container:after,
 .iee_row:after {
-  clear: both;
+    clear: both;
 }
 
-.iee_well{
+.iee_well {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     margin: 10px 0;
     padding: 8px 20px 12px;
 }
-.iee_label{
+
+.iee_label {
     font-weight: bold;
     margin-right: 20px;
     display: block;
     margin-bottom: 5px;
 }
+
 .iee_small {
     font-size: 13px;
     color: #777;
     display: block;
     margin-top: 5px;
 }
-.iee_submit_button{
+
+.iee_submit_button {
     margin-top: 10px !important;
 }
+
 
 /*#poststuff .stuffbox > h3, #poststuff h2, #poststuff h3.hndle {
     padding-bottom: 0px;
 }*/
+
 .iee_element {
     margin-top: 5px;
     margin-bottom: 20px;
 }
+
 .iee_small span.borderall {
     border: 2px solid red;
 }
-.tecauto_cat, .emauto_cat{
-  display: none;
-  margin-left: 25px;
+
+.tecauto_cat,
+.emauto_cat {
+    display: none;
+    margin-left: 25px;
 }
 
 .iee_desciption {
@@ -196,19 +208,25 @@
     color: #bababa;
 }
 
+
 /* Meta box design */
-table.iee_form_table td, table.iee_form_table th {
+
+table.iee_form_table td,
+table.iee_form_table th {
     padding: 2px 10px;
     text-align: left;
 }
-table.iee_form_table{
-  width: 100%;
+
+table.iee_form_table {
+    width: 100%;
 }
-table.iee_form_table td input[type="text"]{
-  vertical-align: bottom;
+
+table.iee_form_table td input[type="text"] {
+    vertical-align: bottom;
 }
+
 table.iee_form_table tr td:nth-child(1) {
-  width: 160px;
+    width: 160px;
 }
 
 .plugin_box {
@@ -216,114 +234,169 @@ table.iee_form_table tr td:nth-child(1) {
     float: left;
     background-color: #fff;
     border-radius: 3px;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
     margin-bottom: 20px;
     margin-left: 0.5%;
     margin-right: 0.5%;
 }
 
-.plugin_box .plugin_img{
+.plugin_box .plugin_img {
     width: 100%;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
-.plugin_box h3{
+
+.plugin_box h3 {
     margin: 0.5em 0;
 }
-.plugin_box .plugin_content{
+
+.plugin_box .plugin_content {
     padding: 10px 10px 20px 10px;
 }
- @media (max-width: 1300px ){
+
+@media (max-width: 1300px) {
     .plugin_box {
         width: 32.333%;
     }
 }
-@media (max-width: 1080px ){
+
+@media (max-width: 1080px) {
     .plugin_box {
         width: 48%;
         margin-left: 1%;
         margin-right: 1%;
     }
 }
- @media (max-width: 1080px ){
+
+@media (max-width: 1080px) {
     .plugin_box {
         width: 100%;
         float: none;
     }
 }
+
 .vc_ui-panel .iee_datepicker .ui-datepicker-inline {
-  display: none !important;
+    display: none !important;
 }
 
-.inprogress_import strong{
+.inprogress_import strong {
     color: green;
 }
 
 .toplevel_page_eventbrite_event #TB_window.thickbox-loading:before {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: -1;
-  margin: -10px 0 0 -10px;
-  background: #fcfcfc url(../../../../../wp-admin/images/spinner.gif) no-repeat center;
-  background-size: 20px 20px;
-  transform: translateZ(0);
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    margin: -10px 0 0 -10px;
+    background: #fcfcfc url(../../../../../wp-admin/images/spinner.gif) no-repeat center;
+    background-size: 20px 20px;
+    transform: translateZ(0);
 }
 
 .toplevel_page_eventbrite_event #TB_window {
-  background: #fcfcfc;
+    background: #fcfcfc;
 }
 
 .toplevel_page_eventbrite_event #TB_title {
-  float: left;
-  height: 1px;
+    float: left;
+    height: 1px;
 }
 
 .toplevel_page_eventbrite_event #TB_ajaxWindowTitle {
-  display: none;
+    display: none;
 }
 
 .toplevel_page_eventbrite_event #TB_closeWindowButton {
-  left: auto;
-  right: -30px;
-  color: #eee;
+    left: auto;
+    right: -30px;
+    color: #eee;
 }
 
 .toplevel_page_eventbrite_event #TB_closeWindowButton:hover,
 .toplevel_page_eventbrite_event #TB_closeWindowButton:focus {
-  color: #00a0d2;
-  outline: none;
-  box-shadow: none;
+    color: #00a0d2;
+    outline: none;
+    box-shadow: none;
 }
 
 .toplevel_page_eventbrite_event .tb-close-icon {
-  display: none;
+    display: none;
 }
 
 .toplevel_page_eventbrite_event #TB_closeWindowButton:after {
-  content: "\f335";
-  font: normal 32px/29px 'dashicons';
-  speak: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    content: "\f335";
+    font: normal 32px/29px 'dashicons';
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-#iee_setting_form .checkout_model_option{
-  margin-left: 20px;
+#iee_setting_form .checkout_model_option {
+    margin-left: 20px;
 }
 
-#iee_setting_form .checkout_model_option input[type="radio"]{
-  margin: 2px;
+#iee_setting_form .checkout_model_option input[type="radio"] {
+    margin: 2px;
 }
 
 @media screen and (max-width: 830px) {
-  .toplevel_page_eventbrite_event #TB_closeWindowButton {
-    right: 0;
-    top: -30px;
-  }
+    .toplevel_page_eventbrite_event #TB_closeWindowButton {
+        right: 0;
+        top: -30px;
+    }
+}
+
+
+/* new support field*/
+
+.xylus-support-page .support-block {
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    padding: 25px 20px;
+    text-align: center;
+    background: #fff;
+    width: 30%;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.wp-picker-container .wp-color-result.button {
+    min-height: 28px;
+    margin: 0 6px 6px 0;
+    padding: 0 0 0 30px;
+    font-size: 11px;
+}
+
+.xylus-support-page .support-block img {
+    max-height: 70px;
+}
+
+.xylus-support-page .support-block:hover {
+    background: #f9f9f9;
+}
+
+@media screen and max-width (max-width:899px) {
+    .xylus-support-page .support-block {
+        width: 90%;
+        margin: 0 1% 1% 0;
+    }
+}
+
+@media screen and max-width (max-width:499px) {
+    .xylus-support-page .support-block {
+        width: 82%;
+    }
+}
+
+@media (max-width: 1080px) {
+    .xylus-support-page .support-block {
+        width: 88%;
+    }
 }
