@@ -14,7 +14,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 ?>
 <div class="wpea_container">
 	<div class="wpea_row">
-	<div class="wrap"style="min-width: 100%;">
+		<div class="wrap"style="min-width: 100%;">
             <h3 class="setting_bar"><?php esc_attr_e( 'Getting Support', 'import-eventbrite-events' ); ?></h3>
             <div class="xylus-support-page">
                 <div class="support-block">
