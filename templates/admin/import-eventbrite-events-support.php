@@ -14,29 +14,45 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 ?>
 <div class="wpea_container">
 	<div class="wpea_row">
-		<div class="wpea-column support_well">
-			<h3><?php esc_attr_e( 'Getting Support', 'import-eventbrite-events' ); ?></h3>
-			<p><?php _e( 'Thanks you for using Import Eventbrite Events, We are sincerely appreciate your support and we’re excited to see you using our plugins.', 'import-eventbrite-events' ); ?> </p>
-			<p><?php _e( 'Our support team is always around to help you.', 'import-eventbrite-events' ); ?></p>
+		<div class="wrap"style="min-width: 100%;">
+            <h3 class="setting_bar"><?php esc_attr_e( 'Getting Support', 'import-eventbrite-events' ); ?></h3>
+            <div class="xylus-support-page">
+                <div class="support-block">
+                    <img src="<?php echo IEE_PLUGIN_URL.'assets/images/target.png'; ?>" alt="Looking for Something?">
+                    <h3>Looking for Something?</h3>
+                    <p>We have documentation of how to import eventbrite events.</p>
+                    <a target="_blank" class="button button-primary" href="https://docs.xylusthemes.com/docs/import-eventbrite-events/">Visit the Plugin Documentation</a>
+                </div>
 
-							<p><strong><?php _e( 'Looking for free support?', 'import-eventbrite-events' ); ?></strong></p>
-			<a class="button button-secondary" href="<?php echo $open_source_support_url; ?>" target="_blank" >
-				<?php _e( 'Open-source forum on WordPress.org', 'import-eventbrite-events' ); ?>
-			</a>
+                <div class="support-block">
+                    <img src="<?php echo IEE_PLUGIN_URL.'assets/images/assistance.png'; ?>" alt="Need Any Assistance?">
+                    <h3>Need Any Assistance?</h3>
+                    <p>Our EXPERT Support Team is always ready to Help you out.</p>
+                    <a target="_blank" class="button button-primary" href="https://xylusthemes.com/support/">Contact Support</a>
+                </div>
 
-			<p><strong><?php _e( 'Looking for more immediate support?', 'import-eventbrite-events' ); ?></strong></p>
-			<p><?php _e( 'We offer premium support on our website with the purchase of our premium plugins.', 'import-eventbrite-events' ); ?>
-			</p>
+                <div class="support-block">
+                    <img src="<?php echo IEE_PLUGIN_URL.'assets/images/bug.png'; ?>" alt="Found Any Bugs?">
+                    <h3>Found Any Bugs?</h3>
+                    <p>Report any Bug that you Discovered, Get Instant Solutions.</p>
+                    <a target="_blank" class="button button-primary" href="https://github.com/xylusthemes/import-eventbrite-events">Report to GitHub</a>
+                </div>
 
-						<a class="button button-primary" href="<?php echo $support_url; ?>" target="_blank" >
-				<?php _e( 'Contact us directly (Premium Support)', 'import-eventbrite-events' ); ?>
-			</a>
+                <div class="support-block">
+                    <img src="<?php echo IEE_PLUGIN_URL.'assets/images/tools.png'; ?>" alt="Require Customization?">
+                    <h3>Require Customization?</h3>
+                    <p>We would Love to hear your Integration and Customization Ideas.</p>
+                    <a target="_blank" class="button button-primary" href="https://xylusthemes.com/what-we-do/">Connect Our Service</a>
+                </div>
 
-			<p><strong><?php _e( 'Enjoying Import Eventbrite Events or have feedback?', 'import-eventbrite-events' ); ?></strong></p>
-			<a class="button button-secondary" href="<?php echo $review_url; ?>" target="_blank" >Leave us a review</a> 
-			<a class="button button-secondary" href="<?php echo $twitter_url; ?>" target="_blank" >Follow us on Twitter</a> 
-			<a class="button button-secondary" href="<?php echo $facebook_url; ?>" target="_blank" >Like us on Facebook</a>
-		</div>
+                <div class="support-block">
+                    <img src="<?php echo IEE_PLUGIN_URL.'assets/images/like.png'; ?>" alt="Like The Plugin?">
+                    <h3>Like The Plugin?</h3>
+                    <p>Your Review is very important to us as it helps us to grow more.</p>
+                    <a target="_blank" class="button button-primary" href="https://wordpress.org/support/plugin/import-eventbrite-events/reviews/?rate=5#new-post">Review US on WP.org</a>
+                </div>
+            </div>
+        </div>
 
 		<?php
 		$plugins     = array();
