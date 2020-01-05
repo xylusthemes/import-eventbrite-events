@@ -1,5 +1,6 @@
 <?php
 // If this file is called directly, abort.
+// Icon Credit: Icon made by Freepik and Vectors Market from www.flaticon.com
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,26 +17,59 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 	<div class="wpea_row">
 		<div class="wpea-column support_well">
 			<h3><?php esc_attr_e( 'Getting Support', 'import-eventbrite-events' ); ?></h3>
-			<p><?php _e( 'Thanks you for using Import Eventbrite Events, We are sincerely appreciate your support and we’re excited to see you using our plugins.', 'import-eventbrite-events' ); ?> </p>
-			<p><?php _e( 'Our support team is always around to help you.', 'import-eventbrite-events' ); ?></p>
 
-							<p><strong><?php _e( 'Looking for free support?', 'import-eventbrite-events' ); ?></strong></p>
-			<a class="button button-secondary" href="<?php echo $open_source_support_url; ?>" target="_blank" >
-				<?php _e( 'Open-source forum on WordPress.org', 'import-eventbrite-events' ); ?>
-			</a>
-
-			<p><strong><?php _e( 'Looking for more immediate support?', 'import-eventbrite-events' ); ?></strong></p>
-			<p><?php _e( 'We offer premium support on our website with the purchase of our premium plugins.', 'import-eventbrite-events' ); ?>
-			</p>
-
-						<a class="button button-primary" href="<?php echo $support_url; ?>" target="_blank" >
-				<?php _e( 'Contact us directly (Premium Support)', 'import-eventbrite-events' ); ?>
-			</a>
-
-			<p><strong><?php _e( 'Enjoying Import Eventbrite Events or have feedback?', 'import-eventbrite-events' ); ?></strong></p>
-			<a class="button button-secondary" href="<?php echo $review_url; ?>" target="_blank" >Leave us a review</a> 
-			<a class="button button-secondary" href="<?php echo $twitter_url; ?>" target="_blank" >Follow us on Twitter</a> 
-			<a class="button button-secondary" href="<?php echo $facebook_url; ?>" target="_blank" >Like us on Facebook</a>
+			<div class="iee-support-features">
+				<div class="iee-support-features-card">
+					<div class="iee-support-features-img">
+						<img class="iee-support-features-icon" src="<?php echo IEE_PLUGIN_URL.'assets/images/document.svg'; ?>" alt="<?php esc_attr_e( 'Looking for Something?', 'import-eventbrite-events' ); ?>">
+					</div>
+					<div class="iee-support-features-text">
+						<h3 class="iee-support-features-title"><?php esc_attr_e( 'Looking for Something?', 'import-eventbrite-events' ); ?></h3>
+						<p><?php esc_attr_e( 'We have documentation of how to import eventbrite events.', 'import-eventbrite-events' ); ?></p>
+						<a target="_blank" class="button button-primary" href="http://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/"><?php esc_attr_e( 'Plugin Documentation', 'import-eventbrite-events' ); ?></a>
+					</div>
+				</div>
+				<div class="iee-support-features-card">
+					<div class="iee-support-features-img">
+						<img class="iee-support-features-icon" src="<?php echo IEE_PLUGIN_URL.'assets/images/call-center.svg'; ?>" alt="<?php esc_attr_e( 'Need Any Assistance?', 'import-eventbrite-events' ); ?>">
+					</div>
+					<div class="iee-support-features-text">
+						<h3 class="iee-support-features-title"><?php esc_attr_e( 'Need Any Assistance?', 'import-eventbrite-events' ); ?></h3>
+						<p><?php esc_attr_e( 'Our EXPERT Support Team is always ready to Help you out.', 'import-eventbrite-events' ); ?></p>
+						<a target="_blank" class="button button-primary" href="https://xylusthemes.com/support/"><?php esc_attr_e( 'Contact Support', 'import-eventbrite-events' ); ?></a>
+					</div>
+				</div>
+				<div class="iee-support-features-card">
+					<div class="iee-support-features-img">
+						<img class="iee-support-features-icon"  src="<?php echo IEE_PLUGIN_URL.'assets/images/bug.svg'; ?>" alt="<?php esc_attr_e( 'Found Any Bugs?', 'import-eventbrite-events' ); ?>" />
+					</div>
+					<div class="iee-support-features-text">
+						<h3 class="iee-support-features-title"><?php esc_attr_e( 'Found Any Bugs?', 'import-eventbrite-events' ); ?></h3>
+						<p><?php esc_attr_e( 'Report any Bug that you Discovered, Get Instant Solutions.', 'import-eventbrite-events' ); ?></p>
+						<a target="_blank" class="button button-primary" href="https://github.com/xylusthemes/import-eventbrite-events"><?php esc_attr_e( 'Report to GitHub', 'import-eventbrite-events' ); ?></a>
+					</div>
+				</div>
+				<div class="iee-support-features-card">
+					<div class="iee-support-features-img">
+						<img class="iee-support-features-icon" src="<?php echo IEE_PLUGIN_URL.'assets/images/tools.svg'; ?>" alt="<?php esc_attr_e( 'Require Customization?', 'import-eventbrite-events' ); ?>" />
+					</div>
+					<div class="iee-support-features-text">
+						<h3 class="iee-support-features-title"><?php esc_attr_e( 'Require Customization?', 'import-eventbrite-events' ); ?></h3>
+						<p><?php esc_attr_e( 'We would Love to hear your Integration and Customization Ideas.', 'import-eventbrite-events' ); ?></p>
+						<a target="_blank" class="button button-primary" href="https://xylusthemes.com/what-we-do/"><?php esc_attr_e( 'Connect Our Service', 'import-eventbrite-events' ); ?></a>
+					</div>
+				</div>
+				<div class="iee-support-features-card">
+					<div class="iee-support-features-img">
+						<img class="iee-support-features-icon" src="<?php echo IEE_PLUGIN_URL.'assets/images/like.svg'; ?>" alt="<?php esc_attr_e( 'Like The Plugin?', 'import-eventbrite-events' ); ?>" />
+					</div>
+					<div class="iee-support-features-text">
+						<h3 class="iee-support-features-title"><?php esc_attr_e( 'Like The Plugin?', 'import-eventbrite-events' ); ?></h3>
+						<p><?php esc_attr_e( 'Your Review is very important to us as it helps us to grow more.', 'import-eventbrite-events' ); ?></p>
+						<a target="_blank" class="button button-primary" href="https://wordpress.org/support/plugin/import-eventbrite-events/reviews/?rate=5#new-post"><?php esc_attr_e( 'Review Us on WP.org', 'import-eventbrite-events' ); ?></a>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<?php
