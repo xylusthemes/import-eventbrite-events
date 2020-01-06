@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 5.3
-Stable tag: 1.5.7
+Stable tag: 1.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,13 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+= 1.5.8 =
+* ADDED: Accent Color Settings.
+* ADDED: Choose Event Author Support
+* ADDED: Direct link to Eventbrite support.
+* ADDED: Option for disable private event import
+* FIXED: TEC existing events update issue.
+* FIXED: class error in event grid.
 
 = 1.5.7 =
 * ADDED: Embeded Chekout and popup checkout

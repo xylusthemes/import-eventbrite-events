@@ -1,15 +1,15 @@
-# Copyright (C) 2019 Import Eventbrite Events
+# Copyright (C) 2020 Import Eventbrite Events
 # This file is distributed under the same license as the Import Eventbrite Events package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Import Eventbrite Events 1.5.7\n"
+"Project-Id-Version: Import Eventbrite Events 1.5.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/import-eventbrite-"
 "events\n"
-"POT-Creation-Date: 2019-11-02 06:00:25+00:00\n"
+"POT-Creation-Date: 2020-01-06 18:46:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -17,216 +17,217 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#. #-#-#-#-#  import-eventbrite-events.pot (Import Eventbrite Events 1.5.7)  #-#-#-#-#
+#. #-#-#-#-#  import-eventbrite-events.pot (Import Eventbrite Events 1.5.8)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: includes/class-import-eventbrite-events-admin.php:61
-#: includes/class-import-eventbrite-events-admin.php:111
+#: includes/class-import-eventbrite-events-admin.php:112
 msgid "Import Eventbrite Events"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:61
+#: templates/admin/eventbrite-import-events - Copy.php:11
 #: templates/admin/eventbrite-import-events.php:11
 msgid "Eventbrite Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:131
+#: includes/class-import-eventbrite-events-admin.php:132
 msgid "Eventbrite"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:135
+#: includes/class-import-eventbrite-events-admin.php:136
 msgid "Scheduled Imports"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:139
-#: includes/class-import-eventbrite-events-admin.php:298
+#: includes/class-import-eventbrite-events-admin.php:140
+#: includes/class-import-eventbrite-events-admin.php:299
 msgid "Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:143
+#: includes/class-import-eventbrite-events-admin.php:144
 msgid "Settings"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:147
+#: includes/class-import-eventbrite-events-admin.php:148
 msgid "Support & Help"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:236
-msgctxt "post type general name"
-msgid "Scheduled Import"
-msgstr ""
-
 #: includes/class-import-eventbrite-events-admin.php:237
-msgctxt "post type singular name"
+msgctxt "post type general name"
 msgid "Scheduled Import"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:238
+msgctxt "post type singular name"
+msgid "Scheduled Import"
+msgstr ""
+
+#: includes/class-import-eventbrite-events-admin.php:239
 msgctxt "admin menu"
 msgid "Scheduled Imports"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:239
+#: includes/class-import-eventbrite-events-admin.php:240
 msgctxt "add new on admin bar"
 msgid "Scheduled Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:240
-#: includes/class-import-eventbrite-events-admin.php:284
+#: includes/class-import-eventbrite-events-admin.php:241
+#: includes/class-import-eventbrite-events-admin.php:285
 msgctxt "book"
 msgid "Add New"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:241
+#: includes/class-import-eventbrite-events-admin.php:242
 msgid "Add New Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:242
+#: includes/class-import-eventbrite-events-admin.php:243
 msgid "New Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:243
+#: includes/class-import-eventbrite-events-admin.php:244
 msgid "Edit Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:244
+#: includes/class-import-eventbrite-events-admin.php:245
 msgid "View Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:245
+#: includes/class-import-eventbrite-events-admin.php:246
 msgid "All Scheduled Imports"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:246
+#: includes/class-import-eventbrite-events-admin.php:247
 msgid "Search Scheduled Imports"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:247
+#: includes/class-import-eventbrite-events-admin.php:248
 msgid "Parent Imports:"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:248
+#: includes/class-import-eventbrite-events-admin.php:249
 msgid "No Imports found."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:249
+#: includes/class-import-eventbrite-events-admin.php:250
 msgid "No Imports found in Trash."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:254
+#: includes/class-import-eventbrite-events-admin.php:255
 msgid "Scheduled Imports."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:280
+#: includes/class-import-eventbrite-events-admin.php:281
 msgctxt "post type general name"
 msgid "Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:281
+#: includes/class-import-eventbrite-events-admin.php:282
 msgctxt "post type singular name"
 msgid "Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:282
+#: includes/class-import-eventbrite-events-admin.php:283
 msgctxt "admin menu"
 msgid "Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:283
+#: includes/class-import-eventbrite-events-admin.php:284
 msgctxt "add new on admin bar"
 msgid "Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:285
+#: includes/class-import-eventbrite-events-admin.php:286
 #: includes/class-import-eventbrite-events-cpt.php:104
 msgid "Add New"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:286
+#: includes/class-import-eventbrite-events-admin.php:287
 msgid "New History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:287
+#: includes/class-import-eventbrite-events-admin.php:288
 msgid "Edit History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:288
+#: includes/class-import-eventbrite-events-admin.php:289
 msgid "View History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:289
+#: includes/class-import-eventbrite-events-admin.php:290
 msgid "All Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:290
+#: includes/class-import-eventbrite-events-admin.php:291
 msgid "Search History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:291
+#: includes/class-import-eventbrite-events-admin.php:292
 msgid "Parent History:"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:292
+#: includes/class-import-eventbrite-events-admin.php:293
 msgid "No History found."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:293
+#: includes/class-import-eventbrite-events-admin.php:294
 msgid "No History found in Trash."
 msgstr ""
 
 #. translators: leave %1$s, %2$s and %3$s
-#: includes/class-import-eventbrite-events-admin.php:332
+#: includes/class-import-eventbrite-events-admin.php:333
 msgid " Rate %1$sImport Eventbrite Events%2$s %3$s"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:359
+#: includes/class-import-eventbrite-events-admin.php:360
 msgid "Update"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:361
+#: includes/class-import-eventbrite-events-admin.php:362
 msgid "Please click update for finish update of Import Eventbrite Events. "
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:406
+#: includes/class-import-eventbrite-events-admin.php:407
 msgid "Something went wrong when insert url."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:438
+#: includes/class-import-eventbrite-events-admin.php:439
 msgid "WP Event Aggregator"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:439
+#: includes/class-import-eventbrite-events-admin.php:440
 msgid "Import Facebook Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:440
+#: includes/class-import-eventbrite-events-admin.php:441
 msgid "Import Meetup Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:441
+#: includes/class-import-eventbrite-events-admin.php:442
 msgid "WP Bulk Delete"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:502
+#: includes/class-import-eventbrite-events-admin.php:503
 msgid "Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:503
+#: includes/class-import-eventbrite-events-admin.php:504
 msgid "Created/Updated"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:504
+#: includes/class-import-eventbrite-events-admin.php:505
 #: includes/class-import-eventbrite-events-list-table.php:172
 #: includes/class-import-eventbrite-events-list-table.php:524
 msgid "Action"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:529
+#: includes/class-import-eventbrite-events-admin.php:530
 #: includes/class-import-eventbrite-events-list-table.php:79
 msgid "Edit"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:545
-#: includes/class-import-eventbrite-events-admin.php:552
+#: includes/class-import-eventbrite-events-admin.php:546
+#: includes/class-import-eventbrite-events-admin.php:553
 msgid "No data found"
 msgstr ""
 
@@ -346,48 +347,48 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:665
+#: includes/class-import-eventbrite-events-common.php:666
 msgid "Available in Pro version."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:665
+#: includes/class-import-eventbrite-events-common.php:666
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:942
+#: includes/class-import-eventbrite-events-common.php:943
 msgid "Scheduled import deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:946
-#: includes/class-import-eventbrite-events-common.php:970
+#: includes/class-import-eventbrite-events-common.php:947
+#: includes/class-import-eventbrite-events-common.php:971
 msgid "Scheduled imports are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:950
+#: includes/class-import-eventbrite-events-common.php:951
 msgid "Scheduled import has been run successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:954
+#: includes/class-import-eventbrite-events-common.php:955
 msgid "Import history deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:958
+#: includes/class-import-eventbrite-events-common.php:959
 msgid "Import histories are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:962
+#: includes/class-import-eventbrite-events-common.php:963
 msgid "Update has been finish successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:966
+#: includes/class-import-eventbrite-events-common.php:967
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1086
+#: includes/class-import-eventbrite-events-common.php:1087
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1243
+#: includes/class-import-eventbrite-events-common.php:1244
 msgid "Buy Tickets"
 msgstr ""
 
@@ -621,6 +622,7 @@ msgid "Address"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:315
+#: templates/admin/eventbrite-import-events - Copy.php:69
 msgid "City"
 msgstr ""
 
@@ -638,6 +640,7 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:343
 #: includes/class-import-eventbrite-events-cpt.php:350
+#: templates/admin/eventbrite-import-events - Copy.php:82 Copy.php:85
 msgid "Latitude"
 msgstr ""
 
@@ -669,7 +672,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:803
+#: includes/class-import-eventbrite-events-cpt.php:810
 msgid "There are no upcoming Events at this time."
 msgstr ""
 
@@ -679,8 +682,8 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-eventbrite.php:53
 #: includes/class-import-eventbrite-events-eventbrite.php:66
-#: includes/class-import-eventbrite-events-tec.php:149
-#: includes/class-import-eventbrite-events-tec.php:198
+#: includes/class-import-eventbrite-events-tec.php:150
+#: includes/class-import-eventbrite-events-tec.php:199
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -745,7 +748,6 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-list-table.php:296
 #: includes/class-import-eventbrite-events-list-table.php:363
-#: templates/admin/eventbrite-import-events.php:25
 msgid "Your Events"
 msgstr ""
 
@@ -786,11 +788,11 @@ msgstr ""
 msgid "Please provide Import into plugin for Event import."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-manage-import.php:62
+#: includes/class-import-eventbrite-events-manage-import.php:63
 msgid "Please insert Eventbrite \"Personal OAuth token\" in settings."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-manage-import.php:72
+#: includes/class-import-eventbrite-events-manage-import.php:73
 msgid "Please provide valid Eventbrite event ID."
 msgstr ""
 
@@ -826,57 +828,104 @@ msgstr ""
 msgid "Get Premium"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:18
+#: templates/admin/eventbrite-import-events - Copy.php:17
+#: templates/admin/eventbrite-import-events.php:17
 msgid "Import by"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:22
+#: templates/admin/eventbrite-import-events - Copy.php:21
+#: templates/admin/eventbrite-import-events.php:21
 msgid "Event ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:23
+#: templates/admin/eventbrite-import-events - Copy.php:22
+#: templates/admin/eventbrite-import-events.php:22
 msgid "Organizer ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:29
-msgid ""
-"Select Event source. 1. by Event ID, 2. by Oraganizer ID, 3. Your Events "
-"( For Eventbrite oraganizer account only.)"
+#: templates/admin/eventbrite-import-events - Copy.php:24
+msgid "City (Area)"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:36
+#: templates/admin/eventbrite-import-events - Copy.php:27
+msgid "Geo Location(Latitude, Longitude)"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:31
+msgid ""
+"Select Event source. 1. by Event ID, 2. by Oraganizer ID, 3. City (For "
+"import events by City or Area)"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:37
+#: templates/admin/eventbrite-import-events.php:31
 msgid "Eventbrite Event ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:42
+#: templates/admin/eventbrite-import-events - Copy.php:43
+#: templates/admin/eventbrite-import-events.php:37
 msgid ""
 "Insert eventbrite event IDs, One event ID per line ( Eg. https://www."
 "eventbrite.com/e/event-import-with-wordpress-<span class=\"borderall"
 "\">12265498440</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:47
+#: templates/admin/eventbrite-import-events - Copy.php:48
+#: templates/admin/eventbrite-import-events.php:42
 msgid ""
 "Insert eventbrite event ID ( Eg. https://www.eventbrite.com/e/event-import-"
 "with-wordpress-<span class=\"borderall\">12265498440</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:55
+#: templates/admin/eventbrite-import-events - Copy.php:56
+#: templates/admin/eventbrite-import-events.php:50
 msgid "Eventbrite Organizer ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:60
+#: templates/admin/eventbrite-import-events - Copy.php:61
+#: templates/admin/eventbrite-import-events.php:55
 msgid ""
 "Insert eventbrite organizer ID ( Eg. https://www.eventbrite.com/o/cept-"
 "university-<span class=\"borderall\">9151813372</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:68
+#: templates/admin/eventbrite-import-events - Copy.php:74 Copy.php:88
+msgid "Insert city name to import events from."
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:86
+msgid "Longitude"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:96
+#: templates/admin/eventbrite-import-events.php:63
 msgid "Import type"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events.php:87
+#: templates/admin/eventbrite-import-events - Copy.php:110
+#: templates/admin/eventbrite-import-events.php:77
+msgid "Author"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:113
+#: templates/admin/eventbrite-import-events.php:80
+msgid "Select Author"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:115
+#: templates/admin/eventbrite-import-events.php:82
+msgid ""
+"Select event author for imported events. Default event auther is current "
+"loggedin user."
+msgstr ""
+
+#: templates/admin/eventbrite-import-events - Copy.php:126
+#: templates/admin/eventbrite-import-events.php:93
 msgid "Import Event"
+msgstr ""
+
+#: templates/admin/eventbrite-import-events.php:25
+msgid "Select Event source. 1. by Event ID, 2. by Oraganizer ID"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:14
@@ -922,107 +971,157 @@ msgstr ""
 msgid "Check to updates existing events."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:68
+#: templates/admin/import-eventbrite-events-settings.php:69
+msgid "Accent Color"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:77
+msgid "Choose accent color for front-end event grid and event widget."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:84
+msgid "Direct link to Eventbrite"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:92
+msgid ""
+"Check to enable direct event link to eventbrite instead of event detail page."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:99
 msgid "Advanced Synchronization"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:76
+#: templates/admin/import-eventbrite-events-settings.php:107
 msgid ""
 "Check to enable advanced synchronization, this will delete events which are "
 "removed from Eventbrite. Also, it deletes passed events."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:86
-msgid "Import Eventbrite Events Settings"
+#: templates/admin/import-eventbrite-events-settings.php:115
+msgid "Import Private Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:91
+#: templates/admin/import-eventbrite-events-settings.php:123
+msgid "Check to enable import private event."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:133
 msgid "Disable Eventbrite Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:100
+#: templates/admin/import-eventbrite-events-settings.php:142
 msgid "Check to disable inbuilt event management system."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:106
+#: templates/admin/import-eventbrite-events-settings.php:148
 msgid "Delete Import Eventbrite Events data on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:114
+#: templates/admin/import-eventbrite-events-settings.php:156
 msgid ""
 "Delete Import Eventbrite Events data like settings, scheduled imports, "
 "import history on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:126
+#: templates/admin/import-eventbrite-events-settings.php:168
 msgid "Save Settings"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:18
+#: templates/admin/import-eventbrite-events-support.php:19
 msgid "Getting Support"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:19
-msgid ""
-"Thanks you for using Import Eventbrite Events, We are sincerely appreciate "
-"your support and we’re excited to see you using our plugins."
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:20
-msgid "Our support team is always around to help you."
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:22
-msgid "Looking for free support?"
-msgstr ""
-
 #: templates/admin/import-eventbrite-events-support.php:24
-msgid "Open-source forum on WordPress.org"
-msgstr ""
-
 #: templates/admin/import-eventbrite-events-support.php:27
-msgid "Looking for more immediate support?"
+msgid "Looking for Something?"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-support.php:28
-msgid ""
-"We offer premium support on our website with the purchase of our premium "
-"plugins."
+msgid "We have documentation of how to import eventbrite events."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:32
-msgid "Contact us directly (Premium Support)"
+#: templates/admin/import-eventbrite-events-support.php:29
+msgid "Plugin Documentation"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:35
-msgid "Enjoying Import Eventbrite Events or have feedback?"
+#: templates/admin/import-eventbrite-events-support.php:34
+#: templates/admin/import-eventbrite-events-support.php:37
+msgid "Need Any Assistance?"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:51
+#: templates/admin/import-eventbrite-events-support.php:38
+msgid "Our EXPERT Support Team is always ready to Help you out."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:39
+msgid "Contact Support"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:44
+#: templates/admin/import-eventbrite-events-support.php:47
+msgid "Found Any Bugs?"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:48
+msgid "Report any Bug that you Discovered, Get Instant Solutions."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:49
+msgid "Report to GitHub"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:54
+#: templates/admin/import-eventbrite-events-support.php:57
+msgid "Require Customization?"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:58
+msgid "We would Love to hear your Integration and Customization Ideas."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:59
+msgid "Connect Our Service"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:64
+#: templates/admin/import-eventbrite-events-support.php:67
+msgid "Like The Plugin?"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:68
+msgid "Your Review is very important to us as it helps us to grow more."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:69
+msgid "Review Us on WP.org"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:85
 msgid "Plugins you should try"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:74
+#: templates/admin/import-eventbrite-events-support.php:108
 msgid "Version:"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:79
+#: templates/admin/import-eventbrite-events-support.php:113
 msgid "Requires:"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:79
+#: templates/admin/import-eventbrite-events-support.php:113
 msgid "WordPress "
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:83
+#: templates/admin/import-eventbrite-events-support.php:117
 msgid "Active Installs:"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:88
+#: templates/admin/import-eventbrite-events-support.php:122
 msgid "Install Now"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:91
+#: templates/admin/import-eventbrite-events-support.php:125
 msgid "Buy Now"
 msgstr ""
 
