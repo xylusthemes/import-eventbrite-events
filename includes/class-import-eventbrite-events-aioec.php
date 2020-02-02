@@ -89,6 +89,7 @@ class Import_Eventbrite_Events_Aioec {
 		$start_time       = $centralize_array['starttime_local'];
 		$end_time         = $centralize_array['endtime_local'];
 		$event_uri        = $centralize_array['url'];
+		$timezone         = isset( $centralize_array['timezone'] ) ? $centralize_array['timezone'] : 'UTC';
 
 		$eo_eventdata = array(
 			'post_title'   => $post_title,
@@ -187,7 +188,7 @@ class Import_Eventbrite_Events_Aioec {
 				'post_id'          => $inserted_event_id,
 				'start'            => $start_time,
 				'end'              => $end_time,
-				'timezone_name'    => '',
+				'timezone_name'    => $timezone,
 				'allday'           => 0,
 				'instant_event'    => 0,
 				'venue'            => $location_name,
