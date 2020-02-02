@@ -597,7 +597,7 @@ class Import_Eventbrite_Events_Cpt {
 	 */
 	public function eventbrite_events_archive( $atts = array() ) {
 		// [eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
-		$current_date = time();
+		$current_date = current_time( 'timestamp' );
 		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 		if ( is_front_page() ) {
 			$paged = ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
