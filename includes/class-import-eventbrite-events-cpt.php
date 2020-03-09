@@ -693,7 +693,7 @@ class Import_Eventbrite_Events_Cpt {
 		if ( isset( $atts['category'] ) && $atts['category'] != '' ) {
 			$categories = explode( ',', $atts['category'] );
 			$tax_field  = 'slug';
-			if ( is_numeric( implode( '', $categories ) ) && is_numeric( $categories ) {
+			if ( is_numeric( implode( '', $categories ) ) && is_numeric( $categories ) ) {
 				$tax_field = 'term_id';
 			}
 			if ( ! empty( $categories ) ) {
