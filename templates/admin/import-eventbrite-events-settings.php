@@ -63,6 +63,23 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 							</span>
 						</td>
 					</tr>
+					
+					<tr>
+						<th scope="row">
+							<?php _e( 'Trash Past Events', 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$remove_past_event = isset( $eventbrite_options['remove_past'] ) ? $eventbrite_options['remove_past'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[remove_past]" value="yes" <?php if ( $remove_past_event == 'yes' ) { echo 'checked="checked"'; }  if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
+							<span>
+								<?php _e( 'Check to enable send the event to trash after the event is complete..', 'import-eventbrite-events' ); ?>
+							</span>
+							<?php do_action( 'iee_render_pro_notice' ); ?>
+
+						</td>
+					</tr>
 
 					<tr>
 						<th scope="row">
