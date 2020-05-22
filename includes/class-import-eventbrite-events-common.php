@@ -1081,6 +1081,13 @@ class Import_Eventbrite_Events_Common {
 
 			$iee_options = array();
 			$iee_options = isset( $_POST['eventbrite'] ) ? $_POST['eventbrite'] : array();
+			if( isset( $iee_options['remove_past'] ) && $iee_options['remove_past'] === 'yes' ){
+				if( !wp_next_scheduled( 'wp_scheduled_delete_past_event' ) ) {
+					wp_schedule_event( time(), 'daily', 'wp_scheduled_delete_past_event' );
+				}
+			}else{
+				wp_clear_scheduled_hook( 'wp_scheduled_delete_past_event' );
+			}
 
 			$is_update = update_option( IEE_OPTIONS, $iee_options );
 			if ( $is_update ) {
