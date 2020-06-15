@@ -126,6 +126,25 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 						</td>
 					</tr>
 
+					<tr>
+						<th scope="row">
+							<?php esc_attr_e( 'Event Display Time Format', 'import-eventbrite-events' ); ?> :
+						</th>
+						<td>
+						<?php
+                        $time_format = isset( $eventbrite_options['time_format'] ) ? $eventbrite_options['time_format'] : '12hours';
+						?>
+                        <select name="eventbrite[time_format]">
+							<option value="12hours" <?php selected('12hours', $time_format); ?>><?php esc_attr_e( '12 Hours', 'import-eventbrite-events' );  ?></option>
+							<option value="24hours" <?php selected('24hours', $time_format); ?>><?php esc_attr_e( '24 Hours', 'import-eventbrite-events' ); ?></option>						
+							<option value="wordpress_default" <?php selected('wordpress_default', $time_format); ?>><?php esc_attr_e( 'WordPress Default', 'import-eventbrite-events' ); ?></option>
+                        </select>
+						<span class="iee_small">
+							<?php esc_attr_e( 'Choose event display time format for front-end.', 'import-eventbrite-events' ); ?>
+						</span>
+						</td>
+					</tr>
+
 					<?php do_action( 'iee_after_eventbrite_settings_section' ); ?> 
 
 					<tr>
