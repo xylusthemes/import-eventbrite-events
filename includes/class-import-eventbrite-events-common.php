@@ -1076,11 +1076,15 @@ class Import_Eventbrite_Events_Common {
 	 * @since    1.0.0
 	 */
 	public function handle_import_settings_submit() {
-		global $iee_errors, $iee_success_msg;
+		global $iee_errors, $iee_success_msg, $iee_events;
 		if ( isset( $_POST['iee_action'] ) && $_POST['iee_action'] == 'iee_save_settings' && check_admin_referer( 'iee_setting_form_nonce_action', 'iee_setting_form_nonce' ) ) {
 
 			$iee_options = array();
 			$iee_options = isset( $_POST['eventbrite'] ) ? $_POST['eventbrite'] : array();
+			$eventbrite_event_slug 	 = isset( $iee_options['event_slug'] ) ? $iee_options['event_slug']  : 'eventbrite-event'; 
+			$iee_events->cpt->event_slug=$eventbrite_event_slug;
+			$iee_events->cpt->register_event_post_type();
+			flush_rewrite_rules();
 
 			$is_update = update_option( IEE_OPTIONS, $iee_options );
 			if ( $is_update ) {
