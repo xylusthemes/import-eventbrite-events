@@ -127,6 +127,22 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 					</tr>
 
 					<tr>
+                        <th scope="row">
+                            <?php _e('Event Slug', 'import-eventbrite-events'); ?> :
+                        </th>
+                        <td>
+                            <?php
+                            $event_slug = isset($eventbrite_options['event_slug']) ? $eventbrite_options['event_slug'] : 'eventbrite-event';
+                            ?>
+                            <input type="text" name="eventbrite[event_slug]" value="<?php if ( $event_slug ) { echo $event_slug; } ?>" <?php if (!iee_is_pro()) { echo 'disabled="disabled"'; } ?> />
+                            <span class="iee_small">
+                                <?php _e('Slug for the event.', 'import-eventbrite-events'); ?>
+                            </span>
+                            <?php do_action('iee_render_pro_notice'); ?>
+                        </td>
+                    </tr>
+
+					<tr>
 						<th scope="row">
 							<?php esc_attr_e( 'Event Display Time Format', 'import-eventbrite-events' ); ?> :
 						</th>
