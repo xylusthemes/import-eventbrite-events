@@ -40,7 +40,9 @@ class Import_Eventbrite_Events_Cpt {
 		$this->event_tag      = 'eventbrite_tag';
 
 		$iee_options       = get_option( IEE_OPTIONS );
-		$this->event_slug = isset( $iee_options['event_slug'] ) ? $iee_options['event_slug'] : 'eventbrite-event';
+		if( iee_is_pro() ){
+			$this->event_slug = isset( $iee_options['event_slug'] ) ? $iee_options['event_slug'] : 'eventbrite-event';
+		}
 		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
 		if ( $deactive_ieevents != 'yes' ) {
 			add_action( 'init', array( $this, 'register_event_post_type' ) );
