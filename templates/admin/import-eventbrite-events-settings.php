@@ -136,7 +136,7 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
                             ?>
                             <input type="text" name="eventbrite[event_slug]" value="<?php if ( $event_slug ) { echo $event_slug; } ?>" <?php if (!iee_is_pro()) { echo 'disabled="disabled"'; } ?> />
                             <span class="iee_small">
-                                <?php _e('Write the slug of your event.', 'import-eventbrite-events'); ?>
+                                <?php _e('Slug for the event.', 'import-eventbrite-events'); ?>
                             </span>
                             <?php do_action('iee_render_pro_notice'); ?>
                         </td>
