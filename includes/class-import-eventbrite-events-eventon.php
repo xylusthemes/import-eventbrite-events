@@ -172,6 +172,10 @@ class Import_Eventbrite_Events_EventON {
 				$loc_term_meta['evo_loc_img']         = ( isset( $centralize_array['location']['image_url'] ) ) ? $centralize_array['location']['image_url'] : null;
 				update_option( 'taxonomy_' . $loc_term_id, $loc_term_meta );
 
+				if ( function_exists( 'evo_save_term_metas' ) ) {
+					evo_save_term_metas( $this->location_taxonomy, $loc_term_id, $loc_term_meta );
+				}
+
 				$term_loc_ids = wp_set_object_terms( $inserted_event_id, $loc_term_id, $this->location_taxonomy );
 				update_post_meta( $inserted_event_id, 'evo_location_tax_id', $loc_term_id );
 				update_post_meta( $inserted_event_id, 'evcal_location_name', $centralize_array['location']['name'] );
