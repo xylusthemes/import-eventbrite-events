@@ -637,3 +637,171 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		return $scheduled_import_data;
 	}
 }
+
+class Shortcode_List_Table extends WP_List_Table {
+
+    public function prepare_items() {
+
+        $columns 	= $this->get_columns();
+        $hidden 	= $this->get_hidden_columns();
+        $sortable 	= $this->get_sortable_columns();
+        $data 		= $this->table_data();
+        usort( $data, array( &$this, 'sort_data' ) );
+
+        $perPage 		= 10;
+        $currentPage 	= $this->get_pagenum();
+        $totalItems 	= count( $data );
+
+        $this->set_pagination_args( array(
+            'total_items' => $totalItems,
+            'per_page'    => $perPage
+        ) );
+
+        $data = array_slice( $data, ( ( $currentPage-1 ) * $perPage ), $perPage );
+
+        $this->_column_headers = array( $columns, $hidden, $sortable );
+        $this->items = $data;
+    }
+
+    /**
+     * Override the parent columns method. Defines the columns to use in your listing table
+     *
+     * @return Array
+     */
+    public function get_columns() {
+        $columns = array(
+            'id'            => __( 'ID', 'import-eventbrite-events' ),
+            'how_to_use'    => __( 'Title', 'import-eventbrite-events' ),
+            'shortcode'     => __( 'Shortcode', 'import-eventbrite-events' ),
+			'action'    	=> __( 'Action', 'import-eventbrite-events' ),
+        );
+
+        return $columns;
+    }
+
+    /**
+     * Define which columns are hidden
+     *
+     * @return Array
+     */
+    public function get_hidden_columns() {
+        return array();
+    }
+
+    /**
+     * Define the sortable columns
+     *
+     * @return Array
+     */
+    public function get_sortable_columns() {
+        return array( 'id' => array( 'id', false ) );
+    }
+
+    /**
+     * Get the table data
+     *
+     * @return Array
+     */
+    private function table_data() {
+        $data = array();
+
+        $data[] = array(
+                    'id'            => 1,
+                    'how_to_use'    => 'Display All Events',
+                    'shortcode'     => '<p class="short_code"  id="text1">[eventbrite_events]</p>',
+                    'action'     	=> '<button id="text1" onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(            
+                    'id'            => 2,
+                    'how_to_use'    => 'Display with column',
+					'shortcode'     => '<p class="short_code" id="text2">[eventbrite_events col="2"]</p>',
+					'action'     	=> '<button id="text2"  onclick="copyElementText(this.id)" class="btn-copycart  open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(
+                    'id'            => 3,
+                    'how_to_use'    => 'Limit for display events',
+					'shortcode'     => '<p class="short_code" id="text3">[eventbrite_events posts_per_page="12"]</p>',
+					'action'     	=> '<button  id="text3"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+		);
+        $data[] = array(
+                    'id'            => 4,
+                    'how_to_use'    => 'Display Events based on order',
+					'shortcode'     => '<p class="short_code" id="text4">[eventbrite_events order="asc"]</p>',
+					'action'     	=> '<button id="text4"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(
+                    'id'            => 5,
+                    'how_to_use'    => 'Display events based on category',
+					'shortcode'     => '<p class="short_code" id="text5">[eventbrite_events category="cat1"]</p>',
+					'action'     	=> '<button id="text5"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(
+                    'id'            => 6,
+                    'how_to_use'    => 'Display Past events',
+					'shortcode'     => '<p class="short_code" id="text6">[eventbrite_events past_events="yes"]</p>',
+					'action'     	=> '<button id="text6"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(
+                    'id'            => 7,
+                    'how_to_use'    => 'Display Events based on orderby',
+					'shortcode'     => '<p class="short_code" id="text7">[eventbrite_events order="asc" orderby="post_title"]</p>',
+					'action'     	=> '<button id="text7"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );
+        $data[] = array(
+                    'id'            => 8,
+                    'how_to_use'    => 'Full Short-code',
+					'shortcode'     => '<p class="short_code" id="text8">[eventbrite_events  col="2" posts_per_page="12" category="cat1" past_events="yes" order="desc" orderby="post_title" start_date="YYYY-MM-DD" end_date="YYYY-MM-DD"]</p>',
+					'action'     	=> '<button id="text8"  onclick="copyElementText(this.id)" class="btn-copycart open-history-details-modal button button-primary thickbox" >Copy</button>',
+                    );       
+        return $data;
+    }
+	
+    /**
+     * Define what data to show on each column of the table
+     *
+     * @param  Array $item        Data
+     * @param  String $column_name - Current column name
+     *
+     */
+    public function column_default( $item, $column_name )
+    {
+        switch( $column_name ) {
+            case 'id':
+            case 'how_to_use':
+            case 'shortcode':
+			case 'action':
+                return $item[ $column_name ];
+
+            default:
+                return print_r( $item, true ) ;
+        }
+    }
+
+    /**
+     * Allows you to sort the data by the variables set in the $_GET
+     *
+     */
+    private function sort_data( $a, $b ) {
+        // Set defaults
+        $orderby 	= 'id';
+        $order 		= 'asc';
+
+        // If orderby is set, use this as the sort column
+        if(!empty( $_GET['orderby'] ) ) {
+            $orderby = $_GET['orderby'];
+        }
+
+        // If order is set use this as the order
+        if(!empty( $_GET['order'] ) ) {
+            $order = $_GET['order'];
+        }
+
+        $result = strcmp( $a[$orderby], $b[$orderby] );
+
+        if( $order === 'asc' ) {
+            return $result;
+        }
+
+        return -$result;
+    }
+}

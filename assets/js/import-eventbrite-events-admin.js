@@ -107,4 +107,22 @@
 
 })( jQuery );
 
-
+function copyElementText(id) {
+	$(".btn-copycart").on("click", function() {
+    var text = document.getElementById(id).innerText;
+    var elem = document.createElement("textarea");
+    document.body.appendChild(elem);
+    elem.value = text;
+    elem.select();
+    document.execCommand("copy");
+	document.body.removeChild(elem);
+	var $this = $(this),
+		oldText = $this.text();
+		$this.attr("disabled", "disabled");		
+		$this.text("Copied!");
+		setTimeout(function() {
+		$this.text("Copy");
+		$this.removeAttr("disabled");
+		}, 500);
+	});
+}
