@@ -127,6 +127,21 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 					</tr>
 
 					<tr>
+						<th scope="row">
+							<?php _e( 'Import Small Event Thumbnail', 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$small_thumbnail = isset( $eventbrite_options['small_thumbnail'] ) ? $eventbrite_options['small_thumbnail'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[small_thumbnail]" value="yes" <?php if ( $small_thumbnail == 'yes' ) { echo 'checked="checked"'; } ?> />
+							<span>
+								<?php _e( 'You can import small thumbnails of events into an event by enabling this option.', 'import-eventbrite-events' ); ?>
+							</span>
+						</td>
+					</tr>
+
+					<tr>
                         <th scope="row">
                             <?php _e('Event Slug', 'import-eventbrite-events'); ?> :
                         </th>
