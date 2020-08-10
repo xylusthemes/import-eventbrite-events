@@ -158,7 +158,7 @@ class Import_Eventbrite_Events_EE4 {
 					'EVT_visible_on'              => date( 'Y-m-d H:i:s' ),
 				);
 				$event_meta_id   = $wpdb->get_var( $wpdb->prepare( "SELECT `EVTM_ID` FROM {$event_meta_table} WHERE EVT_ID = %d", $inserted_event_id ) );
-				if ( count( $result ) > 0 ) {
+				if ( !empty($event_meta_id) && $event_meta_id > 0 ) {
 					$wpdb->update(
 						$event_meta_table, $event_meta_data, array(
 							'EVTM_ID' => $event_meta_id,
