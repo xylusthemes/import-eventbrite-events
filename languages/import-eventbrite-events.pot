@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Import Eventbrite Events package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Import Eventbrite Events 1.6.0\n"
+"Project-Id-Version: Import Eventbrite Events 1.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/import-eventbrite-"
 "events\n"
-"POT-Creation-Date: 2020-07-07 17:51:42+00:00\n"
+"POT-Creation-Date: 2020-08-12 05:10:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#. #-#-#-#-#  import-eventbrite-events.pot (Import Eventbrite Events 1.6.0)  #-#-#-#-#
+#. #-#-#-#-#  import-eventbrite-events.pot (Import Eventbrite Events 1.6.1)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: includes/class-import-eventbrite-events-admin.php:61
 #: includes/class-import-eventbrite-events-admin.php:112
@@ -25,7 +25,6 @@ msgid "Import Eventbrite Events"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:61
-#: templates/admin/eventbrite-import-events - Copy.php:11
 #: templates/admin/eventbrite-import-events.php:11
 msgid "Eventbrite Import"
 msgstr ""
@@ -622,7 +621,6 @@ msgid "Address"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:318
-#: templates/admin/eventbrite-import-events - Copy.php:69
 msgid "City"
 msgstr ""
 
@@ -640,7 +638,6 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:346
 #: includes/class-import-eventbrite-events-cpt.php:353
-#: templates/admin/eventbrite-import-events - Copy.php:82 Copy.php:85
 msgid "Latitude"
 msgstr ""
 
@@ -828,41 +825,26 @@ msgstr ""
 msgid "Get Premium"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:17
 #: templates/admin/eventbrite-import-events.php:17
 msgid "Import by"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:21
 #: templates/admin/eventbrite-import-events.php:21
 msgid "Event ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:22
 #: templates/admin/eventbrite-import-events.php:22
 msgid "Organizer ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:24
-msgid "City (Area)"
+#: templates/admin/eventbrite-import-events.php:25
+msgid "Select Event source. 1. by Event ID, 2. by Oraganizer ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:27
-msgid "Geo Location(Latitude, Longitude)"
-msgstr ""
-
-#: templates/admin/eventbrite-import-events - Copy.php:31
-msgid ""
-"Select Event source. 1. by Event ID, 2. by Oraganizer ID, 3. City (For "
-"import events by City or Area)"
-msgstr ""
-
-#: templates/admin/eventbrite-import-events - Copy.php:37
 #: templates/admin/eventbrite-import-events.php:31
 msgid "Eventbrite Event ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:43
 #: templates/admin/eventbrite-import-events.php:37
 msgid ""
 "Insert eventbrite event IDs, One event ID per line ( Eg. https://www."
@@ -870,62 +852,42 @@ msgid ""
 "\">12265498440</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:48
 #: templates/admin/eventbrite-import-events.php:42
 msgid ""
 "Insert eventbrite event ID ( Eg. https://www.eventbrite.com/e/event-import-"
 "with-wordpress-<span class=\"borderall\">12265498440</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:56
 #: templates/admin/eventbrite-import-events.php:50
 msgid "Eventbrite Organizer ID"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:61
 #: templates/admin/eventbrite-import-events.php:55
 msgid ""
 "Insert eventbrite organizer ID ( Eg. https://www.eventbrite.com/o/cept-"
 "university-<span class=\"borderall\">9151813372</span>  )."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:74 Copy.php:88
-msgid "Insert city name to import events from."
-msgstr ""
-
-#: templates/admin/eventbrite-import-events - Copy.php:86
-msgid "Longitude"
-msgstr ""
-
-#: templates/admin/eventbrite-import-events - Copy.php:96
 #: templates/admin/eventbrite-import-events.php:63
 msgid "Import type"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:110
 #: templates/admin/eventbrite-import-events.php:77
 msgid "Author"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:113
 #: templates/admin/eventbrite-import-events.php:80
 msgid "Select Author"
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:115
 #: templates/admin/eventbrite-import-events.php:82
 msgid ""
 "Select event author for imported events. Default event auther is current "
 "loggedin user."
 msgstr ""
 
-#: templates/admin/eventbrite-import-events - Copy.php:126
 #: templates/admin/eventbrite-import-events.php:93
 msgid "Import Event"
-msgstr ""
-
-#: templates/admin/eventbrite-import-events.php:25
-msgid "Select Event source. 1. by Event ID, 2. by Oraganizer ID"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:14
