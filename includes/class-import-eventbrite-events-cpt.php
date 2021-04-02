@@ -599,7 +599,7 @@ class Import_Eventbrite_Events_Cpt {
 	 * render events lisiting.
 	 */
 	public function eventbrite_events_archive( $atts = array() ) {
-		// [eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+		// [eventbrite_events col='2' posts_per_page='12' upcoming_event="weekly" category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
 		$current_date = current_time( 'timestamp' );
 		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 		if ( is_front_page() ) {
@@ -690,6 +690,67 @@ class Import_Eventbrite_Events_Cpt {
 					),
 				);
 			}
+		}
+
+		//upcoming event 
+		if ( isset( $atts['upcoming_event'] ) && $atts['upcoming_event'] !== '' ) {
+			$weekly  = date(current_time( 'timestamp' )+( 60*60*24*7 ) );
+			$monthly = date(current_time( 'timestamp' )+( 60*60*24*30 ) );
+			$yearly  = date(current_time( 'timestamp' )+( 60*60*24*365 ) );
+
+			$col = $atts['upcoming_event'];
+			switch ( $col ) {
+				case 'weekly':
+					$eve_args['meta_query'] = array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'end_ts',
+							'compare' => '>=',
+							'value'   => $current_date,
+						),
+						array(
+							'key'     => 'start_ts',
+							'compare' => '<=',
+							'value'   => $weekly,
+						),
+					);
+					break;
+
+				case 'monthly':
+					$eve_args['meta_query'] = array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'end_ts',
+							'compare' => '>=',
+							'value'   => $current_date,
+						),
+						array(
+							'key'     => 'start_ts',
+							'compare' => '<=',
+							'value'   => $monthly,
+						),
+					);
+					break;
+
+				case 'yearly':
+					$eve_args['meta_query'] = array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'end_ts',
+							'compare' => '>=',
+							'value'   => $current_date,
+						),
+						array(
+							'key'     => 'start_ts',
+							'compare' => '<=',
+							'value'   => $yearly,
+						),
+					);
+					break;
+				default:
+				$atts['upcoming_event'] = '';
+					break;
+			}		
 		}
 
 		// Category
