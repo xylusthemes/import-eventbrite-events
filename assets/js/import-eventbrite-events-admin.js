@@ -124,7 +124,7 @@
 			setTimeout(function(){
 				$this.text("Copy");
 				$this.removeAttr("disabled");
-			}, 500);
+			}, 800);
 	  
 		});
 
