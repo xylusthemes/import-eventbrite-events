@@ -107,9 +107,9 @@
 
 	//Shortcode Copy Text
 	jQuery(document).ready(function($){
-		$(document).on("click", ".btn-copycart", function() { 
+		$(document).on("click", ".iee-btn-copy-shortcode", function() { 
 			var trigger = $(this);
-			$(".btn-copycart").removeClass("text-success");
+			$(".iee-btn-copy-shortcode").removeClass("text-success");
 			var $tempElement = $("<input>");
 			$("body").append($tempElement);
 			var copyType = $(this).data("value");

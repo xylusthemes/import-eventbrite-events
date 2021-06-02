@@ -424,7 +424,7 @@ table.iee_form_table tr td:nth-child(1) {
       display: block
   }
 }
-.short_code {
+.iee_short_code {
   background-color: #f0f0f0;
   padding: 0 3px 0 3px ;
   display: initial;   
