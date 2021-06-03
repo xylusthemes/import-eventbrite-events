@@ -646,7 +646,6 @@ class Shortcode_List_Table extends WP_List_Table {
         $hidden 	= $this->get_hidden_columns();
         $sortable 	= $this->get_sortable_columns();
         $data 		= $this->table_data();
-        usort( $data, array( &$this, 'sort_data' ) );
 
         $perPage 		= 10;
         $currentPage 	= $this->get_pagenum();
@@ -686,15 +685,6 @@ class Shortcode_List_Table extends WP_List_Table {
      */
     public function get_hidden_columns() {
         return array();
-    }
-
-    /**
-     * Define the sortable columns
-     *
-     * @return Array
-     */
-    public function get_sortable_columns() {
-        return array( 'id' => array( 'id', false ) );
     }
 
     /**
@@ -775,33 +765,5 @@ class Shortcode_List_Table extends WP_List_Table {
             default:
                 return print_r( $item, true ) ;
         }
-    }
-
-    /**
-     * Allows you to sort the data by the variables set in the $_GET
-     *
-     */
-    private function sort_data( $a, $b ) {
-        // Set defaults
-        $orderby 	= 'id';
-        $order 		= 'asc';
-
-        // If orderby is set, use this as the sort column
-        if(!empty( $_GET['orderby'] ) ) {
-            $orderby = $_GET['orderby'];
-        }
-
-        // If order is set use this as the order
-        if(!empty( $_GET['order'] ) ) {
-            $order = $_GET['order'];
-        }
-
-        $result = strcmp( $a[$orderby], $b[$orderby] );
-
-        if( $order === 'asc' ) {
-            return $result;
-        }
-
-        return -$result;
     }
 }

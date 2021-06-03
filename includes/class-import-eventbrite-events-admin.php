@@ -169,7 +169,7 @@ class Import_Eventbrite_Events_Admin {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
 							} elseif ( 'support' === $tab ) {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-support.php';
-							}elseif ( 'shortcode' === $tab ) {
+							}elseif ( 'shortcodes' === $tab ) {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-shortcode.php';
 							}
 							?>
