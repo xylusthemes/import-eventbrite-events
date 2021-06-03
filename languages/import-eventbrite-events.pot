@@ -9,12 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-02T17:08:53+00:00\n"
+"POT-Creation-Date: 2021-06-03T05:17:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: import-eventbrite-events\n"
 
 #. Plugin Name of the plugin
+#: includes/class-iee-plugin-deactivation.php:38
 #: includes/class-import-eventbrite-events-admin.php:61
 #: includes/class-import-eventbrite-events-admin.php:112
 msgid "Import Eventbrite Events"
@@ -39,6 +40,79 @@ msgstr ""
 #: import-eventbrite-events.php:102
 #: import-eventbrite-events.php:111
 msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:49
+msgid "I couldn't understand how to make it work"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:50
+msgid "I found a better plugin"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:51
+msgid "The plugin is great, but I need specific feature that you don't support"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:52
+msgid "Plugin has bugs and it's not working"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:53
+msgid "It's not what I was looking for"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:54
+msgid "Plugin didn't work as expected"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:55
+msgid "It's temporary deactivatation, for debug an issue"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:56
+msgid "Other reasons"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:169
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:197
+msgid "Skip"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:214
+msgid "Finding it confusing? let us know so that we can improve the interface"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:217
+msgid "Can you let us know the reason for deactivation (Required)"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:221
+msgid "Can you please let us know about the bug/issue in detail?"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:224
+msgid "Can you please let us know which plugin you found helpful"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:227
+msgid "Can you please let us know more about the feature you want"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:230
+msgid "Can you please let us know more about your requirement"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:233
+#: includes/class-iee-plugin-deactivation.php:271
+msgid "Write your query here"
+msgstr ""
+
+#: includes/class-iee-plugin-deactivation.php:258
+msgid "If you have a moment, please let us know why you are deactivating:"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:61
