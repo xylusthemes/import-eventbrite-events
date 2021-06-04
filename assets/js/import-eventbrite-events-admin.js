@@ -7,7 +7,7 @@
 			changeYear: true,
 			dateFormat: 'yy-mm-dd'
 		});
-		jQuery(".iee_datepicker").live("click", function(){
+		jQuery(document).on("click", ".iee_datepicker", function(){
 		    jQuery(this).datepicker({
 				changeMonth: true,
 				changeYear: true,
@@ -27,7 +27,7 @@
 	});
 	
 	jQuery(document).ready(function(){
-		jQuery('#eventbrite_import_by').on('change', function(){
+		jQuery(document).on('change', '#eventbrite_import_by', function(){
 
 			if( jQuery(this).val() == 'event_id' ){
 				jQuery('.import_type_wrapper').hide();
