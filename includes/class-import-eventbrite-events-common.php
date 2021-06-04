@@ -219,7 +219,7 @@ class Import_Eventbrite_Events_Common {
 				if(strpos($image_url, "https://cdn.evbuc.com") === 0 || strpos($image_url, "https://img.evbuc.com") === 0){
 					$without_ext = true;
 				}else{
-					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
 			}
 
