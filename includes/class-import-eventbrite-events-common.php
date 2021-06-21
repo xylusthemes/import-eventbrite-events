@@ -1060,7 +1060,12 @@ class Import_Eventbrite_Events_Common {
 			$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'history';
 			$wp_redirect = admin_url( 'admin.php?page=' . $page );
 
-			$other_attributes = $wpdb->query(  "DELETE p, pm FROM $wpdb->prefix"."posts p INNER JOIN $wpdb->prefix"."postmeta pm ON pm.post_id = p.ID WHERE p.post_type = 'iee_import_history'"  );
+			$delete_ids  = get_posts( array( 'numberposts' => -1,'fields' => 'ids', 'post_type'   => 'iee_import_history' ) );
+			if ( ! empty( $delete_ids ) ) {
+				foreach ( $delete_ids as $delete_id ) {
+					wp_delete_post( $delete_id, true );
+				}
+			}		
 			$query_args = array(
 				'iee_msg' => 'history_dels',
 				'tab'     => $tab,
