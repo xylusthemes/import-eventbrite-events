@@ -599,7 +599,7 @@ class Import_Eventbrite_Events_Cpt {
 	 * render events lisiting.
 	 */
 	public function eventbrite_events_archive( $atts = array() ) {
-		// [eventbrite_events col='2' posts_per_page='12' upcoming_days="2" category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+		// [eventbrite_events col='2' posts_per_page='12' future_days="2" category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
 		$current_date = current_time( 'timestamp' );
 		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 		if ( is_front_page() ) {
@@ -692,10 +692,14 @@ class Import_Eventbrite_Events_Cpt {
 			}
 		}
 
-		//Upcoming events displayed by day
-		if ( isset( $atts['upcoming_days'] ) && !empty ( $atts['upcoming_days'] ) ) {
-			$upcoming_days = $atts['upcoming_days'];
-			$upcoming_event_time  = date( current_time( 'timestamp' )+( 60*60*24*$upcoming_days ) );
+		//Future events displayed by day
+		if ( isset( $atts['future_days'] ) && !empty ( $atts['future_days'] ) ) {
+			$future_days = $atts['future_days'];
+			$upcoming_event_time  = strtotime( '+'.$future_days, time() );
+
+			if( is_numeric( $future_days ) ){
+				$upcoming_event_time  = date( current_time( 'timestamp' )+( 60*60*24*$future_days ) );
+			}
 
 			$eve_args['meta_query'] = array(
 				'relation' => 'AND',
