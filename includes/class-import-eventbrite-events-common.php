@@ -219,7 +219,7 @@ class Import_Eventbrite_Events_Common {
 				if(strpos($image_url, "https://cdn.evbuc.com") === 0 || strpos($image_url, "https://img.evbuc.com") === 0){
 					$without_ext = true;
 				}else{
-					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
 			}
 
@@ -1036,8 +1036,9 @@ class Import_Eventbrite_Events_Common {
 		$is_bulk_delete = ( ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' ) || ( isset( $_GET['action2'] ) && $_GET['action2'] == 'delete' ) );
 
 		if ( $is_bulk_delete && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'bulk-iee_scheduled_import' ) ) {
+			$page        = isset( $_GET['page'] ) ? $_GET['page'] : 'eventbrite_event';
 			$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'scheduled';
-			$wp_redirect = get_site_url() . urldecode( $_REQUEST['_wp_http_referer'] );
+			$wp_redirect = admin_url( 'admin.php?page=' . $page );
 			$delete_ids  = $_REQUEST['iee_scheduled_import'];
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {
@@ -1075,8 +1076,9 @@ class Import_Eventbrite_Events_Common {
 		}
 
 		if ( $is_bulk_delete && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'bulk-iee_import_histories' ) ) {
+			$page        = isset( $_GET['page'] ) ? $_GET['page'] : 'eventbrite_event';
 			$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'history';
-			$wp_redirect = get_site_url() . urldecode( $_REQUEST['_wp_http_referer'] );
+			$wp_redirect = admin_url( 'admin.php?page=' . $page );
 			$delete_ids  = $_REQUEST['import_history'];
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {

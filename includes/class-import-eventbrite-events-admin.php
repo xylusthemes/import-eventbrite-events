@@ -144,6 +144,10 @@ class Import_Eventbrite_Events_Admin {
 								<?php esc_html_e( 'Settings', 'import-eventbrite-events' ); ?>
 							</a>
 
+							<a href="<?php echo esc_url( add_query_arg( 'tab', 'shortcodes', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'shortcodes' == $tab) { echo 'nav-tab-active'; } ?>">
+								<?php esc_html_e( 'Shortcodes', 'import-eventbrite-events' ); ?>
+							</a>
+
 							<a href="<?php echo esc_url( add_query_arg( 'tab', 'support', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'support' === $tab ) { echo 'nav-tab-active'; } ?>">
 								<?php esc_html_e( 'Support & Help', 'import-eventbrite-events' ); ?>
 							</a>
@@ -165,6 +169,8 @@ class Import_Eventbrite_Events_Admin {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
 							} elseif ( 'support' === $tab ) {
 								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-support.php';
+							}elseif ( 'shortcodes' === $tab ) {
+								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-shortcode.php';
 							}
 							?>
 							<div style="clear: both"></div>

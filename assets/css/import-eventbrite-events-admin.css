@@ -18,7 +18,7 @@
 }
 .upgrade_button{
 	height: 36px !important;
-	padding: 4px 20px !important;
+	padding: 0px 20px !important;
 	font-size: 16px !important;
 }
 
@@ -423,4 +423,9 @@ table.iee_form_table tr td:nth-child(1) {
   .iee-support-features {
       display: block
   }
+}
+.iee_short_code {
+  background-color: #f0f0f0;
+  padding: 0 3px 0 3px ;
+  display: initial;   
 }
