@@ -401,6 +401,25 @@ class Import_Eventbrite_Events_Cpt {
 			</tr>
 			</tbody>
 		</table>
+		<div style="clear: both;"></div>
+		<table class="iee_form_table">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<?php _e( 'Event Source Link', 'import-eventbrite-events' ); ?>
+						<hr>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><?php _e( 'Source Link', 'import-eventbrite-events' ); ?>:</td>
+				<td>
+					<input type="text" name="event_source_link" id="event_source_link" value="<?php echo get_post_meta( $post->ID, 'iee_event_link', true ); ?>" />
+				</td>
+			</tr>
+			</tbody>
+		</table>
 
 		<?php
 	}
@@ -512,6 +531,9 @@ class Import_Eventbrite_Events_Cpt {
 		$organizer_email = isset( $_POST['organizer_email'] ) ? sanitize_text_field( $_POST['organizer_email'] ) : '';
 		$organizer_phone = isset( $_POST['organizer_phone'] ) ? sanitize_text_field( $_POST['organizer_phone'] ) : '';
 		$organizer_url   = isset( $_POST['organizer_url'] ) ? esc_url( $_POST['organizer_url'] ) : '';
+		
+		// Event Source Link
+		$event_source_link   = isset( $_POST['event_source_link'] ) ? esc_url( $_POST['event_source_link'] ) : '';
 
 		// Save Event Data
 		// Date & Time
@@ -542,6 +564,9 @@ class Import_Eventbrite_Events_Cpt {
 		update_post_meta( $post_id, 'organizer_email', $organizer_email );
 		update_post_meta( $post_id, 'organizer_phone', $organizer_phone );
 		update_post_meta( $post_id, 'organizer_url', $organizer_url );
+		
+		// Event Source Link
+		update_post_meta( $post_id, 'iee_event_link', $event_source_link );
 	}
 
 	/**
