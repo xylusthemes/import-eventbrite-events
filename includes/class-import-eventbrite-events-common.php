@@ -1053,6 +1053,28 @@ class Import_Eventbrite_Events_Common {
 			exit;
 		}
 
+		
+		// Delete All History Data 
+		if ( isset( $_GET['iee_action'] ) && $_GET['iee_action'] == 'iee_all_history_delete' && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'iee_delete_all_history_nonce' ) ) {
+			global $wpdb;
+			$page        = isset( $_GET['page'] ) ? $_GET['page'] : 'eventbrite_event';
+			$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'history';
+			$wp_redirect = admin_url( 'admin.php?page=' . $page );
+
+			$delete_ids  = get_posts( array( 'numberposts' => -1,'fields' => 'ids', 'post_type'   => 'iee_import_history' ) );
+			if ( ! empty( $delete_ids ) ) {
+				foreach ( $delete_ids as $delete_id ) {
+					wp_delete_post( $delete_id, true );
+				}
+			}		
+			$query_args = array(
+				'iee_msg' => 'history_dels',
+				'tab'     => $tab,
+			);			
+			wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+			exit;
+		}
+
 		if ( $is_bulk_delete && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'bulk-iee_import_histories' ) ) {
 			$page        = isset( $_GET['page'] ) ? $_GET['page'] : 'eventbrite_event';
 			$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : 'history';
