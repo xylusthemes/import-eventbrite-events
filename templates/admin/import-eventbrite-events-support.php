@@ -111,7 +111,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 										<a class="iee-status-download button-secondary" disabled ><?php _e( 'Actived', 'import-eventbrite-events' ); ?> </a>
 										<?php echo $buy_now; ?>
 									<?php }elseif( is_dir( $plugin_not_active ) && $plugin_activation == false ){ ?>
-										<a class="iee-status-download button-secondary" href="<?php echo admin_url( 'plugins.php' ); ?>" ><?php _e( 'Active', 'import-eventbrite-events' ); ?></a>
+										<a class="iee-status-download button-secondary" href="<?php echo admin_url( 'plugins.php' ); ?>" ><?php _e( 'Activate', 'import-eventbrite-events' ); ?></a>
 										<?php echo $buy_now; ?>
 									<?php }else{ ?>
 										<a class="iee-status-download button button-secondary thickbox" href="<?php echo admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin->slug . '&TB_iframe=true&width=772&height=600' ); ?>" >

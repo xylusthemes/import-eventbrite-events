@@ -449,24 +449,17 @@ table.iee_form_table tr td:nth-child(1) {
 
 #iee-addons-list .iee-addon-container {
   margin-bottom: 15px;
-    display: flex;
-    flex-grow: 1;
-    flex-wrap: nowrap;
-    padding-left: 15px;
-    float: left;
-    flex-basis: 50%;
-    box-sizing: border-box;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  padding-left: 15px;
+  float: left;
+  flex-basis: 50%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 1249px) {
-	#iee-addons-list .iee-addon-container {
-		width:50%;
-	}
-}
-
-@media (max-width: 767px) {
-	#iee-addons-list .iee-addon-container {
-		width:100%;
+@media  (max-width:1100px) {
+  #iee-addons-list .iee-addon-container {
+		min-width:100%;
 		margin-bottom: 20px;
 	}
 }
@@ -474,6 +467,8 @@ table.iee_form_table tr td:nth-child(1) {
 #iee-addons-list .iee-addon-item {
 	background-color: #fff;
 	margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (max-width: 767px) {
