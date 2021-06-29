@@ -140,6 +140,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
 		$image             = explode( '?s=', $event_image );
 		$image_url         = esc_url( urldecode( str_replace( 'https://img.evbuc.com/', '', $image[0] ) ) );
+		$series_id         = isset( $eventbrite_event['series_id'] ) ? $eventbrite_event['series_id'] : '';
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -156,6 +157,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			'is_all_day'      => '',
 			'url'             => $event_url,
 			'image_url'       => $image_url,
+			'series_id'		  => $series_id,
 		);
 
 		if ( array_key_exists( 'organizer_id', $eventbrite_event ) ) {

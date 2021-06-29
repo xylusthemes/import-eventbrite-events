@@ -14,8 +14,11 @@ $start_date_formated = date_i18n( 'F j', $start_date_str );
 $end_date_formated   = date_i18n( 'F j', $end_date_str );
 $website             = get_post_meta( $event_id, 'iee_event_link', true );
 $map_api_key         = 'AIzaSyCmDwwCg3dGcorCUf0q59VYtyZ74xUxT1Q';
+$series_id      	 = get_post_meta( $event_id, 'series_id', true );
+$real_time  		 = current_time( 'timestamp' ); 
 
 $iee_options = get_option( IEE_OPTIONS );
+$accent_color = isset( $iee_options['accent_color'] ) ? $iee_options['accent_color'] : '#039ED7';
 $time_format = isset( $iee_options['time_format'] ) ? $iee_options['time_format'] : '12hours';
 if($time_format == '12hours' ){
     $start_time          = date_i18n( 'h:i a', $start_date_str );
@@ -189,6 +192,73 @@ if ( ! empty( $venue_address ) || ( ! empty( $venue['lat'] ) && ! empty( $venue[
 	</div>
 	<?php
 }
+		
+if( !empty( $series_id ) ){
+
+	$args = array(
+		'post_type'  => 'eventbrite_events',
+		'numberposts' => -1,
+		'meta_key'   => 'series_id',
+		'order'   	 => 'ASC',
+
+		'meta_query' => array(
+			'relation' => 'AND',
+			array(
+				'key'     => 'series_id',
+				'value'   => $series_id,
+				'compare' => '=',
+			),
+			array(
+				'key'     => 'start_ts',
+				'value'   => $real_time,
+				'compare' => '>=',
+			),
+			array(
+				'key'     => 'start_ts',
+				'value'   => $start_date_str,
+				'compare' => '!=',
+			),
+		),
+	);
+	$multiple_events = get_posts( $args );
+
+	if ( !empty( $multiple_events ) && $multiple_events > 0 ) { ?>
+		<div class="iee_recurring_list_container">
+			<div class="recurring_title" style="text-align:center;" > <?php esc_html_e( 'Multiple Dates', 'import-eventbrite-events' ); ?> </div>
+			<ul class="iee_recurring_list_main" >
+			<?php 
+				foreach ( $multiple_events as $multiple_event ) {
+					$start_date 	= get_post_meta( $multiple_event->ID, 'start_ts', true );
+					$end_date   	= get_post_meta( $multiple_event->ID, 'end_ts', true );
+					?>
+						<li class="iee_recurring_list" >
+							<div class="iee-multiple-date-container" >
+								<div class="iee-multiple-date-container-min" >
+									<p class="iee-multiple-date" ><?php echo date_i18n( 'M', $start_date );?></p>
+									<p class="iee-multiple-date1" ><?php echo date_i18n( 'd', $start_date );?></p>
+								</div>
+							</div>
+							<div class="iee-multiple-date-container">
+								<div class="iee-multiple-date-container-min">
+									<div class="iee-date-title" ><?php echo date_i18n( 'D ', $start_date ).','.date_i18n( ' g:i A ', $start_date ) ." - ". date_i18n( ' g:i A', $end_date ); ?></div>
+									<div class="iee_multidate-title"><a href="<?php echo $multiple_event->guid; ?>" ><?php echo $multiple_event->post_title?></a></div>
+								</div>
+							</div>
+							<div class="iee-multiple-date-container">
+								<a href="<?php echo $multiple_event->guid; ?>" class="iee-multidate-button" ><?php esc_html_e( 'Tickets', 'import-eventbrite-events' ); ?></a>
+							</div>
+						</li>
+					<?php 
+				} ?>
+			</ul>
+		</div><?php
+	} 
+}
 ?>
 </div>
 <div style="clear: both;"></div>
+<style>
+.iee-multidate-button{
+	background-color: <?php echo $accent_color; ?>
+}
+</style>
