@@ -30,6 +30,8 @@ class Import_Eventbrite_Events_Common {
 		add_filter( 'the_content', array( $this, 'iee_add_em_add_ticket_section' ), 20 );
 		add_filter( 'mc_event_content', array( $this, 'iee_add_my_calendar_ticket_section' ), 10, 4 );
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
+		add_action( 'admin_notices', array( $this, 'iee_review_notices' ) );
+		add_action( 'admin_init', array( $this, 'iee_disply_review_notices' ) );
 	}
 
 	/**
@@ -475,6 +477,89 @@ class Import_Eventbrite_Events_Common {
 			}
 		}
 	}
+
+	/**
+	 * Display Review notices in admin.
+	 *
+	 * @since    1.0.0
+	 */
+	public function iee_review_notices(){
+		$corrent_time = current_time('timestamp');
+		$get_iee_review_notice = get_option( 'iee_review_notice' );
+
+		if( $get_iee_review_notice['corrent_time'] < $corrent_time  ){
+			?>
+			<div class="iee_review_notices iee_container">
+				<div class="iee_notice_logo iee_col1" style="background-image: url(https://avatars.githubusercontent.com/u/22852593?s=600);"></div>    
+				<div class="iee_col2">
+					<p class="iee_notice_title"><?php esc_html_e("Leave A Review?"); ?></p>
+					<p class="iee_notice_body"><?php esc_html_e("We hope you've enjoyed using WordPress Import Eventbrite Events plugin! Would you consider leaving us a review on WordPress.org?", 'import-eventbrite-events' ) ?></p>
+					<ul class="iee_notice_body iee_blue">
+						<li><span class="dashicons dashicons-star-filled" style="color:#ffd700;"></span><a href="https://wordpress.org/support/plugin/import-eventbrite-events/reviews?filter=5&amp;rate=5#new-post" target="_blank"><?php esc_html_e("Sure! I'd love to!"); ?></a></li>
+						<li><span class="dashicons dashicons-smiley" style="color:#4ef180;"></span><a href="/wp-admin/?iee_already_leaft_review=five_week_after"><?php esc_html_e("I've already left a revie"); ?></a></li>
+						<li><span class="dashicons dashicons-backup" style="color:#f1994e;" ></span><a href="/wp-admin/?iee_maybe_later_notice=two_week_after"><?php esc_html_e("Maybe Later"); ?></a></li>
+						<li><span class="dashicons dashicons-dismiss" style="color:#ff0000;" ></span><a href="/wp-admin/?iee_never_snow_again=three_week_after"><?php esc_html_e("Never show again"); ?></a></li>
+					</ul>
+				</div>
+				<div class="iee_col3">
+					<a href="/wp-admin/?iee_admin_dismiss=five_day_dismiss_review" class="dashicons dashicons-dismiss"></a>
+				</div>
+			</div>
+			<?php
+		}
+    }
+
+	/**
+	 * Display Review notices in admin.
+	 *
+	 * @since    1.0.0
+	 */
+	public function iee_disply_review_notices(){
+
+		$never_show = isset( $_GET['iee_never_snow_again'] ) ? sanitize_text_field( wp_unslash( $_GET['iee_never_snow_again'] ) ) : ''; // input var okey.
+		$maybe_later = isset( $_GET['iee_maybe_later_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['iee_maybe_later_notice'] ) ) : ''; // input var okey.
+		$already_left = isset( $_GET['iee_already_leaft_review'] ) ? sanitize_text_field( wp_unslash( $_GET['iee_already_leaft_review'] ) ) : ''; // input var okey.
+		$admin_dismiss = isset( $_GET['iee_admin_dismiss'] ) ? sanitize_text_field( wp_unslash( $_GET['iee_already_leaft_review'] ) ) : ''; // input var okey.
+		$review_notice = $never_show . $maybe_later . $already_left. $admin_dismiss;
+		$corrent_time = current_time('timestamp');
+
+		if( !empty( $review_notice ) ){
+			switch ( $review_notice ) {
+			case "five_week_after":
+				$corrent_time = strtotime( "+5week", $corrent_time );
+				break;
+			case "three_week_after":
+				$corrent_time = strtotime( "+3week", $corrent_time );
+				break;
+			case "two_week_after":
+				$corrent_time = strtotime( "+2week", $corrent_time );
+				break;
+			case "five_day_dismiss_review":
+				$corrent_time = strtotime( "+5day", $corrent_time );
+				break;
+			default:
+				$corrent_time;
+			}
+			
+			$args = array(
+				'corrent_time' 	=> $corrent_time,
+				'review_notice'	=> $review_notice,
+			);
+			update_option( 'iee_review_notice', $args );
+			wp_safe_redirect($_SERVER['HTTP_REFERER']);
+		}
+		if( empty( $review_notice ) ){
+			$get_iee_review_notice = get_option( 'iee_review_notice' );
+			if( empty( $get_iee_review_notice ) ){
+				$args = array(
+				'corrent_time' 	=> strtotime( "+5day", $corrent_time ),
+				'review_notice'	=> 'five_day_dismiss_review',
+				);
+				update_option( 'iee_review_notice', $args );
+			}
+		}
+    }
+
 
 	/**
 	 * Get Import events into selected destination.

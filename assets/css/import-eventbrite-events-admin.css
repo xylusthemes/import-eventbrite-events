@@ -429,3 +429,62 @@ table.iee_form_table tr td:nth-child(1) {
   padding: 0 3px 0 3px ;
   display: initial;   
 }
+
+/*IEE Review css*/
+.iee_review_notices {
+    background: #FFF;
+    border: 4px;
+    min-height: 68px;
+    padding: 10px 40px 10px 125px;
+    position: relative;
+}
+.iee_container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 40px 20px 0 2px;
+    box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+    border-radius: 5px;
+  }
+.iee_notice_logo {
+    display: flex;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    flex-direction: row;
+    margin: 10px;
+}
+.iee_notice_title {
+    font-size: 24px;
+    margin: 0;
+}
+.iee_notice_body {
+    margin: 5px 0;
+    display: flex;
+
+}
+.iee_blue {
+    color: #10738B;
+}
+.iee_review_notices > .dashicons {
+    color: #424242;
+    position: absolute;
+    right: 20px;
+    top: 40%;
+}
+.iee_review_notices ul li {
+    margin-right: 20px;
+}
+.iee_col2{
+    margin-left: 20px;
+    width: 100%;
+}
+.iee_col3{
+    margin-right: -15px;
+}
+.iee_col1 {
+    width: 10%;
+}
