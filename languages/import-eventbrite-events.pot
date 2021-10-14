@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-23T17:50:38+00:00\n"
+"POT-Creation-Date: 2021-10-14T12:08:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -37,9 +37,17 @@ msgstr ""
 msgid "https://xylusthemes.com"
 msgstr ""
 
-#: import-eventbrite-events.php:102
-#: import-eventbrite-events.php:111
+#: import-eventbrite-events.php:103
+#: import-eventbrite-events.php:112
 msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: import-eventbrite-events.php:216
+msgid "Setting"
+msgstr ""
+
+#: import-eventbrite-events.php:217
+msgid "Docs"
 msgstr ""
 
 #: includes/class-iee-plugin-deactivation.php:49
