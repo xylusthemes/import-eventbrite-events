@@ -1278,7 +1278,6 @@ function iee_model_checkout_markup( $eventbrite_id ){
 		var orderCompleteCallback = function() {
 			console.log("Order complete!");
 		};
-
 		window.EBWidgets.createWidget({
 			widgetType: "checkout",
 			eventId: "<?php echo $eventbrite_id; ?>",
