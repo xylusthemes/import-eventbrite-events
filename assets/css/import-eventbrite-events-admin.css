@@ -429,3 +429,8 @@ table.iee_form_table tr td:nth-child(1) {
   padding: 0 3px 0 3px ;
   display: initial;   
 }
+
+/*Upgrade to pro link CSS*/
+.iee_upgrade_pro {
+  background: #1da867;
+}
