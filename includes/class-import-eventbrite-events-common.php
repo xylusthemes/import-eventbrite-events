@@ -411,17 +411,35 @@ class Import_Eventbrite_Events_Common {
 		$import_status = $import_ids = array();
 		if( !empty( $import_data ) ){
 			foreach ( $import_data as $key => $value ) {
-				if ( $value['status'] == 'created' ) {
-					$import_status['created'][] = $value;
-				} elseif ( $value['status'] == 'updated' ) {
-					$import_status['updated'][] = $value;
-				} elseif ( $value['status'] == 'skipped' ) {
-					$import_status['skipped'][] = $value;
-				} else {
+				if( array_key_exists( 0, $value) ){
+					for ($i=0; $i < count($value); $i++) { 
+						if ( $value[$i]['status'] == 'created' ) {
+							$import_status['created'][] = $value;
+						} elseif ( $value[$i]['status'] == 'updated' ) {
+							$import_status['updated'][] = $value;
+						} elseif ( $value[$i]['status'] == 'skipped' ) {
+							$import_status['skipped'][] = $value;
+						} else {
+		
+						}
+						if ( isset( $value[$i]['id'] ) ) {
+							$import_ids[] = $value[$i]['id'];
+						}
+					}
+				}else{
 
-				}
-				if ( isset( $value['id'] ) ) {
-					$import_ids[] = $value['id'];
+					if ( $value['status'] == 'created' ) {
+						$import_status['created'][] = $value;
+					} elseif ( $value['status'] == 'updated' ) {
+						$import_status['updated'][] = $value;
+					} elseif ( $value['status'] == 'skipped' ) {
+						$import_status['skipped'][] = $value;
+					} else {
+	
+					}
+					if ( isset( $value['id'] ) ) {
+						$import_ids[] = $value['id'];
+					}
 				}
 			}	
 		}

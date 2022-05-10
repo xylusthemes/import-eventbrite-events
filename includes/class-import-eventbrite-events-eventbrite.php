@@ -56,11 +56,64 @@ class Import_Eventbrite_Events_Eventbrite {
 
 		$eventbrite_event = json_decode( $eventbrite_response['body'], true );
 		if ( is_array( $eventbrite_event ) && ! isset( $eventbrite_event['error'] ) ) {
-			$description = $this->get_eventbrite_event_description($eventbrite_id);
-			if(!empty($description)){
-				$eventbrite_event['description']['html'] = $description;
+
+			// check if recurring event
+			$imported_events = array();
+			$resource_uri = isset( $eventbrite_event['resource_uri'] ) ? $eventbrite_event['resource_uri'] : '';
+			if( false !== strpos( $eventbrite_event['resource_uri'], '/series/' ) ){
+				// Fetch recurring Events
+				$reventbrite_api_url = 'https://www.eventbriteapi.com/v3/series/' . $eventbrite_id . '/events/?time_filter=current_future&token=' .  $this->oauth_token;
+				$reventbrite_response = wp_remote_get( $reventbrite_api_url );
+				if ( is_wp_error( $reventbrite_response ) ) {
+					$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events-pro');
+					return;
+				}
+				$reventbrite_events = json_decode( $reventbrite_response['body'], true );
+				if ( is_array( $reventbrite_events ) && ! isset( $reventbrite_events['error'] ) ) {
+					$rtotal_pages = $reventbrite_events['pagination']['page_count'];
+					if( $rtotal_pages > 1 ){
+						for( $i = 1; $i <= $rtotal_pages; $i++ ){
+							$reventbrite_response_loop = wp_remote_get( $reventbrite_api_url. '&page=' . $i );
+							if ( is_wp_error( $reventbrite_response_loop ) ) {
+								$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events-pro');
+								return;
+							}
+							$reventbrite_events_loop = json_decode( $reventbrite_response_loop['body'], true );
+							if ( is_array( $reventbrite_events_loop ) && ! isset( $reventbrite_events_loop['error'] ) ) {
+								$revents_loop = $reventbrite_events_loop['events'];
+								if( !empty( $revents_loop ) ){
+									foreach( $revents_loop as $revent_loop ){
+										$description = $this->get_eventbrite_event_description($revent_loop['id']);
+										if(!empty($description)){
+											$revents_loop['description']['html'] = $description;
+										}
+										$imported_events[] = $this->save_eventbrite_event( $revent_loop, $event_data );
+									}
+								}
+							}
+						}
+					}else{
+						$revents = $reventbrite_events['events'];
+						if( !empty( $revents ) ){
+							foreach( $revents as $revent ){
+								$imported_events[] = $this->save_eventbrite_event( $revent, $event_data );
+							}
+						}
+					}
+					return $imported_events;
+
+				}else{
+					$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events-pro');
+					return;
+				}
+
+			}else{
+				$description = $this->get_eventbrite_event_description($eventbrite_id);
+				if(!empty($description)){
+					$eventbrite_event['description']['html'] = $description;
+				}
+				return $imported_events = $this->save_eventbrite_event( $eventbrite_event, $event_data );
 			}
-			return $this->save_eventbrite_event( $eventbrite_event, $event_data );
 
 		} else {
 			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
