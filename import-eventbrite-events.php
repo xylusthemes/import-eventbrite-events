@@ -56,6 +56,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
 				add_action( 'wp_enqueue_scripts', array( self::$instance, 'iee_enqueue_style' ) );
 				add_action( 'wp_enqueue_scripts', array( self::$instance, 'iee_enqueue_script' ) );
+				add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( self::$instance, 'iee_setting_doc_links' ) );
 
 				self::$instance->includes();
 				self::$instance->common     = new Import_Eventbrite_Events_Common();
@@ -203,6 +204,28 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				basename( dirname( __FILE__ ) ) . '/languages'
 			);
 
+		}
+
+		/**
+		 * IEE setting And docs link add in plugin page.
+		 *
+		 * @since 1.0
+		 * @return void
+		 */
+		public function iee_setting_doc_links ( $links ) {
+			$iee_setting_doc_link = array(
+				'iee-event-setting' => sprintf(
+					'<a href="%s">%s</a>',
+					esc_url( admin_url( 'admin.php?page=eventbrite_event&tab=settings' ) ),
+					esc_html__( 'Setting', 'import-eventbrite-events' )
+				),
+				'iee-event-docs' => sprintf(
+					'<a target="_blank" href="%s">%s</a>',
+					esc_url( 'https://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/' ),
+					esc_html__( 'Docs', 'import-eventbrite-events' )
+				),
+			);
+			return array_merge( $links, $iee_setting_doc_link );
 		}
 
 		/**

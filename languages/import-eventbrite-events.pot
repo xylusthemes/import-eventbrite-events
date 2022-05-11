@@ -37,9 +37,17 @@ msgstr ""
 msgid "https://xylusthemes.com"
 msgstr ""
 
-#: import-eventbrite-events.php:102
-#: import-eventbrite-events.php:111
+#: import-eventbrite-events.php:103
+#: import-eventbrite-events.php:112
 msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: import-eventbrite-events.php:216
+msgid "Setting"
+msgstr ""
+
+#: import-eventbrite-events.php:217
+msgid "Docs"
 msgstr ""
 
 #: includes/class-iee-plugin-deactivation.php:49
