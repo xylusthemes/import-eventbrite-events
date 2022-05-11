@@ -213,9 +213,19 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @return void
 		 */
 		public function iee_setting_doc_links ( $links ) {
-			$iee_setting_link = array('<a href='.admin_url( "admin.php?page=eventbrite_event&tab=settings" ).' target="_blank">' . __('Setting', 'import-eventbrite-events') . '</a>');
-			$iee_docs_link = array('<a href="https://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/" target="_blank">' . __('Docs', 'import-eventbrite-events') . '</a>');
-			return array_merge( $links, $iee_setting_link, $iee_docs_link );
+			$iee_setting_doc_link = array(
+				'iee-event-setting' => sprintf(
+					'<a href="%s">%s</a>',
+					esc_url( admin_url( 'admin.php?page=eventbrite_event&tab=settings' ) ),
+					esc_html__( 'Setting', 'import-eventbrite-events' )
+				),
+				'iee-event-docs' => sprintf(
+					'<a target="_blank" href="%s">%s</a>',
+					esc_url( 'https://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/' ),
+					esc_html__( 'Docs', 'import-eventbrite-events' )
+				),
+			);
+			return array_merge( $links, $iee_setting_doc_link );
 		}
 
 		/**
