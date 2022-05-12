@@ -59,6 +59,9 @@ class Import_Eventbrite_Events_Admin {
 	public function add_menu_pages() {
 
 		add_menu_page( __( 'Import Eventbrite Events', 'import-eventbrite-events' ), __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', 'eventbrite_event', array( $this, 'admin_page' ), 'dashicons-calendar-alt', '30' );
+		if( !iee_is_pro() ){
+			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ),  '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
+		}
 	}
 
 	/**
