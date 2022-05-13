@@ -4,8 +4,8 @@ Donate link: http://xylusthemes.com/
 Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 4.0
 Requires PHP: 5.3
-Tested up to: 5.9
-Stable tag: 1.6.2
+Tested up to: 6.0
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,14 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.6.3 =
+* ADDED: Webp images support
+* ADDED: Support and Docs link in plugin list page
+* ADDED: Considered private status in event already exists check
+* ADDED: Multiple events date with tickets option on recurring event
+* FIXED: Buy ticket popup checkout button click issue
+* IMPROVEMENTS: Support for WP 6.0
 
 = 1.6.2 =
 * ADDED: Optional Plugin deactivation Feedback
