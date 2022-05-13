@@ -245,7 +245,7 @@ if( !empty( $series_id ) ){
 								</div>
 							</div>
 							<div class="iee-multiple-date-container">
-								<a href="#"><div id="iee-eventbrite-recurring-checkout-<?php echo $multiple_event->ID;?>" type="button" class="iee-multidate-button"><?php echo iee_model_checkout_markup_recurring( $series_id, $multiple_event->ID ); ?><?php esc_html_e( 'Tickets', 'import-eventbrite-events' ); ?></div></a>
+								<a href="javascript:void(0)" class="iee-multidate-button" id="iee-eventbrite-recurring-checkout-<?php echo $multiple_event->ID;?>" data-series-id="<?php echo $series_id;  ?>" ><?php esc_html_e( 'Tickets', 'import-eventbrite-events' ); ?></a>
 							</div>
 						</li>
 					<?php 
@@ -262,24 +262,22 @@ if( !empty( $series_id ) ){
 	background-color: <?php echo $accent_color; ?>
 }
 </style>
-<?php
-function iee_model_checkout_markup_recurring( $eventbrite_id, $event_id ){
-	ob_start();
-	?>
-	<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
-	<script type="text/javascript">
-			var orderCompleteCallback = function() {
+<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.iee-multidate-button').on("click", function(){
+		const id        = jQuery(this).attr('id');
+		const series_id = jQuery(this).data('series-id');
+		var orderCompleteCallback = function() {
 				console.log("Order complete!");
 			};
 			window.EBWidgets.createWidget({
 				widgetType: "checkout",
-				eventId: "<?php echo $eventbrite_id; ?>",
+				eventId: series_id,
 				modal: true,
-				modalTriggerElementId: "iee-eventbrite-recurring-checkout-<?php echo $event_id; ?>",
+				modalTriggerElementId: id,
 				onOrderComplete: orderCompleteCallback
 			});
-	</script>
-	<?php
-	return ob_get_clean();
-}
-?>
+		});
+	});
+</script>
