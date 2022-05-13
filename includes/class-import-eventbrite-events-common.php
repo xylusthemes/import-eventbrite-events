@@ -214,7 +214,7 @@ class Import_Eventbrite_Events_Common {
 		if ( ! empty( $image_url ) ) {
 			$without_ext = false;
 			// Set variables for storage, fix file filename for query strings.
-			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image_url, $matches );
+			preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png|webp)\b/i', $image_url, $matches );
 			if ( ! $matches ) {
 				if(strpos($image_url, "https://cdn.evbuc.com") === 0 || strpos($image_url, "https://img.evbuc.com") === 0){
 					$without_ext = true;
@@ -641,7 +641,7 @@ class Import_Eventbrite_Events_Common {
 	public function get_event_by_event_id( $post_type, $event_id ) {
 		$event_args = array(
 			'post_type'        => $post_type,
-			'post_status'      => array( 'pending', 'draft', 'publish' ),
+			'post_status'      => array( 'pending', 'draft', 'publish', 'private' ),
 			'posts_per_page'   => -1,
 			'suppress_filters' => true,
 			'meta_key'         => 'iee_event_id',
@@ -1290,7 +1290,6 @@ function iee_model_checkout_markup( $eventbrite_id ){
 		var orderCompleteCallback = function() {
 			console.log("Order complete!");
 		};
-
 		window.EBWidgets.createWidget({
 			widgetType: "checkout",
 			eventId: "<?php echo $eventbrite_id; ?>",
