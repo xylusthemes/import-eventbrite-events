@@ -266,9 +266,9 @@ if( !empty( $series_id ) ){
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery('.iee-multidate-button').on("click", function(){
-		const id        = jQuery(this).attr('id');
-		const series_id = jQuery(this).data('series-id');
-		var orderCompleteCallback = function() {
+			const id        = jQuery(this).attr('id');
+			const series_id = jQuery(this).data('series-id');
+			var orderCompleteCallback = function() {
 				console.log("Order complete!");
 			};
 			window.EBWidgets.createWidget({
