@@ -406,7 +406,7 @@ class Import_Eventbrite_Events_Common {
 		if ( defined( 'IEEPRO_VERSION' ) ) {
 			if ( version_compare( IEEPRO_VERSION, IEE_MIN_PRO_VERSION, '<' ) ) {
 				global $iee_warnings;
-				$iee_warnings[] = __( 'Your current "Import Eventbrite Pro" add-on is not competible with Free plugin. Please Upgrade Pro latest to work event importing Flawlessly.', 'import-eventbrite-events' );
+				$iee_warnings[] = __( 'Your current "Import Eventbrite Pro" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly.', 'import-eventbrite-events' );
 			}
 		}
 	}
