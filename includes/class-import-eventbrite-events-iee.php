@@ -155,6 +155,12 @@ class Import_Eventbrite_Events_IEE {
 			$organizer_phone = isset( $organizer_array['phone'] ) ? sanitize_text_field( $organizer_array['phone'] ) : '';
 			$organizer_url   = isset( $organizer_array['url'] ) ? sanitize_text_field( $organizer_array['url'] ) : '';
 
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
+
 			// Save Event Data
 			// Date & Time
 			update_post_meta( $inserted_event_id, 'event_start_date', $event_start_date );

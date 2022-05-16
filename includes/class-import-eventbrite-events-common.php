@@ -30,6 +30,7 @@ class Import_Eventbrite_Events_Common {
 		add_filter( 'the_content', array( $this, 'iee_add_em_add_ticket_section' ), 20 );
 		add_filter( 'mc_event_content', array( $this, 'iee_add_my_calendar_ticket_section' ), 10, 4 );
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
+		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
 	}
 
 	/**
@@ -297,6 +298,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $event_origin == 'eventbrite' ) {
 				if ( $iee_events->tec->get_event_posttype() == $xt_post_type ) {
 					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+					$series_id  = get_post_meta( $event_id, 'series_id', true );
+					if( !empty( $series_id ) ){
+						$eventbrite_id = $series_id;
+					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 						echo $ticket_section;
@@ -324,6 +329,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 				if ( $iee_events->my_calendar->get_event_posttype() == $xt_post_type ) {
 					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+					$series_id  = get_post_meta( $event_id, 'series_id', true );
+					if( !empty( $series_id ) ){
+						$eventbrite_id = $series_id;
+					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 					}
@@ -348,6 +357,10 @@ class Import_Eventbrite_Events_Common {
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+				$series_id  = get_post_meta( $event_id, 'series_id', true );
+				if( !empty( $series_id ) ){
+					$eventbrite_id = $series_id;
+				}
 				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 					$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 					return $content . $ticket_section;
@@ -393,6 +406,21 @@ class Import_Eventbrite_Events_Common {
 			return '';
 		}
 
+	}
+
+	/**
+	 * Check if user has minimum pro version.
+	 *
+	 * @since    1.6
+	 * @return void
+	 */
+	public function iee_check_for_minimum_pro_version() {
+		if ( defined( 'IEEPRO_VERSION' ) ) {
+			if ( version_compare( IEEPRO_VERSION, IEE_MIN_PRO_VERSION, '<' ) ) {
+				global $iee_warnings;
+				$iee_warnings[] = __( 'Your current "Import Eventbrite Pro" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly.', 'import-eventbrite-events' );
+			}
+		}
 	}
 
 	/**
