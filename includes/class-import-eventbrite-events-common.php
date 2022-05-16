@@ -298,6 +298,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $event_origin == 'eventbrite' ) {
 				if ( $iee_events->tec->get_event_posttype() == $xt_post_type ) {
 					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+					$series_id  = get_post_meta( $event_id, 'series_id', true );
+					if( !empty( $series_id ) ){
+						$eventbrite_id = $series_id;
+					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 						echo $ticket_section;
@@ -325,6 +329,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 				if ( $iee_events->my_calendar->get_event_posttype() == $xt_post_type ) {
 					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+					$series_id  = get_post_meta( $event_id, 'series_id', true );
+					if( !empty( $series_id ) ){
+						$eventbrite_id = $series_id;
+					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 					}
@@ -349,6 +357,10 @@ class Import_Eventbrite_Events_Common {
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+				$series_id  = get_post_meta( $event_id, 'series_id', true );
+				if( !empty( $series_id ) ){
+					$eventbrite_id = $series_id;
+				}
 				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 					$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
 					return $content . $ticket_section;
