@@ -127,6 +127,11 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				define( 'IEE_VERSION', '1.6.2' );
 			}
 
+			// Minimum Pro plugin version.
+			if ( ! defined( 'IEE_MIN_PRO_VERSION' ) ) {
+				define( 'IEE_MIN_PRO_VERSION', '1.6.0' );
+			}
+
 			// Plugin folder Path.
 			if ( ! defined( 'IEE_PLUGIN_DIR' ) ) {
 				define( 'IEE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

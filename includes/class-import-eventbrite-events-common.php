@@ -30,6 +30,7 @@ class Import_Eventbrite_Events_Common {
 		add_filter( 'the_content', array( $this, 'iee_add_em_add_ticket_section' ), 20 );
 		add_filter( 'mc_event_content', array( $this, 'iee_add_my_calendar_ticket_section' ), 10, 4 );
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
+		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
 	}
 
 	/**
@@ -393,6 +394,21 @@ class Import_Eventbrite_Events_Common {
 			return '';
 		}
 
+	}
+
+	/**
+	 * Check if user has minimum pro version.
+	 *
+	 * @since    1.6
+	 * @return void
+	 */
+	public function iee_check_for_minimum_pro_version() {
+		if ( defined( 'IEEPRO_VERSION' ) ) {
+			if ( version_compare( IEEPRO_VERSION, IEE_MIN_PRO_VERSION, '<' ) ) {
+				global $iee_warnings;
+				$iee_warnings[] = __( 'Your current "Import Eventbrite Pro" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly.', 'import-eventbrite-events' );
+			}
+		}
 	}
 
 	/**
