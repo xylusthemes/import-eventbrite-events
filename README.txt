@@ -145,8 +145,8 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 * ADDED: Support and Docs link in plugin list page
 * ADDED: Considered private status in event already exists check
 * ADDED: Multiple events date with tickets option on recurring event
-* FIXED: Buy ticket popup checkout button click issue
 * IMPROVEMENTS: Support for WP 6.0
+* FIXED: Buy ticket popup checkout button click issue
 
 = 1.6.2 =
 * ADDED: Optional Plugin deactivation Feedback
