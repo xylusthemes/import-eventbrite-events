@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-05-16T04:34:53+00:00\n"
+"POT-Creation-Date: 2022-06-20T13:08:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -804,8 +804,8 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-eventbrite.php:53
 #: includes/class-import-eventbrite-events-eventbrite.php:66
-#: includes/class-import-eventbrite-events-tec.php:150
-#: includes/class-import-eventbrite-events-tec.php:199
+#: includes/class-import-eventbrite-events-tec.php:157
+#: includes/class-import-eventbrite-events-tec.php:209
 msgid "Something went wrong, please try again."
 msgstr ""
 
