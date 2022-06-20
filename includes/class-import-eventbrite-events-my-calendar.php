@@ -78,18 +78,44 @@ class Import_Eventbrite_Events_My_Calendar {
 		$end_time         = $centralize_array['endtime_local'];
 		$event_uri        = $centralize_array['url'];
 
+		if( !empty( $is_exitsing_event ) ){
+			$get_status = get_post_meta( $is_exitsing_event,'_mc_event_data', true);
+			if( !empty( $get_status['event_approved'] ) && $get_status['event_approved'] == '1' ){
+				$event_status = 'publish';
+				$event_approved = '1';
+			}else{
+				$get_mc_status = get_post_meta( $is_exitsing_event,'iee_event_status', true);
+				if( !empty( $get_mc_status ) && $get_mc_status == 'publish' ){
+					$event_status = 'publish';
+					$event_approved = '1';
+				}else{
+					$event_status = 'draft';
+					$event_approved = '0';
+				}
+			}
+		}else{
+			$event_status = $event_args['event_status'];
+			if( $event_status == 'publish' ){
+				$event_approved = '1';
+			}else{
+				$event_approved = '0';
+			}
+		}
+
 		$mc_eventdata = array(
 			'post_title'   => $post_title,
 			'post_content' => $post_description,
 			'post_type'    => $this->event_posttype,
-			'post_status'  => 'pending',
+			'post_status'  => $event_status,
 			'post_author'  => isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id()
 		);
 		if ( $is_exitsing_event ) {
 			$mc_eventdata['ID'] = $is_exitsing_event;
 		}
-		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
-			$mc_eventdata['post_status'] = $event_args['event_status'];
+		if( empty( $is_exitsing_event ) ){
+			if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
+				$mc_eventdata['post_status'] = $event_args['event_status'];
+			}
 		}
 		$inserted_event_id = wp_insert_post( $mc_eventdata, true );
 
@@ -98,15 +124,21 @@ class Import_Eventbrite_Events_My_Calendar {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
-			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
-				}
+			if( !empty( $is_exitsing_event ) ){
+				$check_category = get_the_terms( $is_exitsing_event, $this->taxonomy );
 			}
-			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+
+			// Asign event category.
+			if( empty( $check_category ) ){
+				$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+				if ( ! empty( $ife_cats ) ) {
+					foreach ( $ife_cats as $ife_catk => $ife_catv ) {
+						$ife_cats[ $ife_catk ] = (int) $ife_catv;
+					}
+				}
+				if ( ! empty( $ife_cats ) ) {
+					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -122,6 +154,7 @@ class Import_Eventbrite_Events_My_Calendar {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', $centralize_array['url'] );
+			update_post_meta( $inserted_event_id, 'iee_event_status', $event_status );
 
 			// Setup Variables for insert into table.
 			$begin   = date( 'Y-m-d', $start_time );
@@ -245,7 +278,7 @@ class Import_Eventbrite_Events_My_Calendar {
 				'event_category'     => $event_category,
 				'event_link_expires' => 0,
 				'event_zoom'         => $event_zoom,
-				'event_approved'     => 1,
+				'event_approved'     => $event_approved,
 				'event_host'         => $host,
 				'event_flagged'      => 0,
 				'event_fifth_week'   => 1,

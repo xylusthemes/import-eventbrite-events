@@ -83,9 +83,16 @@ class Import_Eventbrite_Events_TEC {
 		global $iee_events;
 
 		$is_exitsing_event = $iee_events->common->get_event_by_event_id( $this->event_posttype, $centralize_array['ID'] );
-		$formated_args     = $this->format_event_args_for_tec( $centralize_array );
-		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
-			$formated_args['post_status'] = $event_args['event_status'];
+		$formated_args     = $this->format_event_args_for_tec( $centralize_array );		
+		if( !empty( $is_exitsing_event ) ){
+			$event_status = get_post_status( $is_exitsing_event );
+		}else{
+			$event_status = $event_args['event_status'];
+		}
+		if( empty( $is_exitsing_event ) ){
+			if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
+				$formated_args['post_status'] = $event_status;
+			}
 		}
 		$formated_args['post_author'] = isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id();
 
@@ -172,15 +179,18 @@ class Import_Eventbrite_Events_TEC {
 			update_post_meta( $update_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $update_event_id, 'iee_event_link', esc_url( $centralize_array['url'] ) );
 
+			$check_category = get_the_terms( $update_event_id, $this->taxonomy, false );
 			// Asign event category.
-			$iee_cats = isset( $event_args['event_cats'] ) ? (array) $event_args['event_cats'] : array();
-			if ( ! empty( $iee_cats ) ) {
-				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
-					$iee_cats[ $iee_catk ] = (int) $iee_catv;
+			if( empty( $check_category ) ){
+				$iee_cats = isset( $event_args['event_cats'] ) ? (array) $event_args['event_cats'] : array();
+				if ( ! empty( $iee_cats ) ) {
+					foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+						$iee_cats[ $iee_catk ] = (int) $iee_catv;
+					}
 				}
-			}
-			if ( ! empty( $iee_cats ) ) {
-				wp_set_object_terms( $update_event_id, $iee_cats, $this->taxonomy );
+				if ( ! empty( $iee_cats ) ) {
+					wp_set_object_terms( $update_event_id, $iee_cats, $this->taxonomy );
+				}
 			}
 
 			$event_featured_image = $centralize_array['image_url'];
@@ -219,7 +229,6 @@ class Import_Eventbrite_Events_TEC {
 		$event_args = array(
 			'post_type'          => $this->event_posttype,
 			'post_title'         => $centralize_array['name'],
-			'post_status'        => 'pending',
 			'post_content'       => $centralize_array['description'],
 			'EventStartDate'     => date( 'Y-m-d', $start_time ),
 			'EventStartHour'     => date( 'h', $start_time ),

@@ -93,25 +93,28 @@ class Import_Eventbrite_Events_EventON {
 		$end_time         = $centralize_array['endtime_local'];
 		$ticket_uri       = $centralize_array['url'];
 
+		if( !empty( $is_exitsing_event ) ){
+			$event_status = get_post_status( $is_exitsing_event );
+		}else{
+			$event_status = 'pending';
+		}
+
 		$evon_eventdata = array(
 			'post_title'   => $post_title,
 			'post_content' => $post_description,
 			'post_type'    => $this->event_posttype,
-			'post_status'  => 'pending',
+			'post_status'  => $event_status,
 			'post_author'  => isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id()
 		);
 		if ( $is_exitsing_event ) {
 			$evon_eventdata['ID'] = $is_exitsing_event;
 		}
-		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
-			$evon_eventdata['post_status'] = $event_args['event_status'];
+		if( empty( $is_exitsing_event ) ){
+			if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
+				$evon_eventdata['post_status'] = $event_args['event_status'];
+			}
 		}
-		/*
-		echo "<pre>";
-		print_r( $centralize_array );
-		print_r( $evon_eventdata );
-		exit();
-		*/
+
 		$inserted_event_id = wp_insert_post( $evon_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -119,15 +122,21 @@ class Import_Eventbrite_Events_EventON {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
-			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
-				}
+			if( !empty( $is_exitsing_event ) ){
+				$check_category = get_the_terms( $is_exitsing_event, $this->taxonomy );
 			}
-			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+
+			// Asign event category.
+			if( empty( $check_category ) ){
+				$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+				if ( ! empty( $ife_cats ) ) {
+					foreach ( $ife_cats as $ife_catk => $ife_catv ) {
+						$ife_cats[ $ife_catk ] = (int) $ife_catv;
+					}
+				}
+				if ( ! empty( $ife_cats ) ) {
+					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -135,9 +144,14 @@ class Import_Eventbrite_Events_EventON {
 			if ( $event_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $inserted_event_id, $event_image );
 			}
-			$address = $centralize_array['location']['address_1'];
-			if ( $centralize_array['location']['full_address'] != '' ) {
-				$address = $centralize_array['location']['full_address'];
+			if( isset( $centralize_array['location'] ) && !empty( $centralize_array['location'] ) ){				
+				$address = $centralize_array['location']['address_1'];
+				if ( $centralize_array['location']['full_address'] != '' ) {
+					$address = $centralize_array['location']['full_address'];
+				}
+			}else{
+				$address = 'Online Event';
+				$centralize_array['location']['name'] = 'Online Event';
 			}
 
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
@@ -147,7 +161,7 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
 
-			if ( $centralize_array['location']['name'] != '' ) {
+			if ( isset( $centralize_array['location']['name'] ) && $centralize_array['location']['name'] != '' ) {
 				$loc_term = term_exists( $centralize_array['location']['name'], $this->location_taxonomy );
 				if ( $loc_term !== 0 && $loc_term !== null ) {
 					if ( is_array( $loc_term ) ) {
@@ -163,28 +177,37 @@ class Import_Eventbrite_Events_EventON {
 					}
 				}
 
-				// latitude and longitude
-				$loc_term_meta                        = array();
-				$loc_term_meta['location_lon']        = ( ! empty( $centralize_array['location']['long'] ) ) ? $centralize_array['location']['long'] : null;
-				$loc_term_meta['location_lat']        = ( ! empty( $centralize_array['location']['lat'] ) ) ? $centralize_array['location']['lat'] : null;
-				$loc_term_meta['evcal_location_link'] = ( isset( $centralize_array['location']['url'] ) ) ? $centralize_array['location']['url'] : null;
-				$loc_term_meta['location_address']    = $address;
-				$loc_term_meta['evo_loc_img']         = ( isset( $centralize_array['location']['image_url'] ) ) ? $centralize_array['location']['image_url'] : null;
-				update_option( 'taxonomy_' . $loc_term_id, $loc_term_meta );
+				if( $centralize_array['location']['name'] != 'Online Event' ){
+					// latitude and longitude
+					$loc_term_meta                        = array();
+					$loc_term_meta['location_lon']        = ( ! empty( $centralize_array['location']['long'] ) ) ? $centralize_array['location']['long'] : null;
+					$loc_term_meta['location_lat']        = ( ! empty( $centralize_array['location']['lat'] ) ) ? $centralize_array['location']['lat'] : null;
+					$loc_term_meta['evcal_location_link'] = ( isset( $centralize_array['location']['url'] ) ) ? $centralize_array['location']['url'] : null;
+					$loc_term_meta['location_address']    = $address;
+					$loc_term_meta['evo_loc_img']         = ( isset( $centralize_array['location']['image_url'] ) ) ? $centralize_array['location']['image_url'] : null;
+					update_option( 'taxonomy_' . $loc_term_id, $loc_term_meta );
 
-				if ( function_exists( 'evo_save_term_metas' ) ) {
-					evo_save_term_metas( $this->location_taxonomy, $loc_term_id, $loc_term_meta );
-				}
+					if ( function_exists( 'evo_save_term_metas' ) ) {
+						evo_save_term_metas( $this->location_taxonomy, $loc_term_id, $loc_term_meta );
+					}
 
-				$term_loc_ids = wp_set_object_terms( $inserted_event_id, $loc_term_id, $this->location_taxonomy );
-				update_post_meta( $inserted_event_id, 'evo_location_tax_id', $loc_term_id );
-				update_post_meta( $inserted_event_id, 'evcal_location_name', $centralize_array['location']['name'] );
-				update_post_meta( $inserted_event_id, 'evcal_location_link', $centralize_array['location']['url'] );
-				update_post_meta( $inserted_event_id, 'evcal_location', $address );
-				update_post_meta( $inserted_event_id, 'evcal_lat', $centralize_array['location']['lat'] );
-				 update_post_meta( $inserted_event_id, 'evcal_lon', $centralize_array['location']['long'] );
-				if ( $centralize_array['location']['long'] != '' && $centralize_array['location']['lat'] != '' ) {
-					update_post_meta( $inserted_event_id, 'evcal_gmap_gen', 'yes' );
+					$term_loc_ids = wp_set_object_terms( $inserted_event_id, $loc_term_id, $this->location_taxonomy );
+					update_post_meta( $inserted_event_id, 'evo_location_tax_id', $loc_term_id );
+					update_post_meta( $inserted_event_id, 'evcal_location_name', $centralize_array['location']['name'] );
+					update_post_meta( $inserted_event_id, 'evcal_location_link', $centralize_array['location']['url'] );
+					update_post_meta( $inserted_event_id, 'evcal_location', $address );
+					update_post_meta( $inserted_event_id, 'evcal_lat', $centralize_array['location']['lat'] );
+					update_post_meta( $inserted_event_id, 'evcal_lon', $centralize_array['location']['long'] );
+					if ( $centralize_array['location']['long'] != '' && $centralize_array['location']['lat'] != '' ) {
+						update_post_meta( $inserted_event_id, 'evcal_gmap_gen', 'yes' );
+					}
+				}else{
+					$loc_term_meta['location_address']    = $address;
+					update_option( 'taxonomy_' . $loc_term_id, $loc_term_meta );
+					if ( function_exists( 'evo_save_term_metas' ) ) {
+						evo_save_term_metas( $this->location_taxonomy, $loc_term_id, $loc_term_meta );
+					}
+					$term_loc_ids = wp_set_object_terms( $inserted_event_id, $loc_term_id, $this->location_taxonomy );
 				}
 			}
 
