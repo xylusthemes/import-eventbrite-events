@@ -91,6 +91,15 @@ class Import_Eventbrite_Events_My_Calendar {
 		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
 			$mc_eventdata['post_status'] = $event_args['event_status'];
 		}
+
+		$event_approved = '0';
+		if( $mc_eventdata['post_status'] == 'publish' ){
+			$event_approved = '1';
+		}
+		if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+			$mc_eventdata['post_status'] = get_post_status( $is_exitsing_event );
+			$event_args['event_status'] = get_post_status( $is_exitsing_event );
+		}
 		$inserted_event_id = wp_insert_post( $mc_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -106,7 +115,9 @@ class Import_Eventbrite_Events_My_Calendar {
 				}
 			}
 			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -245,7 +256,7 @@ class Import_Eventbrite_Events_My_Calendar {
 				'event_category'     => $event_category,
 				'event_link_expires' => 0,
 				'event_zoom'         => $event_zoom,
-				'event_approved'     => 1,
+				'event_approved'     => $event_approved,
 				'event_host'         => $host,
 				'event_flagged'      => 0,
 				'event_fifth_week'   => 1,
@@ -300,8 +311,15 @@ class Import_Eventbrite_Events_My_Calendar {
 				'%f',
 			);
 
-			$db_event_id = $wpdb->get_var( $wpdb->prepare( 'SELECT `event_id` FROM ' . my_calendar_table() . ' WHERE `event_title` = %s AND `event_post`= %d LIMIT 1', sanitize_text_field( $inserted_event->post_title ), $inserted_event_id ) );
+			$db_event_id = $wpdb->get_var( $wpdb->prepare( 'SELECT `event_id` FROM ' . my_calendar_table() . ' WHERE `event_post`= %d LIMIT 1', $inserted_event_id ) );
 			if ( $db_event_id > 0 && is_numeric( $db_event_id ) && ! empty( $db_event_id ) ) {
+
+				if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+					unset( $event_data['event_approved'] );
+				}
+				if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') ) {
+					unset( $event_data['event_category'] );
+				}
 
 				$event_where = array( 'event_id' => absint( $db_event_id ) );
 				$wpdb->update( my_calendar_table(), $event_data, $event_where, $event_formats );

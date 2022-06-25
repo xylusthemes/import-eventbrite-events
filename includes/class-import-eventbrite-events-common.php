@@ -342,6 +342,22 @@ class Import_Eventbrite_Events_Common {
 		return $details . $ticket_section;
 	}
 
+	/**
+	 * Get do not update data fields
+	 *
+	 * @since  1.5.3
+	 * @return array
+	 */
+	public function iee_is_updatable( $field = '' ) {
+		if ( empty( $field ) ){ return true; }
+		if ( !iee_is_pro() ){ return true; }
+		$iee_options = get_option( IEE_OPTIONS, array() );
+		$meetup_options = isset( $iee_options['dont_update'] ) ? $iee_options['dont_update'] : array();
+		if ( isset( $meetup_options[$field] ) &&  'yes' == $meetup_options[$field] ){
+			return false;
+		}
+		return true;
+	}
 
 
 	/**

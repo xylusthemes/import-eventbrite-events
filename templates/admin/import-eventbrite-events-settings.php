@@ -128,6 +128,31 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 
 					<tr>
                         <th scope="row">
+                            <?php _e( "Don't Update these data.", "import-eventbrite-events" ); ?> : 
+                        </th>
+                        <td>
+                            <?php
+                            $eventbrite_options = isset($eventbrite_options['dont_update'])? $eventbrite_options['dont_update'] : array();
+                            $sdontupdate = isset( $eventbrite_options['status'] ) ? $eventbrite_options['status'] : 'no';
+                            $cdontupdate = isset( $eventbrite_options['category'] ) ? $eventbrite_options['category'] : 'no';
+                            ?>
+                            <input type="checkbox" name="eventbrite[dont_update][status]" value="yes" <?php checked( $sdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
+                            <span class="xtei_small">
+                                <?php _e( 'Status ( Publish, Pending, Draft etc.. )', 'import-eventbrite-events' ); ?>
+                            </span><br/>
+                            <input type="checkbox" name="eventbrite[dont_update][category]" value="yes" <?php checked( $cdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
+                            <span class="xtei_small">
+                                <?php _e( 'Event category', 'import-eventbrite-events' ); ?>
+                            </span><br/>
+                            <span class="iee_small">
+                                <?php _e( "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')", 'import-eventbrite-events' ); ?>
+                            </span>
+                            <?php do_action('iee_render_pro_notice'); ?>
+                        </td>
+                    </tr>
+
+					<tr>
+                        <th scope="row">
                             <?php _e('Event Slug', 'import-eventbrite-events'); ?> :
                         </th>
                         <td>
