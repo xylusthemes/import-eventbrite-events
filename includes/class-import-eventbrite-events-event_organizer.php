@@ -111,6 +111,9 @@ class Import_Eventbrite_Events_Event_Organizer {
 			$eo_eventdata['post_status'] = $event_args['event_status'];
 		}
 
+		if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+			$eo_eventdata['post_status'] = get_post_status( $is_exitsing_event );
+		}
 		$inserted_event_id = wp_insert_post( $eo_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -126,7 +129,9 @@ class Import_Eventbrite_Events_Event_Organizer {
 				}
 			}
 			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
