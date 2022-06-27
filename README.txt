@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.0
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,10 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.6.4 =
+* ADDED: Support for don't update status & category during auto-update. (Pro)
+* FIXED: Duplicate Event issue in My Calendar.
 
 = 1.6.3 =
 * ADDED: Webp images support
