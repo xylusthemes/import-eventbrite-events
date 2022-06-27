@@ -352,8 +352,8 @@ class Import_Eventbrite_Events_Common {
 		if ( empty( $field ) ){ return true; }
 		if ( !iee_is_pro() ){ return true; }
 		$iee_options = get_option( IEE_OPTIONS, array() );
-		$meetup_options = isset( $iee_options['dont_update'] ) ? $iee_options['dont_update'] : array();
-		if ( isset( $meetup_options[$field] ) &&  'yes' == $meetup_options[$field] ){
+		$eventbrite_options = isset( $iee_options['dont_update'] ) ? $iee_options['dont_update'] : array();
+		if ( isset( $eventbrite_options[$field] ) &&  'yes' == $eventbrite_options[$field] ){
 			return false;
 		}
 		return true;
