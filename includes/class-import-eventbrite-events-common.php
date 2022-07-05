@@ -1219,7 +1219,7 @@ function get_iee_template( $template_name, $args = array(), $template_path = 'im
  *
  * @since 1.5.0
  * @param string      $template_name
- * @param string      $template_path (default: 'import-facebook-events')
+ * @param string      $template_path (default: 'import-eventbrite-events')
  * @param string|bool $default_path (default: '') False to not load a default
  * @return string
  */
@@ -1248,7 +1248,7 @@ function locate_iee_template( $template_name, $template_path = 'import-eventbrit
  * @since 1.0.0
  * @param string      $slug
  * @param string      $name (default: '')
- * @param string      $template_path (default: 'import-facebook-events')
+ * @param string      $template_path (default: 'import-eventbrite-events')
  * @param string|bool $default_path (default: '') False to not load a default
  */
 function get_iee_template_part( $slug, $name = '', $template_path = 'import-eventbrite-events', $default_path = '' ) {
@@ -1256,7 +1256,7 @@ function get_iee_template_part( $slug, $name = '', $template_path = 'import-even
 	if ( $name ) {
 		$template = locate_iee_template( "{$slug}-{$name}.php", $template_path, $default_path );
 	}
-	// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/import-facebook-events/slug.php
+	// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/import-eventbrite-events/slug.php
 	if ( ! $template ) {
 		$template = locate_iee_template( "{$slug}.php", $template_path, $default_path );
 	}
