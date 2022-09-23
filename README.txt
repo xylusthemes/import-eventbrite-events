@@ -49,7 +49,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 
  <h3>Import Eventbrite Events into</h3>
 
-* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/)
+* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/) - Support with the event calendar 6.0
 * [ Events manager ](https://wordpress.org/plugins/events-manager/)
 * [ Event Organiser ](https://wordpress.org/plugins/event-organiser/)
 * [ EventON ](https://codecanyon.net/item/eventon-wordpress-event-calendar-plugin/1211017)
