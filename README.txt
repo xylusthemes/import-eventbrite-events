@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.0
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 
  <h3>Import Eventbrite Events into</h3>
 
-* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/)
+* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/) - Support with the event calendar 6.0
 * [ Events manager ](https://wordpress.org/plugins/events-manager/)
 * [ Event Organiser ](https://wordpress.org/plugins/event-organiser/)
 * [ EventON ](https://codecanyon.net/item/eventon-wordpress-event-calendar-plugin/1211017)
@@ -139,6 +139,9 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.6.5 =
+* ADDED: Compatibility with The Events Calendar 6.0
 
 = 1.6.4 =
 * ADDED: Support for don't update status & category during auto-update. (Pro)
