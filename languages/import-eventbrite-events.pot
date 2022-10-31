@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-17T11:21:55+00:00\n"
+"POT-Creation-Date: 2022-10-31T06:20:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: import-eventbrite-events\n"
 
 #. Plugin Name of the plugin
@@ -326,7 +326,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-admin.php:514
 #: includes/class-import-eventbrite-events-list-table.php:172
 #: includes/class-import-eventbrite-events-list-table.php:524
-#: includes/class-import-eventbrite-events-list-table.php:698
+#: includes/class-import-eventbrite-events-list-table.php:699
 msgid "Action"
 msgstr ""
 
@@ -812,7 +812,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:80
 #: includes/class-import-eventbrite-events-list-table.php:180
 #: includes/class-import-eventbrite-events-list-table.php:431
-#: includes/class-import-eventbrite-events-list-table.php:555
+#: includes/class-import-eventbrite-events-list-table.php:556
 msgid "Delete"
 msgstr ""
 
@@ -906,19 +906,19 @@ msgstr ""
 msgid "Import Stats"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-list-table.php:543
+#: includes/class-import-eventbrite-events-list-table.php:544
 msgid "Clear Import History"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-list-table.php:695
+#: includes/class-import-eventbrite-events-list-table.php:696
 msgid "ID"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-list-table.php:696
+#: includes/class-import-eventbrite-events-list-table.php:697
 msgid "Title"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-list-table.php:697
+#: includes/class-import-eventbrite-events-list-table.php:698
 msgid "Shortcode"
 msgstr ""
 
