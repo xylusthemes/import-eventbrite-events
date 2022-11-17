@@ -217,7 +217,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @since 1.0
 		 * @return void
 		 */
-		public function iee_setting_doc_links ( $links ) {
+		public function iee_setting_doc_links( $links ) {
 			$iee_setting_doc_link = array(
 				'iee-event-setting' => sprintf(
 					'<a href="%s">%s</a>',

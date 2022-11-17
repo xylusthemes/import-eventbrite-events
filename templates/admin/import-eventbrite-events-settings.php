@@ -20,7 +20,7 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 							<?php _e( 'Eventbrite Private token', 'import-eventbrite-events' ); ?> : 
 						</th>
 						<td>
-							<input class="eventbrite_oauth_token" name="eventbrite[eventbrite_oauth_token]" type="text" value="<?php if ( isset( $eventbrite_options['eventbrite_oauth_token'] ) ) { echo $eventbrite_options['eventbrite_oauth_token']; } ?>" />
+							<input class="eventbrite_oauth_token" name="eventbrite[eventbrite_oauth_token]" type="text" value="<?php if ( isset( $eventbrite_options['eventbrite_oauth_token'] ) ) { echo esc_attr( $eventbrite_options['eventbrite_oauth_token'] ); } ?>" />
 							<span class="xtei_small">
 								<?php _e( 'Insert your eventbrite.com Private token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'import-eventbrite-events' ); ?>
 							</span>
@@ -132,9 +132,9 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
                         </th>
                         <td>
                             <?php
-                            $eventbrite_options = isset($eventbrite_options['dont_update'])? $eventbrite_options['dont_update'] : array();
-                            $sdontupdate = isset( $eventbrite_options['status'] ) ? $eventbrite_options['status'] : 'no';
-                            $cdontupdate = isset( $eventbrite_options['category'] ) ? $eventbrite_options['category'] : 'no';
+                            $dont_update_sc = isset($eventbrite_options['dont_update'])? $eventbrite_options['dont_update'] : array();
+                            $sdontupdate = isset( $dont_update_sc['status'] ) ? $dont_update_sc['status'] : 'no';
+                            $cdontupdate = isset( $dont_update_sc['category'] ) ? $dont_update_sc['category'] : 'no';
                             ?>
                             <input type="checkbox" name="eventbrite[dont_update][status]" value="yes" <?php checked( $sdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
                             <span class="xtei_small">
@@ -159,7 +159,7 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
                             <?php
                             $event_slug = isset($eventbrite_options['event_slug']) ? $eventbrite_options['event_slug'] : 'eventbrite-event';
                             ?>
-                            <input type="text" name="eventbrite[event_slug]" value="<?php if ( $event_slug ) { echo $event_slug; } ?>" <?php if (!iee_is_pro()) { echo 'disabled="disabled"'; } ?> />
+                            <input type="text" name="eventbrite[event_slug]" value="<?php if ( $event_slug ) { echo esc_attr( $event_slug ); } ?>" <?php if (!iee_is_pro()) { echo 'disabled="disabled"'; } ?> />
                             <span class="iee_small">
                                 <?php _e('Slug for the event.', 'import-eventbrite-events'); ?>
                             </span>
