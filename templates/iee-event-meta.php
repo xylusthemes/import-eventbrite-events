@@ -198,7 +198,7 @@ if( !empty( $series_id ) ){
 	$args = array(
 		'post_type'    => 'eventbrite_events',
 		'numberposts'  => 5,
-		'order'   	   => 'ASC',
+		'order'        => 'ASC',
 		'meta_query'   => array(
 			'relation' => 'AND',
 			array(
