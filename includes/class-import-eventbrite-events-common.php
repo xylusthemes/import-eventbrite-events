@@ -671,34 +671,21 @@ class Import_Eventbrite_Events_Common {
 	 * @return /boolean
 	 */
 	public function get_event_by_event_id( $post_type, $event_id ) {
-		$event_args = array(
-			'post_type'        => $post_type,
-			'post_status'      => array( 'pending', 'draft', 'publish', 'private' ),
-			'posts_per_page'   => -1,
-			'suppress_filters' => true,
-			'meta_key'         => 'iee_event_id',
-			'meta_value'       => $event_id,
+		global $wpdb;
+		
+		$get_post_id = $wpdb->get_col(
+			$wpdb->prepare(
+				'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $wpdb->prefix . 'posts.post_status != %s AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
+				$post_type,
+				'trash',
+				'iee_event_id',
+				$event_id
+			)
 		);
 
-		if ( $post_type == 'tribe_events' && class_exists( 'Tribe__Events__Query' ) ) {
-			$event_args['tribe_suppress_query_filters'] = true;
-			if( method_exists( "Tribe__Events__Query", "pre_get_posts" ) ){
-				remove_action( 'pre_get_posts', array( 'Tribe__Events__Query', 'pre_get_posts' ), 50 );
-			}
+		if ( !empty( $get_post_id[0] ) ) {
+			return $get_post_id[0];
 		}
-		$events = new WP_Query( $event_args );
-		if ( $post_type == 'tribe_events' && class_exists( 'Tribe__Events__Query' ) ) {
-			if( method_exists( "Tribe__Events__Query", "pre_get_posts" ) ){
-				add_action( 'pre_get_posts', array( 'Tribe__Events__Query', 'pre_get_posts' ), 50 );
-			}
-		}
-		if ( $events->have_posts() ) {
-			while ( $events->have_posts() ) {
-				$events->the_post();
-				return get_the_ID();
-			}
-		}
-		wp_reset_postdata();
 		return false;
 	}
 
