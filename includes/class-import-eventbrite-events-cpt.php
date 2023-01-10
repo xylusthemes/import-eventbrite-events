@@ -624,7 +624,7 @@ class Import_Eventbrite_Events_Cpt {
 	 * render events lisiting.
 	 */
 	public function eventbrite_events_archive( $atts = array() ) {
-		// [eventbrite_events col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+		// [eventbrite_events layout="style2" col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
 		$current_date = current_time( 'timestamp' );
 		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
 		if ( is_front_page() ) {
@@ -762,8 +762,8 @@ class Import_Eventbrite_Events_Cpt {
 			}
 		}
 
-		$col       = 3;
-		$css_class = 'col-iee-md-4';
+		$col       = 2;
+		$css_class = 'col-iee-md-6';
 		if ( isset( $atts['col'] ) && $atts['col'] != '' && is_numeric( $atts['col'] ) ) {
 			$col = $atts['col'];
 			switch ( $col ) {
@@ -816,7 +816,11 @@ class Import_Eventbrite_Events_Cpt {
 				while ( $eventbrite_events->have_posts() ) :
 					$eventbrite_events->the_post();
 
-					get_iee_template( 'iee-archive-content.php', $template_args );
+					if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' ){
+						get_iee_template( 'iee-archive-content2.php', $template_args );
+					}else{
+						get_iee_template( 'iee-archive-content.php', $template_args );
+					}
 
 				endwhile; // End of the loop.
 
