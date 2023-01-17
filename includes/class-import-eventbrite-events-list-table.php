@@ -696,27 +696,27 @@ class Shortcode_List_Table extends WP_List_Table {
 			'how_to_use'    => __( 'Title', 'import-eventbrite-events' ),
 			'shortcode'     => __( 'Shortcode', 'import-eventbrite-events' ),
 			'action'    	=> __( 'Action', 'import-eventbrite-events' ),
-        );
+		);
 
-        return $columns;
-    }
+		return $columns;
+	}
 
-    /**
-     * Define which columns are hidden
-     *
-     * @return Array
-     */
-    public function get_hidden_columns() {
-        return array();
-    }
+	/**
+	 * Define which columns are hidden
+	 *
+	 * @return Array
+	 */
+	public function get_hidden_columns() {
+		return array();
+	}
 
-    /**
-     * Get the table data
-     *
-     * @return Array
-     */
-    private function table_data() {
-        $data = array();
+	/**
+	 * Get the table data
+	 *
+	 * @return Array
+	 */
+	private function table_data() {
+		$data = array();
 
 		$data[] = array(
 					'id'            => 1,
