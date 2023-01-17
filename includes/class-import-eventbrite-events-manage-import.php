@@ -33,7 +33,7 @@ class Import_Eventbrite_Events_Manage_Import {
 		global $iee_errors;
 		$event_data = array();
 
-		if ( isset( $_POST['iee_action'] ) && $_POST['iee_action'] == 'iee_import_submit' && check_admin_referer( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ) ) {
+		if ( isset( $_POST['iee_action'] ) && sanitize_text_field( wp_unslash ( $_POST['iee_action'] ) ) == 'iee_import_submit' && check_admin_referer( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ) ) {
 
 			$event_data['import_into'] = isset( $_POST['event_plugin'] ) ? sanitize_text_field( $_POST['event_plugin'] ) : '';
 			if ( $event_data['import_into'] == '' ) {
@@ -43,8 +43,8 @@ class Import_Eventbrite_Events_Manage_Import {
 			$event_data['import_type']      = 'onetime';
 			$event_data['import_frequency'] = isset( $_POST['import_frequency'] ) ? sanitize_text_field( $_POST['import_frequency'] ) : 'daily';
 			$event_data['event_status']     = isset( $_POST['event_status'] ) ? sanitize_text_field( $_POST['event_status'] ) : 'pending';
-			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? $_POST['event_cats'] : array();
-			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? $_POST['event_author'] : get_current_user_id();
+			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_cats'] ) ) : array();
+			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_author'] ) ) : get_current_user_id();
 
 			$this->handle_eventbrite_import_form_submit( $event_data );
 		}

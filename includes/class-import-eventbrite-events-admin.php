@@ -48,7 +48,7 @@ class Import_Eventbrite_Events_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'admin_notices', array( $this, 'display_notices' ) );
 		add_filter( 'admin_footer_text', array( $this, 'add_event_aggregator_credit' ) );
-		add_action( 'admin_action_iee_view_import_history',  array( $this, 'iee_view_import_history_handler' ) );
+		add_action( 'admin_action_iee_view_import_history', array( $this, 'iee_view_import_history_handler' ) );
 	}
 
 	/**
@@ -68,6 +68,7 @@ class Import_Eventbrite_Events_Admin {
 		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
 		$submenu['eventbrite_event'][] = array( __( 'Support & help', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
 		if( !iee_is_pro() ){
+			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ), '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
         	$submenu['eventbrite_event'][] = array( '<li class="iee_upgrade_pro current">' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
 		}
 	}
@@ -548,20 +549,20 @@ class Import_Eventbrite_Events_Admin {
 								<?php 
 								printf(
 									'<a href="%1$s" target="_blank">%2$s</a>',
-									get_the_permalink($event['id']),
-									get_the_title($event['id'])
+									esc_url( get_the_permalink( $event['id'] ) ),
+									esc_attr( get_the_title($event['id'] ) )
 								);
 								?>
 							</td>
 							<td class="title column-title">
-								<?php echo ucfirst($event['status']); ?>
+								<?php echo esc_attr( ucfirst($event['status']) ); ?>
 							</td>
 							<td class="title column-action">
 								<?php 
 								printf(
 									'<a href="%1$s" target="_blank">%2$s</a>',
-									get_edit_post_link($event['id']),
-									__( 'Edit', 'import-eventbrite-events' )
+									esc_url( get_edit_post_link($event['id'] ) ),
+									esc_attr__( 'Edit', 'import-eventbrite-events' )
 								);
 								?>
 							</td>
