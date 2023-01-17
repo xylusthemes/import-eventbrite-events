@@ -164,7 +164,7 @@ class Import_Eventbrite_Events_Event_Organizer {
 				'event_occurrence' => 0,
 			);
 
-			$event_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = " . absint( $inserted_event_id ) );
+			$event_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = " . absint( $inserted_event_id ) ) );
 			if ( $event_count > 0 && is_numeric( $event_count ) ) {
 				$where = array( 'post_id' => absint( $inserted_event_id ) );
 				$wpdb->update( $this->event_db_table, $event_array, $where );

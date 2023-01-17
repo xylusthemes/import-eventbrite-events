@@ -267,7 +267,7 @@ class Import_Eventbrite_Events_Cpt {
 			<tr>
 				<td><?php _e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo get_post_meta( $post->ID, 'event_start_date', true ); ?>" /> @ 
+				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_start_date', true ) ); ?>" /> @ 
 				<?php
 				$this->generate_dropdown( 'event_start', 'hour', $start_hour );
 				$this->generate_dropdown( 'event_start', 'minute', $start_minute );
@@ -278,7 +278,7 @@ class Import_Eventbrite_Events_Cpt {
 			<tr>
 				<td><?php _e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo get_post_meta( $post->ID, 'event_end_date', true ); ?>" /> @ 
+					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_end_date', true ) ); ?>" /> @ 
 					<?php
 					$this->generate_dropdown( 'event_end', 'hour', $end_hour );
 					$this->generate_dropdown( 'event_end', 'minute', $end_minute );
@@ -303,63 +303,63 @@ class Import_Eventbrite_Events_Cpt {
 			<tr>
 				<td><?php _e( 'Venue', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_name" id="venue_name" value="<?php echo get_post_meta( $post->ID, 'venue_name', true ); ?>" />
+					<input type="text" name="venue_name" id="venue_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_name', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'Address', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_address" id="venue_address" value="<?php echo get_post_meta( $post->ID, 'venue_address', true ); ?>" />
+					<input type="text" name="venue_address" id="venue_address" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_address', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'City', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_city" id="venue_city" value="<?php echo get_post_meta( $post->ID, 'venue_city', true ); ?>" />
+					<input type="text" name="venue_city" id="venue_city" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_city', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'State', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_state" id="venue_state" value="<?php echo get_post_meta( $post->ID, 'venue_state', true ); ?>" />
+					<input type="text" name="venue_state" id="venue_state" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_state', true ) ); ?>" />
 				</td>
 			</tr>
 			
 			<tr>
 				<td><?php _e( 'Country', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_country" id="venue_country" value="<?php echo get_post_meta( $post->ID, 'venue_country', true ); ?>" />
+					<input type="text" name="venue_country" id="venue_country" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_country', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'Zipcode', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo get_post_meta( $post->ID, 'venue_zipcode', true ); ?>" />
+					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_zipcode', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo get_post_meta( $post->ID, 'venue_lat', true ); ?>" />
+					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lat', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'Longitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo get_post_meta( $post->ID, 'venue_lon', true ); ?>" />
+					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lon', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
 				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_url" id="venue_url" value="<?php echo get_post_meta( $post->ID, 'venue_url', true ); ?>" />
+					<input type="text" name="venue_url" id="venue_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'venue_url', true ) ); ?>" />
 				</td>
 			</tr>
 			</tbody>
@@ -378,25 +378,25 @@ class Import_Eventbrite_Events_Cpt {
 			<tr>
 				<td><?php _e( 'Organizer Name', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo get_post_meta( $post->ID, 'organizer_name', true ); ?>" />
+					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_name', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td><?php _e( 'Email', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo get_post_meta( $post->ID, 'organizer_email', true ); ?>" />
+					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_email', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td><?php _e( 'Phone', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo get_post_meta( $post->ID, 'organizer_phone', true ); ?>" />
+					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_phone', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo get_post_meta( $post->ID, 'organizer_url', true ); ?>" />
+					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'organizer_url', true ) ); ?>" />
 				</td>
 			</tr>
 			</tbody>
@@ -415,7 +415,7 @@ class Import_Eventbrite_Events_Cpt {
 				<tr>
 					<td><?php _e( 'Source Link', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="event_source_link" id="event_source_link" value="<?php echo get_post_meta( $post->ID, 'iee_event_link', true ); ?>" />
+					<input type="text" name="event_source_link" id="event_source_link" value="<?php echo esc_url( get_post_meta( $post->ID, 'iee_event_link', true ) ); ?>" />
 				</td>
 			</tr>
 			</tbody>
@@ -434,7 +434,7 @@ class Import_Eventbrite_Events_Cpt {
 		$select_name = $start_end . '_' . $type;
 		if ( $type == 'hour' ) {
 			?>
-			<select name="<?php echo $select_name; ?>">
+			<select name="<?php echo esc_attr( $select_name ); ?>">
 				<option value="01" <?php selected( $selected, '01' ); ?>>01</option>
 				<option value="02" <?php selected( $selected, '02' ); ?>>02</option>
 				<option value="03" <?php selected( $selected, '03' ); ?>>03</option>
@@ -451,7 +451,7 @@ class Import_Eventbrite_Events_Cpt {
 			<?php
 		} elseif ( $type == 'minute' ) {
 			?>
-			<select name="<?php echo $select_name; ?>">
+			<select name="<?php echo esc_attr( $select_name ); ?>">
 				<option value="00" <?php selected( $selected, '00' ); ?>>00</option>
 				<option value="05" <?php selected( $selected, '05' ); ?>>05</option>
 				<option value="10" <?php selected( $selected, '10' ); ?>>10</option>
@@ -468,7 +468,7 @@ class Import_Eventbrite_Events_Cpt {
 			<?php
 		} elseif ( $type == 'meridian' ) {
 			?>
-			<select name="<?php echo $select_name; ?>">
+			<select name="<?php echo esc_attr( $select_name ); ?>">
 				<option value="am" <?php selected( $selected, 'am' ); ?>>am</option>
 				<option value="pm" <?php selected( $selected, 'pm' ); ?>>pm</option>
 			</select>
@@ -481,7 +481,7 @@ class Import_Eventbrite_Events_Cpt {
 	 */
 	public function save_event_meta_boxes( $post_id, $post ) {
 		// Verify the nonce before proceeding.
-		if ( ! isset( $_POST['iee_event_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['iee_event_metabox_nonce'], IEE_PLUGIN_DIR ) ) {
+		if ( ! isset( $_POST['iee_event_metabox_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash ( $_POST['iee_event_metabox_nonce'] ) ), IEE_PLUGIN_DIR ) ) {
 			return $post_id;
 		}
 
@@ -586,7 +586,7 @@ class Import_Eventbrite_Events_Cpt {
 				$start_date = get_post_meta( $post_id, 'event_start_date', true );
 				if ( $start_date != '' ) {
 					$start_date = strtotime( $start_date );
-					echo date( 'F j, Y', $start_date );
+					echo esc_attr( date( 'F j, Y', $start_date ) );
 				} else {
 					echo '-';
 				}
@@ -839,16 +839,16 @@ class Import_Eventbrite_Events_Cpt {
 				<?php
 				endif;
 			else :
-				echo apply_filters( 'iee_no_events_found_message', __( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
+				echo apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
 			endif;
 			?>
 		</div>
 		<style type="text/css">
 			.iee_archive .iee_event .event_date{
-			    background-color: <?php echo $accent_color;?>;
+			    background-color: <?php echo esc_attr( $accent_color ); ?>;
 			}
 			.iee_archive .iee_event .event_desc .event_title{
-			    color: <?php echo $accent_color;?>;
+			    color: <?php echo esc_attr( $accent_color ); ?>;
 			}
 		</style>
 		<?php

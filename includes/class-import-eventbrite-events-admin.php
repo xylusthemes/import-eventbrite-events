@@ -43,11 +43,12 @@ class Import_Eventbrite_Events_Admin {
 		add_action( 'admin_init', array( $this, 'database_upgrade_notice' ) );
 		add_action( 'admin_init', array( $this, 'maybe_proceed_database_upgrade' ) );
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
+		add_filter( 'submenu_file', array( $this, 'get_selected_tab_submenu_iee' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'admin_notices', array( $this, 'display_notices' ) );
 		add_filter( 'admin_footer_text', array( $this, 'add_event_aggregator_credit' ) );
-		add_action( 'admin_action_iee_view_import_history',  array( $this, 'iee_view_import_history_handler' ) );
+		add_action( 'admin_action_iee_view_import_history', array( $this, 'iee_view_import_history_handler' ) );
 	}
 
 	/**
@@ -59,8 +60,16 @@ class Import_Eventbrite_Events_Admin {
 	public function add_menu_pages() {
 
 		add_menu_page( __( 'Import Eventbrite Events', 'import-eventbrite-events' ), __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', 'eventbrite_event', array( $this, 'admin_page' ), 'dashicons-calendar-alt', '30' );
+		global $submenu;	
+		$submenu['eventbrite_event'][] = array( __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=eventbrite' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Schedule Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=scheduled' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Import History', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=history' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Settings', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=settings' ));
+		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
+		$submenu['eventbrite_event'][] = array( __( 'Support & help', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
 		if( !iee_is_pro() ){
-			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ),  '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
+			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ), '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
+        	$submenu['eventbrite_event'][] = array( '<li class="iee_upgrade_pro current">' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
 		}
 	}
 
@@ -494,6 +503,23 @@ class Import_Eventbrite_Events_Admin {
 	}
 
 	/**
+	 * Tab Submenu got selected.
+	 *
+	 * @since 1.6.7
+	 * @return void
+	 */
+	public function get_selected_tab_submenu_iee( $submenu_file ){
+		if( !empty( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) == 'eventbrite_event' ){
+			$allowed_tabs = array( 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
+			$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'eventbrite';
+			if( in_array( $tab, $allowed_tabs ) ){
+				$submenu_file = admin_url( 'admin.php?page=eventbrite_event&tab='.$tab );
+			}
+		}
+		return $submenu_file;
+	}
+
+	/**
 	 * Render imported Events in history Page.
 	 *
 	 * @return void
@@ -523,20 +549,20 @@ class Import_Eventbrite_Events_Admin {
 								<?php 
 								printf(
 									'<a href="%1$s" target="_blank">%2$s</a>',
-									get_the_permalink($event['id']),
-									get_the_title($event['id'])
+									esc_url( get_the_permalink( $event['id'] ) ),
+									esc_attr( get_the_title($event['id'] ) )
 								);
 								?>
 							</td>
 							<td class="title column-title">
-								<?php echo ucfirst($event['status']); ?>
+								<?php echo esc_attr( ucfirst($event['status']) ); ?>
 							</td>
 							<td class="title column-action">
 								<?php 
 								printf(
 									'<a href="%1$s" target="_blank">%2$s</a>',
-									get_edit_post_link($event['id']),
-									__( 'Edit', 'import-eventbrite-events' )
+									esc_url( get_edit_post_link($event['id'] ) ),
+									esc_attr__( 'Edit', 'import-eventbrite-events' )
 								);
 								?>
 							</td>

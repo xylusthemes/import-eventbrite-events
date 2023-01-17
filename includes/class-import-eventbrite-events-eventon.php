@@ -62,7 +62,7 @@ class Import_Eventbrite_Events_EventON {
 	 * import event into TEC
 	 *
 	 * @since    1.0.0
-	 * @param  array $centralize event array.
+	 * @param  array $centralize_array event array.
 	 * @return array
 	 */
 	public function import_event( $centralize_array, $event_args ) {
@@ -135,8 +135,8 @@ class Import_Eventbrite_Events_EventON {
 			if ( $event_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $inserted_event_id, $event_image );
 			}
-			$address = $centralize_array['location']['address_1'];
-			if ( $centralize_array['location']['full_address'] != '' ) {
+			$address = !empty( $centralize_array['location']['address_1'] ) ? $centralize_array['location']['address_1'] : '';
+			if ( !empty( $centralize_array['location']['full_address'] ) ) {
 				$address = $centralize_array['location']['full_address'];
 			}
 
@@ -147,7 +147,7 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
 
-			if ( $centralize_array['location']['name'] != '' ) {
+			if ( !empty( $centralize_array['location']['name'] ) ) {
 				$loc_term = term_exists( $centralize_array['location']['name'], $this->location_taxonomy );
 				if ( $loc_term !== 0 && $loc_term !== null ) {
 					if ( is_array( $loc_term ) ) {
