@@ -43,6 +43,7 @@ class Import_Eventbrite_Events_Admin {
 		add_action( 'admin_init', array( $this, 'database_upgrade_notice' ) );
 		add_action( 'admin_init', array( $this, 'maybe_proceed_database_upgrade' ) );
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
+		add_filter( 'submenu_file', array( $this, 'get_selected_tab_submenu_iee' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'admin_notices', array( $this, 'display_notices' ) );
@@ -59,8 +60,16 @@ class Import_Eventbrite_Events_Admin {
 	public function add_menu_pages() {
 
 		add_menu_page( __( 'Import Eventbrite Events', 'import-eventbrite-events' ), __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', 'eventbrite_event', array( $this, 'admin_page' ), 'dashicons-calendar-alt', '30' );
+		global $submenu;	
+		$submenu['eventbrite_event'][] = array( __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=eventbrite' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Schedule Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=scheduled' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Import History', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=history' ) );
+		$submenu['eventbrite_event'][] = array( __( 'Settings', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=settings' ));
+		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
+		$submenu['eventbrite_event'][] = array( __( 'Support & help', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
 		if( !iee_is_pro() ){
 			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ), '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
+        	$submenu['eventbrite_event'][] = array( '<li class="iee_upgrade_pro current">' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
 		}
 	}
 
@@ -491,6 +500,23 @@ class Import_Eventbrite_Events_Admin {
 			}
 		}
 		return $plugin_data;
+	}
+
+	/**
+	 * Tab Submenu got selected.
+	 *
+	 * @since 1.6.7
+	 * @return void
+	 */
+	public function get_selected_tab_submenu_iee( $submenu_file ){
+		if( !empty( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) == 'eventbrite_event' ){
+			$allowed_tabs = array( 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
+			$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'eventbrite';
+			if( in_array( $tab, $allowed_tabs ) ){
+				$submenu_file = admin_url( 'admin.php?page=eventbrite_event&tab='.$tab );
+			}
+		}
+		return $submenu_file;
 	}
 
 	/**
