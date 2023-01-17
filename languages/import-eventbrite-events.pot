@@ -472,48 +472,48 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:714
+#: includes/class-import-eventbrite-events-common.php:701
 msgid "Available in Pro version."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:714
+#: includes/class-import-eventbrite-events-common.php:701
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:991
+#: includes/class-import-eventbrite-events-common.php:978
 msgid "Scheduled import deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:995
-#: includes/class-import-eventbrite-events-common.php:1019
+#: includes/class-import-eventbrite-events-common.php:982
+#: includes/class-import-eventbrite-events-common.php:1006
 msgid "Scheduled imports are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:999
+#: includes/class-import-eventbrite-events-common.php:986
 msgid "Scheduled import has been run successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1003
+#: includes/class-import-eventbrite-events-common.php:990
 msgid "Import history deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1007
+#: includes/class-import-eventbrite-events-common.php:994
 msgid "Import histories are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1011
+#: includes/class-import-eventbrite-events-common.php:998
 msgid "Update has been finish successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1015
+#: includes/class-import-eventbrite-events-common.php:1002
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1165
+#: includes/class-import-eventbrite-events-common.php:1152
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1322
+#: includes/class-import-eventbrite-events-common.php:1309
 msgid "Buy Tickets"
 msgstr ""
 
