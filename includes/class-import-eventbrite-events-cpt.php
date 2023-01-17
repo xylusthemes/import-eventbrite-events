@@ -359,7 +359,7 @@ class Import_Eventbrite_Events_Cpt {
 			<tr>
 				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
-					<input type="text" name="venue_url" id="venue_url" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_url', true ) ); ?>" />
+					<input type="text" name="venue_url" id="venue_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'venue_url', true ) ); ?>" />
 				</td>
 			</tr>
 			</tbody>

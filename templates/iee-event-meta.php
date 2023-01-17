@@ -88,7 +88,7 @@ if($time_format == '12hours' ){
 
 	<?php if ( $website != '' ) { ?>
 		<strong><?php esc_html_e( 'Click to Register', 'import-eventbrite-events' ); ?>:</strong>
-		<a href="<?php echo esc_url( $website ); ?>"><?php echo esc_attr( $website ); ?></a>
+		<a href="<?php echo esc_url( $website ); ?>"><?php echo esc_url( $website ); ?></a>
 	<?php } ?>
 
   </div>
