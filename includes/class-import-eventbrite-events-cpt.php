@@ -816,7 +816,7 @@ class Import_Eventbrite_Events_Cpt {
 				while ( $eventbrite_events->have_posts() ) :
 					$eventbrite_events->the_post();
 
-					if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' ){
+					if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' && iee_is_pro() ){
 						get_iee_template( 'iee-archive-content2.php', $template_args );
 					}else{
 						get_iee_template( 'iee-archive-content.php', $template_args );

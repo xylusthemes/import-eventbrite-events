@@ -72,13 +72,13 @@ if ( ! empty( $event_categories ) ) {
                 </span>
             </div>
             <div class="iee_event_detail_style2">
-                <h2 class="event_title_style2">
+                <h2 class="iee_event_title_style2">
                     <a style="color:<?php echo $accent_color; ?>" href="<?php echo $event_url; ?>"><?php the_title(); ?></a>
                 </h2>
                 <div class="iee_event_location_time">
                     <div class="iee_event_time">
                         <span class="iee_time">
-                            <i style="color:<?php echo $accent_color; ?>" class="fa fa-clock-o" aria-hidden="true"></i> <?php echo date_i18n( 'D, F j, Y ', $event_date ) . $start_hours . ':'. $start_minutes . ' ' . $start_meridian ; ?>
+                            <i style="color:<?php echo $accent_color; ?>" class="fa fa-clock-o" aria-hidden="true"></i> <?php echo date_i18n( 'F j, Y ', $event_date ) . $start_hours . ':'. $start_minutes . ' ' . $start_meridian ; ?>
                         </span>
                     </div>
                     <div class="iee_location_style2">
