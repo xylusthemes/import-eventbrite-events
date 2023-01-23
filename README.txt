@@ -21,6 +21,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
  
 
  <h3>Features</h3>
+* Upcoming Events Elementor Widget ([Pro][1]).
 * Easy and seemless Event import from Eventbrite to WordPres.
 * Import Eventbrite event by Event ID using Eventbrite API
 * Import Eventbrite events by Eventbrite organiser ID ([Pro][1]).
@@ -142,6 +143,7 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 = 1.6.7 =
 * ADDED: Event Grid List New Layout ( PRO )
+* ADDED: Upcoming Events Elementor Widget ( PRO )
 * ADDED: Admin Submenu Schedule Import, Import History, etc..
 * FIXED: Duplicate Event issue in TEC
 * IMPROVEMENTS: PHPCS Improvements.
