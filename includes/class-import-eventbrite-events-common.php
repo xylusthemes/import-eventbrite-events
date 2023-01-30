@@ -304,12 +304,12 @@ class Import_Eventbrite_Events_Common {
 					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
-						echo esc_attr( $ticket_section );
+						echo $ticket_section;
 					}
 				}
 			} elseif ( $eventbrite_event_id && $eventbrite_event_id > 0 && is_numeric( $eventbrite_event_id ) ) {
 				$ticket_section = $this->iee_get_ticket_section( $eventbrite_event_id );
-				echo esc_attr( $ticket_section );
+				echo $ticket_section;
 			}
 		}
 	}
