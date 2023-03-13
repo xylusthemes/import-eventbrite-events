@@ -68,7 +68,6 @@ class Import_Eventbrite_Events_Admin {
 		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
 		$submenu['eventbrite_event'][] = array( __( 'Support & help', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
 		if( !iee_is_pro() ){
-			add_submenu_page( 'eventbrite_event', __( 'Upgrade to Pro', 'import-eventbrite-events' ), '<li class="iee_upgrade_pro current"> ' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
         	$submenu['eventbrite_event'][] = array( '<li class="iee_upgrade_pro current">' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
 		}
 	}
