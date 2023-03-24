@@ -698,7 +698,7 @@ class Import_Eventbrite_Events_Cpt {
 				);
 			}
 		} else {
-			if(  $atts['past_events'] === true ){
+			if( isset( $atts['past_events'] ) && $atts['past_events'] === true ){
 				$atts['past_events'] = "yes";
 			}
 			if ( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' ) {
@@ -758,7 +758,7 @@ class Import_Eventbrite_Events_Cpt {
 				$eve_args['order'] = sanitize_text_field( $atts['order'] );
 			}
 		} else {
-			if(  $atts['past_events'] === true ){
+			if( isset( $atts['past_events'] ) && $atts['past_events'] === true ){
 				$atts['past_events'] = "yes";
 			}
 			if ( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' && $eve_args['orderby'] == 'meta_value' ) {
