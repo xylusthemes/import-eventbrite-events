@@ -461,6 +461,8 @@ class Import_Eventbrite_Events_Common {
 					$import_status['updated'][] = $value;
 				} elseif ( $value['status'] == 'skipped' ) {
 					$import_status['skipped'][] = $value;
+				} elseif ( $value['status'] == 'tskipped' ) {
+					$import_status['tskipped'][] = $value;
 				} else {
 
 				}
@@ -474,6 +476,7 @@ class Import_Eventbrite_Events_Common {
 		$created = isset( $import_status['created'] ) ? count( $import_status['created'] ) : 0;
 		$updated = isset( $import_status['updated'] ) ? count( $import_status['updated'] ) : 0;
 		$skipped = isset( $import_status['skipped'] ) ? count( $import_status['skipped'] ) : 0;
+		$tskipped = isset( $import_status['tskipped'] ) ? count( $import_status['tskipped'] ) : 0;
 
 		$success_message = esc_html__( 'Event(s) are imported successfully.', 'import-eventbrite-events' ) . "<br>";
 		if ( $created > 0 ) {
@@ -484,6 +487,9 @@ class Import_Eventbrite_Events_Common {
 		}
 		if ( $skipped > 0 ) {
 			$success_message .= "<strong>" . sprintf( __( '%d Skipped (Already exists)', 'import-eventbrite-events' ), $skipped ) . "</strong><br>";
+		}
+		if ( $tskipped > 0 ) {
+			$success_message .= "<strong>" . sprintf( __( '%d Skipped ( Already exists in trash )', 'import-eventbrite-events' ), $tskipped ) . "</strong><br>";
 		}
 		$iee_success_msg[] = $success_message;
 
@@ -672,16 +678,29 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function get_event_by_event_id( $post_type, $event_id ) {
 		global $wpdb;
+		$iee_options = get_option( IEE_OPTIONS );
+		$dit_option  = isset( $iee_options['dont_import_trashed'] ) ? $iee_options['dont_import_trashed'] : 'no';
 		
-		$get_post_id = $wpdb->get_col(
-			$wpdb->prepare(
-				'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $wpdb->prefix . 'posts.post_status != %s AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
-				$post_type,
-				'trash',
-				'iee_event_id',
-				$event_id
-			)
-		);
+		if( $dit_option === "yes" ){
+			$get_post_id = $wpdb->get_col(
+				$wpdb->prepare(
+					'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
+					$post_type,
+					'iee_event_id',
+					$event_id
+				)
+			);
+		}else{
+			$get_post_id = $wpdb->get_col(
+				$wpdb->prepare(
+					'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $wpdb->prefix . 'posts.post_status != %s AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
+					$post_type,
+					'trash',
+					'iee_event_id',
+					$event_id
+				)
+			);
+		}
 
 		if ( !empty( $get_post_id[0] ) ) {
 			return $get_post_id[0];

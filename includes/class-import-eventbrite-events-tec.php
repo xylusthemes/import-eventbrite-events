@@ -98,6 +98,16 @@ class Import_Eventbrite_Events_TEC {
 
 		if ( $is_exitsing_event && is_numeric( $is_exitsing_event ) && $is_exitsing_event > 0 ) {
 
+			//is trashed events
+			$iee_options = get_option( IEE_OPTIONS );
+			$dit_option  = isset( $iee_options['dont_import_trashed'] ) ? $iee_options['dont_import_trashed'] : 'no';
+			$is_trash = get_post_status( $is_exitsing_event );
+			if( $is_trash === "trash" ){
+				return array(
+					'status' => 'tskipped',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( ! $iee_events->common->iee_is_updatable('status') ) {
 				if( function_exists( 'tribe_events' ) ){
 					$formated_args['status'] = get_post_status( $is_exitsing_event );

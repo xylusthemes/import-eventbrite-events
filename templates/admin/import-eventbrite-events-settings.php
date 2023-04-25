@@ -66,6 +66,21 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 
 					<tr>
 						<th scope="row">
+							<?php _e( "Don't import trash events", 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$dit_eventbrite_events = isset( $eventbrite_options['dont_import_trashed'] ) ? $eventbrite_options['dont_import_trashed'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[dont_import_trashed]" value="yes" <?php if ( $dit_eventbrite_events == 'yes' ) { echo 'checked="checked"'; } ?> />
+							<span class="xtei_small">
+								<?php _e( 'Check to Do not import trashed events.', 'import-eventbrite-events' ); ?>
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row">
 							<?php esc_attr_e( 'Accent Color', 'import-eventbrite-events' ); ?> :
 						</th>
 						<td>

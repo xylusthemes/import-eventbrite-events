@@ -70,6 +70,16 @@ class Import_Eventbrite_Events_EE4 {
 		$is_exitsing_event = $iee_events->common->get_event_by_event_id( $this->event_posttype, $centralize_array['ID'] );
 
 		if ( $is_exitsing_event ) {
+			//is trashed events
+			$iee_options = get_option( IEE_OPTIONS );
+			$dit_option  = isset( $iee_options['dont_import_trashed'] ) ? $iee_options['dont_import_trashed'] : 'no';
+			$is_trash = get_post_status( $is_exitsing_event );
+			if( $is_trash === "trash" ){
+				return array(
+					'status' => 'tskipped',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
