@@ -975,73 +975,73 @@
   background-size: cover !important;
   min-height: 35em !important;
 }
- .col-iee-md-12 .iee_event {
+.col-iee-md-12 .iee_event {
   height: auto !important;
   font-size: 16px;
 }
 
 @media (max-width: 320px) { 
   .archive-event .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 140px !important;
+    background-size: cover !important;
+    min-height: 140px !important;
   }
 }
 @media (min-width: 321px) and (max-width: 576px) { 
   .archive-event .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 170px !important;
+    background-size: cover !important;
+    min-height: 170px !important;
   }
 }
 @media (min-width: 576px) and (max-width: 767.98px) { 
   .col-iee-md-3 .iee_event .img_placeholder {
-      min-height: 240px !important;
+    min-height: 240px !important;
   }
   .col-iee-md-4 .iee_event .img_placeholder {
-      min-height: 240px !important;
+    min-height: 240px !important;
   }
   .col-iee-md-6 .iee_event .img_placeholder {
-      min-height: 240px !important;
+    min-height: 240px !important;
   }
   .col-iee-md-12 .iee_event .img_placeholder {
-      min-height: 240px !important;
+    min-height: 240px !important;
   }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
   .col-iee-md-3 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 350px !important;
+    background-size: cover !important;
+    min-height: 350px !important;
   }
   .col-iee-md-4 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 350px !important;
+    background-size: cover !important;
+    min-height: 350px !important;
   }
   .col-iee-md-6 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 350px !important;
+    background-size: cover !important;
+    min-height: 350px !important;
   }
   .col-iee-md-12 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 350px !important;
+    background-size: cover !important;
+    min-height: 350px !important;
   }
 }
 
 @media (min-width: 993px) and (max-width: 1200px) { 
   .col-iee-md-3 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 100px !important;
+    background-size: cover !important;
+    min-height: 100px !important;
   }
   .col-iee-md-4 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 140px !important;
+    background-size: cover !important;
+    min-height: 140px !important;
   }
   .col-iee-md-6 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 220px !important;
+    background-size: cover !important;
+    min-height: 220px !important;
   }
   .col-iee-md-12 .iee_event .img_placeholder {
-      background-size: cover !important;
-      min-height: 25em !important;
+    background-size: cover !important;
+    min-height: 25em !important;
   }
   .col-iee-md-3 .iee_event .event_details{
     background-color: #f5f5f5;
