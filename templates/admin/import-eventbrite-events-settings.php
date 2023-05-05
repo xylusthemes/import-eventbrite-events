@@ -66,6 +66,22 @@ $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 
 					<tr>
 						<th scope="row">
+							<?php _e( 'Skip Trashed Events', 'import-eventbrite-events' ); ?> : 
+						</th>
+						<td>
+							<?php
+							$skip_trash = isset( $eventbrite_options['skip_trash'] ) ? $eventbrite_options['skip_trash'] : 'no';
+							?>
+							<input type="checkbox" name="eventbrite[skip_trash]" value="yes" <?php if ( $skip_trash == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
+							<span>
+								<?php _e( 'Check to enable skip-the-trash events during importing.', 'import-eventbrite-events' ); ?>
+							</span>
+							<?php do_action( 'iee_render_pro_notice' ); ?>
+						</td>
+					</tr>
+
+					<tr>
+						<th scope="row">
 							<?php esc_attr_e( 'Accent Color', 'import-eventbrite-events' ); ?> :
 						</th>
 						<td>
