@@ -149,6 +149,11 @@ class Import_Eventbrite_Events_IEE {
 			$venue_country = isset( $venue_array['country'] ) ? sanitize_text_field( $venue_array['country'] ) : '';
 			$venue_zipcode = isset( $venue_array['zip'] ) ? sanitize_text_field( $venue_array['zip'] ) : '';
 
+			//Online Events
+			if( $centralize_array['location']['name'] == 'Online Event' ){
+				$venue_name    = 'Online Event';
+			}
+
 			$venue_lat = isset( $venue_array['lat'] ) ? sanitize_text_field( $venue_array['lat'] ) : '';
 			$venue_lon = isset( $venue_array['long'] ) ? sanitize_text_field( $venue_array['long'] ) : '';
 			$venue_url = isset( $venue_array['url'] ) ? esc_url( $venue_array['url'] ) : '';
