@@ -461,6 +461,8 @@ class Import_Eventbrite_Events_Common {
 					$import_status['updated'][] = $value;
 				} elseif ( $value['status'] == 'skipped' ) {
 					$import_status['skipped'][] = $value;
+				} elseif ( $value['status'] == 'skip_trash' ) {
+					$import_status['skip_trash'][] = $value;
 				} else {
 
 				}
@@ -470,10 +472,11 @@ class Import_Eventbrite_Events_Common {
 			}	
 		}
 		
-		$created = $updated = $skipped = 0;
+		$created = $updated = $skipped = $skip_trash = 0;
 		$created = isset( $import_status['created'] ) ? count( $import_status['created'] ) : 0;
 		$updated = isset( $import_status['updated'] ) ? count( $import_status['updated'] ) : 0;
 		$skipped = isset( $import_status['skipped'] ) ? count( $import_status['skipped'] ) : 0;
+		$skip_trash = isset( $import_status['skip_trash'] ) ? count( $import_status['skip_trash'] ) : 0;
 
 		$success_message = esc_html__( 'Event(s) are imported successfully.', 'import-eventbrite-events' ) . "<br>";
 		if ( $created > 0 ) {
@@ -485,6 +488,9 @@ class Import_Eventbrite_Events_Common {
 		if ( $skipped > 0 ) {
 			$success_message .= "<strong>" . sprintf( __( '%d Skipped (Already exists)', 'import-eventbrite-events' ), $skipped ) . "</strong><br>";
 		}
+		if ( $skip_trash > 0 ) {
+			$success_message .= "<strong>" . sprintf( __( '%d Skipped (Already exists in Trash )', 'import-eventbrite-events' ), $skip_trash ) . "</strong><br>";
+		}
 		$iee_success_msg[] = $success_message;
 
 		if ( $schedule_post != '' && $schedule_post > 0 ) {
@@ -493,7 +499,7 @@ class Import_Eventbrite_Events_Common {
 			$temp_title = 'Manual Import';
 		}
 		$nothing_to_import = false;
-		if($created == 0 && $updated == 0 && $skipped == 0 ){
+		if($created == 0 && $updated == 0 && $skipped == 0 && $skip_trash == 0 ){
 			$nothing_to_import = true;
 		}
 
@@ -510,6 +516,7 @@ class Import_Eventbrite_Events_Common {
 				update_post_meta( $insert, 'created', $created );
 				update_post_meta( $insert, 'updated', $updated );
 				update_post_meta( $insert, 'skipped', $skipped );
+				update_post_meta( $insert, 'skip_trash', $skipped );
 				update_post_meta( $insert, 'nothing_to_import', $nothing_to_import );
 				update_post_meta( $insert, 'imported_data', $import_data );
 				update_post_meta( $insert, 'import_data', $import_args );
@@ -672,16 +679,28 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function get_event_by_event_id( $post_type, $event_id ) {
 		global $wpdb;
-		
-		$get_post_id = $wpdb->get_col(
-			$wpdb->prepare(
-				'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $wpdb->prefix . 'posts.post_status != %s AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
-				$post_type,
-				'trash',
-				'iee_event_id',
-				$event_id
-			)
-		);
+		$iee_options       = get_option( IEE_OPTIONS );
+		$skip_trash        = isset( $iee_options['skip_trash'] ) ? $iee_options['skip_trash'] : 'no';
+		if( $skip_trash === 'yes' ){
+			$get_post_id = $wpdb->get_col(
+				$wpdb->prepare(
+					'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
+					$post_type,
+					'iee_event_id',
+					$event_id
+				)
+			);
+		}else{
+			$get_post_id = $wpdb->get_col(
+				$wpdb->prepare(
+					'SELECT ' . $wpdb->prefix . 'posts.ID FROM ' . $wpdb->prefix . 'posts, ' . $wpdb->prefix . 'postmeta WHERE ' . $wpdb->prefix . 'posts.post_type = %s AND ' . $wpdb->prefix . 'postmeta.post_id = ' . $wpdb->prefix . 'posts.ID AND ' . $wpdb->prefix . 'posts.post_status != %s AND (' . $wpdb->prefix . 'postmeta.meta_key = %s AND ' . $wpdb->prefix . 'postmeta.meta_value = %s ) LIMIT 1',
+					$post_type,
+					'trash',
+					'iee_event_id',
+					$event_id
+				)
+			);
+		}
 
 		if ( !empty( $get_post_id[0] ) ) {
 			return $get_post_id[0];
@@ -1025,6 +1044,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $import_id > 0 ) {
 				$post_type = get_post_type( $import_id );
 				if ( $post_type == 'iee_scheduled_import' ) {
+					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+					if ( $timestamp ) {
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+					}
 					wp_delete_post( $import_id, true );
 					$query_args = array(
 						'iee_msg' => 'import_del',

@@ -66,6 +66,14 @@ class Import_Eventbrite_Events_IEE {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -148,6 +156,11 @@ class Import_Eventbrite_Events_IEE {
 			$venue_state   = isset( $venue_array['state'] ) ? sanitize_text_field( $venue_array['state'] ) : '';
 			$venue_country = isset( $venue_array['country'] ) ? sanitize_text_field( $venue_array['country'] ) : '';
 			$venue_zipcode = isset( $venue_array['zip'] ) ? sanitize_text_field( $venue_array['zip'] ) : '';
+
+			//Online Events
+			if( $centralize_array['location']['name'] == 'Online Event' ){
+				$venue_name    = 'Online Event';
+			}
 
 			$venue_lat = isset( $venue_array['lat'] ) ? sanitize_text_field( $venue_array['lat'] ) : '';
 			$venue_lon = isset( $venue_array['long'] ) ? sanitize_text_field( $venue_array['long'] ) : '';

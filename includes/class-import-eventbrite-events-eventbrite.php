@@ -224,6 +224,13 @@ class Import_Eventbrite_Events_Eventbrite {
 			return null;
 		}
 		$event_venue_id = $eventbrite_event['venue_id'];
+		$is_online      = $eventbrite_event['online_event'];
+		if( $is_online === true ){
+			$event_location = array(
+				'name'         => 'Online Event',
+			);
+			return $event_location;
+		}
 		$get_venue      = wp_remote_get( 'https://www.eventbriteapi.com/v3/venues/' . $event_venue_id . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( ! is_wp_error( $get_venue ) ) {

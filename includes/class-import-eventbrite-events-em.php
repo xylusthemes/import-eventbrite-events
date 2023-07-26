@@ -85,6 +85,14 @@ class Import_Eventbrite_Events_EM {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -250,11 +258,15 @@ class Import_Eventbrite_Events_EM {
 	 */
 	public function get_location_args( $venue, $event_id = false ) {
 		global $wpdb, $iee_events;
-
-		if ( ! isset( $venue['ID'] ) ) {
-			return null;
+		$location_name = isset( $venue['name'] ) ? $venue['name'] : '';
+		if( !empty( $location_name ) && $location_name == 'Online Event' ){
+			$existing_venue = $this->get_venue_by_name( $venue['name'] );
+		}else{
+			if ( ! isset( $venue['ID'] ) ) {
+				return null;
+			}
+			$existing_venue = $this->get_venue_by_id( $venue['ID'] );
 		}
-		$existing_venue = $this->get_venue_by_id( $venue['ID'] );
 
 		if ( $existing_venue && is_numeric( $existing_venue ) && $existing_venue > 0 && ! $event_id ) {
 			return get_post_meta( $existing_venue, '_location_id', true );
@@ -376,6 +388,30 @@ class Import_Eventbrite_Events_EM {
 				'post_type'        => $this->venue_posttype,
 				'meta_key'         => 'iee_event_venue_id',
 				'meta_value'       => $venue_id,
+				'suppress_filters' => false,
+			)
+		);
+
+		if ( is_array( $existing_venue ) && ! empty( $existing_venue ) ) {
+			return $existing_venue[0]->ID;
+		}
+		return false;
+	}
+
+	/**
+	 * Check for Existing EM Venue
+	 *
+	 * @since    1.7.0
+	 * @param int $venue_name Venue id.
+	 * @return int/boolean
+	 */
+	public function get_venue_by_name( $venue_name ) {
+		$existing_venue = get_posts(
+			array(
+				'posts_per_page'   => 1,
+				'post_type'        => $this->venue_posttype,
+				'meta_key'         => 'iee_event_venue_id',
+				'meta_value'       => $venue_name,
 				'suppress_filters' => false,
 			)
 		);

@@ -78,6 +78,14 @@ class Import_Eventbrite_Events_EventON {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -146,6 +154,10 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'evcal_srow', $start_time );
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
+
+			if( $centralize_array['location']['name'] == 'Online Event' ){
+				update_post_meta( $inserted_event_id, '_virtual', 'yes' );
+			}
 
 			if ( !empty( $centralize_array['location']['name'] ) ) {
 				$loc_term = term_exists( $centralize_array['location']['name'], $this->location_taxonomy );

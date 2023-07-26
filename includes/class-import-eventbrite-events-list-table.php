@@ -129,6 +129,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				if( $item['current_import']['skipped'] > 0 ){
 					$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $item['current_import']['skipped'] );
 				}
+				if( $item['current_import']['skip_trash'] > 0 ){
+					$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $item['current_import']['skip_trash'] );
+				}
 				if( !empty( $stats ) ){
 					$stats = esc_html__( 'Stats: ', 'import-eventbrite-events' ).'<span style="color: silver">'.implode(', ', $stats).'</span>';
 					$cimport .= '<br/>'.$stats;
@@ -241,7 +244,8 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					$import_status = array(
 						'created' => 0,
 						'updated' => 0,
-						'skipped' => 0
+						'skipped' => 0,
+						'skip_trash' => 0
 					);
 					foreach ( $import_data as $key => $value ) {
 						if ( $value['status'] == 'created' ) {
@@ -250,6 +254,8 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 							$import_status['updated'] += 1;
 						} elseif ( $value['status'] == 'skipped' ) {
 							$import_status['skipped'] += 1;
+						} elseif ( $value['status'] == 'skip_trash' ) {
+							$import_status['skip_trash'] += 1;
 						}
 					}	
 					$current_imports[$batch['import_id']] = $import_status;
@@ -328,6 +334,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					$created = get_post_meta( $history[0], 'created', true );
 					$updated = get_post_meta( $history[0], 'updated', true );
 					$skipped = get_post_meta( $history[0], 'skipped', true );
+					$skip_trash = get_post_meta( $history[0], 'skip_trash', true );
 					$stats = array();
 					if( $created > 0 ){
 						$stats[] = sprintf( __( '%d Created', 'import-eventbrite-events' ), $created );
@@ -337,6 +344,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					}
 					if( $skipped > 0 ){
 						$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped );
+					}
+					if( $skip_trash > 0 ){
+						$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash );
 					}
 					if( !empty( $stats ) ){
 						$stats = esc_html__( 'Last Import Stats: ', 'import-eventbrite-events' ).'<span style="color: silver">'.implode(', ', $stats).'</span>';
@@ -451,6 +461,7 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		$created = get_post_meta( $item['ID'], 'created', true );
 		$updated = get_post_meta( $item['ID'], 'updated', true );
 		$skipped = get_post_meta( $item['ID'], 'skipped', true );
+		$skip_trash = get_post_meta( $item['ID'], 'skip_trash', true );
 		$nothing_to_import = get_post_meta( $item['ID'], 'nothing_to_import', true );
 
 		$success_message = '<span style="color: silver"><strong>';
@@ -462,6 +473,9 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		}
 		if ( $skipped > 0 ) {
 			$success_message .= sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped ) . '<br>';
+		}
+		if ( $skip_trash > 0 ) {
+			$success_message .= sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash ) . '<br>';
 		}
 		if( $nothing_to_import ){
 			$success_message .= __( 'No events are imported.', 'import-eventbrite-events' ) . '<br>';	
