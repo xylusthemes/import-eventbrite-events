@@ -1,11 +1,11 @@
 === Import Eventbrite Events ===
-Contributors: xylus,dharm1025
+Contributors: xylus,dharm1025, Rajat1192
 Donate link: http://xylusthemes.com/
 Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 4.0
 Requires PHP: 5.3
-Tested up to: 6.2
-Stable tag: 1.6.9
+Tested up to: 6.3
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,18 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.0 =
+* ADDED: Online Event Support.
+* ADDED: Google Map API key Option.
+* ADDED: Responsive grid view style 1 Support
+* ADDED: Time Format support in grid view style 2
+* ADDED: Skip Trashed Events Option (PRO)
+* ADDED: Grid View Style 2 Option in Elementor Block (PRO)
+* ADDED: Renew License button in the license section. (PRO)
+* FIXED: Delete WP Cron queue when you delete schedule delete.(PRO)
+* IMPROVEMENTS: Security and GUI changes
+* IMPROVEMENTS: Support for WP 6.3
 
 = 1.6.9 =
 * IMPROVEMENTS: Gutenberg Block
