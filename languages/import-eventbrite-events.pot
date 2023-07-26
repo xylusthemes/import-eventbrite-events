@@ -509,11 +509,11 @@ msgstr ""
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1151
+#: includes/class-import-eventbrite-events-common.php:1155
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1308
+#: includes/class-import-eventbrite-events-common.php:1312
 msgid "Buy Tickets"
 msgstr ""
 
