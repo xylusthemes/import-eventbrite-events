@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-26T18:19:55+00:00\n"
+"POT-Creation-Date: 2023-07-26T06:59:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: import-eventbrite-events\n"
 
 #. Plugin Name of the plugin
@@ -509,11 +509,11 @@ msgstr ""
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1151
+#: includes/class-import-eventbrite-events-common.php:1155
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1308
+#: includes/class-import-eventbrite-events-common.php:1312
 msgid "Buy Tickets"
 msgstr ""
 
