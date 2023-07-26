@@ -1044,6 +1044,10 @@ class Import_Eventbrite_Events_Common {
 			if ( $import_id > 0 ) {
 				$post_type = get_post_type( $import_id );
 				if ( $post_type == 'iee_scheduled_import' ) {
+					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+					if ( $timestamp ) {
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+					}
 					wp_delete_post( $import_id, true );
 					$query_args = array(
 						'iee_msg' => 'import_del',
