@@ -316,7 +316,11 @@ class Import_Eventbrite_Events_EM {
 			update_post_meta( $location_id, '_location_latitude', $lat );
 			update_post_meta( $location_id, '_location_longitude', $lon );
 			update_post_meta( $location_id, '_location_status', 1 );
-			update_post_meta( $location_id, 'iee_event_venue_id', $venue['ID'] );
+			if( $venue['name'] == 'Online Event' ){
+				update_post_meta( $location_id, 'iee_event_venue_id', $venue['name'] );
+			}else{
+				update_post_meta( $location_id, 'iee_event_venue_id', $venue['ID'] );
+			}
 
 			global $wpdb;
 			$location_array  = array(

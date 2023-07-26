@@ -398,7 +398,11 @@ class Import_Eventbrite_Events_TEC {
 		);
 
 		if ( $create_venue ) {
-			update_post_meta( $create_venue, 'iee_event_venue_id', $venue['ID'] );
+			if( $venue['name'] == 'Online Event' ){
+				update_post_meta( $create_venue, 'iee_event_venue_id', $venue['name'] );
+			}else{
+				update_post_meta( $create_venue, 'iee_event_venue_id', $venue['ID'] );
+			}
 			return array(
 				'VenueID' => $create_venue,
 			);
