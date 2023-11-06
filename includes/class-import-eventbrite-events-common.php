@@ -516,7 +516,7 @@ class Import_Eventbrite_Events_Common {
 				update_post_meta( $insert, 'created', $created );
 				update_post_meta( $insert, 'updated', $updated );
 				update_post_meta( $insert, 'skipped', $skipped );
-				update_post_meta( $insert, 'skip_trash', $skipped );
+				update_post_meta( $insert, 'skip_trash', $skip_trash );
 				update_post_meta( $insert, 'nothing_to_import', $nothing_to_import );
 				update_post_meta( $insert, 'imported_data', $import_data );
 				update_post_meta( $insert, 'import_data', $import_args );
