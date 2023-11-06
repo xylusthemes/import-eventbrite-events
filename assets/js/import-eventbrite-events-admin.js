@@ -155,25 +155,27 @@ jQuery(document).ready(function($){
 	});
 
 	const iee_gm_apikey_input = document.querySelector('.iee_google_maps_api_key');
+	if ( iee_gm_apikey_input ) { 
+		iee_gm_apikey_input.addEventListener('input', function() { 
+			const iee_check_key = document.querySelector('.iee_check_key'); 
+			if (iee_gm_apikey_input.value.trim() !== '') { 
+				iee_check_key.style.display = 'contents'; 
+			} else { 
+				iee_check_key.style.display = 'none'; 
+			} 
+		}); 
+	}
+  
 	const iee_checkkeylink = document.querySelector('.iee_check_key a');
-	iee_gm_apikey_input.addEventListener('input', function() {
-		const iee_check_key = document.querySelector('.iee_check_key');
-		if (iee_gm_apikey_input.value.trim() !== '') {
-			iee_check_key.style.display = 'contents';
-		} else {
-			iee_check_key.style.display = 'none';
-		}
-	});
-
-
-	iee_checkkeylink.addEventListener('click', function(event) {
-		event.preventDefault();
-		const iee_gm_apikey = iee_gm_apikey_input.value.trim();
-
-		if ( iee_gm_apikey !== '' ) {
-			iee_check_gmap_apikey(iee_gm_apikey);
-		}
-	});
+	if ( iee_checkkeylink ) { 
+		iee_checkkeylink.addEventListener('click', function(event) { 
+			event.preventDefault(); 
+			const iee_gm_apikey = iee_gm_apikey_input.value.trim();
+			if ( iee_gm_apikey !== '' ) { 
+				iee_check_gmap_apikey(iee_gm_apikey); 
+			} 
+		}); 
+	}
 
 	function iee_check_gmap_apikey(iee_gm_apikey) {
 		const iee_xhr = new XMLHttpRequest();
