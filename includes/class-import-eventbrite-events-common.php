@@ -516,7 +516,7 @@ class Import_Eventbrite_Events_Common {
 				update_post_meta( $insert, 'created', $created );
 				update_post_meta( $insert, 'updated', $updated );
 				update_post_meta( $insert, 'skipped', $skipped );
-				update_post_meta( $insert, 'skip_trash', $skipped );
+				update_post_meta( $insert, 'skip_trash', $skip_trash );
 				update_post_meta( $insert, 'nothing_to_import', $nothing_to_import );
 				update_post_meta( $insert, 'imported_data', $import_data );
 				update_post_meta( $insert, 'import_data', $import_args );
@@ -1100,6 +1100,10 @@ class Import_Eventbrite_Events_Common {
 			$delete_ids  = isset( $_REQUEST['iee_scheduled_import'] ) ? wp_unslash( $_REQUEST['iee_scheduled_import'] ) : '0';
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {
+					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( 'post_id' => (int)$delete_id ) );
+					if ( $timestamp ) {
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( 'post_id' => (int)$delete_id ) );
+					}
 					wp_delete_post( $delete_id, true );
 				}
 			}
