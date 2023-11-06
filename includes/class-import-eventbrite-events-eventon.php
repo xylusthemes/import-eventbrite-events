@@ -148,12 +148,39 @@ class Import_Eventbrite_Events_EventON {
 				$address = $centralize_array['location']['full_address'];
 			}
 
+			//Timezone
+			$timezone      = isset( $centralize_array['timezone'] ) ? $centralize_array['timezone'] : '';
+			$is_all_day    = isset( $centralize_array['is_all_day'] ) ? $centralize_array['is_all_day'] : '';
+
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', $centralize_array['url'] );
 			update_post_meta( $inserted_event_id, 'evcal_srow', $start_time );
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
+			update_post_meta( $inserted_event_id, 'ife_event_timezone', $timezone );
+			update_post_meta( $inserted_event_id, 'ife_event_timezone_name', $timezone );
+			update_post_meta( $inserted_event_id, '_evo_tz', $timezone );
+			
+			if( !empty( $is_all_day ) ){
+				update_post_meta( $inserted_event_id, 'evcal_allday', 'yes' );
+			}
+
+			$start_ampm = date("a", $start_time);
+			$start_hour = date("h", $start_time);
+			$start_minute = date("i", $start_time);
+			$end_ampm = date("a", $end_time);
+			$end_hour = date("h", $end_time);
+			$end_minute = date("i", $end_time);
+
+			// Update post meta fields
+			update_post_meta($inserted_event_id, '_start_ampm', $start_ampm);
+			update_post_meta($inserted_event_id, '_start_hour', $start_hour);
+			update_post_meta($inserted_event_id, '_start_minute', $start_minute);
+			update_post_meta($inserted_event_id, '_end_ampm', $end_ampm);
+			update_post_meta($inserted_event_id, '_end_hour', $end_hour);
+			update_post_meta($inserted_event_id, '_end_minute', $end_minute);
+			update_post_meta( $inserted_event_id, '_status', 'scheduled' );
 
 			if( $centralize_array['location']['name'] == 'Online Event' ){
 				update_post_meta( $inserted_event_id, '_virtual', 'yes' );
