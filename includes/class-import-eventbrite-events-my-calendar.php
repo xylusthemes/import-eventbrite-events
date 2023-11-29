@@ -116,15 +116,15 @@ class Import_Eventbrite_Events_My_Calendar {
 				return '';}
 
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
+			if ( ! empty( $iee_cats ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
-					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
 
@@ -150,8 +150,8 @@ class Import_Eventbrite_Events_My_Calendar {
 
 			$event_author = $host = isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id();
 			$event_category = 1;
-			if ( ! empty( $ife_cats ) ) {
-				$event_cat      = $ife_cats[0];
+			if ( ! empty( $iee_cats ) ) {
+				$event_cat      = $iee_cats[0];
 				$temp_event_cat = $wpdb->get_var( 'SELECT `category_id` FROM ' . my_calendar_categories_table() . ' WHERE `category_term` = ' . (int) $event_cat . ' LIMIT 1' );
 				if ( $temp_event_cat > 0 && is_numeric( $temp_event_cat ) && ! empty( $temp_event_cat ) ) {
 					$event_category = $temp_event_cat;

@@ -125,15 +125,15 @@ class Import_Eventbrite_Events_Aioec {
 				return '';}
 
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
+			if ( ! empty( $iee_cats ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
-					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
 
