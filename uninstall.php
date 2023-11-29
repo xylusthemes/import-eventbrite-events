@@ -13,12 +13,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$iee_options    = get_option( IEE_OPTIONS );
+$iee_options    = get_option( 'xtei_eventbrite_options' );
 $delete_ieedata = isset( $iee_options['delete_ieedata'] ) ? $iee_options['delete_ieedata'] : 'no';
 if ( $delete_ieedata == 'yes' ) {
 
 	// Remove options
-	delete_option( IEE_OPTIONS );
+	delete_option( 'xtei_eventbrite_options' );
 
 	// Remove schduled Imports
 	$scheduled_import_args = array(
