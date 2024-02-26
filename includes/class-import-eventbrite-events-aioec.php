@@ -124,6 +124,9 @@ class Import_Eventbrite_Events_Aioec {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
+			//Event ID
+			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
+
 			// Asign event category.
 			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $ife_cats ) ) {
@@ -148,7 +151,6 @@ class Import_Eventbrite_Events_Aioec {
 			}
 
 			// Save Meta.
-			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $event_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
