@@ -129,15 +129,15 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
+			if ( ! empty( $iee_cats ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
-					wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
 
@@ -160,8 +160,8 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'evcal_srow', $start_time );
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
-			update_post_meta( $inserted_event_id, 'ife_event_timezone', $timezone );
-			update_post_meta( $inserted_event_id, 'ife_event_timezone_name', $timezone );
+			update_post_meta( $inserted_event_id, 'iee_event_timezone', $timezone );
+			update_post_meta( $inserted_event_id, 'iee_event_timezone_name', $timezone );
 			update_post_meta( $inserted_event_id, '_evo_tz', $timezone );
 			
 			if( !empty( $is_all_day ) ){
