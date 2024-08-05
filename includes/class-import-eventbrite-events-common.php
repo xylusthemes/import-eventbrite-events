@@ -446,7 +446,7 @@ class Import_Eventbrite_Events_Common {
 	 * @param array $eventbrite_event Eventbrite event.
 	 * @return array
 	 */
-	public function display_import_success_message( $import_data = array(), $import_args = array(), $schedule_post = '' ) {
+	public function display_import_success_message( $import_data = array(), $import_args = array(), $schedule_post = '', $error_reason = '' ) {
 		global $iee_success_msg, $iee_errors;
 		if ( ! empty( $iee_errors ) ) {
 			return;
@@ -491,7 +491,10 @@ class Import_Eventbrite_Events_Common {
 		if ( $skip_trash > 0 ) {
 			$success_message .= "<strong>" . sprintf( __( '%d Skipped (Already exists in Trash )', 'import-eventbrite-events' ), $skip_trash ) . "</strong><br>";
 		}
-		$iee_success_msg[] = $success_message;
+		if ( !empty( $error_reason ) ) {
+			$success_message .= "<strong>" . sprintf( __( '%d ', 'import-eventbrite-events' ), $error_reason ) . "</strong><br>";
+		}
+		$iee_success_msg[]    = $success_message;
 
 		if ( $schedule_post != '' && $schedule_post > 0 ) {
 			$temp_title = get_the_title( $schedule_post );
@@ -518,6 +521,7 @@ class Import_Eventbrite_Events_Common {
 				update_post_meta( $insert, 'skipped', $skipped );
 				update_post_meta( $insert, 'skip_trash', $skip_trash );
 				update_post_meta( $insert, 'nothing_to_import', $nothing_to_import );
+				update_post_meta( $insert, 'error_reason', $error_reason );
 				update_post_meta( $insert, 'imported_data', $import_data );
 				update_post_meta( $insert, 'import_data', $import_args );
 				if ( $schedule_post != '' && $schedule_post > 0 ) {

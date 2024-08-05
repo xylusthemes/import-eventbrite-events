@@ -63,6 +63,11 @@ class Import_Eventbrite_Events_Eventbrite {
 			return $this->save_eventbrite_event( $eventbrite_event, $event_data );
 
 		} else {
+			if( $eventbrite_event['error'] == 'INVALID_AUTH' ){
+				$error_description =  str_replace( 'OAuth token', 'Private token', $eventbrite_event['error_description'] );
+				$iee_errors[] = __( $error_description, 'import-eventbrite-events-pro');
+				return;
+			}
 			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
 			return;
 		}
