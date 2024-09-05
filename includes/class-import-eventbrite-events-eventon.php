@@ -62,7 +62,7 @@ class Import_Eventbrite_Events_EventON {
 	 * import event into TEC
 	 *
 	 * @since    1.0.0
-	 * @param  array $centralize event array.
+	 * @param  array $centralize_array event array.
 	 * @return array
 	 */
 	public function import_event( $centralize_array, $event_args ) {
@@ -78,6 +78,14 @@ class Import_Eventbrite_Events_EventON {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -106,12 +114,10 @@ class Import_Eventbrite_Events_EventON {
 		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
 			$evon_eventdata['post_status'] = $event_args['event_status'];
 		}
-		/*
-		echo "<pre>";
-		print_r( $centralize_array );
-		print_r( $evon_eventdata );
-		exit();
-		*/
+
+		if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+			$evon_eventdata['post_status'] = get_post_status( $is_exitsing_event );
+		}
 		$inserted_event_id = wp_insert_post( $evon_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -119,15 +125,20 @@ class Import_Eventbrite_Events_EventON {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
+			//Event ID
+			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
+
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+			if ( ! empty( $iee_cats ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -135,19 +146,49 @@ class Import_Eventbrite_Events_EventON {
 			if ( $event_image != '' ) {
 				$iee_events->common->setup_featured_image_to_event( $inserted_event_id, $event_image );
 			}
-			$address = $centralize_array['location']['address_1'];
-			if ( $centralize_array['location']['full_address'] != '' ) {
+			$address = !empty( $centralize_array['location']['address_1'] ) ? $centralize_array['location']['address_1'] : '';
+			if ( !empty( $centralize_array['location']['full_address'] ) ) {
 				$address = $centralize_array['location']['full_address'];
 			}
 
-			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
+			//Timezone
+			$timezone      = isset( $centralize_array['timezone'] ) ? $centralize_array['timezone'] : '';
+			$is_all_day    = isset( $centralize_array['is_all_day'] ) ? $centralize_array['is_all_day'] : '';
+
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', $centralize_array['url'] );
 			update_post_meta( $inserted_event_id, 'evcal_srow', $start_time );
 			update_post_meta( $inserted_event_id, 'evcal_erow', $end_time );
 			update_post_meta( $inserted_event_id, 'evcal_lmlink', $centralize_array['url'] );
+			update_post_meta( $inserted_event_id, 'iee_event_timezone', $timezone );
+			update_post_meta( $inserted_event_id, 'iee_event_timezone_name', $timezone );
+			update_post_meta( $inserted_event_id, '_evo_tz', $timezone );
+			
+			if( !empty( $is_all_day ) ){
+				update_post_meta( $inserted_event_id, 'evcal_allday', 'yes' );
+			}
 
-			if ( $centralize_array['location']['name'] != '' ) {
+			$start_ampm = date("a", $start_time);
+			$start_hour = date("h", $start_time);
+			$start_minute = date("i", $start_time);
+			$end_ampm = date("a", $end_time);
+			$end_hour = date("h", $end_time);
+			$end_minute = date("i", $end_time);
+
+			// Update post meta fields
+			update_post_meta($inserted_event_id, '_start_ampm', $start_ampm);
+			update_post_meta($inserted_event_id, '_start_hour', $start_hour);
+			update_post_meta($inserted_event_id, '_start_minute', $start_minute);
+			update_post_meta($inserted_event_id, '_end_ampm', $end_ampm);
+			update_post_meta($inserted_event_id, '_end_hour', $end_hour);
+			update_post_meta($inserted_event_id, '_end_minute', $end_minute);
+			update_post_meta( $inserted_event_id, '_status', 'scheduled' );
+
+			if( $centralize_array['location']['name'] == 'Online Event' ){
+				update_post_meta( $inserted_event_id, '_virtual', 'yes' );
+			}
+
+			if ( !empty( $centralize_array['location']['name'] ) ) {
 				$loc_term = term_exists( $centralize_array['location']['name'], $this->location_taxonomy );
 				if ( $loc_term !== 0 && $loc_term !== null ) {
 					if ( is_array( $loc_term ) ) {

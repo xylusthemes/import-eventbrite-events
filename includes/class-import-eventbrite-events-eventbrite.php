@@ -140,6 +140,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
 		$image             = explode( '?s=', $event_image );
 		$image_url         = esc_url( urldecode( str_replace( 'https://img.evbuc.com/', '', $image[0] ) ) );
+		$series_id         = isset( $eventbrite_event['series_id'] ) ? $eventbrite_event['series_id'] : '';
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -156,6 +157,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			'is_all_day'      => '',
 			'url'             => $event_url,
 			'image_url'       => $image_url,
+			'series_id'		  => $series_id,
 		);
 
 		if ( array_key_exists( 'organizer_id', $eventbrite_event ) ) {
@@ -222,6 +224,13 @@ class Import_Eventbrite_Events_Eventbrite {
 			return null;
 		}
 		$event_venue_id = $eventbrite_event['venue_id'];
+		$is_online      = $eventbrite_event['online_event'];
+		if( $is_online === true ){
+			$event_location = array(
+				'name'         => 'Online Event',
+			);
+			return $event_location;
+		}
 		$get_venue      = wp_remote_get( 'https://www.eventbriteapi.com/v3/venues/' . $event_venue_id . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( ! is_wp_error( $get_venue ) ) {

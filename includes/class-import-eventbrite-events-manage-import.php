@@ -22,6 +22,7 @@ class Import_Eventbrite_Events_Manage_Import {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'handle_import_form_submit' ), 99 );
+		add_action( 'admin_init', array( $this, 'handle_gma_settings_submit' ), 99 );
 	}
 
 	/**
@@ -33,7 +34,7 @@ class Import_Eventbrite_Events_Manage_Import {
 		global $iee_errors;
 		$event_data = array();
 
-		if ( isset( $_POST['iee_action'] ) && $_POST['iee_action'] == 'iee_import_submit' && check_admin_referer( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ) ) {
+		if ( isset( $_POST['iee_action'] ) && sanitize_text_field( wp_unslash ( $_POST['iee_action'] ) ) == 'iee_import_submit' && check_admin_referer( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ) ) {
 
 			$event_data['import_into'] = isset( $_POST['event_plugin'] ) ? sanitize_text_field( $_POST['event_plugin'] ) : '';
 			if ( $event_data['import_into'] == '' ) {
@@ -43,10 +44,29 @@ class Import_Eventbrite_Events_Manage_Import {
 			$event_data['import_type']      = 'onetime';
 			$event_data['import_frequency'] = isset( $_POST['import_frequency'] ) ? sanitize_text_field( $_POST['import_frequency'] ) : 'daily';
 			$event_data['event_status']     = isset( $_POST['event_status'] ) ? sanitize_text_field( $_POST['event_status'] ) : 'pending';
-			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? $_POST['event_cats'] : array();
-			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? $_POST['event_author'] : get_current_user_id();
+			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_cats'] ) ) : array();
+			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_author'] ) ) : get_current_user_id();
 
 			$this->handle_eventbrite_import_form_submit( $event_data );
+		}
+	}
+
+	/**
+	 * Process insert google maps api key for embed maps
+	 *
+	 * @since    1.7.0
+	 */
+	public function handle_gma_settings_submit() {
+		global $iee_errors, $iee_success_msg;
+		if ( isset( $_POST['iee_gma_action'] ) && 'iee_save_gma_settings' === sanitize_text_field( wp_unslash( $_POST['iee_gma_action'] ) ) && check_admin_referer( 'iee_gma_setting_form_nonce_action', 'iee_gma_setting_form_nonce' ) ) { // input var okay.
+			$gma_option = array();
+			$gma_option['iee_google_maps_api_key'] = isset( $_POST['iee_google_maps_api_key'] ) ? wp_unslash( $_POST['iee_google_maps_api_key'] ) : ''; // input var okay.
+			$is_update = update_option( 'iee_google_maps_api_key', $gma_option['iee_google_maps_api_key'] );
+			if ( $is_update ) {
+				$iee_success_msg[] = __( 'Google Maps API Key has been saved successfully.', 'import-eventbrite-events' );
+			} else {
+				$iee_errors[] = __( 'Something went wrong! please try again.', 'import-eventbrite-events' );
+			}
 		}
 	}
 
