@@ -80,7 +80,6 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>', esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
-
 		$organizer_id = $item["eventbrite_id"];
 		if( is_numeric($organizer_id)){
 			$organizer_id = '<a href="https://www.eventbrite.com/o/'.$item["eventbrite_id"].'" target="_blank">'.$item["eventbrite_id"].'</a>';
@@ -129,6 +128,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				}
 				if( $item['current_import']['skipped'] > 0 ){
 					$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $item['current_import']['skipped'] );
+				}
+				if( $item['current_import']['skip_trash'] > 0 ){
+					$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $item['current_import']['skip_trash'] );
 				}
 				if( !empty( $stats ) ){
 					$stats = esc_html__( 'Stats: ', 'import-eventbrite-events' ).'<span style="color: silver">'.implode(', ', $stats).'</span>';
@@ -242,7 +244,8 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					$import_status = array(
 						'created' => 0,
 						'updated' => 0,
-						'skipped' => 0
+						'skipped' => 0,
+						'skip_trash' => 0
 					);
 					foreach ( $import_data as $key => $value ) {
 						if ( $value['status'] == 'created' ) {
@@ -251,6 +254,8 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 							$import_status['updated'] += 1;
 						} elseif ( $value['status'] == 'skipped' ) {
 							$import_status['skipped'] += 1;
+						} elseif ( $value['status'] == 'skip_trash' ) {
+							$import_status['skip_trash'] += 1;
 						}
 					}	
 					$current_imports[$batch['import_id']] = $import_status;
@@ -329,6 +334,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					$created = get_post_meta( $history[0], 'created', true );
 					$updated = get_post_meta( $history[0], 'updated', true );
 					$skipped = get_post_meta( $history[0], 'skipped', true );
+					$skip_trash = get_post_meta( $history[0], 'skip_trash', true );
 					$stats = array();
 					if( $created > 0 ){
 						$stats[] = sprintf( __( '%d Created', 'import-eventbrite-events' ), $created );
@@ -338,6 +344,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					}
 					if( $skipped > 0 ){
 						$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped );
+					}
+					if( $skip_trash > 0 ){
+						$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash );
 					}
 					if( !empty( $stats ) ){
 						$stats = esc_html__( 'Last Import Stats: ', 'import-eventbrite-events' ).'<span style="color: silver">'.implode(', ', $stats).'</span>';
@@ -452,6 +461,7 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		$created = get_post_meta( $item['ID'], 'created', true );
 		$updated = get_post_meta( $item['ID'], 'updated', true );
 		$skipped = get_post_meta( $item['ID'], 'skipped', true );
+		$skip_trash = get_post_meta( $item['ID'], 'skip_trash', true );
 		$nothing_to_import = get_post_meta( $item['ID'], 'nothing_to_import', true );
 
 		$success_message = '<span style="color: silver"><strong>';
@@ -463,6 +473,9 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		}
 		if ( $skipped > 0 ) {
 			$success_message .= sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped ) . '<br>';
+		}
+		if ( $skip_trash > 0 ) {
+			$success_message .= sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash ) . '<br>';
 		}
 		if( $nothing_to_import ){
 			$success_message .= __( 'No events are imported.', 'import-eventbrite-events' ) . '<br>';	
@@ -481,15 +494,15 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	 */
 	function column_action( $item ) {
 		$url = add_query_arg( array(
-		    'action'    => 'iee_view_import_history',
-		    'history'   => $item['ID'],
-		    'TB_iframe' => 'true',
-		    'width'     => '800',
-		    'height'    => '500'
+			'action'    => 'iee_view_import_history',
+			'history'   => $item['ID'],
+			'TB_iframe' => 'true',
+			'width'     => '800',
+			'height'    => '500'
 		), admin_url( 'admin.php' ) );
 
 		$imported_data = get_post_meta($item['ID'], 'imported_data', true);
-	    if(!empty($imported_data)){
+		if(!empty($imported_data)){
 			return sprintf(
 				'<a href="%1$s" title="%2$s" class="open-history-details-modal button button-primary thickbox">%3$s</a>',
 				$url,
@@ -524,6 +537,30 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 			'action'          => __( 'Action', 'import-eventbrite-events' ),
 		);
 		return $columns;
+	}
+
+	public function extra_tablenav( $which ) {
+		
+		if ( 'top' !== $which ) {
+			return;
+		}	
+		$iee_url_all_delete_args = array(
+			'page'       => wp_unslash( $_REQUEST['page'] ),
+			'tab'        => wp_unslash( $_REQUEST['tab'] ),
+			'iee_action' => 'iee_all_history_delete',
+		);
+		
+		$delete_ids  = get_posts( array( 'numberposts' => 1,'fields' => 'ids', 'post_type' => 'iee_import_history' ) );
+		$actions = '';
+		if( !empty( $delete_ids ) ){
+			$wp_delete_noonce_url = esc_url( wp_nonce_url( add_query_arg( $iee_url_all_delete_args, admin_url( 'admin.php' ) ), 'iee_delete_all_history_nonce' ) );
+			$confirmation_message = esc_html__( "Warning!! Are you sure to delete all these import history? Import history will be permanatly deleted.", "import-eventbrite-events" );
+			?>
+			<a class="button apply" href="<?php echo $wp_delete_noonce_url; ?>" onclick="return confirm('<?php echo esc_attr( $confirmation_message ); ?>')">
+				<?php esc_html_e( 'Clear Import History', 'import-eventbrite-events' ); ?>
+			</a>
+			<?php
+		}
 	}
 
 	public function get_bulk_actions() {
@@ -635,5 +672,138 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		// Restore original Post Data.
 		wp_reset_postdata();
 		return $scheduled_import_data;
+	}
+}
+
+class Shortcode_List_Table extends WP_List_Table {
+
+	public function prepare_items() {
+
+		$columns 	= $this->get_columns();
+		$hidden 	= $this->get_hidden_columns();
+		$sortable 	= $this->get_sortable_columns();
+		$data 		= $this->table_data();
+
+		$perPage 		= 10;
+		$currentPage 	= $this->get_pagenum();
+		$totalItems 	= count( $data );
+
+		$this->set_pagination_args( array(
+			'total_items' => $totalItems,
+			'per_page'    => $perPage
+		) );
+
+		$data = array_slice( $data, ( ( $currentPage-1 ) * $perPage ), $perPage );
+
+		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->items = $data;
+	}
+
+	/**
+	 * Override the parent columns method. Defines the columns to use in your listing table
+	 *
+	 * @return Array
+	 */
+	public function get_columns() {
+		$columns = array(
+			'id'            => __( 'ID', 'import-eventbrite-events' ),
+			'how_to_use'    => __( 'Title', 'import-eventbrite-events' ),
+			'shortcode'     => __( 'Shortcode', 'import-eventbrite-events' ),
+			'action'    	=> __( 'Action', 'import-eventbrite-events' ),
+		);
+
+		return $columns;
+	}
+
+	/**
+	 * Define which columns are hidden
+	 *
+	 * @return Array
+	 */
+	public function get_hidden_columns() {
+		return array();
+	}
+
+	/**
+	 * Get the table data
+	 *
+	 * @return Array
+	 */
+	private function table_data() {
+		$data = array();
+
+		$data[] = array(
+					'id'            => 1,
+					'how_to_use'    => 'Display All Events',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events]</p>',
+					'action'     	=> '<button class="iee-btn-copy-shortcode button-primary"  data-value="[eventbrite_events]">Copy</button>',
+					);
+		$data[] = array(
+					'id'            => 2,
+					'how_to_use'    => 'New Grid Layouts <span style="color:green;font-weight: 900;">( PRO )</span>',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events layout="style2"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary'  data-value='[eventbrite_events layout=\"style2\"]'>Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 3,
+					'how_to_use'    => 'Display with column',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events col="2"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events col=\"2\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 4,
+					'how_to_use'    => 'Limit for display events',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events posts_per_page="12"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events posts_per_page=\"12\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 5,
+					'how_to_use'    => 'Display Events based on order',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events order="asc"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events order=\"asc\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 6,
+					'how_to_use'    => 'Display events based on category',
+					'shortcode'     => '<p class="iee_short_code" >[eventbrite_events category="cat1"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events category=\"cat1\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 7,
+					'how_to_use'    => 'Display Past events',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events past_events="yes"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events past_events=\"yes\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 8,
+					'how_to_use'    => 'Display Events based on orderby',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events order="asc" orderby="post_title"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events order=\"asc\" orderby=\"post_title\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 9,
+					'how_to_use'    => 'Full Short-code',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events  col="2" posts_per_page="12" category="cat1" past_events="yes" order="desc" orderby="post_title" start_date="YYYY-MM-DD" end_date="YYYY-MM-DD"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events col=\"2\" posts_per_page=\"12\" category=\"cat1\" past_events=\"yes\" order=\"desc\" orderby=\"post_title\" start_date=\"YYYY-MM-DD\" end_date=\"YYYY-MM-DD\"]' >Copy</button>",
+					);
+		return $data;
+	}
+	
+	/**
+	 * Define what data to show on each column of the table
+	 *
+	 * @param Array  $item Data
+	 * @param String $column_name - Current column name
+	 */
+	public function column_default( $item, $column_name ){
+		switch( $column_name ){
+			case 'id':
+			case 'how_to_use':
+			case 'shortcode':
+			case 'action':
+				return $item[ $column_name ];
+			default:
+				return print_r( $item, true );
+		}
 	}
 }

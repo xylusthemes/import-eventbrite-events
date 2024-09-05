@@ -7,7 +7,7 @@
 			changeYear: true,
 			dateFormat: 'yy-mm-dd'
 		});
-		jQuery(".iee_datepicker").live("click", function(){
+		jQuery(document).on("click", ".iee_datepicker", function(){
 		    jQuery(this).datepicker({
 				changeMonth: true,
 				changeYear: true,
@@ -27,7 +27,7 @@
 	});
 	
 	jQuery(document).ready(function(){
-		jQuery('#eventbrite_import_by').on('change', function(){
+		jQuery(document).on('change', '#eventbrite_import_by', function(){
 
 			if( jQuery(this).val() == 'event_id' ){
 				jQuery('.import_type_wrapper').hide();
@@ -105,6 +105,100 @@
 		});
 	});
 
+	//Shortcode Copy Text
+	jQuery(document).ready(function($){
+		$(document).on("click", ".iee-btn-copy-shortcode", function() { 
+			var trigger = $(this);
+			$(".iee-btn-copy-shortcode").removeClass("text-success");
+			var $tempElement = $("<input>");
+			$("body").append($tempElement);
+			var copyType = $(this).data("value");
+			$tempElement.val(copyType).select();
+			document.execCommand("Copy");
+			$tempElement.remove();
+			$(trigger).addClass("text-success");
+			var $this = $(this),
+			oldText = $this.text();
+			$this.attr("disabled", "disabled");
+			$this.text("Copied!");
+			setTimeout(function(){
+				$this.text("Copy");
+				$this.removeAttr("disabled");
+			}, 800);
+	  
+		});
+
+	});
+
 })( jQuery );
 
+jQuery(document).ready(function($){
 
+	const iee_tab_link = document.querySelectorAll('.iee_tab_link');
+	const iee_tabcontents = document.querySelectorAll('.iee_tab_content');
+
+	iee_tab_link.forEach(function(link) {
+		link.addEventListener('click', function() {
+		const iee_tabId = this.dataset.tab;
+
+		iee_tab_link.forEach(function(link) {
+			link.classList.remove('active');
+		});
+
+		iee_tabcontents.forEach(function(content) {
+			content.classList.remove('active');
+		});
+
+		this.classList.add('active');
+		document.getElementById(iee_tabId).classList.add('active');
+		});
+	});
+
+	const iee_gm_apikey_input = document.querySelector('.iee_google_maps_api_key');
+	if ( iee_gm_apikey_input ) { 
+		iee_gm_apikey_input.addEventListener('input', function() { 
+			const iee_check_key = document.querySelector('.iee_check_key'); 
+			if (iee_gm_apikey_input.value.trim() !== '') { 
+				iee_check_key.style.display = 'contents'; 
+			} else { 
+				iee_check_key.style.display = 'none'; 
+			} 
+		}); 
+	}
+  
+	const iee_checkkeylink = document.querySelector('.iee_check_key a');
+	if ( iee_checkkeylink ) { 
+		iee_checkkeylink.addEventListener('click', function(event) { 
+			event.preventDefault(); 
+			const iee_gm_apikey = iee_gm_apikey_input.value.trim();
+			if ( iee_gm_apikey !== '' ) { 
+				iee_check_gmap_apikey(iee_gm_apikey); 
+			} 
+		}); 
+	}
+
+	function iee_check_gmap_apikey(iee_gm_apikey) {
+		const iee_xhr = new XMLHttpRequest();
+		iee_xhr.open('GET', 'https://www.google.com/maps/embed/v1/place?q=New+York&key=' + encodeURIComponent(iee_gm_apikey), true);
+		const iee_loader = document.getElementById('iee_loader');
+		iee_loader.style.display = 'inline-block';
+		iee_xhr.onreadystatechange = function() {
+			if ( iee_xhr.readyState === XMLHttpRequest.DONE ) {
+				iee_loader.style.display = 'none';
+				if (iee_xhr.status === 200) {
+					const response = iee_xhr.responseText;
+					var iee_gm_success_notice = jQuery("#iee_gmap_success_message");
+						iee_gm_success_notice.html('<span class="iee_gmap_success_message">Valid Google Maps License Key</span>');
+						setTimeout(function(){ iee_gm_success_notice.empty(); }, 2000);
+				} else {
+					var iee_gm_error_notice = jQuery("#iee_gmap_error_message");
+					iee_gm_error_notice.html( '<span class="iee_gmap_error_message" >Inalid Google Maps License Key</span>' );
+						setTimeout(function(){ iee_gm_error_notice.empty(); }, 2000);
+				}
+			}
+		};
+
+		iee_xhr.send();
+	}
+
+});

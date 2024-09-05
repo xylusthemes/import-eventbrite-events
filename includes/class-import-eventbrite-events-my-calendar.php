@@ -63,6 +63,14 @@ class Import_Eventbrite_Events_My_Calendar {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -91,6 +99,15 @@ class Import_Eventbrite_Events_My_Calendar {
 		if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
 			$mc_eventdata['post_status'] = $event_args['event_status'];
 		}
+
+		$event_approved = '0';
+		if( $mc_eventdata['post_status'] == 'publish' ){
+			$event_approved = '1';
+		}
+		if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+			$mc_eventdata['post_status'] = get_post_status( $is_exitsing_event );
+			$event_args['event_status'] = get_post_status( $is_exitsing_event );
+		}
 		$inserted_event_id = wp_insert_post( $mc_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -98,15 +115,20 @@ class Import_Eventbrite_Events_My_Calendar {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
+			//Event ID
+			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
+
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+			if ( ! empty( $iee_cats ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -119,7 +141,6 @@ class Import_Eventbrite_Events_My_Calendar {
 				}
 			}
 
-			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', $centralize_array['url'] );
 
@@ -131,8 +152,8 @@ class Import_Eventbrite_Events_My_Calendar {
 
 			$event_author = $host = isset($event_args['event_author']) ? $event_args['event_author'] : get_current_user_id();
 			$event_category = 1;
-			if ( ! empty( $ife_cats ) ) {
-				$event_cat      = $ife_cats[0];
+			if ( ! empty( $iee_cats ) ) {
+				$event_cat      = $iee_cats[0];
 				$temp_event_cat = $wpdb->get_var( 'SELECT `category_id` FROM ' . my_calendar_categories_table() . ' WHERE `category_term` = ' . (int) $event_cat . ' LIMIT 1' );
 				if ( $temp_event_cat > 0 && is_numeric( $temp_event_cat ) && ! empty( $temp_event_cat ) ) {
 					$event_category = $temp_event_cat;
@@ -245,7 +266,7 @@ class Import_Eventbrite_Events_My_Calendar {
 				'event_category'     => $event_category,
 				'event_link_expires' => 0,
 				'event_zoom'         => $event_zoom,
-				'event_approved'     => 1,
+				'event_approved'     => $event_approved,
 				'event_host'         => $host,
 				'event_flagged'      => 0,
 				'event_fifth_week'   => 1,
@@ -300,8 +321,15 @@ class Import_Eventbrite_Events_My_Calendar {
 				'%f',
 			);
 
-			$db_event_id = $wpdb->get_var( $wpdb->prepare( 'SELECT `event_id` FROM ' . my_calendar_table() . ' WHERE `event_title` = %s AND `event_post`= %d LIMIT 1', sanitize_text_field( $inserted_event->post_title ), $inserted_event_id ) );
+			$db_event_id = $wpdb->get_var( $wpdb->prepare( 'SELECT `event_id` FROM ' . my_calendar_table() . ' WHERE `event_post`= %d LIMIT 1', $inserted_event_id ) );
 			if ( $db_event_id > 0 && is_numeric( $db_event_id ) && ! empty( $db_event_id ) ) {
+
+				if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+					unset( $event_data['event_approved'] );
+				}
+				if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') ) {
+					unset( $event_data['event_category'] );
+				}
 
 				$event_where = array( 'event_id' => absint( $db_event_id ) );
 				$wpdb->update( my_calendar_table(), $event_data, $event_where, $event_formats );

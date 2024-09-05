@@ -1,11 +1,11 @@
 === Import Eventbrite Events ===
-Contributors: xylus,dharm1025
+Contributors: xylus,dharm1025, Rajat1192
 Donate link: http://xylusthemes.com/
 Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 Requires at least: 4.0
 Requires PHP: 5.3
-Tested up to: 5.4
-Stable tag: 1.6.0
+Tested up to: 6.6
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
  
 
  <h3>Features</h3>
+* Upcoming Events Elementor Widget ([Pro][1]).
 * Easy and seemless Event import from Eventbrite to WordPres.
 * Import Eventbrite event by Event ID using Eventbrite API
 * Import Eventbrite events by Eventbrite organiser ID ([Pro][1]).
@@ -49,9 +50,8 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 
  <h3>Import Eventbrite Events into</h3>
 
-* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/)
+* [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/) - Support with the event calendar 6.0
 * [ Events manager ](https://wordpress.org/plugins/events-manager/)
-* [ All-in-One Event Calendar ](https://wordpress.org/plugins/all-in-one-event-calendar/)
 * [ Event Organiser ](https://wordpress.org/plugins/event-organiser/)
 * [ EventON ](https://codecanyon.net/item/eventon-wordpress-event-calendar-plugin/1211017)
 * [ My Calendar ](https://wordpress.org/plugins/my-calendar/)
@@ -140,6 +140,78 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.2 =
+* FIXED: Bug related to duplicate event imports.
+* FIXED: Plugin Deletion Bug
+* IMPROVEMENTS: Support for WP 6.5
+* IMPROVEMENTS: Support for PHP 8.3
+
+= 1.7.1 =
+* ADDED: Background Progress Prefix (PRO)
+* FIXED: Javascript Exceptions.
+* FIXED: Delete WP Cron multiple queue when you delete schedule delete.(PRO)
+* IMPROVEMENTS: EventOn Event Metadata.
+* IMPROVEMENTS: Added Support for PHP 8.2 and some design and security fixes
+* IMPROVEMENTS: Support for WP 6.4
+
+= 1.7.0 =
+* ADDED: Online Event Support.
+* ADDED: Google Map API key Option.
+* ADDED: Responsive grid view style 1 Support
+* ADDED: Time Format support in grid view style 2
+* ADDED: Skip Trashed Events Option (PRO)
+* ADDED: Grid View Style 2 Option in Elementor Block (PRO)
+* ADDED: Renew License button in the license section. (PRO)
+* FIXED: Delete WP Cron queue when you delete schedule delete.(PRO)
+* IMPROVEMENTS: Security and GUI changes
+* IMPROVEMENTS: Support for WP 6.3
+
+= 1.6.9 =
+* IMPROVEMENTS: Gutenberg Block
+* IMPROVEMENTS: Support for WP 6.2
+
+= 1.6.8 =
+* FIXED: TEC Event Ticket Section Display Issue
+
+= 1.6.7 =
+* ADDED: Event Grid List New Layout ( PRO )
+* ADDED: Upcoming Events Elementor Widget ( PRO )
+* ADDED: Admin Submenu Schedule Import, Import History, etc..
+* FIXED: Duplicate Event issue in TEC
+* IMPROVEMENTS: PHPCS Improvements.
+* IMPROVEMENTS: Support for PHP 8
+
+= 1.6.6 =
+* ADDED: Compatibility with The Events Calendar 6.0
+* ADDED: Taiwan language support.
+
+= 1.6.5 =
+* ADDED: Compatibility with The Events Calendar 6.0
+
+= 1.6.4 =
+* ADDED: Support for don't update status & category during auto-update. (Pro)
+* FIXED: Duplicate Event issue in My Calendar.
+
+= 1.6.3 =
+* ADDED: Webp images support
+* ADDED: Support and Docs link in plugin list page
+* ADDED: Considered private status in event already exists check
+* ADDED: Multiple events date with tickets option on recurring event
+* IMPROVEMENTS: Support for WP 6.0
+* FIXED: Buy ticket popup checkout button click issue
+
+= 1.6.2 =
+* ADDED: Optional Plugin deactivation Feedback
+* FIXED: Google map iframe embed error.
+* FIXED: Some translation string
+* FIXED: Redirect issue on some website after import history delete
+* IMPROVEMENTS: Support for WP 5.7
+
+= 1.6.1 =
+* FIXED: Warning during import EE4 and AIOEC
+* FIXED: jQuery 3.0 error
+
 = 1.6.0 =
 * ADDED: Event slug change functionality
 * ADDED: Add time format option

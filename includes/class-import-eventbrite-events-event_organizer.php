@@ -81,6 +81,14 @@ class Import_Eventbrite_Events_Event_Organizer {
 			// Update event or not?
 			$options       = iee_get_import_options( $centralize_array['origin'] );
 			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
+			$post_status   = get_post_status( $is_exitsing_event );
+			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
+				return array(
+					'status' => 'skip_trash',
+					'id'     => $is_exitsing_event,
+				);
+			}
 			if ( 'yes' != $update_events ) {
 				return array(
 					'status' => 'skipped',
@@ -111,6 +119,9 @@ class Import_Eventbrite_Events_Event_Organizer {
 			$eo_eventdata['post_status'] = $event_args['event_status'];
 		}
 
+		if ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable('status') ) {
+			$eo_eventdata['post_status'] = get_post_status( $is_exitsing_event );
+		}
 		$inserted_event_id = wp_insert_post( $eo_eventdata, true );
 
 		if ( ! is_wp_error( $inserted_event_id ) ) {
@@ -118,15 +129,20 @@ class Import_Eventbrite_Events_Event_Organizer {
 			if ( empty( $inserted_event ) ) {
 				return '';}
 
+			//Event ID
+			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
+
 			// Asign event category.
-			$ife_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			if ( ! empty( $ife_cats ) ) {
-				foreach ( $ife_cats as $ife_catk => $ife_catv ) {
-					$ife_cats[ $ife_catk ] = (int) $ife_catv;
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			if ( ! empty( $iee_cats ) ) {
+				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
+					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
 			}
-			if ( ! empty( $ife_cats ) ) {
-				wp_set_object_terms( $inserted_event_id, $ife_cats, $this->taxonomy );
+			if ( ! empty( $iee_cats ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+				}
 			}
 
 			// Assign Featured images
@@ -145,7 +161,6 @@ class Import_Eventbrite_Events_Event_Organizer {
 			update_post_meta( $inserted_event_id, '_eventorganiser_schedule_start_finish', date( 'Y-m-d H:i:s', $end_time ) );
 			update_post_meta( $inserted_event_id, '_eventorganiser_schedule_last_start', date( 'Y-m-d H:i:s', $start_time ) );
 			update_post_meta( $inserted_event_id, '_eventorganiser_schedule_last_finish', date( 'Y-m-d H:i:s', $end_time ) );
-			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $ticket_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
@@ -159,7 +174,7 @@ class Import_Eventbrite_Events_Event_Organizer {
 				'event_occurrence' => 0,
 			);
 
-			$event_count = $wpdb->get_var( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = " . absint( $inserted_event_id ) );
+			$event_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $this->event_db_table WHERE `post_id` = " . absint( $inserted_event_id ) ) );
 			if ( $event_count > 0 && is_numeric( $event_count ) ) {
 				$where = array( 'post_id' => absint( $inserted_event_id ) );
 				$wpdb->update( $this->event_db_table, $event_array, $where );
@@ -185,7 +200,8 @@ class Import_Eventbrite_Events_Event_Organizer {
 				}
 				$term_loc_ids = wp_set_object_terms( $inserted_event_id, $loc_term_id, $this->venue_taxonomy );
 				$venue        = $centralize_array['location'];
-				$address      = isset( $venue['full_address'] ) ? $venue['full_address'] : $venue['address_1'];
+				$address_1    = isset( $venue['address_1'] ) ? $venue['address_1'] : '';
+				$address      = isset( $venue['full_address'] ) ? $venue['full_address'] : $address_1;
 				$city         = isset( $venue['city'] ) ? $venue['city'] : '';
 				$state        = isset( $venue['state'] ) ? $venue['state'] : '';
 				$zip          = isset( $venue['zip'] ) ? $venue['zip'] : '';

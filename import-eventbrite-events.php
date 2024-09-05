@@ -3,7 +3,7 @@
  * Plugin Name:       Import Eventbrite Events
  * Plugin URI:        http://xylusthemes.com/plugins/import-eventbrite-events/
  * Description:       Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into your WordPress site.
- * Version:           1.6.0
+ * Version:           1.7.2
  * Author:            Xylus Themes
  * Author URI:        https://xylusthemes.com
  * License:           GPL-2.0+
@@ -33,6 +33,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * Import_Eventbrite_Events The one true Import_Eventbrite_Events.
 		 */
 		private static $instance;
+		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro;
 
 		/**
 		 * Main Import Eventbrite Events Instance.
@@ -56,6 +57,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
 				add_action( 'wp_enqueue_scripts', array( self::$instance, 'iee_enqueue_style' ) );
 				add_action( 'wp_enqueue_scripts', array( self::$instance, 'iee_enqueue_script' ) );
+				add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( self::$instance, 'iee_setting_doc_links' ) );
 
 				self::$instance->includes();
 				self::$instance->common     = new Import_Eventbrite_Events_Common();
@@ -99,7 +101,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @since 1.0.0
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.6.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.7.2' );
 		}
 
 		/**
@@ -108,7 +110,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @since 1.0.0
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.6.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.7.2' );
 		}
 
 
@@ -123,7 +125,12 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 
 			// Plugin version.
 			if ( ! defined( 'IEE_VERSION' ) ) {
-				define( 'IEE_VERSION', '1.6.0' );
+				define( 'IEE_VERSION', '1.7.2' );
+			}
+
+			// Minimum Pro plugin version.
+			if ( ! defined( 'IEE_MIN_PRO_VERSION' ) ) {
+				define( 'IEE_MIN_PRO_VERSION', '1.7.0' );
 			}
 
 			// Plugin folder Path.
@@ -183,6 +190,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-aioec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-my-calendar.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ee4.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-iee-plugin-deactivation.php';
 			// Gutenberg Block.
 			require_once IEE_PLUGIN_DIR . 'blocks/eventbrite-events/index.php';
 		}
@@ -205,6 +213,28 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		}
 
 		/**
+		 * IEE setting And docs link add in plugin page.
+		 *
+		 * @since 1.0
+		 * @return void
+		 */
+		public function iee_setting_doc_links( $links ) {
+			$iee_setting_doc_link = array(
+				'iee-event-setting' => sprintf(
+					'<a href="%s">%s</a>',
+					esc_url( admin_url( 'admin.php?page=eventbrite_event&tab=settings' ) ),
+					esc_html__( 'Setting', 'import-eventbrite-events' )
+				),
+				'iee-event-docs' => sprintf(
+					'<a target="_blank" href="%s">%s</a>',
+					esc_url( 'https://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/' ),
+					esc_html__( 'Docs', 'import-eventbrite-events' )
+				),
+			);
+			return array_merge( $links, $iee_setting_doc_link );
+		}
+
+		/**
 		 * Enqueue style front-end
 		 *
 		 * @access public
@@ -216,6 +246,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
 			wp_enqueue_style( 'font-awesome', $css_dir . 'font-awesome.min.css', false, '' );
 			wp_enqueue_style( 'import-eventbrite-events-front', $css_dir . 'import-eventbrite-events.css', false, '' );
+			wp_enqueue_style( 'import-eventbrite-events-front-style2', $css_dir . 'grid-style2.css', false, '' );
 		}
 
 		/**
