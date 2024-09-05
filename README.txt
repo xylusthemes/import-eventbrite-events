@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.6
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,12 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.3 =
+* ADDED: Display Private Token Expired Notice
+* ADDED: License Expired Notice
+* ADDED: Import Events Small Thumbnail Option
+* IMPROVEMENTS: Addon List View
 
 = 1.7.2 =
 * FIXED: Bug related to duplicate event imports.
