@@ -457,6 +457,8 @@ class Import_Eventbrite_Events_Admin {
 			'import-facebook-events' => esc_html__( 'Import Facebook Events', 'import-eventbrite-events' ),
 			'import-meetup-events'   => esc_html__( 'Import Meetup Events', 'import-eventbrite-events' ),
 			'wp-bulk-delete'         => esc_html__( 'WP Bulk Delete', 'import-eventbrite-events' ),
+			'xt-facebook-events' 	 => esc_html__( 'Facebook Events', 'import-eventbrite-events' ),
+			'event-schema' 			 => esc_html__( 'Event Schema / Structured Data: Google Rich Snippet Schema for Event', 'import-eventbrite-events' ),
 		);
 	}
 
@@ -487,6 +489,8 @@ class Import_Eventbrite_Events_Admin {
 					'fields' => array(
 						'banners'         => true,
 						'active_installs' => true,
+						'short_description'=> true,
+						'icons'			  => true,
 					),
 				)
 			);

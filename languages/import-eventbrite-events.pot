@@ -332,28 +332,36 @@ msgstr ""
 msgid "WP Bulk Delete"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:537
+#: includes/class-import-eventbrite-events-admin.php:449
+msgid "Facebook Events"
+msgstr ""
+
+#: includes/class-import-eventbrite-events-admin.php:450
+msgid "Event Schema / Structured Data: Google Rich Snippet Schema for Event"
+msgstr ""
+
+#: includes/class-import-eventbrite-events-admin.php:513
 msgid "Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:538
+#: includes/class-import-eventbrite-events-admin.php:514
 msgid "Created/Updated"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:539
-#: includes/class-import-eventbrite-events-list-table.php:174
-#: includes/class-import-eventbrite-events-list-table.php:537
-#: includes/class-import-eventbrite-events-list-table.php:712
+#: includes/class-import-eventbrite-events-admin.php:515
+#: includes/class-import-eventbrite-events-list-table.php:172
+#: includes/class-import-eventbrite-events-list-table.php:524
+#: includes/class-import-eventbrite-events-list-table.php:675
 msgid "Action"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:564
+#: includes/class-import-eventbrite-events-admin.php:540
 #: includes/class-import-eventbrite-events-list-table.php:79
 msgid "Edit"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:580
-#: includes/class-import-eventbrite-events-admin.php:587
+#: includes/class-import-eventbrite-events-admin.php:556
+#: includes/class-import-eventbrite-events-admin.php:563
 msgid "No data found"
 msgstr ""
 
@@ -1295,32 +1303,24 @@ msgstr ""
 msgid "Review Us on WP.org"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:85
+#: templates/admin/import-eventbrite-events-support.php:84
 msgid "Plugins you should try"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:108
-msgid "Version:"
+#: templates/admin/import-eventbrite-events-support.php:105
+msgid "Active Installs: "
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:113
-msgid "Requires:"
+#: templates/admin/import-eventbrite-events-support.php:111
+msgid "Actived"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:113
-msgid "WordPress "
+#: templates/admin/import-eventbrite-events-support.php:114
+msgid "Active"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:117
-msgid "Active Installs:"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:122
-msgid "Install Now"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:125
-msgid "Buy Now"
+#: templates/admin/import-eventbrite-events-support.php:118
+msgid "Install Plugin"
 msgstr ""
 
 #: templates/iee-event-meta.php:38
