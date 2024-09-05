@@ -140,6 +140,21 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 											</td>
 										</tr>
 
+                    <tr>
+                      <th scope="row">
+                        <?php _e( 'Import Small Event Thumbnail', 'import-eventbrite-events' ); ?> : 
+                      </th>
+                      <td>
+                        <?php
+                        $small_thumbnail = isset( $eventbrite_options['small_thumbnail'] ) ? $eventbrite_options['small_thumbnail'] : 'no';
+                        ?>
+                        <input type="checkbox" name="eventbrite[small_thumbnail]" value="yes" <?php if ( $small_thumbnail == 'yes' ) { echo 'checked="checked"'; } ?> />
+                        <span>
+                          <?php _e( 'You can import small thumbnails of events into an event by enabling this option.', 'import-eventbrite-events' ); ?>
+                        </span>
+                      </td>
+                    </tr>
+
 										<tr>
 											<th scope="row">
 												<?php _e( 'Import Private Events', 'import-eventbrite-events' ); ?> : 
@@ -307,15 +322,15 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 				<div id="license" class="iee_tab_content">
 					<?php
 						if( class_exists( 'Import_Eventbrite_Events_Pro_Common' ) && method_exists( $iee_events->common_pro, 'iee_licence_page_in_setting' ) ){
-                            $iee_events->common_pro->iee_licence_page_in_setting(); 
-                        }else{
-                            $license_section = sprintf(
-                                '<h3 class="setting_bar" >Once you have updated the plugin Pro version <a href="%s">%s</a>, you will be able to access this section.</h3>',
-                                esc_url( admin_url( 'plugins.php?s=import+eventbrite+events+pro' ) ),
-                                esc_html__( 'Here', 'import-eventbrite-events' )
-                            );
-                            echo $license_section;
-                        }
+                $iee_events->common_pro->iee_licence_page_in_setting(); 
+            }else{
+                $license_section = sprintf(
+                    '<h3 class="setting_bar" >Once you have updated the plugin Pro version <a href="%s">%s</a>, you will be able to access this section.</h3>',
+                    esc_url( admin_url( 'plugins.php?s=import+eventbrite+events+pro' ) ),
+                    esc_html__( 'Here', 'import-eventbrite-events' )
+                );
+                echo $license_section;
+            }
 					?>
 				</div>
 				<?php } ?>

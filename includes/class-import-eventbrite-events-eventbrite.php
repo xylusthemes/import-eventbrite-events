@@ -138,11 +138,17 @@ class Import_Eventbrite_Events_Eventbrite {
 
 		}
 
+		$iee_options       = get_option( IEE_OPTIONS );
+		$small_thumbnail = isset( $iee_options['small_thumbnail'] ) ? $iee_options['small_thumbnail'] : 'no';
 		$timezone          = isset( $eventbrite_event['start']['timezone'] ) ? $eventbrite_event['start']['timezone'] : '';
 		$event_name        = isset( $eventbrite_event['name']['text'] ) ? sanitize_text_field( $eventbrite_event['name']['text'] ) : '';
 		$event_description = isset( $eventbrite_event['description']['html'] ) ? $eventbrite_event['description']['html'] : '';
 		$event_url         = array_key_exists( 'url', $eventbrite_event ) ? esc_url( $eventbrite_event['url'] ) : '';
-		$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
+		if( $small_thumbnail == 'yes'){
+			$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['url'] ) : '';
+		}else{
+			$event_image       = array_key_exists( 'logo', $eventbrite_event ) ? urldecode( $eventbrite_event['logo']['original']['url'] ) : '';
+		}
 		$image             = explode( '?s=', $event_image );
 		$image_url         = esc_url( urldecode( str_replace( 'https://img.evbuc.com/', '', $image[0] ) ) );
 		$series_id         = isset( $eventbrite_event['series_id'] ) ? $eventbrite_event['series_id'] : '';
