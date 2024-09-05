@@ -190,7 +190,15 @@ class Import_Eventbrite_Events_Eventbrite {
 			return null;
 		}
 		$event_organizer = $eventbrite_event['organizer_id'];
-		$get_oraganizer  = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $event_organizer . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$get_oraganizer  = wp_remote_get(
+			'https://www.eventbriteapi.com/v3/organizers/' . $event_organizer . '/?token=' . $this->oauth_token,
+			array(
+				'headers' => array(
+					'Content-Type' => 'application/json'
+				),
+				'timeout' => 20,
+			)
+		);
 
 		if ( ! is_wp_error( $get_oraganizer ) ) {
 			$oraganizer = json_decode( $get_oraganizer['body'], true );
@@ -279,7 +287,15 @@ class Import_Eventbrite_Events_Eventbrite {
 			return;
 		}
 
-		$get_oraganizer = wp_remote_get( 'https://www.eventbriteapi.com/v3/organizers/' . $organizer_id . '/?token=' . $this->oauth_token, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		$get_oraganizer = wp_remote_get(
+			'https://www.eventbriteapi.com/v3/organizers/' . $organizer_id . '/?token=' . $this->oauth_token,
+			array(
+				'headers' => array(
+					'Content-Type' => 'application/json'
+				),
+				'timeout' => 20,
+			)
+		);
 
 		if ( ! is_wp_error( $get_oraganizer ) ) {
 			$oraganizer = json_decode( $get_oraganizer['body'], true );
