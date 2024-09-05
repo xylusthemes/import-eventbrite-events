@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-07T13:15:26+00:00\n"
+"POT-Creation-Date: 2024-09-05T10:39:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: import-eventbrite-events\n"
 
 #. Plugin Name of the plugin
@@ -332,36 +332,36 @@ msgstr ""
 msgid "WP Bulk Delete"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:449
+#: includes/class-import-eventbrite-events-admin.php:460
 msgid "Facebook Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:450
+#: includes/class-import-eventbrite-events-admin.php:461
 msgid "Event Schema / Structured Data: Google Rich Snippet Schema for Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:513
+#: includes/class-import-eventbrite-events-admin.php:541
 msgid "Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:514
+#: includes/class-import-eventbrite-events-admin.php:542
 msgid "Created/Updated"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:515
-#: includes/class-import-eventbrite-events-list-table.php:172
-#: includes/class-import-eventbrite-events-list-table.php:524
-#: includes/class-import-eventbrite-events-list-table.php:675
+#: includes/class-import-eventbrite-events-admin.php:543
+#: includes/class-import-eventbrite-events-list-table.php:174
+#: includes/class-import-eventbrite-events-list-table.php:537
+#: includes/class-import-eventbrite-events-list-table.php:712
 msgid "Action"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:540
+#: includes/class-import-eventbrite-events-admin.php:568
 #: includes/class-import-eventbrite-events-list-table.php:79
 msgid "Edit"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-admin.php:556
-#: includes/class-import-eventbrite-events-admin.php:563
+#: includes/class-import-eventbrite-events-admin.php:584
+#: includes/class-import-eventbrite-events-admin.php:591
 msgid "No data found"
 msgstr ""
 
@@ -1134,99 +1134,107 @@ msgid "Check to enable advanced synchronization, this will delete events which a
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:145
-msgid "Import Private Events"
+msgid "Import Small Event Thumbnail"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:153
+msgid "You can import small thumbnails of events into an event by enabling this option."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:160
+msgid "Import Private Events"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:168
 msgid "Tick to import Private events, Untick to not import private event."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:161
+#: templates/admin/import-eventbrite-events-settings.php:176
 msgid "Don't Update these data."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:171
+#: templates/admin/import-eventbrite-events-settings.php:186
 msgid "Status ( Publish, Pending, Draft etc.. )"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:175
+#: templates/admin/import-eventbrite-events-settings.php:190
 msgid "Event category"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:178
+#: templates/admin/import-eventbrite-events-settings.php:193
 msgid "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:186
+#: templates/admin/import-eventbrite-events-settings.php:201
 msgid "Event Slug"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:194
+#: templates/admin/import-eventbrite-events-settings.php:209
 msgid "Slug for the event."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:202
+#: templates/admin/import-eventbrite-events-settings.php:217
 msgid "Event Display Time Format"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:209
+#: templates/admin/import-eventbrite-events-settings.php:224
 msgid "12 Hours"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:210
+#: templates/admin/import-eventbrite-events-settings.php:225
 msgid "24 Hours"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:211
+#: templates/admin/import-eventbrite-events-settings.php:226
 msgid "WordPress Default"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:214
+#: templates/admin/import-eventbrite-events-settings.php:229
 msgid "Choose event display time format for front-end."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:223
+#: templates/admin/import-eventbrite-events-settings.php:238
 msgid "Disable Eventbrite Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:232
+#: templates/admin/import-eventbrite-events-settings.php:247
 msgid "Check to disable inbuilt event management system."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:238
+#: templates/admin/import-eventbrite-events-settings.php:253
 msgid "Delete Import Eventbrite Events data on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:246
+#: templates/admin/import-eventbrite-events-settings.php:261
 msgid "Delete Import Eventbrite Events data like settings, scheduled imports, import history on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:258
-#: templates/admin/import-eventbrite-events-settings.php:300
+#: templates/admin/import-eventbrite-events-settings.php:273
+#: templates/admin/import-eventbrite-events-settings.php:315
 msgid "Save Settings"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:267
+#: templates/admin/import-eventbrite-events-settings.php:282
 msgid "Google Maps API Settings"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:274
+#: templates/admin/import-eventbrite-events-settings.php:289
 msgid "Google Maps API"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:285
+#: templates/admin/import-eventbrite-events-settings.php:300
 msgid "Google maps API Key (Required)"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:286
+#: templates/admin/import-eventbrite-events-settings.php:301
 msgid "How to get an API Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:287
+#: templates/admin/import-eventbrite-events-settings.php:302
 msgid "Find out more about API Key restrictions"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:315
+#: templates/admin/import-eventbrite-events-settings.php:330
 msgid "Here"
 msgstr ""
 
@@ -1307,20 +1315,44 @@ msgstr ""
 msgid "Plugins you should try"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:105
+#: templates/admin/import-eventbrite-events-support.php:111
 msgid "Active Installs: "
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:111
+#: templates/admin/import-eventbrite-events-support.php:117
 msgid "Actived"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:114
-msgid "Active"
+#: templates/admin/import-eventbrite-events-support.php:120
+msgid "Activate"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:118
+#: templates/admin/import-eventbrite-events-support.php:124
 msgid "Install Plugin"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:129
+msgid "Version:"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:134
+msgid "Requires:"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:134
+msgid "WordPress "
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:138
+msgid "Active Installs:"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:143
+msgid "Install Now"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-support.php:146
+msgid "Buy Now"
 msgstr ""
 
 #: templates/iee-event-meta.php:38
