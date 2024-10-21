@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Import Eventbrite Events 1.7.2\n"
+"Project-Id-Version: Import Eventbrite Events 1.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/import-eventbrite-events\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-05T10:43:24+00:00\n"
+"POT-Creation-Date: 2024-10-21T07:18:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -535,6 +535,7 @@ msgid "Import settings has been saved successfully."
 msgstr ""
 
 #: includes/class-import-eventbrite-events-common.php:1339
+#: templates/iee-archive-content3.php:94
 msgid "Buy Tickets"
 msgstr ""
 
@@ -827,7 +828,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:848
+#: includes/class-import-eventbrite-events-cpt.php:850
 msgid "There are no upcoming Events at this time."
 msgstr ""
 
@@ -1327,44 +1328,20 @@ msgstr ""
 msgid "Plugins you should try"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:111
+#: templates/admin/import-eventbrite-events-support.php:103
 msgid "Active Installs: "
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:117
+#: templates/admin/import-eventbrite-events-support.php:109
 msgid "Actived"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:120
+#: templates/admin/import-eventbrite-events-support.php:112
 msgid "Activate"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-support.php:124
+#: templates/admin/import-eventbrite-events-support.php:116
 msgid "Install Plugin"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:129
-msgid "Version:"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:134
-msgid "Requires:"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:134
-msgid "WordPress "
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:138
-msgid "Active Installs:"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:143
-msgid "Install Now"
-msgstr ""
-
-#: templates/admin/import-eventbrite-events-support.php:146
-msgid "Buy Now"
 msgstr ""
 
 #: templates/iee-event-meta.php:38
