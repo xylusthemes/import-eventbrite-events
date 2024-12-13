@@ -5,7 +5,7 @@ Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, i
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.7
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,10 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.5 =
+* IMPROVEMENTS: Support for WP 6.7
+* IMPROVEMENTS: Enhanced XSS Protection
 
 = 1.7.4 =
 * IMPROVEMENTS: Text changed and Added Feedback from the header
