@@ -814,53 +814,68 @@ class Import_Eventbrite_Events_Cpt {
 		?>
 		<div class="iee_archive row_grid">
 			<?php
-			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
+			if( isset( $atts['layout'] ) && $atts['layout'] == 'style6' ){
 				?>
-					<div class="iee5_main_container">
+				<div class="iee6_events-container">
 				<?php
 			}
-			$template_args              = array();
-			$template_args['css_class'] = $css_class;
-			$template_args['direct_link'] = $direct_link;
-
-			if ( $eventbrite_events->have_posts() ) :
-				while ( $eventbrite_events->have_posts() ) :
-					$eventbrite_events->the_post();
-
-					if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content2.php', $template_args );
-          }elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style3' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content3.php', $template_args );
-					}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style4' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content4.php', $template_args );
-          }elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content5.php', $template_args );
-					}else{
-						get_iee_template( 'iee-archive-content.php', $template_args );
-					}
-
-				endwhile; // End of the loop.
-
-				if ( $eventbrite_events->max_num_pages > 1 ) : // custom pagination
+			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
 				?>
-					<div class="col-iee-md-12">
-						<nav class="prev-next-posts">
-							<div class="prev-posts-link alignright">
-								<?php echo get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ); ?>
-							</div>
-							<div class="next-posts-link alignleft">
-								<?php echo get_previous_posts_link( '&laquo; Previous Events' ); ?>
-							</div>
-						</nav>
-					</div>
+				<div class="iee5_main_container">
 				<?php
-				endif;
-			else :
-				echo apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
+			}
+					$template_args              = array();
+					$template_args['css_class'] = $css_class;
+					$template_args['direct_link'] = $direct_link;
+
+					if ( $eventbrite_events->have_posts() ) :
+						while ( $eventbrite_events->have_posts() ) :
+							$eventbrite_events->the_post();
+
+							if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' && iee_is_pro() ){
+								get_iee_template( 'iee-archive-content2.php', $template_args );
+							}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style3' && iee_is_pro() ){
+								get_iee_template( 'iee-archive-content3.php', $template_args );
+							}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style4' && iee_is_pro() ){
+								get_iee_template( 'iee-archive-content4.php', $template_args );
+							}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){
+								get_iee_template( 'iee-archive-content5.php', $template_args );
+							}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style6' && iee_is_pro() ){
+								get_iee_template( 'iee-archive-content6.php', $template_args );
+							}else{
+								get_iee_template( 'iee-archive-content.php', $template_args );
+							}
+
+						endwhile; // End of the loop.
+
+						if ( $eventbrite_events->max_num_pages > 1 ) : // custom pagination
+						?>
+							<div class="col-iee-md-12">
+								<nav class="prev-next-posts">
+									<div class="prev-posts-link alignright">
+										<?php echo get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ); ?>
+									</div>
+									<div class="next-posts-link alignleft">
+										<?php echo get_previous_posts_link( '&laquo; Previous Events' ); ?>
+									</div>
+								</nav>
+							</div>
+						<?php
+						endif;
+					else :
+						echo apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
+					endif;
+					?>
+			<?php
+			if( isset( $atts['layout'] ) && $atts['layout'] == 'style6' && iee_is_pro() ){
+				?>
+				</div>
+				<?php
+			}
 			endif;
 			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
 				?>
-					</div>
+				</div>
 				<?php
 			}
 			?>

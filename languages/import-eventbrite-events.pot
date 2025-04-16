@@ -1369,6 +1369,14 @@ msgstr ""
 msgid "Install Plugin"
 msgstr ""
 
+#: templates/iee-archive-content6.php:83
+msgid "Buy tickets"
+msgstr ""
+
+#: templates/iee-archive-content6.php:85
+msgid "View details"
+msgstr ""
+
 #: templates/iee-event-meta.php:38
 msgid "Details"
 msgstr ""
