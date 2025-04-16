@@ -1,7 +1,7 @@
 === Import Eventbrite Events ===
 Contributors: xylus,dharm1025, Rajat1192
 Donate link: http://xylusthemes.com/
-Tags: Eventbrite, events, calendar, eventbrite events, Eventbrite API
+Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.8
