@@ -73,6 +73,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				self::$instance->tec             = new Import_Eventbrite_Events_TEC();
 				self::$instance->em              = new Import_Eventbrite_Events_EM();
 				self::$instance->eventon         = new Import_Eventbrite_Events_EventON();
+				self::$instance->eventprime      = new Import_Eventbrite_Events_EventPrime();
 				self::$instance->event_organizer = new Import_Eventbrite_Events_Event_Organizer();
 				self::$instance->aioec           = new Import_Eventbrite_Events_Aioec();
 				self::$instance->my_calendar     = new Import_Eventbrite_Events_My_Calendar();
@@ -186,6 +187,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-tec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-em.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-eventon.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-eventprime.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-event_organizer.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-aioec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-my-calendar.php';
@@ -231,7 +233,17 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 					esc_html__( 'Docs', 'import-eventbrite-events' )
 				),
 			);
-			return array_merge( $links, $iee_setting_doc_link );
+			
+			$upgrate_to_pro = array();
+			if( !iee_is_pro() ){
+				$upgrate_to_pro = array( 'iee-event-pro-link' => sprintf(
+                    '<a href="%s" target="_blank" style="color:#1da867;font-weight: 900;">%s</a>',
+                    esc_url( 'https://xylusthemes.com/plugins/import-eventbrite-events/' ),
+                    esc_html__( 'Upgrade to Pro', 'import-eventbrite-events' )
+                ) ) ;
+			}
+
+			return array_merge( $links, $iee_setting_doc_link, $upgrate_to_pro );
 		}
 
 		/**
