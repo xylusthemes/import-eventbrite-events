@@ -814,6 +814,11 @@ class Import_Eventbrite_Events_Cpt {
 		?>
 		<div class="iee_archive row_grid">
 			<?php
+			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
+				?>
+					<div class="iee5_main_container">
+				<?php
+			}
 			$template_args              = array();
 			$template_args['css_class'] = $css_class;
 			$template_args['direct_link'] = $direct_link;
@@ -827,7 +832,9 @@ class Import_Eventbrite_Events_Cpt {
           }elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style3' && iee_is_pro() ){
 						get_iee_template( 'iee-archive-content3.php', $template_args );
 					}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style4' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content4.php', $template_args );					
+						get_iee_template( 'iee-archive-content4.php', $template_args );
+          }elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){
+						get_iee_template( 'iee-archive-content5.php', $template_args );
 					}else{
 						get_iee_template( 'iee-archive-content.php', $template_args );
 					}
@@ -851,6 +858,11 @@ class Import_Eventbrite_Events_Cpt {
 			else :
 				echo apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
 			endif;
+			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
+				?>
+					</div>
+				<?php
+			}
 			?>
 		</div>
 		<style type="text/css">
