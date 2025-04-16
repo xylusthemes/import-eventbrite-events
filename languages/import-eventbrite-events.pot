@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-16T06:39:40+00:00\n"
+"POT-Creation-Date: 2025-04-16T06:52:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -427,118 +427,126 @@ msgstr ""
 msgid "Invalid image URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:488
+#: includes/class-import-eventbrite-events-common.php:474
+msgid "Your current \"Import Eventbrite Pro\" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly."
+msgstr ""
+
+#: includes/class-import-eventbrite-events-common.php:518
+msgid "Event(s) are imported successfully."
+msgstr ""
+
+#: includes/class-import-eventbrite-events-common.php:520
 #: includes/class-import-eventbrite-events-list-table.php:124
 #: includes/class-import-eventbrite-events-list-table.php:340
 #: includes/class-import-eventbrite-events-list-table.php:475
 msgid "%d Created"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:491
+#: includes/class-import-eventbrite-events-common.php:523
 #: includes/class-import-eventbrite-events-list-table.php:127
 #: includes/class-import-eventbrite-events-list-table.php:343
 #: includes/class-import-eventbrite-events-list-table.php:478
 msgid "%d Updated"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:494
+#: includes/class-import-eventbrite-events-common.php:526
 msgid "%d Skipped (Already exists)"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:497
+#: includes/class-import-eventbrite-events-common.php:529
 msgid "%d Skipped (Already exists in Trash )"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:500
+#: includes/class-import-eventbrite-events-common.php:532
 msgid "%d "
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:565
+#: includes/class-import-eventbrite-events-common.php:597
 msgid "Once Hourly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:568
+#: includes/class-import-eventbrite-events-common.php:600
 msgid "Twice Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:571
+#: includes/class-import-eventbrite-events-common.php:603
 msgid "Once Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:574
+#: includes/class-import-eventbrite-events-common.php:606
 msgid "Once Weekly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:577
+#: includes/class-import-eventbrite-events-common.php:609
 msgid "Once a Month"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:592
+#: includes/class-import-eventbrite-events-common.php:624
 msgid "One-time Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:594
+#: includes/class-import-eventbrite-events-common.php:626
 msgid "Scheduled Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:649
+#: includes/class-import-eventbrite-events-common.php:681
 msgid "Status"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:654
+#: includes/class-import-eventbrite-events-common.php:686
 msgid "Published"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:657
+#: includes/class-import-eventbrite-events-common.php:689
 msgid "Pending"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:660
+#: includes/class-import-eventbrite-events-common.php:692
 msgid "Draft"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:729
+#: includes/class-import-eventbrite-events-common.php:761
 msgid "Available in Pro version."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:729
+#: includes/class-import-eventbrite-events-common.php:761
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1006
+#: includes/class-import-eventbrite-events-common.php:1038
 msgid "Scheduled import deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1010
-#: includes/class-import-eventbrite-events-common.php:1034
+#: includes/class-import-eventbrite-events-common.php:1042
+#: includes/class-import-eventbrite-events-common.php:1066
 msgid "Scheduled imports are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1014
+#: includes/class-import-eventbrite-events-common.php:1046
 msgid "Scheduled import has been run successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1018
+#: includes/class-import-eventbrite-events-common.php:1050
 msgid "Import history deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1022
+#: includes/class-import-eventbrite-events-common.php:1054
 msgid "Import histories are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1026
+#: includes/class-import-eventbrite-events-common.php:1058
 msgid "Update has been finish successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1030
+#: includes/class-import-eventbrite-events-common.php:1062
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1187
+#: includes/class-import-eventbrite-events-common.php:1219
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1344
+#: includes/class-import-eventbrite-events-common.php:1376
 #: templates/iee-archive-content3.php:94
 msgid "Buy Tickets"
 msgstr ""
