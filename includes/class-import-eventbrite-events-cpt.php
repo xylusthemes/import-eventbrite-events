@@ -872,7 +872,6 @@ class Import_Eventbrite_Events_Cpt {
 				</div>
 				<?php
 			}
-			endif;
 			if( isset( $atts['layout'] ) && $atts['layout'] == 'style5' && iee_is_pro() ){	
 				?>
 				</div>
