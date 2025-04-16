@@ -79,6 +79,21 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 										</tr>
 
 										<tr>
+											<th scope="row">
+												<?php _e( 'Move past events in trash', 'import-eventbrite-events' ); ?> : 
+											</th>
+											<td>
+												<?php
+												$update_eventbrite_events = isset( $eventbrite_options['move_peit'] ) ? $eventbrite_options['move_peit'] : 'no';
+												?>
+												<input type="checkbox" name="eventbrite[move_peit]" value="yes" <?php if ( $update_eventbrite_events == 'yes' ) { echo 'checked="checked"'; } ?> />
+												<span class="xtei_small">
+													<?php _e( 'Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background.', 'import-eventbrite-events' ); ?>
+												</span>
+											</td>
+										</tr>
+
+										<tr>
 										<th scope="row">
 											<?php _e( 'Skip Trashed Events', 'import-eventbrite-events' ); ?> : 
 										</th>
