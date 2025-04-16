@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-16T06:52:23+00:00\n"
+"POT-Creation-Date: 2025-04-16T06:54:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -546,7 +546,7 @@ msgstr ""
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1376
+#: includes/class-import-eventbrite-events-common.php:1392
 #: templates/iee-archive-content3.php:94
 msgid "Buy Tickets"
 msgstr ""
