@@ -61,12 +61,12 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'       => wp_unslash( $_REQUEST['page'] ),
+			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
 			'iee_action' => 'iee_simport_delete',
 			'import_id'  => absint( $item['ID'] ),
 		);
 
-		$page              = wp_unslash( $_REQUEST['page'] );
+		$page              = esc_attr( wp_unslash( $_REQUEST['page'] ) );
 		$tab               = 'scheduled';
 		$wp_redirect       = admin_url( 'admin.php?page=' . $page );
 		$iee_url_edit_args = array(
@@ -110,7 +110,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_action( $item ) {
 
 		$xtmi_run_import_args = array(
-			'page'       => wp_unslash( $_REQUEST['page'] ),
+			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
 			'iee_action' => 'iee_run_import',
 			'import_id'  => $item['ID'],
 		);
@@ -435,8 +435,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'       => wp_unslash( $_REQUEST['page'] ),
-			'tab'        => wp_unslash( $_REQUEST['tab'] ),
+			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
+			'tab'        => esc_attr( wp_unslash( $_REQUEST['tab'] ) ),
 			'iee_action' => 'iee_history_delete',
 			'history_id' => absint( $item['ID'] ),
 		);
@@ -555,8 +555,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 			return;
 		}	
 		$iee_url_all_delete_args = array(
-			'page'       => wp_unslash( $_REQUEST['page'] ),
-			'tab'        => wp_unslash( $_REQUEST['tab'] ),
+			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
+			'tab'        => esc_attr( wp_unslash( $_REQUEST['tab'] ) ),
 			'iee_action' => 'iee_all_history_delete',
 		);
 		
