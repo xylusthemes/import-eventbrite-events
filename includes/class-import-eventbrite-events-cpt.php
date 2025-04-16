@@ -824,8 +824,10 @@ class Import_Eventbrite_Events_Cpt {
 
 					if( isset( $atts['layout'] ) && $atts['layout'] == 'style2' && iee_is_pro() ){
 						get_iee_template( 'iee-archive-content2.php', $template_args );
+          }elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style3' && iee_is_pro() ){
+						get_iee_template( 'iee-archive-content3.php', $template_args );
 					}elseif( isset( $atts['layout'] ) && $atts['layout'] == 'style4' && iee_is_pro() ){
-						get_iee_template( 'iee-archive-content4.php', $template_args );
+						get_iee_template( 'iee-archive-content4.php', $template_args );					
 					}else{
 						get_iee_template( 'iee-archive-content.php', $template_args );
 					}
@@ -860,6 +862,12 @@ class Import_Eventbrite_Events_Cpt {
 			}
 			.iee-style4-main-div > div::before {
 				background-color: <?php echo esc_attr( $accent_color ); ?>;
+      }
+			.iee-event-count, .iee-event-meta > div, .iee-event-meta > div i, .iee-event-info h4 a:hover {
+				color: <?php echo esc_attr( $accent_color ); ?>;
+			}
+			.iee-theme-btn{
+				background: <?php echo esc_attr( $accent_color ); ?>;
 			}
 		</style>
 		<?php

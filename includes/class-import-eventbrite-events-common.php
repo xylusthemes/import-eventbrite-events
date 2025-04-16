@@ -223,6 +223,11 @@ class Import_Eventbrite_Events_Common {
 					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
 			}
+			$iee_options         = get_option( IEE_OPTIONS );
+			$small_thumbnail     = isset( $iee_options['small_thumbnail'] ) ? $iee_options['small_thumbnail'] : 'no';
+			if( $small_thumbnail == 'yes'){
+				$image_url       = str_replace( 'original.', 'logo.', $image_url );
+			}
 
 			$args = array(
 				'post_type'   => 'attachment',
