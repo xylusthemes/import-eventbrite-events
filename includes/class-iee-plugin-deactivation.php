@@ -25,7 +25,6 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
 
         private $prefix = 'iee_';
         private $slug = 'import-eventbrite-events';
-        private $plugin_name;
         private $plugin_version = '1.0.0';
         private $api_url = 'https://api.xylusthemes.com/api/v1/';
 
@@ -35,7 +34,6 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
          * @since    1.0.0
          */
         public function __construct() {
-			$this->plugin_name =  __('Import Eventbrite Events', 'import-eventbrite-events' );
 			if ( defined( 'IEE_VERSION' ) ) {
 				$this->plugin_version = IEE_VERSION;
 			}
@@ -104,7 +102,7 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                 "customer_name" => $customer_name,
                 "customer_email" => $customer_email,
                 "plugin" => $this->slug,
-                "plugin_name" => $this->plugin_name,
+                "plugin_name" => 'Import Eventbrite Events',
                 "plugin_version" => $this->plugin_version,
                 "plugin_version" => $this->plugin_version,
                 "deactivation_reason" => $deactivation_reason,
