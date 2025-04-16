@@ -1,11 +1,11 @@
 === Import Eventbrite Events ===
 Contributors: xylus,dharm1025, Rajat1192
 Donate link: http://xylusthemes.com/
-Tags: Eventbrite, events, calendar, eventbrite events, API, eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
+Tags: Eventbrite, events, calendar, eventbrite events, Eventbrite API
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.8
-Stable tag: 1.7.5
+Stable tag: 1.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,10 +15,10 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 
 <h3>Import Eventbrite Events into WordPress :</h3>
  Import Eventbrite Events allows you to import eventbrite events into your WordPress site automatically. Automate your Event Marketing using Import Eventbrite Events plug-in. You can schedule event import so it will be imported/syncronized automatically [Pro]
+
+  📄 [Documentation](http://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/) | ⭐ [Upgrade to Pro](https://xylusthemes.com/plugins/import-eventbrite-events) | 🛟 [Get Support](https://xylusthemes.com/support/) | 👁️ [Try Now (Admin Demo)](http://testdrive.xylusthemes.com/)
  
- [Check Documentation](http://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/) 
- [Try Now (Admin Demo)](http://testdrive.xylusthemes.com/) |  [Pro Version][1]
- 
+ eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 
  <h3>Features</h3>
 * Upcoming Events Elementor Widget ([Pro][1]).
@@ -55,6 +55,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 * [ Event Organiser ](https://wordpress.org/plugins/event-organiser/)
 * [ EventON ](https://codecanyon.net/item/eventon-wordpress-event-calendar-plugin/1211017)
 * [ My Calendar ](https://wordpress.org/plugins/my-calendar/)
+* [ EventPrime ](https://wordpress.org/plugins/eventprime-event-calendar-management/)
 * In-built Events
 
 <h3>short-code example:</h3>
@@ -140,6 +141,16 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.6 =
+* ADDED: New display styles: Style 3, Style 4, Style 5, and Style 6 (Pro version)
+* ADDED: Integrated support for the EventPrime plugin
+* ADDED: Re-created missing schedule functionality (Pro version)
+* ADDED: Implemented auto trash feature for removed events
+* FIXED: date() function issue on the event details page
+* FIXED: Resolved event import issue with The Events Calendar (TEC) plugin
+* IMPROVEMENTS: Enhanced small image display option
+* IMPROVEMENTS: Support for WP 6.8
 
 = 1.7.5 =
 * IMPROVEMENTS: Support for WP 6.7
