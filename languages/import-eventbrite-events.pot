@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-16T06:32:51+00:00\n"
+"POT-Creation-Date: 2025-04-16T06:39:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -836,7 +836,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:850
+#: includes/class-import-eventbrite-events-cpt.php:852
 msgid "There are no upcoming Events at this time."
 msgstr ""
 

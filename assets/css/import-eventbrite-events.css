@@ -1295,3 +1295,134 @@
   }
 }
 /*new layout style 3 end*/
+/*new layout style 4 start*/
+
+.iee-style4-main-div{
+  margin: 10px 0;
+}
+.iee-style4-main-div > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 5px solid #f5f6f6;
+  padding: 0 5px 0 10px;
+  transition: all 500ms ease;
+  z-index: 1;
+}
+
+.iee-style4-main-div > div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.1;
+  transition: transform 0.5s ease, opacity 0.1s ease;
+  transform-origin: bottom right;
+  transform: scale(1, 0);
+  z-index: -1;
+}
+
+.iee-style4-main-div > div:hover::before {
+  transform: scale(1, 1);
+  transform-origin: top center;
+  opacity: 0.1;
+}
+
+.iee-style4-main-div > div + div {
+  margin-top: 30px;
+}
+
+.iee-style4-event-box .iee-style4-te-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 34px;
+}
+
+.iee-style4-event-box .iee-style4-te-meta {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.iee-style4-event-dt {
+  position: relative;
+  display: block;
+}
+
+.iee-style4-event-dt .iee-style4-te-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 34px;
+}
+
+.iee-style4-event-dt .iee-style4-te-meta {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.iee-style4-event-image-img {
+  width: 125px;
+  height: 125px;
+  margin: 10px 0;
+}
+
+.iee-style4-event-image-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; 
+}
+
+.iee-style4-child-div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.iee-style4-event-box {
+  flex: 0 0 70%;
+  padding: 0 0 0 15px;
+}
+
+.iee-style4-event-dt {
+  flex: 0 0 18%;
+  padding-right: 10px;
+}
+
+.iee-style4-event-image {
+  flex: 0 0 12%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and ( min-width: 768px ) and ( max-width: 1200px ) {
+  .iee-style4-main-div > div {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 10px 0;
+  }
+}
+@media only screen and ( min-width: 1199px ) and ( max-width: 1400px ) {
+  .iee-style4-main-div > div {
+    padding: 10px 15px 10px;
+  }
+}
+@media only screen and ( max-width: 767px ) {
+  .iee-style4-main-div > div {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px 0;
+    gap: 10px;
+  }
+}
+
+/*new layout style 4 end*/
