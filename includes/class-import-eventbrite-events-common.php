@@ -166,7 +166,7 @@ class Import_Eventbrite_Events_Common {
 			$supported_plugins['eventon'] = __( 'EventON', 'import-eventbrite-events' );
 		}
 
-		// check EventON.
+		// check EventPrime.
 		if ( class_exists( 'Eventprime_Event_Calendar_Management_Admin' ) ) {
 			$supported_plugins['eventprime'] = __( 'EventPrime', 'import-eventbrite-events' );
 		}
@@ -377,7 +377,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
