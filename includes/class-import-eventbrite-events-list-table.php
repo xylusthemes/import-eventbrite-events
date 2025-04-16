@@ -171,6 +171,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'import_status'    => __( 'Import Event Status', 'import-eventbrite-events' ),
 			'import_category'  => __( 'Import Category', 'import-eventbrite-events' ),
 			'import_frequency' => __( 'Import Frequency', 'import-eventbrite-events' ),
+			'next_run' => __( 'Next Run', 'import-eventbrite-events' ),
 			'action'           => __( 'Action', 'import-eventbrite-events' ),
 		);
 		return $columns;
@@ -287,6 +288,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 		}
 		$importdata_query                       = new WP_Query( $query_args );
 		$scheduled_import_data['total_records'] = ( $importdata_query->found_posts ) ? (int) $importdata_query->found_posts : 0;
+		$next_run_times = $this->get_iee_next_run_times();
 		// The Loop.
 		if ( $importdata_query->have_posts() ) {
 			while ( $importdata_query->have_posts() ) {
@@ -365,12 +367,26 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					}
 				}
 
+				$next_run = '-';
+				if(isset($next_run_times[$import_id]) && !empty($next_run_times[$import_id])){
+					$next_time = $next_run_times[$import_id];
+					$next_run = sprintf( '%s (%s)',
+						esc_html( get_date_from_gmt( date( 'Y-m-d H:i:s', $next_time ), 'Y-m-d H:i:s' ) ),
+						esc_html( human_time_diff( current_time( 'timestamp', true ), $next_time ) )
+					);
+				}
+
+				if( $next_run == '-' ){
+						$iee_events->common->iee_recreate_missing_schedule_import( $import_id );
+				}
+
 				$scheduled_import = array(
 					'ID'               => $import_id,
 					'title'            => $import_title,
 					'import_status'    => ucfirst( $import_status ),
 					'import_category'  => implode( ', ', $term_names ),
 					'import_frequency' => isset( $import_data['import_frequency'] ) ? ucfirst( $import_data['import_frequency'] ) : '',
+					'next_run'         => $next_run,
 					'import_origin'    => $import_origin,
 					'import_into'	   => $import_into,
 					'eventbrite_id'	   => $eventbrite_id,
@@ -388,6 +404,47 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 		// Restore original Post Data.
 		wp_reset_postdata();
 		return $scheduled_import_data;
+	}
+
+	/**
+	 * Get IEE crons.
+	 *
+	 * @return Array
+	 */
+	function get_iee_crons(){
+		$crons = array();
+		if(function_exists('_get_cron_array') ){
+			$crons = _get_cron_array();
+		}
+		$wpea_scheduled = array_filter($crons, function($cron) {
+			$cron_name = array_keys($cron) ? array_keys($cron)[0] : '';
+			if (strpos($cron_name, 'iee_run_scheduled_import') !== false) {
+				return true;
+			}
+			return false;
+		});
+		return $wpea_scheduled;
+	}
+
+
+	/**
+	 * Get Next run time array for schdeuled import.
+	 *
+	 * @return Array
+	 */
+	function get_iee_next_run_times(){
+		$next_runs = array();
+		$crons  = $this->get_iee_crons();
+		foreach($crons as $time => $cron){
+			foreach($cron as $cron_name){
+				foreach($cron_name as $cron_post_id){
+					if( isset($cron_post_id['args']) && isset($cron_post_id['args']['post_id']) ){
+						$next_runs[$cron_post_id['args']['post_id']] = $time;
+					}
+				}
+			}
+		}
+		return $next_runs;
 	}
 }
 

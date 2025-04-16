@@ -28,6 +28,7 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'wp_ajax_iee_render_terms_by_plugin', array( $this, 'iee_render_terms_by_plugin' ) );
 		add_action( 'tribe_events_single_event_after_the_meta', array( $this, 'iee_add_tec_ticket_section' ) );
 		add_filter( 'the_content', array( $this, 'iee_add_em_add_ticket_section' ), 20 );
+		add_action( 'ep_after_single_event_contant', array( $this, 'iee_add_eventprime_add_ticket_section' ) );
 		add_filter( 'mc_event_content', array( $this, 'iee_add_my_calendar_ticket_section' ), 10, 4 );
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
 		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
@@ -165,6 +166,11 @@ class Import_Eventbrite_Events_Common {
 			$supported_plugins['eventon'] = __( 'EventON', 'import-eventbrite-events' );
 		}
 
+		// check EventPrime.
+		if ( class_exists( 'Eventprime_Event_Calendar_Management_Admin' ) ) {
+			$supported_plugins['eventprime'] = __( 'EventPrime', 'import-eventbrite-events' );
+		}
+
 		// check All in one Event Calendar
 		if ( class_exists( 'Ai1ec_Event' ) ) {
 			$supported_plugins['aioec'] = __( 'All in one Event Calendar', 'import-eventbrite-events' );
@@ -222,6 +228,11 @@ class Import_Eventbrite_Events_Common {
 				}else{
 					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
+			}
+			$iee_options         = get_option( IEE_OPTIONS );
+			$small_thumbnail     = isset( $iee_options['small_thumbnail'] ) ? $iee_options['small_thumbnail'] : 'no';
+			if( $small_thumbnail == 'yes'){
+				$image_url       = str_replace( 'original.', 'logo.', $image_url );
 			}
 
 			$args = array(
@@ -371,7 +382,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
@@ -384,6 +395,32 @@ class Import_Eventbrite_Events_Common {
 			}
 		}
 		return $content;
+	}
+
+	/**
+	 * Add ticket section to Eventbrite event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function iee_add_eventprime_add_ticket_section() {
+		global $iee_events;
+		
+		$xt_post_type = $iee_events->eventprime->get_event_posttype();
+		$event_id     = isset( $_GET['event'] ) ?  $_GET['event'] : 0;
+		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
+		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
+			if ( ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) ) {
+				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+				$series_id     = get_post_meta( $event_id, 'series_id', true );
+				if( !empty( $series_id ) ){
+					$eventbrite_id = $series_id;
+				}
+				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
+					$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+					echo $ticket_section;
+				}
+			}
+		}
 	}
 
 	/**
@@ -1183,6 +1220,22 @@ class Import_Eventbrite_Events_Common {
 			}
 		}
 	}
+
+	/**
+     * Create missing Scheduled Import
+     *
+     * @param int $post_id Post id.
+     */
+    public function iee_recreate_missing_schedule_import( $post_id ){
+		        
+        $si_data           = get_post_meta( $post_id, 'import_eventdata', true );
+        $import_frequency  = ( $si_data['import_frequency'] ) ? $si_data['import_frequency'] : 'not_repeat';
+        $cron_time         = time() - (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+        
+        if( $import_frequency !== 'not_repeat' ) {
+            $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( 'post_id' => $post_id ) );
+        }
+    }
 
 }
 

@@ -38,7 +38,7 @@ if($time_format == '12hours' ){
 	<div class="titlemain" > <?php esc_html_e( 'Details', 'import-eventbrite-events' ); ?> </div>
 
 	<?php
-	if ( date( 'Y-m-d', $start_date_str ) == date( 'Y-m-d', $end_date_str ) ) {
+	if ( date( 'Y-m-d', strtotime( $start_date_str ) ) == date( 'Y-m-d', strtotime( $end_date_str ) ) ) {
 		?>
 		<strong><?php esc_html_e( 'Date', 'import-eventbrite-events' ); ?>:</strong>
 		<p><?php echo esc_attr( $start_date_formated ); ?></p>
