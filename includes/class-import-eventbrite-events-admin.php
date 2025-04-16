@@ -40,6 +40,8 @@ class Import_Eventbrite_Events_Admin {
 
 		add_action( 'init', array( $this, 'register_scheduled_import_cpt' ) );
 		add_action( 'init', array( $this, 'register_history_cpt' ) );
+		add_action( 'admin_init', array( $this, 'iee_check_delete_pst_event_cron_status' ) );
+		add_action( 'iee_delete_past_events_cron', array( $this, 'iee_delete_past_events' ) );
 		add_action( 'admin_init', array( $this, 'database_upgrade_notice' ) );
 		add_action( 'admin_init', array( $this, 'maybe_proceed_database_upgrade' ) );
 		add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
@@ -605,4 +607,54 @@ class Import_Eventbrite_Events_Admin {
 	    exit;
 	}
 
+	/**
+	 * Render Delete Past Event in the eventbrite_events post type
+	 * @return void
+	 */
+	public function iee_delete_past_events() {
+    
+		$current_time = current_time('timestamp');
+		$args         = array(
+			'post_type'       => 'eventbrite_events',
+			'posts_per_page'  => 100,
+			'post_status'     => 'publish',
+			'fields'          => 'ids',
+			'meta_query'      => array(
+				array(
+					'key'     => 'end_ts',
+					'value'   => current_time( 'timestamp' ) - ( 24 * 3600 ),
+					'compare' => '<',      
+					'type'    => 'NUMERIC',
+				),
+			),
+		);
+		$events = get_posts( $args );
+	
+		if ( empty( $events ) ) {
+			return;
+		}
+
+		foreach ( $events as $event_id ) {
+			wp_trash_post( $event_id );
+		}
+	}
+	
+	/**
+	 * re-create if the past event cron is delete
+	 */
+	public function iee_check_delete_pst_event_cron_status(){
+		
+		$iee_options        = get_option( IEE_OPTIONS );
+		$move_peit_ieevents = isset( $iee_options['move_peit'] ) ? $iee_options['move_peit'] : 'no';
+		if ( $move_peit_ieevents == 'yes' ) {
+			if ( !wp_next_scheduled( 'iee_delete_past_events_cron' ) ) {
+				wp_schedule_event( time(), 'daily', 'iee_delete_past_events_cron' );
+			}
+		}else{
+			if ( wp_next_scheduled( 'iee_delete_past_events_cron' ) ) {
+				wp_clear_scheduled_hook( 'iee_delete_past_events_cron' );
+			}
+		}
+
+	}
 }
