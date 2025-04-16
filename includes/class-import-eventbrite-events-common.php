@@ -1221,6 +1221,22 @@ class Import_Eventbrite_Events_Common {
 		}
 	}
 
+	/**
+     * Create missing Scheduled Import
+     *
+     * @param int $post_id Post id.
+     */
+    public function iee_recreate_missing_schedule_import( $post_id ){
+		        
+        $si_data           = get_post_meta( $post_id, 'import_eventdata', true );
+        $import_frequency  = ( $si_data['import_frequency'] ) ? $si_data['import_frequency'] : 'not_repeat';
+        $cron_time         = time() - (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+        
+        if( $import_frequency !== 'not_repeat' ) {
+            $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( 'post_id' => $post_id ) );
+        }
+    }
+
 }
 
 
