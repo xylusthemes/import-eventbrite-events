@@ -155,6 +155,34 @@ class Import_Eventbrite_Events_TEC {
 		
 		$new_event_id = wp_insert_post( $tec_event, true );
 
+		$esource_id     = $centralize_array['ID'];
+		$start_time     = date( 'Y-m-d H:i:s', $centralize_array['starttime_local'] );
+		$end_time       = date( 'Y-m-d H:i:s', $centralize_array['endtime_local'] );
+		if( $centralize_array['origin'] == 'ical' ){
+			$start_date_utc = $allmetas['_EventStartDateUTC'];
+			$end_date_utc   = $allmetas['_EventEndDateUTC'];
+		}else{
+			$start_date_utc = date( 'Y-m-d H:i:s', $allmetas['_EventStartDateUTC'] );
+			$end_date_utc   = date( 'Y-m-d H:i:s', $allmetas['_EventEndDateUTC'] );
+		}
+		$timezone         = isset( $allmetas['timezone'] ) ? $allmetas['timezone'] : 'UTC';
+		$totable_name     = $wpdb->prefix . 'tec_occurrences';
+		$check_occurrence = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $totable_name WHERE event_id = %d AND post_id = %d", $esource_id, $new_event_id ) );
+
+		if ( $check_occurrence == 0 ) {
+			$todata = array( 'event_id'       => $esource_id, 'post_id' => $new_event_id, 'start_date' => $start_time, 'start_date_utc' => $start_date_utc, 'end_date' => $end_time, 'end_date_utc' => $end_date_utc, );
+			$wpdb->insert( $totable_name, $todata );
+		}
+
+		$tetable_name = $wpdb->prefix . 'tec_events';
+		$check_event  = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $tetable_name WHERE event_id = %d AND post_id = %d", $esource_id, $new_event_id ) );
+
+		if ( $check_event == 0 ) {
+			$tedata = array( 'event_id' => $esource_id, 'post_id' => $new_event_id,'start_date' => $start_time, 'end_date' => $end_time,'timezone' => $timezone, 'start_date_utc' => $start_date_utc, 'end_date_utc'   => $end_date_utc, );
+			$wpdb->insert( $tetable_name, $tedata );
+		}
+
+
 
 		if ( $new_event_id ) {
 			
