@@ -44,7 +44,7 @@ if ( 'yes' === $direct_link ){
                     $end_date   = date_i18n( 'l, F j, Y @ g:i A', $end_date_str );
                     echo esc_html( $start_date . ' - ' . $end_date );
                 } else {
-                    echo esc_html__('Event date not available', 'text-domain');
+                    echo esc_html__('Event date not available', 'import-eventbrite-events');
                 }
             ?>
         </div>
@@ -66,13 +66,14 @@ if ( 'yes' === $direct_link ){
                 }
             ?>
         </div>
-        <a class="iee5_buy-tickets" style="color: #fff;text-decoration: none;background-color:<?php echo esc_attr( $accent_color ); ?>" href="<?php echo esc_url( $eb_event_url ); ?>" <?php echo $target; ?> >
+        <a class="iee5_buy-tickets" style="color: #fff;text-decoration: none;background-color:<?php echo esc_attr( $accent_color ); ?>" href="<?php echo esc_url( $eb_event_url ); ?>" <?php echo esc_attr( $target ); ?> >
             <div >
-                <?php esc_html_e('Buy tickets', 'text-domain'); ?>
+                <?php esc_html_e('Buy tickets', 'import-eventbrite-events'); ?>
             </div>
         </a>
     </div>
-    <a href="<?php echo esc_url( $event_url ); ?>" <?php echo $target; ?> class="iee5_event-image">
+    <a href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> class="iee5_event-image">
+        <?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
         <img src="<?php echo esc_url( $img_src ); ?>" alt="<?php the_title_attribute(); ?>">
     </a>
 </div>

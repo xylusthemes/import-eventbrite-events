@@ -141,14 +141,14 @@ class Import_Eventbrite_Events_IEE {
 
 			//
 			// Event Date & time Details
-			$event_start_date     = date( 'Y-m-d', $start_time );
-			$event_end_date       = date( 'Y-m-d', $end_time );
-			$event_start_hour     = date( 'h', $start_time );
-			$event_start_minute   = date( 'i', $start_time );
-			$event_start_meridian = date( 'a', $start_time );
-			$event_end_hour       = date( 'h', $end_time );
-			$event_end_minute     = date( 'i', $end_time );
-			$event_end_meridian   = date( 'a', $end_time );
+			$event_start_date     = gmdate( 'Y-m-d', $start_time );
+			$event_end_date       = gmdate( 'Y-m-d', $end_time );
+			$event_start_hour     = gmdate( 'h', $start_time );
+			$event_start_minute   = gmdate( 'i', $start_time );
+			$event_start_meridian = gmdate( 'a', $start_time );
+			$event_end_hour       = gmdate( 'h', $end_time );
+			$event_end_minute     = gmdate( 'i', $end_time );
+			$event_end_meridian   = gmdate( 'a', $end_time );
 
 			// Venue Deatails
 			$address_1     = isset( $venue_array['address_1'] ) ? $venue_array['address_1'] : '';

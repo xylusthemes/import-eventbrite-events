@@ -36,16 +36,16 @@ class Import_Eventbrite_Events_Manage_Import {
 
 		if ( isset( $_POST['iee_action'] ) && sanitize_text_field( wp_unslash ( $_POST['iee_action'] ) ) == 'iee_import_submit' && check_admin_referer( 'iee_import_form_nonce_action', 'iee_import_form_nonce' ) ) {
 
-			$event_data['import_into'] = isset( $_POST['event_plugin'] ) ? sanitize_text_field( $_POST['event_plugin'] ) : '';
+			$event_data['import_into'] = isset( $_POST['event_plugin'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['event_plugin'] ) ) ) : '';
 			if ( $event_data['import_into'] == '' ) {
 				$iee_errors[] = esc_html__( 'Please provide Import into plugin for Event import.', 'import-eventbrite-events' );
 				return;
 			}
 			$event_data['import_type']      = 'onetime';
-			$event_data['import_frequency'] = isset( $_POST['import_frequency'] ) ? sanitize_text_field( $_POST['import_frequency'] ) : 'daily';
-			$event_data['event_status']     = isset( $_POST['event_status'] ) ? sanitize_text_field( $_POST['event_status'] ) : 'pending';
+			$event_data['import_frequency'] = isset( $_POST['import_frequency'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['import_frequency'] ) ) ) : 'daily';
+			$event_data['event_status']     = isset( $_POST['event_status'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['event_status'] ) ) ) : 'pending';
 			$event_data['event_cats']       = isset( $_POST['event_cats'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_cats'] ) ) : array();
-			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? sanitize_text_field( wp_unslash ( $_POST['event_author'] ) ) : get_current_user_id();
+			$event_data['event_author']     = !empty( $_POST['event_author'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['event_author'] ) ) ) : get_current_user_id();
 
 			$this->handle_eventbrite_import_form_submit( $event_data );
 		}
@@ -60,7 +60,7 @@ class Import_Eventbrite_Events_Manage_Import {
 		global $iee_errors, $iee_success_msg;
 		if ( isset( $_POST['iee_gma_action'] ) && 'iee_save_gma_settings' === sanitize_text_field( wp_unslash( $_POST['iee_gma_action'] ) ) && check_admin_referer( 'iee_gma_setting_form_nonce_action', 'iee_gma_setting_form_nonce' ) ) { // input var okay.
 			$gma_option = array();
-			$gma_option['iee_google_maps_api_key'] = isset( $_POST['iee_google_maps_api_key'] ) ? wp_unslash( $_POST['iee_google_maps_api_key'] ) : ''; // input var okay.
+			$gma_option['iee_google_maps_api_key'] = isset( $_POST['iee_google_maps_api_key'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['iee_google_maps_api_key'] ) ) ) : ''; // input var okay.
 			$is_update = update_option( 'iee_google_maps_api_key', $gma_option['iee_google_maps_api_key'] );
 			if ( $is_update ) {
 				$iee_success_msg[] = __( 'Google Maps API Key has been saved successfully.', 'import-eventbrite-events' );
@@ -86,7 +86,7 @@ class Import_Eventbrite_Events_Manage_Import {
 
 		$event_data['import_origin']       = 'eventbrite';
 		$event_data['import_by']           = 'event_id';
-		$event_data['eventbrite_event_id'] = isset( $_POST['iee_eventbrite_id'] ) ? sanitize_text_field( $_POST['iee_eventbrite_id'] ) : '';
+		$event_data['eventbrite_event_id'] = isset( $_POST['iee_eventbrite_id'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['iee_eventbrite_id'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$event_data['organizer_id']        = '';
 
 		if ( ! is_numeric( $event_data['eventbrite_event_id'] ) ) {

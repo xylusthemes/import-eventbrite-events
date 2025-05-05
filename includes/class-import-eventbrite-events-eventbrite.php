@@ -65,7 +65,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		} else {
 			if( $eventbrite_event['error'] == 'INVALID_AUTH' ){
 				$error_description =  str_replace( 'OAuth token', 'Private token', $eventbrite_event['error_description'] );
-				$iee_errors[] = __( $error_description, 'import-eventbrite-events-pro');
+				$iee_errors[] = $error_description;
 				return;
 			}
 			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
@@ -127,7 +127,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		$utc_offset = '';
 
 		if ( array_key_exists( 'start', $eventbrite_event ) ) {
-			$start_time     = isset( $eventbrite_event['start']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['local'] ) ) : strtotime( date( 'Y-m-d H:i:s' ) );
+			$start_time     = isset( $eventbrite_event['start']['local'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['local'] ) ) : strtotime( gmdate( 'Y-m-d H:i:s' ) );
 			$start_time_utc = isset( $eventbrite_event['start']['utc'] ) ? strtotime( $iee_events->common->convert_datetime_to_db_datetime( $eventbrite_event['start']['utc'] ) ) : '';
 			$utc_offset     = $iee_events->common->get_utc_offset( $eventbrite_event['start']['local'] );
 		}

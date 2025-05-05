@@ -38,7 +38,7 @@ if($time_format == '12hours' ){
 	<div class="titlemain" > <?php esc_html_e( 'Details', 'import-eventbrite-events' ); ?> </div>
 
 	<?php
-	if ( date( 'Y-m-d', strtotime( $start_date_str ) ) == date( 'Y-m-d', strtotime( $end_date_str ) ) ) {
+	if ( gmdate( 'Y-m-d', strtotime( $start_date_str ) ) == gmdate( 'Y-m-d', strtotime( $end_date_str ) ) ) {
 		?>
 		<strong><?php esc_html_e( 'Date', 'import-eventbrite-events' ); ?>:</strong>
 		<p><?php echo esc_attr( $start_date_formated ); ?></p>
@@ -74,14 +74,14 @@ if($time_format == '12hours' ){
 	if ( ! empty( $eve_cats ) ) {
 		?>
 		<strong><?php esc_html_e( 'Event Category', 'import-eventbrite-events' ); ?>:</strong>
-		<p><?php echo implode( ', ', $eve_cats ); ?></p>
+		<p><?php echo wp_kses_post( implode( ', ', $eve_cats ) ); ?></p>
 		<?php
 	}
 
 	if ( ! empty( $eve_tags ) ) {
 		?>
 		<strong><?php esc_html_e( 'Event Tags', 'import-eventbrite-events' ); ?>:</strong>
-		<p><?php echo implode( ', ', $eve_tags ); ?></p>
+		<p><?php echo wp_kses_post( implode( ', ', $eve_tags ) ); ?></p>
 		<?php
 	}
 	?>
@@ -162,7 +162,7 @@ if ( ! empty( $venue_address ) || ( ! empty( $venue['lat'] ) && ! empty( $venue[
 					}
 				}
 			}
-			echo '<p><i>' . implode( ', ', $venue_array ) . '</i></p>';
+			echo '<p><i>' . wp_kses_post( implode( ', ', $venue_array ) ) . '</i></p>';
 			?>
 		</div>
 		<?php
@@ -192,7 +192,7 @@ if ( ! empty( $venue_address ) || ( ! empty( $venue['lat'] ) && ! empty( $venue[
 				$full_address = str_replace( ' ', '%20', $venue_address ) .','. $venue['city'] .','. $venue['state'] .','. $venue['country'].'+(' . str_replace( ' ', '%20', $venue_name ) . ')';	
 				?>
 				<div class="map">
-					<iframe src="https://maps.google.com/maps?q=<?php echo $full_address; ?>&hl=es;z=14&output=embed" width="100%" height="350" frameborder="0" style="border:0; margin:0;" allowfullscreen></iframe>
+					<iframe src="https://maps.google.com/maps?q=<?php echo esc_attr( $full_address ); ?>&hl=es;z=14&output=embed" width="100%" height="350" frameborder="0" style="border:0; margin:0;" allowfullscreen></iframe>
 				</div>
 				<?php
 			}else{ 
@@ -215,7 +215,7 @@ if( !empty( $series_id ) ){
 		'post_type'    => 'eventbrite_events',
 		'numberposts'  => 5,
 		'order'        => 'ASC',
-		'meta_query'   => array(
+		'meta_query'   => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query, WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'relation' => 'AND',
 			array(
 				'key'     => 'series_id',
@@ -276,6 +276,7 @@ if( !empty( $series_id ) ){
 	background-color: <?php echo esc_attr( $accent_color ); ?>
 }
 </style>
+<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function(){

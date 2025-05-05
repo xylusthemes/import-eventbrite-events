@@ -61,12 +61,12 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
+			'page'       => isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			'iee_action' => 'iee_simport_delete',
 			'import_id'  => absint( $item['ID'] ),
 		);
 
-		$page              = esc_attr( wp_unslash( $_REQUEST['page'] ) );
+		$page              = isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tab               = 'scheduled';
 		$wp_redirect       = admin_url( 'admin.php?page=' . $page );
 		$iee_url_edit_args = array(
@@ -110,7 +110,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function column_action( $item ) {
 
 		$xtmi_run_import_args = array(
-			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
+			'page'       => isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			'iee_action' => 'iee_run_import',
 			'import_id'  => $item['ID'],
 		);
@@ -121,15 +121,19 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			if(!empty($item['current_import'])){
 				$stats = array();
 				if( $item['current_import']['created'] > 0 ){
+					// translators: %d: Number of events created.
 					$stats[] = sprintf( __( '%d Created', 'import-eventbrite-events' ), $item['current_import']['created']);
 				}
 				if( $item['current_import']['updated'] > 0 ){
+					// translators: %d: Number of events Updated.
 					$stats[] = sprintf( __( '%d Updated', 'import-eventbrite-events' ), $item['current_import']['updated'] );
 				}
 				if( $item['current_import']['skipped'] > 0 ){
+					// translators: %d: Number of events Skipped.
 					$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $item['current_import']['skipped'] );
 				}
 				if( $item['current_import']['skip_trash'] > 0 ){
+					// translators: %d: Number of events Skipped.
 					$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $item['current_import']['skip_trash'] );
 				}
 				if( !empty( $stats ) ){
@@ -278,13 +282,13 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'paged'          => $current_page,
 		);
 
-		if( isset( $_REQUEST['s'] ) ){
-			$query_args['s'] = sanitize_text_field($_REQUEST['s']);
+		if( isset( $_REQUEST['s'] ) ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$query_args['s'] = sanitize_text_field($_REQUEST['s']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		}
 
 		if ( $origin != '' ) {
-			$query_args['meta_key']   = 'import_origin';
-			$query_args['meta_value'] = esc_attr( $origin );
+			$query_args['meta_key']   = 'import_origin';     //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			$query_args['meta_value'] = esc_attr( $origin ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 		}
 		$importdata_query                       = new WP_Query( $query_args );
 		$scheduled_import_data['total_records'] = ( $importdata_query->found_posts ) ? (int) $importdata_query->found_posts : 0;
@@ -324,14 +328,15 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					'post_type'      => 'iee_import_history',
 					'post_status'    => 'publish',
 					'numberposts'    => 1,
-					'meta_key'       => 'schedule_import_id',
-					'meta_value'     => $import_id,
+					'meta_key'       => 'schedule_import_id', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'     => $import_id,           //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					'fields'         => 'ids'
 				);
 
 				$history = get_posts( $history_args );
 
 				if( !empty( $history ) ){
+					// translators: %d: Number of Last import.
 					$last_import_history_date = sprintf( __( 'Last Import: %s ago', 'import-eventbrite-events' ), human_time_diff( get_the_date( 'U', $history[0] ), current_time( 'timestamp' ) ) );
 					$created = get_post_meta( $history[0], 'created', true );
 					$updated = get_post_meta( $history[0], 'updated', true );
@@ -339,15 +344,19 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					$skip_trash = get_post_meta( $history[0], 'skip_trash', true );
 					$stats = array();
 					if( $created > 0 ){
+						// translators: %d: Number of events created.
 						$stats[] = sprintf( __( '%d Created', 'import-eventbrite-events' ), $created );
 					}
 					if( $updated > 0 ){
+						// translators: %d: Number of events Updated.
 						$stats[] = sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated );
 					}
 					if( $skipped > 0 ){
+						// translators: %d: Number of events Skipped.
 						$stats[] = sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped );
 					}
 					if( $skip_trash > 0 ){
+						// translators: %d: Number of events Skipped in Trash.
 						$stats[] = sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash );
 					}
 					if( !empty( $stats ) ){
@@ -356,7 +365,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 						$error_reason      = get_post_meta( $history[0], 'error_reason', true );
 						$nothing_to_import = get_post_meta( $history[0], 'nothing_to_import', true );
 						if( !empty( $error_reason ) ){
-							$stats = __( '<span style="color: red"><strong>The Private token you provided was invalid.</strong></span>', 'import-eventbrite-events' ) . '<br>';	
+							$stats = '<span style="color: red"><strong>'.esc_attr( 'The Private token you provided was invalid.', 'import-eventbrite-events' ).'</strong></span><br>';	
 						}else{
 							if( $nothing_to_import ){
 								$stats = '<span style="color: silver">'.__( 'No events are imported.', 'import-eventbrite-events' ).'</span>';	
@@ -371,7 +380,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				if(isset($next_run_times[$import_id]) && !empty($next_run_times[$import_id])){
 					$next_time = $next_run_times[$import_id];
 					$next_run = sprintf( '%s (%s)',
-						esc_html( get_date_from_gmt( date( 'Y-m-d H:i:s', $next_time ), 'Y-m-d H:i:s' ) ),
+						esc_html( get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $next_time ), 'Y-m-d H:i:s' ) ),
 						esc_html( human_time_diff( current_time( 'timestamp', true ), $next_time ) )
 					);
 				}
@@ -492,8 +501,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 	function column_title( $item ) {
 
 		$iee_url_delete_args = array(
-			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
-			'tab'        => esc_attr( wp_unslash( $_REQUEST['tab'] ) ),
+			'page'       => isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			'tab'        => isset( $_REQUEST['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) ) ) : 'history', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			'iee_action' => 'iee_history_delete',
 			'history_id' => absint( $item['ID'] ),
 		);
@@ -529,15 +538,19 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 
 		$success_message = '<span style="color: silver"><strong>';
 		if ( $created > 0 ) {
+			// translators: %d: Number of events Created.
 			$success_message .= sprintf( __( '%d Created', 'import-eventbrite-events' ), $created ) . '<br>';
 		}
 		if ( $updated > 0 ) {
+			// translators: %d: Number of events Updated.
 			$success_message .= sprintf( __( '%d Updated', 'import-eventbrite-events' ), $updated ) . '<br>';
 		}
 		if ( $skipped > 0 ) {
+			// translators: %d: Number of events Skipped.
 			$success_message .= sprintf( __( '%d Skipped', 'import-eventbrite-events' ), $skipped ) . '<br>';
 		}
 		if ( $skip_trash > 0 ) {
+			// translators: %d: Number of events Skipped in Trash.
 			$success_message .= sprintf( __( '%d Skipped in Trash', 'import-eventbrite-events' ), $skip_trash ) . '<br>';
 		}
 		if( !empty( $error_reason ) ){
@@ -612,8 +625,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 			return;
 		}	
 		$iee_url_all_delete_args = array(
-			'page'       => esc_attr( wp_unslash( $_REQUEST['page'] ) ),
-			'tab'        => esc_attr( wp_unslash( $_REQUEST['tab'] ) ),
+			'page'       => isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			'tab'        => isset( $_REQUEST['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) ) ) : 'history', // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			'iee_action' => 'iee_all_history_delete',
 		);
 		
@@ -623,7 +636,7 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 			$wp_delete_noonce_url = esc_url( wp_nonce_url( add_query_arg( $iee_url_all_delete_args, admin_url( 'admin.php' ) ), 'iee_delete_all_history_nonce' ) );
 			$confirmation_message = esc_html__( "Warning!! Are you sure to delete all these import history? Import history will be permanatly deleted.", "import-eventbrite-events" );
 			?>
-			<a class="button apply" href="<?php echo $wp_delete_noonce_url; ?>" onclick="return confirm('<?php echo esc_attr( $confirmation_message ); ?>')">
+			<a class="button apply" href="<?php echo esc_url( $wp_delete_noonce_url ); ?>" onclick="return confirm('<?php echo esc_attr( $confirmation_message ); ?>')">
 				<?php esc_html_e( 'Clear Import History', 'import-eventbrite-events' ); ?>
 			</a>
 			<?php
@@ -696,8 +709,8 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		);
 
 		if ( $origin != '' ) {
-			$query_args['meta_key']   = 'import_origin';
-			$query_args['meta_value'] = esc_attr( $origin );
+			$query_args['meta_key']   = 'import_origin';     //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			$query_args['meta_value'] = esc_attr( $origin ); //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 		}
 
 		$importdata_query                       = new WP_Query( $query_args );
@@ -894,7 +907,7 @@ class Shortcode_List_Table extends WP_List_Table {
 			case 'action':
 				return $item[ $column_name ];
 			default:
-				return print_r( $item, true );
+				return print_r( $item, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		}
 	}
 }

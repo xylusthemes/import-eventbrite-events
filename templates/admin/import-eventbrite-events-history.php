@@ -13,8 +13,8 @@ $listtable->prepare_items();
 	<div class="iee_row">
 		<div class="">
 			<form id="import-history" method="get">
-				<input type="hidden" name="page" value="<?php echo isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event'; ?>" />
-				<input type="hidden" name="tab" value="<?php echo isset( $_REQUEST['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) ) ) : 'history'; ?>" />
+				<input type="hidden" name="page" value="<?php echo isset( $_REQUEST['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) ) : 'eventbrite_event'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended  ?>" />
+				<input type="hidden" name="tab" value="<?php echo isset( $_REQUEST['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) ) ) : 'history'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>" />
 				<?php
 				$listtable->display();
 				?>

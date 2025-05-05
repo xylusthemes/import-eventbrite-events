@@ -16,8 +16,8 @@ $iee_event_id        = get_post_meta( get_the_ID(), 'iee_event_id', true );
 $start_date_formated = date_i18n( 'F j, Y ', $start_date_str );
 $event_address       = get_post_meta( get_the_ID(), 'venue_name', true );
 $venue_address       = get_post_meta( get_the_ID(), 'venue_address', true );
-$day                 = date('d', $start_date_str);
-$month               = date('M', $start_date_str);
+$day                 = gmdate('d', $start_date_str);
+$month               = gmdate('M', $start_date_str);
 
 if ( $event_address != '' && $venue_address != '' ) {
 	$event_address  .= ' - ' . $venue_address;
@@ -66,6 +66,7 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
     <span class="iee-event-count"><?php echo esc_attr( $day ); ?><span><?php echo esc_attr( $month ); ?></span></span>
     <div class="iee-event-content-wrap">
         <div class="iee-event-img">
+			<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
             <img src="<?php echo esc_url( $image_url[0] ); ?>" alt="">
         </div>
         <div class="iee-event-content">
@@ -95,6 +96,7 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
         </div>
     </div>
 </div>
+<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function(){

@@ -172,16 +172,16 @@ class Import_Eventbrite_Events_EM {
 			if ( $inserted_event->post_status == 'pending' ) {
 				$event_status = 0;}
 			// Save Meta.
-			update_post_meta( $inserted_event_id, '_event_start_time', date( 'H:i:s', $start_time ) );
-			update_post_meta( $inserted_event_id, '_event_end_time', date( 'H:i:s', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_start_time', gmdate( 'H:i:s', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end_time', gmdate( 'H:i:s', $end_time ) );
 			update_post_meta( $inserted_event_id, '_event_all_day', 0 );
-			update_post_meta( $inserted_event_id, '_event_start_date', date( 'Y-m-d', $start_time ) );
-			update_post_meta( $inserted_event_id, '_event_end_date', date( 'Y-m-d', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_start_date', gmdate( 'Y-m-d', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end_date', gmdate( 'Y-m-d', $end_time ) );
 			update_post_meta( $inserted_event_id, '_event_timezone', 'UTC' );
-			update_post_meta( $inserted_event_id, '_event_start', date( 'Y-m-d H:i:s', $start_time ) );
-			update_post_meta( $inserted_event_id, '_event_end', date( 'Y-m-d H:i:s', $end_time ) );
-			update_post_meta( $inserted_event_id, '_event_start_local', date( 'Y-m-d H:i:s', $start_time ) );
-			update_post_meta( $inserted_event_id, '_event_end_local', date( 'Y-m-d H:i:s', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_start', gmdate( 'Y-m-d H:i:s', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end', gmdate( 'Y-m-d H:i:s', $end_time ) );
+			update_post_meta( $inserted_event_id, '_event_start_local', gmdate( 'Y-m-d H:i:s', $start_time ) );
+			update_post_meta( $inserted_event_id, '_event_end_local', gmdate( 'Y-m-d H:i:s', $end_time ) );
 			update_post_meta( $inserted_event_id, '_location_id', $location_id );
 			update_post_meta( $inserted_event_id, '_event_status', $event_status );
 			update_post_meta( $inserted_event_id, '_event_private', 0 );
@@ -196,11 +196,11 @@ class Import_Eventbrite_Events_EM {
 				'event_slug'         => $inserted_event->post_name,
 				'event_owner'        => $inserted_event->post_author,
 				'event_name'         => $inserted_event->post_title,
-				'event_start_time'   => date( 'H:i:s', $start_time ),
-				'event_end_time'     => date( 'H:i:s', $end_time ),
+				'event_start_time'   => gmdate( 'H:i:s', $start_time ),
+				'event_end_time'     => gmdate( 'H:i:s', $end_time ),
 				'event_all_day'      => 0,
-				'event_start_date'   => date( 'Y-m-d', $start_time ),
-				'event_end_date'     => date( 'Y-m-d', $end_time ),
+				'event_start_date'   => gmdate( 'Y-m-d', $start_time ),
+				'event_end_date'     => gmdate( 'Y-m-d', $end_time ),
 				'post_content'       => $inserted_event->post_content,
 				'location_id'        => $location_id,
 				'event_status'       => $event_status,
@@ -209,8 +209,8 @@ class Import_Eventbrite_Events_EM {
 
 			if ( defined( 'EM_VERSION' ) ) {
 				if ( version_compare( EM_VERSION, '5.9', '>=' ) ) {
-					$event_array['event_start']    = date( 'Y-m-d H:i:s', $start_time );
-					$event_array['event_end']      = date( 'Y-m-d H:i:s', $end_time );
+					$event_array['event_start']    = gmdate( 'Y-m-d H:i:s', $start_time );
+					$event_array['event_end']      = gmdate( 'Y-m-d H:i:s', $end_time );
 					$event_array['event_timezone'] = 'UTC';
 				}
 			}
@@ -219,14 +219,17 @@ class Import_Eventbrite_Events_EM {
 			if ( $is_exitsing_event ) {
 				$eve_id = get_post_meta( $inserted_event_id, '_event_id', true );
 				$where  = array( 'event_id' => $eve_id );
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 				$wpdb->update( $event_table, $event_array, $where );
 			} else {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 				if ( $wpdb->insert( $event_table, $event_array ) ) {
 					update_post_meta( $inserted_event_id, '_event_id', $wpdb->insert_id );
 				}
 			}
 
 			if ( isset( $event_args['event_status'] ) && $event_args['event_status'] != '' ) {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 				$status_changed = $wpdb->update( $wpdb->posts, array( 'post_status' => sanitize_text_field( $event_args['event_status'] ) ), array( 'ID' => $inserted_event_id ) );
 			}
 
@@ -356,11 +359,13 @@ class Import_Eventbrite_Events_EM {
 				$loc_id = get_post_meta( $event_id, '_location_id', true );
 				if ( $loc_id != '' ) {
 					$where     = array( 'location_id' => $loc_id );
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 					$is_update = $wpdb->update( $event_location_table, $location_array, $where, $location_format, $where_format );
 					if ( false !== $is_update ) {
 						return $loc_id;
 					}
 				} else {
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 					$is_insert = $wpdb->insert( $event_location_table, $location_array, $location_format );
 					if ( false !== $is_insert ) {
 						$insert_loc_id = $wpdb->insert_id;
@@ -369,6 +374,7 @@ class Import_Eventbrite_Events_EM {
 					}
 				}
 			} else {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 				$is_insert = $wpdb->insert( $event_location_table, $location_array, $location_format );
 				if ( false !== $is_insert ) {
 					$insert_loc_id = $wpdb->insert_id;
@@ -392,8 +398,8 @@ class Import_Eventbrite_Events_EM {
 			array(
 				'posts_per_page'   => 1,
 				'post_type'        => $this->venue_posttype,
-				'meta_key'         => 'iee_event_venue_id',
-				'meta_value'       => $venue_id,
+				'meta_key'         => 'iee_event_venue_id', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'       => $venue_id,            //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'suppress_filters' => false,
 			)
 		);
@@ -416,8 +422,8 @@ class Import_Eventbrite_Events_EM {
 			array(
 				'posts_per_page'   => 1,
 				'post_type'        => $this->venue_posttype,
-				'meta_key'         => 'iee_event_venue_id',
-				'meta_value'       => $venue_name,
+				'meta_key'         => 'iee_event_venue_id', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'       => $venue_name,          //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				'suppress_filters' => false,
 			)
 		);

@@ -26,23 +26,23 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 							<form method="post" id="iee_setting_form">                
 
 								<h3 class="setting_bar"><?php esc_attr_e( 'Eventbrite Settings', 'import-eventbrite-events' ); ?></h3>
-								<p><?php _e( 'You need a Eventbrite Private token to import your events from Eventbrite.', 'import-eventbrite-events' ); ?> </p>
+								<p><?php esc_attr_e( 'You need a Eventbrite Private token to import your events from Eventbrite.', 'import-eventbrite-events' ); ?> </p>
 								<table class="form-table">
 									<tbody>
 										<tr>
 											<th scope="row">
-												<?php _e( 'Eventbrite Private token', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Eventbrite Private token', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<input class="eventbrite_oauth_token" name="eventbrite[eventbrite_oauth_token]" type="text" value="<?php if ( isset( $eventbrite_options['eventbrite_oauth_token'] ) ) { echo esc_attr( $eventbrite_options['eventbrite_oauth_token'] ); } ?>" />
 												<span class="xtei_small">
-													<?php _e( 'Insert your eventbrite.com Private token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'import-eventbrite-events' ); ?>
+													<?php echo wp_kses_post( 'Insert your eventbrite.com Private token you can get it from <a href="http://www.eventbrite.com/myaccount/apps/" target="_blank">here</a>.', 'import-eventbrite-events' ); ?>
 												</span>
 											</td>
 										</tr>		
 										<tr>
 											<th scope="row">
-												<?php _e( 'Display ticket option after event', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Display ticket option after event', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -51,21 +51,21 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" class="enable_ticket_sec" name="eventbrite[enable_ticket_sec]" value="yes" <?php if ( $enable_ticket_sec == 'yes' ) { echo 'checked="checked"'; } ?> />
 												<span class="xtei_small">
-													<?php _e( 'Check to display ticket option after event.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to display ticket option after event.', 'import-eventbrite-events' ); ?>
 												</span>
 												<?php if(is_ssl()){ ?>
 												<div class="iee_small checkout_model_option">
 													<input type="radio" name="eventbrite[ticket_model]" value="0" <?php checked( $ticket_model, '0'); ?>>
-														<?php _e( 'Non-Modal Checkout', 'import-eventbrite-events' ); ?><br/>
+														<?php esc_attr_e( 'Non-Modal Checkout', 'import-eventbrite-events' ); ?><br/>
 													<input type="radio" name="eventbrite[ticket_model]" value="1" <?php checked( $ticket_model, '1'); ?>>
-														<?php _e( 'Popup Checkout Widget (Display your checkout as a modal popup)', 'import-eventbrite-events' ); ?><br/>
+														<?php esc_attr_e( 'Popup Checkout Widget (Display your checkout as a modal popup)', 'import-eventbrite-events' ); ?><br/>
 												</div>
 												<?php } ?>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">
-												<?php _e( 'Update existing events', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Update existing events', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -73,14 +73,14 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[update_events]" value="yes" <?php if ( $update_eventbrite_events == 'yes' ) { echo 'checked="checked"'; } ?> />
 												<span class="xtei_small">
-													<?php _e( 'Check to updates existing events.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to updates existing events.', 'import-eventbrite-events' ); ?>
 												</span>
 											</td>
 										</tr>
 
 										<tr>
 											<th scope="row">
-												<?php _e( 'Move past events in trash', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Move past events in trash', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -88,14 +88,14 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[move_peit]" value="yes" <?php if ( $update_eventbrite_events == 'yes' ) { echo 'checked="checked"'; } ?> />
 												<span class="xtei_small">
-													<?php _e( 'Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background.', 'import-eventbrite-events' ); ?>
 												</span>
 											</td>
 										</tr>
 
 										<tr>
 										<th scope="row">
-											<?php _e( 'Skip Trashed Events', 'import-eventbrite-events' ); ?> : 
+											<?php esc_attr_e( 'Skip Trashed Events', 'import-eventbrite-events' ); ?> : 
 										</th>
 										<td>
 											<?php
@@ -103,7 +103,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 											?>
 											<input type="checkbox" name="eventbrite[skip_trash]" value="yes" <?php if ( $skip_trash == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
 											<span>
-											<?php _e( 'Check to enable skip-the-trash events during importing.', 'import-eventbrite-events' ); ?>
+											<?php esc_attr_e( 'Check to enable skip-the-trash events during importing.', 'import-eventbrite-events' ); ?>
 											</span>
 											<?php do_action( 'iee_render_pro_notice' ); ?>
 										</td>
@@ -126,7 +126,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 
 										<tr>
 											<th scope="row">
-												<?php _e( 'Direct link to Eventbrite', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Direct link to Eventbrite', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -134,14 +134,14 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[direct_link]" value="yes" <?php if ( $direct_link == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
 												<span>
-													<?php _e( 'Check to enable direct event link to eventbrite instead of event detail page.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to enable direct event link to eventbrite instead of event detail page.', 'import-eventbrite-events' ); ?>
 												</span>
 												<?php do_action( 'iee_render_pro_notice' ); ?>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">
-												<?php _e( 'Advanced Synchronization', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Advanced Synchronization', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -149,7 +149,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[advanced_sync]" value="yes" <?php if ( $advanced_sync == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
 												<span>
-													<?php _e( 'Check to enable advanced synchronization, this will delete events which are removed from Eventbrite. Also, it deletes passed events.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to enable advanced synchronization, this will delete events which are removed from Eventbrite. Also, it deletes passed events.', 'import-eventbrite-events' ); ?>
 												</span>
 												<?php do_action( 'iee_render_pro_notice' ); ?>
 											</td>
@@ -157,7 +157,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 
 										<tr>
 										<th scope="row">
-											<?php _e( 'Import Small Event Thumbnail', 'import-eventbrite-events' ); ?> : 
+											<?php esc_attr_e( 'Import Small Event Thumbnail', 'import-eventbrite-events' ); ?> : 
 										</th>
 										<td>
 											<?php
@@ -165,14 +165,14 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 											?>
 											<input type="checkbox" name="eventbrite[small_thumbnail]" value="yes" <?php if ( $small_thumbnail == 'yes' ) { echo 'checked="checked"'; } ?> />
 											<span>
-											<?php _e( 'You can import small thumbnails of events into an event by enabling this option.', 'import-eventbrite-events' ); ?>
+											<?php esc_attr_e( 'You can import small thumbnails of events into an event by enabling this option.', 'import-eventbrite-events' ); ?>
 											</span>
 										</td>
 										</tr>
 
 										<tr>
 											<th scope="row">
-												<?php _e( 'Import Private Events', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Import Private Events', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -180,7 +180,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[private_events]" value="yes" <?php if ( $private_events == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
 												<span>
-													<?php _e( 'Tick to import Private events, Untick to not import private event.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Tick to import Private events, Untick to not import private event.', 'import-eventbrite-events' ); ?>
 												</span>
 												<?php do_action( 'iee_render_pro_notice' ); ?>
 											</td>
@@ -188,7 +188,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 
 										<tr>
 											<th scope="row">
-												<?php _e( "Don't Update these data.", "import-eventbrite-events" ); ?> : 
+												<?php esc_attr_e( "Don't Update these data.", "import-eventbrite-events" ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -198,14 +198,14 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[dont_update][status]" value="yes" <?php checked( $sdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 												<span class="xtei_small">
-													<?php _e( 'Status ( Publish, Pending, Draft etc.. )', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Status ( Publish, Pending, Draft etc.. )', 'import-eventbrite-events' ); ?>
 												</span><br/>
 												<input type="checkbox" name="eventbrite[dont_update][category]" value="yes" <?php checked( $cdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 												<span class="xtei_small">
-													<?php _e( 'Event category', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Event category', 'import-eventbrite-events' ); ?>
 												</span><br/>
 												<span class="iee_small">
-													<?php _e( "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')", 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')", 'import-eventbrite-events' ); ?>
 												</span>
 												<?php do_action('iee_render_pro_notice'); ?>
 											</td>
@@ -213,7 +213,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 
 										<tr>
 											<th scope="row">
-												<?php _e('Event Slug', 'import-eventbrite-events'); ?> :
+												<?php esc_attr_e('Event Slug', 'import-eventbrite-events'); ?> :
 											</th>
 											<td>
 												<?php
@@ -221,7 +221,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="text" name="eventbrite[event_slug]" value="<?php if ( $event_slug ) { echo esc_attr( $event_slug ); } ?>" <?php if (!iee_is_pro()) { echo 'disabled="disabled"'; } ?> />
 												<span class="iee_small">
-													<?php _e('Slug for the event.', 'import-eventbrite-events'); ?>
+													<?php esc_attr_e('Slug for the event.', 'import-eventbrite-events'); ?>
 												</span>
 												<?php do_action('iee_render_pro_notice'); ?>
 											</td>
@@ -250,7 +250,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 
 										<tr>
 											<th scope="row">
-												<?php _e( 'Disable Eventbrite Events', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Disable Eventbrite Events', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -259,13 +259,13 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												<input type="checkbox" name="eventbrite[deactive_ieevents]" value="yes" <?php if ( $deactive_ieevents == 'yes' ) {
 													echo 'checked="checked"'; } ?> />
 												<span>
-													<?php _e( 'Check to disable inbuilt event management system.', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Check to disable inbuilt event management system.', 'import-eventbrite-events' ); ?>
 												</span>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">
-												<?php _e( 'Delete Import Eventbrite Events data on Uninstall', 'import-eventbrite-events' ); ?> : 
+												<?php esc_attr_e( 'Delete Import Eventbrite Events data on Uninstall', 'import-eventbrite-events' ); ?> : 
 											</th>
 											<td>
 												<?php
@@ -273,7 +273,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 												?>
 												<input type="checkbox" name="eventbrite[delete_ieedata]" value="yes" <?php if ( $delete_ieedata == 'yes' ) { echo 'checked="checked"'; } ?> />
 												<span>
-													<?php _e( 'Delete Import Eventbrite Events data like settings, scheduled imports, import history on Uninstall', 'import-eventbrite-events' ); ?>
+													<?php esc_attr_e( 'Delete Import Eventbrite Events data like settings, scheduled imports, import history on Uninstall', 'import-eventbrite-events' ); ?>
 												</span>
 											</td>
 										</tr>
@@ -344,7 +344,7 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 								esc_url( admin_url( 'plugins.php?s=import+eventbrite+events+pro' ) ),
 								esc_html__( 'Here', 'import-eventbrite-events' )
 							);
-							echo $license_section;
+							echo wp_kses_post( $license_section );
 						}
 					?>
 				</div>

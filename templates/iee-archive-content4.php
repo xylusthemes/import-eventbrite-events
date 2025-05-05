@@ -73,13 +73,14 @@ if( !empty( $accent_color ) ){
 			<div class="iee-style4-te-meta"><i class="fa fa-map-marker" style="<?php echo esc_attr( $color ); ?>" ></i><?php echo esc_attr( ' '.$event_address ); ?></div>
 		</div>
         <div class="iee-style4-event-dt">
-			<div class="iee-style4-te-title" style="<?php echo esc_attr( $color ); ?>" ><?php esc_html_e( 'Date - Time' ); ?></div>
+			<div class="iee-style4-te-title" style="<?php echo esc_attr( $color ); ?>" ><?php esc_attr_e( 'Date - Time', 'import-eventbrite-events' ); ?></div>
 			<div class="iee-style4-te-meta"><i class="fa fa-calendar" style="<?php echo esc_attr( $color ); ?>"></i> <?php echo esc_attr( $start_date_ymd ); ?></div>
 			<div class="iee-style4-te-meta"><i class="fa fa-clock-o" style="<?php echo esc_attr( $color ); ?>"></i> <?php echo esc_attr( $start_time . ' -  ' . $end_time ); ?></div>
 		</div>
 
 		<div class="iee-style4-event-image">
 			<div class="iee-style4-event-image-img">
+				<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
                 <img src="<?php echo esc_url( $image_url[0] ); ?>" alt="">
 			</div>
 		</div>

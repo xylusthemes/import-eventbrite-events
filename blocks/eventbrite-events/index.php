@@ -26,7 +26,8 @@ function iee_register_gutenberg_block() {
 			'iee-eventbrite-events-block',
 			$js_dir . 'gutenberg.blocks.js',
 			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
-			IEE_VERSION
+			IEE_VERSION,
+			true
 		);
 
 		// Register block editor style.

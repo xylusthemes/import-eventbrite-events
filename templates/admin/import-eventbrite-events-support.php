@@ -21,6 +21,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 			<div class="iee-support-features">
 				<div class="iee-support-features-card">
 					<div class="iee-support-features-img">
+						<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 						<img class="iee-support-features-icon" src="<?php echo esc_url( IEE_PLUGIN_URL.'assets/images/document.svg' ); ?>" alt="<?php esc_attr_e( 'Looking for Something?', 'import-eventbrite-events' ); ?>">
 					</div>
 					<div class="iee-support-features-text">
@@ -31,6 +32,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 				</div>
 				<div class="iee-support-features-card">
 					<div class="iee-support-features-img">
+						<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 						<img class="iee-support-features-icon" src="<?php echo esc_url( IEE_PLUGIN_URL.'assets/images/call-center.svg' ); ?>" alt="<?php esc_attr_e( 'Need Any Assistance?', 'import-eventbrite-events' ); ?>">
 					</div>
 					<div class="iee-support-features-text">
@@ -41,6 +43,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 				</div>
 				<div class="iee-support-features-card">
 					<div class="iee-support-features-img">
+						<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 						<img class="iee-support-features-icon"  src="<?php echo esc_url( IEE_PLUGIN_URL.'assets/images/bug.svg' ); ?>" alt="<?php esc_attr_e( 'Found Any Bugs?', 'import-eventbrite-events' ); ?>" />
 					</div>
 					<div class="iee-support-features-text">
@@ -51,6 +54,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 				</div>
 				<div class="iee-support-features-card">
 					<div class="iee-support-features-img">
+						<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 						<img class="iee-support-features-icon" src="<?php echo esc_url( IEE_PLUGIN_URL.'assets/images/tools.svg' ); ?>" alt="<?php esc_attr_e( 'Require Customization?', 'import-eventbrite-events' ); ?>" />
 					</div>
 					<div class="iee-support-features-text">
@@ -61,6 +65,7 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 				</div>
 				<div class="iee-support-features-card">
 					<div class="iee-support-features-img">
+						<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 						<img class="iee-support-features-icon" src="<?php echo esc_url( IEE_PLUGIN_URL.'assets/images/like.svg' ); ?>" alt="<?php esc_attr_e( 'Like The Plugin?', 'import-eventbrite-events' ); ?>" />
 					</div>
 					<div class="iee-support-features-text">
@@ -72,59 +77,93 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 			</div>
 		</div>
 
-		<?php
-		$plugins     = array();
-		$plugin_list = $iee_events->admin->get_xyuls_themes_plugins();
-		if ( ! empty( $plugin_list ) ) {
-			foreach ( $plugin_list as $key => $value ) {
-				$plugins[] = $iee_events->admin->get_wporg_plugin( $key );
-			}
-		}
+		<?php 
+			$plugin_list = array();
+			$plugin_list = $iee_events->common->iee_get_xylus_themes_plugins();
 		?>
-		<h3><?php _e( 'Plugins you should try', 'import-eventbrite-events' ); ?></h3>
-		<div id="iee-addons-list">
-			<?php
-			if ( ! empty( $plugins ) ) {
-				foreach ( $plugins as $plugin ) {				
-					$plugin_activation = is_plugin_active( $plugin->slug.'/'. $plugin->slug.'.php' );
-					$plugin_not_active = ABSPATH . 'wp-content/plugins/'.$plugin->slug.'/';
-					$buy_now = "<a class='iee-status-download button-primary' target='_blank' href='".$plugin->homepage."'>Buy Now</a>";
+		<div class="" style="margin-top: 20px;">
+			<h3 class="setting_bar"><?php esc_html_e( 'Plugins you should try','import-eventbrite-events' ); ?></h3>
+			<div class="iee-about-us-plugins">
+				<!-- <div class="iee-row"> -->
+				<div class="iee-support-features2">
+				
+					<?php 
+						if( !empty( $plugin_list ) ){
+							foreach ($plugin_list as $key => $plugin ) {
+
+								$plugin_slug = ucwords( str_replace( '-', ' ', $key ) );
+								$plugin_name =  $plugin['plugin_name'];
+								$plugin_description =  $plugin['description'];
+								if( $key == 'wp-event-aggregator' ){
+									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.jpg';
+								} else {
+									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.png';
+								}
+
+								// Check if the plugin is installed
+								$plugin_installed = false;
+								$plugin_active = false;
+								include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+								$all_plugins = get_plugins();
+								$plugin_path = $key . '/' . $key . '.php';
+
+								if (isset($all_plugins[$plugin_path])) {
+									$plugin_installed = true;
+									$plugin_active = is_plugin_active($plugin_path);
+								}
+
+								// Determine the status text
+								$status_text = 'Not Installed';
+								if ($plugin_installed) {
+									$status_text = $plugin_active ? 'Active' : 'Installed (Inactive)';
+								}
+								
+								?>
+								<div class="iee-support-features-card2 iee-plugin">
+									<div class="iee-plugin-main">
+										<div>
+											<?php
+												// translators: %s: Plugin slug used in image alt text.
+												$alt_text = sprintf( esc_attr__( '%s Image', 'import-eventbrite-events' ), $plugin_slug ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+											?>
+											<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
+											<img alt="<?php echo $alt_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" src="<?php echo esc_url( $plugin_icon ); ?>">
+										</div>
+										<div>
+											<div class="iee-main-name"><?php echo esc_attr( $plugin_slug ); ?></div>
+											<div><?php echo esc_attr( $plugin_description ); ?></div>
+										</div>
+									</div>
+									<div class="iee-plugin-footer">
+										<div class="iee-footer-status">
+											<div class="iee-footer-status-label"><?php esc_attr_e( 'Status : ', 'import-eventbrite-events' ); ?></div>
+											<div class="iee-footer-status iee-footer-status-<?php echo esc_attr( strtolower(str_replace(' ', '-', $status_text) ) ); ?>">
+												<span <?php echo ( $status_text == 'Active' ) ? 'style="color:green;"' : ''; ?>>
+													<?php echo esc_attr( $status_text ); ?>
+												</span>
+											</div>
+										</div>
+										<div class="iee-footer-action">
+											<?php if (!$plugin_installed): ?>
+												<a href="<?php echo esc_url( admin_url( 'plugin-install.php?s=xylus&tab=search&type=term' ) ); ?>" type="button" class="button button-primary">Install Free Plugin</a>
+											<?php elseif (!$plugin_active): ?>
+												<?php 
+													$activate_nonce = wp_create_nonce('activate_plugin_' . $plugin_slug); 
+													$activation_url = add_query_arg(array( 'action' => 'activate_plugin', 'plugin_slug' => $plugin_slug, 'nonce' => $activate_nonce, ), admin_url('admin.php?page=eventbrite_event&tab=support'));
+												?>
+												<a href="<?php echo esc_url( admin_url( 'plugins.php?s='. $plugin_name ) ); ?>" class="button button-primary">Activate Plugin</a>
+											<?php endif; ?>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+						}
 					?>
-					<div class="iee-addon-container">
-						<div class="iee-addon-item">
-							<div class="iee-details iee-clear" style="height: 165px;">
-								<img src="<?php echo $plugin->icons['2x']; ?>">
-								<h5 class="iee-addon-name"><?php echo $plugin->name; ?></h5>
-								<p class="iee-addon-desc"><?php echo $plugin->short_description; ?></p>
-							</div>
-							<div class="actions iee-clear">
-								<div class="iee-status">
-									<strong>
-									<?php _e( 'Active Installs: ', 'import-eventbrite-events' ); ?><span class="iee-status-label iee-status-download"><?php echo $plugin->active_installs; ?>+</span></strong>
-								</div>
-								<div class="iee-action-button">
-									
-									<?php add_thickbox(); ?>
-									<?php if( $plugin_activation == true ){ ?>
-										<a class="iee-status-download button-secondary" disabled ><?php _e( 'Actived', 'import-eventbrite-events' ); ?> </a>
-										<?php echo $buy_now; ?>
-									<?php }elseif( is_dir( $plugin_not_active ) && $plugin_activation == false ){ ?>
-										<a class="iee-status-download button-secondary" href="<?php echo admin_url( 'plugins.php' ); ?>" ><?php _e( 'Activate', 'import-eventbrite-events' ); ?></a>
-										<?php echo $buy_now; ?>
-									<?php }else{ ?>
-										<a class="iee-status-download button button-secondary thickbox" href="<?php echo admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin->slug . '&TB_iframe=true&width=772&height=600' ); ?>" >
-									<?php _e( 'Install Plugin', 'import-eventbrite-events' ); ?></a>
-									<?php echo $buy_now; } ?>
-								</div>
-							</div>
-						</div>
-					</div>
-				<?php
-				}
-			}
-			?>
+				</div>
 			</div>
-		<div style="clear: both;">
+			<div style="clear: both;">
+		</div>
 	</div>
 </div>
 

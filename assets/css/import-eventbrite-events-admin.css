@@ -329,45 +329,6 @@ table.iee_form_table tr td:nth-child(1) {
 }
 
 /* Support page CSS */
-.iee-support-features-card {
-  display: flex;
-  flex-basis: 32%;
-  flex-wrap: nowrap;
-  flex-grow: 1;
-  box-sizing: border-box;
-  margin: .5rem;
-  background-color: #fff;
-  box-shadow: 0 0 0 1px #ccd0d4, 0 1px 1px 1px rgba(0, 0, 0, 0.04)
-}
-
-.iee-support-features-card:last-child {
-  max-width: 100%
-}
-
-@media (min-width: 661px) {
-  .iee-support-features-card {
-      margin-bottom: 1%
-  }
-}
-
-@media (max-width: 660px) {
-  .iee-support-features-card {
-      max-width: 100%;
-      margin-bottom: .5rem
-  }
-}
-
-@media (min-width: 481px) {
-  .iee-support-features-card {
-      padding: 2rem
-  }
-}
-
-@media (max-width: 480px) {
-  .iee-support-features-card {
-      padding: 1rem
-  }
-}
 
 .iee-support-features-list {
   list-style: initial;
@@ -408,7 +369,7 @@ table.iee_form_table tr td:nth-child(1) {
   margin: 0
 }
 
-.iee-support-features {
+.iee-support-features, .iee-support-features2 {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -420,7 +381,7 @@ table.iee_form_table tr td:nth-child(1) {
 }
 
 @media (max-width: 660px) {
-  .iee-support-features {
+  .iee-support-features, .iee-support-features2 {
       display: block
   }
 }
@@ -430,84 +391,6 @@ table.iee_form_table tr td:nth-child(1) {
   display: initial;   
 }
 
-/* Plugin Addon List */
-#iee-addons-list *,#iee-addons-list *::before,#iee-addons-list *::after {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#iee-addons-list{
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-  margin-left: -15px;
-}
-
-#iee-addons-list .iee-addon-container {
-  margin-bottom: 15px;
-  flex-grow: 1;
-  flex-wrap: nowrap;
-  padding-left: 15px;
-  float: left;
-  flex-basis: 50%;
-  box-sizing: border-box;
-}
-
-@media  (max-width:1100px) {
-  #iee-addons-list .iee-addon-container {
-		min-width:100%;
-		margin-bottom: 20px;
-	}
-}
-
-#iee-addons-list .iee-addon-item {
-	background-color: #fff;
-	margin: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-@media (max-width: 767px) {
-	#iee-addons-list .iee-addon-item {
-		margin:0 0;
-	}
-}
-
-#iee-addons-list .iee-addon-item img {
-	border: 1px solid #eee;
-	float: left;
-	max-width: 85px;
-}
-
-#iee-addons-list .iee-addon-item h5 {
-	margin: 0 0 10px 100px;
-	font-size: 16px;
-}
-
-#iee-addons-list .iee-addon-item p {
-	margin: 0 0 0 100px;
-}
-
-#iee-addons-list .iee-addon-item .iee-action-button {
-	float: right;
-}
-
-#iee-addons-list .iee-addon-item .iee-action-button button {
-	background: #007cba;
-	border: 0;
-    font-weight: 600;
-    width: 110px;
-    padding: 4px;
-}
-
-
-#iee-addons-list .iee-addon-item .iee-details {
-	padding: 30px;
-}
 
 /* Clear */
 .iee-clear:before {
@@ -651,3 +534,160 @@ table.iee_form_table tr td:nth-child(1) {
   50% { transform: scale(1.2); }
   100% { transform: scale(0); }
 }
+
+/* start new support page*/
+.iee-about-us-plugins .iee-plugin {
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 24px;
+  width: 50%;
+}
+
+.iee-col.iee-text-xs-left {
+  text-align: left !important;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-main {
+  display: flex;
+  flex-direction: row;
+  padding: 22px;
+  flex-grow: 1;
+}
+
+.iee-about-us-plugins .iee-plugin-footer {
+  background-color: #fff;
+  box-shadow: 0 2px 5px #0000000d;
+  border: 1px solid #E8E8EB;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-main img {
+  margin: 0 30px 0 0;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-main img {
+  width: 50px;
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-main .iee-main-name {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #141b38;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-main,  .iee-about-us-plugins .iee-plugin .iee-plugin-footer {
+  background-color: #fff;
+  box-shadow: 0 2px 5px #0000000d;
+  border: 1px solid #E8E8EB;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-footer .iee-footer-status {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 700;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-footer .iee-footer-status div {
+  margin-right: 12px;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-footer .iee-footer-status .iee-footer-status-label {
+  color: #8c8f9a;
+}
+
+.iee-about-us-plugins .iee-plugin .iee-plugin-footer .iee-footer-status div {
+  display: inline-block;
+}
+
+.iee-support-features-card,  .iee-support-features-card2 {
+  display: flex;
+  flex-basis: 32%;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  box-sizing: border-box;
+  margin: .5rem;
+  background-color: #fff;
+}
+
+.iee-support-features-card2 {
+  flex-basis: 48%;
+}
+
+.iee-support-features-card:last-child, .iee-support-features-card2:last-child {
+  max-width: 100%
+}
+
+@media (min-width: 661px) {
+  .iee-support-features-card, .iee-support-features-card2 {
+      margin-bottom: 1%
+  }
+}
+
+@media (max-width: 660px) {
+  .iee-support-features-card, .iee-support-features-card2 {
+      max-width: 100%;
+      margin-bottom: .5rem
+  }
+}
+
+@media (min-width: 481px) {
+  .iee-support-features-card {
+      padding: 2rem
+  }
+}
+
+@media (max-width: 480px) {
+  .iee-support-features-card {
+      padding: 1rem;
+  }
+  .iee-support-features-card2{
+      padding: 0;
+  }
+  .iee-about-us-plugins .iee-plugin{
+      width: 100%;
+  }
+}
+
+.iee-support-features-img {
+  width: 5.625rem;
+  margin-right: .5rem;
+  line-height: 1
+}
+
+@media (min-width: 961px) {
+  .iee-support-features-img {
+      width: 6.5rem;
+      margin-right: 1.125rem
+  }
+}
+
+.iee-support-features-icon {
+  display: block;
+  max-width: 80%;
+  margin-left: 0px;
+}
+
+@media (min-width: 481px) {
+  .iee-support-features-icon {
+      max-width: 80%;
+      margin-left: 0px;
+  }
+}
+
+.iee-support-features-text {
+  flex: 1
+}
+
+.iee-support-features-title {
+  margin: 0
+}
+/*end new support page*/
