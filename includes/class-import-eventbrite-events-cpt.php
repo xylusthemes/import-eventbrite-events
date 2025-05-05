@@ -258,14 +258,14 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e( 'Time & Date', 'import-eventbrite-events' ); ?>
+					<?php esc_attr_e( 'Time & Date', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td><?php _e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_start_date', true ) ); ?>" /> @ 
 				<?php
@@ -276,7 +276,7 @@ class Import_Eventbrite_Events_Cpt {
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_end_date', true ) ); ?>" /> @ 
 					<?php
@@ -293,7 +293,7 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e( 'Location Details', 'import-eventbrite-events' ); ?>
+					<?php esc_attr_e( 'Location Details', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
@@ -301,63 +301,63 @@ class Import_Eventbrite_Events_Cpt {
 
 			<tbody>
 			<tr>
-				<td><?php _e( 'Venue', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Venue', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_name" id="venue_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_name', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'Address', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Address', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_address" id="venue_address" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_address', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'City', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'City', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_city" id="venue_city" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_city', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'State', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'State', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_state" id="venue_state" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_state', true ) ); ?>" />
 				</td>
 			</tr>
 			
 			<tr>
-				<td><?php _e( 'Country', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Country', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_country" id="venue_country" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_country', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'Zipcode', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Zipcode', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_zipcode', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lat', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'Longitude', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Longitude', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lon', true ) ); ?>" />
 				</td>
 			</tr>
 
 			<tr>
-				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="venue_url" id="venue_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'venue_url', true ) ); ?>" />
 				</td>
@@ -369,32 +369,32 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 			<tr>
 				<th colspan="2">
-					<?php _e( 'Organizer Details', 'import-eventbrite-events' ); ?>
+					<?php esc_attr_e( 'Organizer Details', 'import-eventbrite-events' ); ?>
 					<hr>
 				</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td><?php _e( 'Organizer Name', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Organizer Name', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_name', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e( 'Email', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Email', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_email', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e( 'Phone', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Phone', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_phone', true ) ); ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e( 'Website', 'import-eventbrite-events' ); ?>:</td>
+				<td><?php esc_attr_e( 'Website', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'organizer_url', true ) ); ?>" />
 				</td>
@@ -406,14 +406,14 @@ class Import_Eventbrite_Events_Cpt {
 			<thead>
 				<tr>
 					<th colspan="2">
-						<?php _e( 'Event Source Link', 'import-eventbrite-events' ); ?>
+						<?php esc_attr_e( 'Event Source Link', 'import-eventbrite-events' ); ?>
 						<hr>
 					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><?php _e( 'Source Link', 'import-eventbrite-events' ); ?>:</td>
+					<td><?php esc_attr_e( 'Source Link', 'import-eventbrite-events' ); ?>:</td>
 				<td>
 					<input type="text" name="event_source_link" id="event_source_link" value="<?php echo esc_url( get_post_meta( $post->ID, 'iee_event_link', true ) ); ?>" />
 				</td>
@@ -501,14 +501,14 @@ class Import_Eventbrite_Events_Cpt {
 		}
 
 		// Event Date & time Details
-		$event_start_date     = isset( $_POST['event_start_date'] ) ? sanitize_text_field( $_POST['event_start_date'] ) : '';
-		$event_end_date       = isset( $_POST['event_end_date'] ) ? sanitize_text_field( $_POST['event_end_date'] ) : '';
-		$event_start_hour     = isset( $_POST['event_start_hour'] ) ? sanitize_text_field( $_POST['event_start_hour'] ) : '';
-		$event_start_minute   = isset( $_POST['event_start_minute'] ) ? sanitize_text_field( $_POST['event_start_minute'] ) : '';
-		$event_start_meridian = isset( $_POST['event_start_meridian'] ) ? sanitize_text_field( $_POST['event_start_meridian'] ) : '';
-		$event_end_hour       = isset( $_POST['event_end_hour'] ) ? sanitize_text_field( $_POST['event_end_hour'] ) : '';
-		$event_end_minute     = isset( $_POST['event_end_minute'] ) ? sanitize_text_field( $_POST['event_end_minute'] ) : '';
-		$event_end_meridian   = isset( $_POST['event_end_meridian'] ) ? sanitize_text_field( $_POST['event_end_meridian'] ) : '';
+		$event_start_date     = isset( $_POST['event_start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['event_start_date'] ) ) : '';
+		$event_end_date       = isset( $_POST['event_end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['event_end_date'] ) ) : '';
+		$event_start_hour     = isset( $_POST['event_start_hour'] ) ? sanitize_text_field( wp_unslash( $_POST['event_start_hour'] ) ) : '';
+		$event_start_minute   = isset( $_POST['event_start_minute'] ) ? sanitize_text_field( wp_unslash( $_POST['event_start_minute'] ) ) : '';
+		$event_start_meridian = isset( $_POST['event_start_meridian'] ) ? sanitize_text_field( wp_unslash( $_POST['event_start_meridian'] ) ) : '';
+		$event_end_hour       = isset( $_POST['event_end_hour'] ) ? sanitize_text_field( wp_unslash( $_POST['event_end_hour'] ) ) : '';
+		$event_end_minute     = isset( $_POST['event_end_minute'] ) ? sanitize_text_field( wp_unslash( $_POST['event_end_minute'] ) ) : '';
+		$event_end_meridian   = isset( $_POST['event_end_meridian'] ) ? sanitize_text_field( wp_unslash( $_POST['event_end_meridian'] ) ) : '';
 
 		$start_time = $event_start_date . ' ' . $event_start_hour . ':' . $event_start_minute . ' ' . $event_start_meridian;
 		$end_time   = $event_end_date . ' ' . $event_end_hour . ':' . $event_end_minute . ' ' . $event_end_meridian;
@@ -516,24 +516,24 @@ class Import_Eventbrite_Events_Cpt {
 		$end_ts     = strtotime( $end_time );
 
 		// Venue Deatails
-		$venue_name    = isset( $_POST['venue_name'] ) ? sanitize_text_field( $_POST['venue_name'] ) : '';
-		$venue_address = isset( $_POST['venue_address'] ) ? sanitize_text_field( $_POST['venue_address'] ) : '';
-		$venue_city    = isset( $_POST['venue_city'] ) ? sanitize_text_field( $_POST['venue_city'] ) : '';
-		$venue_state   = isset( $_POST['venue_state'] ) ? sanitize_text_field( $_POST['venue_state'] ) : '';
-		$venue_country = isset( $_POST['venue_country'] ) ? sanitize_text_field( $_POST['venue_country'] ) : '';
-		$venue_zipcode = isset( $_POST['venue_zipcode'] ) ? sanitize_text_field( $_POST['venue_zipcode'] ) : '';
-		$venue_lat     = isset( $_POST['venue_lat'] ) ? sanitize_text_field( $_POST['venue_lat'] ) : '';
-		$venue_lon     = isset( $_POST['venue_lon'] ) ? sanitize_text_field( $_POST['venue_lon'] ) : '';
-		$venue_url     = isset( $_POST['venue_url'] ) ? esc_url( $_POST['venue_url'] ) : '';
+		$venue_name    = isset( $_POST['venue_name'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_name'] ) ) : '';
+		$venue_address = isset( $_POST['venue_address'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_address'] ) ) : '';
+		$venue_city    = isset( $_POST['venue_city'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_city'] ) ) : '';
+		$venue_state   = isset( $_POST['venue_state'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_state'] ) ) : '';
+		$venue_country = isset( $_POST['venue_country'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_country'] ) ) : '';
+		$venue_zipcode = isset( $_POST['venue_zipcode'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_zipcode'] ) ) : '';
+		$venue_lat     = isset( $_POST['venue_lat'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_lat'] ) ) : '';
+		$venue_lon     = isset( $_POST['venue_lon'] ) ? sanitize_text_field( wp_unslash( $_POST['venue_lon'] ) ) : '';
+		$venue_url     = isset( $_POST['venue_url'] ) ? esc_url( wp_unslash( $_POST['venue_url'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// Oraganizer Deatails
-		$organizer_name  = isset( $_POST['organizer_name'] ) ? sanitize_text_field( $_POST['organizer_name'] ) : '';
-		$organizer_email = isset( $_POST['organizer_email'] ) ? sanitize_text_field( $_POST['organizer_email'] ) : '';
-		$organizer_phone = isset( $_POST['organizer_phone'] ) ? sanitize_text_field( $_POST['organizer_phone'] ) : '';
-		$organizer_url   = isset( $_POST['organizer_url'] ) ? esc_url( $_POST['organizer_url'] ) : '';
+		$organizer_name  = isset( $_POST['organizer_name'] ) ? sanitize_text_field( wp_unslash( $_POST['organizer_name'] ) ) : '';
+		$organizer_email = isset( $_POST['organizer_email'] ) ? sanitize_text_field( wp_unslash( $_POST['organizer_email'] ) ) : '';
+		$organizer_phone = isset( $_POST['organizer_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['organizer_phone'] ) ) : '';
+		$organizer_url   = isset( $_POST['organizer_url'] ) ? esc_url( wp_unslash(  $_POST['organizer_url'] ) ) : '';  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		
 		// Event Source Link
-		$event_source_link   = isset( $_POST['event_source_link'] ) ? esc_url( $_POST['event_source_link'] ) : '';
+		$event_source_link   = isset( $_POST['event_source_link'] ) ?  esc_url( wp_unslash( $_POST['event_source_link'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// Save Event Data
 		// Date & Time
@@ -586,7 +586,7 @@ class Import_Eventbrite_Events_Cpt {
 				$start_date = get_post_meta( $post_id, 'event_start_date', true );
 				if ( $start_date != '' ) {
 					$start_date = strtotime( $start_date );
-					echo esc_attr( date( 'F j, Y', $start_date ) );
+					echo esc_attr( gmdate( 'F j, Y', $start_date ) );
 				} else {
 					echo '-';
 				}
@@ -633,7 +633,7 @@ class Import_Eventbrite_Events_Cpt {
 		$eve_args = array(
 			'post_type'   => 'eventbrite_events',
 			'post_status' => 'publish',
-			'meta_key'    => 'start_ts',
+			'meta_key'    => 'start_ts', //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'paged'       => $paged,
 		);
 
@@ -661,7 +661,7 @@ class Import_Eventbrite_Events_Cpt {
 			}
 
 			if ( $start_date_str != '' && $end_date_str != '' ) {
-				$eve_args['meta_query'] = array(
+				$eve_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
 						'key'     => 'end_ts',
@@ -675,7 +675,7 @@ class Import_Eventbrite_Events_Cpt {
 					),
 				);
 			} elseif ( $start_date_str != '' ) {
-				$eve_args['meta_query'] = array(
+				$eve_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'     => 'end_ts',
 						'compare' => '>=',
@@ -683,12 +683,12 @@ class Import_Eventbrite_Events_Cpt {
 					),
 				);
 			} elseif ( $end_date_str != '' ) {
-				$eve_args['meta_query'] = array(
+				$eve_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
 						'key'     => 'end_ts',
 						'compare' => '>=',
-						'value'   => strtotime( date( 'Y-m-d' ) ),
+						'value'   => strtotime( gmdate( 'Y-m-d' ) ),
 					),
 					array(
 						'key'     => 'start_ts',
@@ -702,7 +702,7 @@ class Import_Eventbrite_Events_Cpt {
 				$atts['past_events'] = "yes";
 			}
 			if ( isset( $atts['past_events'] ) && $atts['past_events'] == 'yes' ) {
-				$eve_args['meta_query'] = array(
+				$eve_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'     => 'end_ts',
 						'compare' => '<=',
@@ -710,7 +710,7 @@ class Import_Eventbrite_Events_Cpt {
 					),
 				);
 			} else {
-				$eve_args['meta_query'] = array(
+				$eve_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'     => 'end_ts',
 						'compare' => '>=',
@@ -728,7 +728,7 @@ class Import_Eventbrite_Events_Cpt {
 				$tax_field = 'term_id';
 			}
 			if ( ! empty( $categories ) ) {
-				$eve_args['tax_query'] = array(
+				$eve_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					array(
 						'taxonomy' => $this->event_category,
 						'field'    => $tax_field,
@@ -742,7 +742,7 @@ class Import_Eventbrite_Events_Cpt {
 		if ( isset( $atts['orderby'] ) && $atts['orderby'] != '' ) {
 			if ( $atts['orderby'] == 'event_start_date' || $atts['orderby'] == 'event_end_date' ) {
 				if ( $atts['orderby'] == 'event_end_date' ) {
-					$eve_args['meta_key'] = 'end_ts';
+					$eve_args['meta_key'] = 'end_ts'; //phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				}
 				$eve_args['orderby'] = 'meta_value';
 			} else {
@@ -853,17 +853,17 @@ class Import_Eventbrite_Events_Cpt {
 							<div class="col-iee-md-12">
 								<nav class="prev-next-posts">
 									<div class="prev-posts-link alignright">
-										<?php echo get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ); ?>
+										<?php echo wp_kses_post( get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ) ); ?>
 									</div>
 									<div class="next-posts-link alignleft">
-										<?php echo get_previous_posts_link( '&laquo; Previous Events' ); ?>
+										<?php echo wp_kses_post( get_previous_posts_link( '&laquo; Previous Events' ) ); ?>
 									</div>
 								</nav>
 							</div>
 						<?php
 						endif;
 					else :
-						echo apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) );
+						echo esc_html( apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) ) );
 					endif;
 					?>
 			<?php

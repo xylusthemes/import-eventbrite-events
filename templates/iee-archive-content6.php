@@ -51,15 +51,16 @@ $event_description = wp_trim_words( get_the_excerpt(), 15, '...' );
 <div <?php post_class( array( $css_class, 'archive-event' ) ); ?> >
     <div class="iee6_event-card">
         <div class="iee6_event-image">
-            <a href="<?php echo esc_url( $event_url ); ?>" <?php echo $target; ?> >
+            <a href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> >
+                <?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
                 <img src="<?php echo esc_url( $event_image ); ?>" alt="<?php echo esc_attr( $event_title ); ?>">
             </a>
         </div>
         <div class="iee6_event-info">
             <span class="iee6_event-date" style="color:<?php echo esc_attr( $accent_color ); ?>" >
-                <?php echo date_i18n( 'D j', $start_date_str ); ?>
+                <?php echo esc_attr( date_i18n( 'D j', $start_date_str ) ); ?>
             </span>
-            <a class="iee6_event-title"  href="<?php echo esc_url( $event_url ); ?>" <?php echo $target; ?> >
+            <a class="iee6_event-title"  href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> >
                 <div style="color:<?php echo esc_attr( $accent_color ); ?>"  ><?php echo esc_html( $event_title ); ?></div>
             </a>
             <div class="iee6_event-time"  >
@@ -82,7 +83,7 @@ $event_description = wp_trim_words( get_the_excerpt(), 15, '...' );
                 <a class="iee6_buy-btn" href="<?php echo esc_url( $eb_event_url ); ?>" style="background-color:<?php echo esc_attr( $accent_color ); ?>"  >
                     <?php esc_html_e( 'Buy tickets', 'import-eventbrite-events' ); ?>
                 </a>
-                <a class="iee6_details-btn" href="<?php echo esc_url( $event_url ); ?>" <?php echo $target; ?> ><?php esc_html_e( 'View details', 'import-eventbrite-events' ); ?></a>
+                <a class="iee6_details-btn" href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> ><?php esc_html_e( 'View details', 'import-eventbrite-events' ); ?></a>
             </div>
         </div>
     </div>

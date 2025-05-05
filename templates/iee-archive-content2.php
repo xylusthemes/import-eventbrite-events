@@ -60,13 +60,13 @@ if ( ! empty( $event_categories ) ) {
 	<div class="iee-style2">
 		<div class="iee_event_style2">
 			<div class="iee_event_thumbnail">
-				<a href="<?php echo esc_url( $event_url ); ?>" <?php echo $target; ?> >
+				<a href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> >
 					<div class="iee_img_placeholder" style=" background: url('<?php echo esc_url( $image_url[0] ); ?>') no-repeat left top;"></div>
 				</a>
 				<span class="iee_event_meta_cat">
 					<?php
 						foreach( $eve_cats as $eve_cat ){
-							echo $eve_cat;
+							echo wp_kses_post( $eve_cat );
 						}
 					?>
 				</span>

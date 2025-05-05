@@ -161,7 +161,7 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                             width: 600,
                             'buttons'       : [
                                 {
-                                    text: "<?php _e('Submit & Deactivate', 'import-eventbrite-events' ); ?>",
+                                    text: "Submit & Deactivate",
                                     class: 'button button-primary <?php echo esc_attr( $this->prefix ) . "deactivate_button"; ?>',
                                     click: function() {
 										var that = this;
@@ -189,7 +189,7 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                                     }
                                 },
                                 {
-                                    text: "<?php _e('Skip & Deactivate', 'import-eventbrite-events' ); ?>",
+                                    text: "Skip & Deactivate",
                                     class: 'button',
                                     click: function() {
                                         jQuery( this ).dialog( "close" );
@@ -206,26 +206,26 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                         var customerQuery = jQuery('#<?php echo esc_attr( $this->prefix ); ?>customer_query');
                         customerQuery.removeAttr('required');
                         if (reason === "confusing") {
-                            customerQuery.attr("placeholder", "<?php _e('Finding it confusing? let us know so that we can improve the interface', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Finding it confusing? let us know so that we can improve the interface', 'import-eventbrite-events' ); ?>");
 
                         } else if (reason === "other") {
-                            customerQuery.attr("placeholder", "<?php _e('Can you let us know the reason for deactivation (Required)', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Can you let us know the reason for deactivation (Required)', 'import-eventbrite-events' ); ?>");
                             customerQuery.prop('required', true);
 
                         } else if (reason === "buggy" || reason === 'not_working') {
-                            customerQuery.attr("placeholder", "<?php _e('Can you please let us know about the bug/issue in detail?', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Can you please let us know about the bug/issue in detail?', 'import-eventbrite-events' ); ?>");
 
                         } else if (reason === "better_plugin") {
-                            customerQuery.attr("placeholder", "<?php _e('Can you please let us know which plugin you found helpful', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Can you please let us know which plugin you found helpful', 'import-eventbrite-events' ); ?>");
 
                         } else if (reason === "feature_request") {
-                            customerQuery.attr("placeholder", "<?php _e('Can you please let us know more about the feature you want', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Can you please let us know more about the feature you want', 'import-eventbrite-events' ); ?>");
 
                         }  else if (reason === "wrong_plugins") {
-                            customerQuery.attr("placeholder", "<?php _e('Can you please let us know more about your requirement', 'import-eventbrite-events' ); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Can you please let us know more about your requirement', 'import-eventbrite-events' ); ?>");
 
                         } else if (reason === "temporary") {
-                            customerQuery.attr("placeholder", "<?php _e('Write your query here', 'import-eventbrite-events'); ?>");
+                            customerQuery.attr("placeholder", "<?php esc_attr_e('Write your query here', 'import-eventbrite-events'); ?>");
                         }
                     });
                 });
@@ -269,7 +269,7 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                             </div>
                         <?php } ?>
                         <br>
-                        <textarea id="<?php echo esc_attr( $this->prefix ); ?>customer_query" name="<?php echo esc_attr( $this->prefix ); ?>customer_query" rows="4" placeholder="<?php _e('Write your query here', 'import-eventbrite-events'); ?>"></textarea>
+                        <textarea id="<?php echo esc_attr( $this->prefix ); ?>customer_query" name="<?php echo esc_attr( $this->prefix ); ?>customer_query" rows="4" placeholder="<?php esc_attr_e('Write your query here', 'import-eventbrite-events'); ?>"></textarea>
                     </div>
                     <div style="text-align: center;">
                         <p style="font-size: 12px;margin: 2px 0 -10px 0;">
@@ -278,6 +278,7 @@ if ( ! class_exists( 'IEE_Plugin_Deactivation' ) ) {
                     </div>
                 </form>
 				<div class="<?php echo esc_attr( $this->prefix ); ?>deactivatation_loading" style="width: 100%;text-align: center; display:none;">
+                    <?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
 					<img src="<?php echo esc_url( admin_url('images/spinner.gif') ); ?>" />
 				</div>
             </div>

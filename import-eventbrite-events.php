@@ -256,9 +256,9 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		public function iee_enqueue_style() {
 
 			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
-			wp_enqueue_style( 'font-awesome', $css_dir . 'font-awesome.min.css', false, '' );
-			wp_enqueue_style( 'import-eventbrite-events-front', $css_dir . 'import-eventbrite-events.css', false, '' );
-			wp_enqueue_style( 'import-eventbrite-events-front-style2', $css_dir . 'grid-style2.css', false, '' );
+			wp_enqueue_style( 'font-awesome', $css_dir . 'font-awesome.min.css', false, IEE_VERSION );
+			wp_enqueue_style( 'import-eventbrite-events-front', $css_dir . 'import-eventbrite-events.css', false, IEE_VERSION );
+			wp_enqueue_style( 'import-eventbrite-events-front-style2', $css_dir . 'grid-style2.css', false, IEE_VERSION );
 		}
 
 		/**

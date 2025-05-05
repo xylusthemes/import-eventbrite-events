@@ -86,7 +86,7 @@ class Import_Eventbrite_Events_Admin {
 	public function enqueue_admin_scripts( $hook ) {
 
 		$js_dir = IEE_PLUGIN_URL . 'assets/js/';
-		wp_register_script( 'import-eventbrite-events', $js_dir . 'import-eventbrite-events-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'wp-color-picker' ), IEE_VERSION );
+		wp_register_script( 'import-eventbrite-events', $js_dir . 'import-eventbrite-events-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'wp-color-picker' ), IEE_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 		wp_enqueue_script( 'import-eventbrite-events' );
 
 	}
@@ -103,11 +103,11 @@ class Import_Eventbrite_Events_Admin {
 	public function enqueue_admin_styles( $hook ) {
 
 		global $pagenow;
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // input var okay.
+		$page = isset( $_GET['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( 'eventbrite_event' === $page || 'widgets.php' === $pagenow || 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
 			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
 			wp_enqueue_style( 'jquery-ui', $css_dir . 'jquery-ui.css', false, '1.12.0' );
-			wp_enqueue_style( 'import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, '' );
+			wp_enqueue_style( 'import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, IEE_VERSION );
 			wp_enqueue_style('wp-color-picker');
 		}
 	}
@@ -125,8 +125,8 @@ class Import_Eventbrite_Events_Admin {
 			<h2><?php esc_html_e( 'Import Eventbrite Events', 'import-eventbrite-events' ); ?></h2>
 			<?php
 			// Set Default Tab to Import.
-			$tab  = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'eventbrite'; // input var okay.
-			$ntab = isset( $_GET['ntab'] ) ? sanitize_text_field( wp_unslash( $_GET['ntab'] ) ) : 'import'; // input var okay.
+			$tab  = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$ntab = isset( $_GET['ntab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['ntab'] ) ) ) : 'import'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			?>
 			<div id="poststuff">
 				<div id="post-body" class="metabox-holder columns-2">
@@ -208,7 +208,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_errors as $error ) :
 				?>
 				<div class="notice notice-error is-dismissible">
-					<p><?php echo $error; ?></p>
+					<p><?php echo $error; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -218,7 +218,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_success_msg as $success ) :
 				?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php echo $success; ?></p>
+					<p><?php echo $success; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -228,7 +228,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_warnings as $warning ) :
 				?>
 				<div class="notice notice-warning is-dismissible">
-					<p><?php echo $warning; ?></p>
+					<p><?php echo $warning; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -238,7 +238,7 @@ class Import_Eventbrite_Events_Admin {
 			foreach ( $iee_info_msg as $info ) :
 				?>
 				<div class="notice notice-info is-dismissible">
-					<p><?php echo $info; ?></p>
+					<p><?php echo $info; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
 			endforeach;
@@ -343,7 +343,7 @@ class Import_Eventbrite_Events_Admin {
 	 * @return string $footer_text Altered WP Admin Footer text.
 	 */
 	public function add_event_aggregator_credit( $footer_text ) {
-		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // input var okey.
+		$page = isset( $_GET['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $page ) && 'eventbrite_event' === $page ) {
 			$rate_url = 'https://wordpress.org/support/plugin/import-eventbrite-events/reviews/?rate=5#new-post';
 
@@ -446,67 +446,6 @@ class Import_Eventbrite_Events_Admin {
 		}
 	}
 
-
-	/**
-	 * Get Plugin array
-	 *
-	 * @since 1.1.0
-	 * @return array
-	 */
-	public function get_xyuls_themes_plugins() {
-		return array(
-			'wp-event-aggregator'    => esc_html__( 'WP Event Aggregator', 'import-eventbrite-events' ),
-			'import-facebook-events' => esc_html__( 'Import Facebook Events', 'import-eventbrite-events' ),
-			'import-meetup-events'   => esc_html__( 'Import Meetup Events', 'import-eventbrite-events' ),
-			'wp-bulk-delete'         => esc_html__( 'WP Bulk Delete', 'import-eventbrite-events' ),
-			'xt-facebook-events' 	 => esc_html__( 'Facebook Events', 'import-eventbrite-events' ),
-			'event-schema' 			 => esc_html__( 'Event Schema / Structured Data: Google Rich Snippet Schema for Event', 'import-eventbrite-events' ),
-		);
-	}
-
-	/**
-	 * Get Plugin Details.
-	 *
-	 * @since  1.1.0
-	 * @param  string $slug Plugin Slug.
-	 * @return array
-	 */
-	public function get_wporg_plugin( $slug ) {
-
-		if ( empty( $slug ) ) {
-			return false;
-		}
-
-		$transient_name = 'support_plugin_box' . $slug;
-		$plugin_data    = get_transient( $transient_name );
-		if ( false === $plugin_data ) {
-			if ( ! function_exists( 'plugins_api' ) ) {
-				include_once ABSPATH . '/wp-admin/includes/plugin-install.php';
-			}
-
-			$plugin_data = plugins_api(
-				'plugin_information', array(
-					'slug'   => $slug,
-					'is_ssl' => is_ssl(),
-					'fields' => array(
-						'banners'         => true,
-						'active_installs' => true,
-						'short_description'=> true,
-						'icons'			  => true,
-					),
-				)
-			);
-
-			if ( ! is_wp_error( $plugin_data ) ) {
-				set_transient( $transient_name, $plugin_data, 24 * HOUR_IN_SECONDS );
-			} else {
-				// If there was a bug on the Current Request just leave.
-				return false;
-			}
-		}
-		return $plugin_data;
-	}
-
 	/**
 	 * Tab Submenu got selected.
 	 *
@@ -514,9 +453,9 @@ class Import_Eventbrite_Events_Admin {
 	 * @return void
 	 */
 	public function get_selected_tab_submenu_iee( $submenu_file ){
-		if( !empty( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) == 'eventbrite_event' ){
+		if( !empty( $_GET['page'] ) && esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) == 'eventbrite_event' ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$allowed_tabs = array( 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
-			$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'eventbrite';
+			$tab = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if( in_array( $tab, $allowed_tabs ) ){
 				$submenu_file = admin_url( 'admin.php?page=eventbrite_event&tab='.$tab );
 			}
@@ -532,7 +471,7 @@ class Import_Eventbrite_Events_Admin {
 	public function iee_view_import_history_handler() {
 	    define( 'IFRAME_REQUEST', true );
 	    iframe_header();
-	    $history_id = isset($_GET['history']) ? absint($_GET['history']) : 0;
+	    $history_id = isset($_GET['history']) ? absint($_GET['history']) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	    if( $history_id > 0){
 	    	$imported_data = get_post_meta($history_id, 'imported_data', true);
 	    	if(!empty($imported_data)){
@@ -619,7 +558,7 @@ class Import_Eventbrite_Events_Admin {
 			'posts_per_page'  => 100,
 			'post_status'     => 'publish',
 			'fields'          => 'ids',
-			'meta_query'      => array(
+			'meta_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => 'end_ts',
 					'value'   => current_time( 'timestamp' ) - ( 24 * 3600 ),
