@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-05T09:54:23+00:00\n"
+"POT-Creation-Date: 2025-05-14T10:05:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: import-eventbrite-events\n"
 
 #. Plugin Name of the plugin
@@ -301,6 +301,7 @@ msgstr ""
 
 #. translators: leave %1$s, %2$s and %3$s
 #: includes/class-import-eventbrite-events-admin.php:352
+#, php-format
 msgid " Rate %1$sImport Eventbrite Events%2$s %3$s"
 msgstr ""
 
@@ -409,6 +410,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:125
 #: includes/class-import-eventbrite-events-list-table.php:348
 #: includes/class-import-eventbrite-events-list-table.php:542
+#, php-format
 msgid "%d Created"
 msgstr ""
 
@@ -417,21 +419,25 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:129
 #: includes/class-import-eventbrite-events-list-table.php:352
 #: includes/class-import-eventbrite-events-list-table.php:546
+#, php-format
 msgid "%d Updated"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
 #: includes/class-import-eventbrite-events-common.php:529
+#, php-format
 msgid "%d Skipped (Already exists)"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
 #: includes/class-import-eventbrite-events-common.php:533
+#, php-format
 msgid "%d Skipped (Already exists in Trash )"
 msgstr ""
 
 #. translators: %d: Number of events error.
 #: includes/class-import-eventbrite-events-common.php:537
+#, php-format
 msgid "%d "
 msgstr ""
 
@@ -885,6 +891,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:133
 #: includes/class-import-eventbrite-events-list-table.php:356
 #: includes/class-import-eventbrite-events-list-table.php:550
+#, php-format
 msgid "%d Skipped"
 msgstr ""
 
@@ -893,6 +900,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:137
 #: includes/class-import-eventbrite-events-list-table.php:360
 #: includes/class-import-eventbrite-events-list-table.php:554
+#, php-format
 msgid "%d Skipped in Trash"
 msgstr ""
 
@@ -932,6 +940,7 @@ msgstr ""
 
 #. translators: %d: Number of Last import.
 #: includes/class-import-eventbrite-events-list-table.php:340
+#, php-format
 msgid "Last Import: %s ago"
 msgstr ""
 
@@ -1336,6 +1345,7 @@ msgstr ""
 
 #. translators: %s: Plugin slug used in image alt text.
 #: templates/admin/import-eventbrite-events-support.php:127
+#, php-format
 msgid "%s Image"
 msgstr ""
 
