@@ -5,7 +5,7 @@ Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.8
-Stable tag: 1.7.7
+Stable tag: 1.7.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 * Easy and seemless Event import from Eventbrite to WordPres.
 * Import Eventbrite event by Event ID using Eventbrite API
 * Import Eventbrite events by Eventbrite organiser ID ([Pro][1]).
+* Import Eventbrite events by Eventbrite collection ID ([Pro][1]).
 * Import Eventbrite events from your Eventbrite account ([Pro][1]).
 * Import Eventbrite events into all WordPress leading Events plugins.
 * Import multiple events using multiple event IDs at one time ([Pro][1]).
@@ -141,6 +142,13 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.8 =
+* ADDED: Revamped admin interface with new, user-friendly GUI
+* ADDED: Added option to import events using Collection ID (Pro version)
+* ADDED: Introduced Active/Pause toggle for scheduled imports (Pro version)
+* IMPROVEMENTS: Optimized Eventbrite API calls to significantly boost import speed and reduce server load (Pro version)
+* FIXED: Button CSS conflict issue
 
 = 1.7.7 =
 * IMPROVEMENTS: Improved security and compatibility with WordPress coding standards.
