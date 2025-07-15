@@ -163,6 +163,12 @@ class Import_Eventbrite_Events_EventON {
 			update_post_meta( $inserted_event_id, 'iee_event_timezone', $timezone );
 			update_post_meta( $inserted_event_id, 'iee_event_timezone_name', $timezone );
 			update_post_meta( $inserted_event_id, '_evo_tz', $timezone );
+
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
 			
 			if( !empty( $is_all_day ) ){
 				update_post_meta( $inserted_event_id, 'evcal_allday', 'yes' );

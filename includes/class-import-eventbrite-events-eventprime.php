@@ -171,6 +171,11 @@ class Import_Eventbrite_Events_EventPrime {
 			update_post_meta( $inserted_event_id, 'em_enable_recurrence', '0' );
 			update_post_meta( $inserted_event_id, 'em_recurrence_step', '0' );
 
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
 
             //Event Date & Time
             $start_ampm = gmdate( "h:i A", $start_time );

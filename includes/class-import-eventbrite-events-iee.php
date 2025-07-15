@@ -161,7 +161,7 @@ class Import_Eventbrite_Events_IEE {
 			$venue_zipcode = isset( $venue_array['zip'] ) ? sanitize_text_field( $venue_array['zip'] ) : '';
 
 			//Online Events
-			if( $centralize_array['location']['name'] == 'Online Event' ){
+			if( isset( $centralize_array['location']['name'] ) && $centralize_array['location']['name'] == 'Online Event' ){
 				$venue_name    = 'Online Event';
 			}
 

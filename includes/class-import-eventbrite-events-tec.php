@@ -169,6 +169,12 @@ class Import_Eventbrite_Events_TEC {
 
 			update_post_meta( $new_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
+
 			// Asign event category.
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
@@ -255,6 +261,12 @@ class Import_Eventbrite_Events_TEC {
 
 			update_post_meta( $update_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			delete_post_meta( $update_event_id, '_tribe_is_classic_editor' );
+
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
 
 			// Asign event category.
 			$iee_cats = isset( $event_args['event_cats'] ) ? (array) $event_args['event_cats'] : array();

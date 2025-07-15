@@ -1504,7 +1504,7 @@
       gap: 10px;
   }
 
-  .iee6_event-buttons a, button {
+  .iee6_event-buttons a, .iee6_event-buttons button {
       flex: 1;
       padding: 8px 10px;
       border: none;

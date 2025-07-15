@@ -32,16 +32,29 @@
 			if( jQuery(this).val() == 'event_id' ){
 				jQuery('.import_type_wrapper').hide();
 				jQuery('.eventbrite_organizer_id').hide();
+				jQuery('.eventbrite_collection_id').hide();
 				jQuery('.eventbrite_organizer_id .iee_organizer_id').removeAttr( 'required' );
 				jQuery('.eventbrite_event_id').show();
 				jQuery('.eventbrite_event_id .iee_eventbrite_id').attr('required', 'required');
+				jQuery('.eventbrite_collection_id .iee_collection_id').removeAttr( 'required' );
 			
 			} else if( jQuery(this).val() == 'organizer_id' ){
 				jQuery('.import_type_wrapper').show();
 				jQuery('.eventbrite_organizer_id').show();
 				jQuery('.eventbrite_organizer_id .iee_organizer_id').attr('required', 'required');
+				jQuery('.eventbrite_collection_id').hide();
 				jQuery('.eventbrite_event_id').hide();
 				jQuery('.eventbrite_event_id .iee_eventbrite_id').removeAttr( 'required' );
+				jQuery('.eventbrite_collection_id .iee_collection_id').removeAttr( 'required' );
+
+			} else if( jQuery(this).val() == 'collection_id' ){
+				jQuery('.import_type_wrapper').show();
+				jQuery('.eventbrite_collection_id').show();
+				jQuery('.eventbrite_collection_id .iee_collection_id').attr('required', 'required');
+				jQuery('.eventbrite_event_id').hide();
+				jQuery('.eventbrite_organizer_id').hide();
+				jQuery('.eventbrite_event_id .iee_eventbrite_id').removeAttr( 'required' );
+				jQuery('.eventbrite_organizer_id .iee_organizer_id').removeAttr( 'required' );
 			}
 		});
 
@@ -141,16 +154,25 @@ jQuery(document).ready(function($){
 		link.addEventListener('click', function() {
 		const iee_tabId = this.dataset.tab;
 
-		iee_tab_link.forEach(function(link) {
-			link.classList.remove('active');
-		});
+			// Loop through all links to update classes
+			iee_tab_link.forEach(function (link) {
+				if (link === this) {
+					link.classList.add('var-tab--active');
+					link.classList.remove('var-tab--inactive');
+				} else {
+					link.classList.remove('var-tab--active');
+					link.classList.add('var-tab--inactive');
+				}
+			}, this);
 
-		iee_tabcontents.forEach(function(content) {
-			content.classList.remove('active');
-		});
-
-		this.classList.add('active');
-		document.getElementById(iee_tabId).classList.add('active');
+			// Loop through all tab contents to show/hide
+			iee_tabcontents.forEach(function (content) {
+				if (content.id === iee_tabId) {
+					content.classList.add('var-tab--active');
+				} else {
+					content.classList.remove('var-tab--active');
+				}
+			});
 		});
 	});
 
@@ -200,5 +222,16 @@ jQuery(document).ready(function($){
 
 		iee_xhr.send();
 	}
+
+	jQuery(document).ready(function($) {
+		var $slides = $('.iee-screenshot-slide');
+		var index = 0;
+
+		setInterval(function() {
+			$slides.removeClass('active');
+			index = (index + 1) % $slides.length;
+			$slides.eq(index).addClass('active');
+		}, 3000);
+	});
 
 });

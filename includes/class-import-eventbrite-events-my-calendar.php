@@ -380,6 +380,12 @@ class Import_Eventbrite_Events_My_Calendar {
 				update_post_meta( $inserted_event_id, '_mc_event_location', $location_id );
 			}
 
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
+
 			if ( $is_exitsing_event ) {
 				do_action( 'iee_after_update_my_calendar_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(

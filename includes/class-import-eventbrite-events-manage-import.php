@@ -88,6 +88,7 @@ class Import_Eventbrite_Events_Manage_Import {
 		$event_data['import_by']           = 'event_id';
 		$event_data['eventbrite_event_id'] = isset( $_POST['iee_eventbrite_id'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST['iee_eventbrite_id'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$event_data['organizer_id']        = '';
+		$event_data['collection_id']       = '';
 
 		if ( ! is_numeric( $event_data['eventbrite_event_id'] ) ) {
 			$iee_errors[] = esc_html__( 'Please provide valid Eventbrite event ID.', 'import-eventbrite-events' );

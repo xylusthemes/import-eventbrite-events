@@ -33,7 +33,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * Import_Eventbrite_Events The one true Import_Eventbrite_Events.
 		 */
 		private static $instance;
-		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime;
+		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget;
 
 		/**
 		 * Main Import Eventbrite Events Instance.
@@ -320,5 +320,6 @@ function iee_activate_import_eventbrite_events() {
 	global $iee_events;
 	$iee_events->cpt->register_event_post_type();
 	flush_rewrite_rules();
+	add_option( 'iee_plugin_activated', true );
 }
 register_activation_hook( __FILE__, 'iee_activate_import_eventbrite_events' );
