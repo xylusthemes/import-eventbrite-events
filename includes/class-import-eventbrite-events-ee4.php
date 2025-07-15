@@ -219,6 +219,12 @@ class Import_Eventbrite_Events_EE4 {
 			update_post_meta( $inserted_event_id, 'start_ts', $start_time );
 			update_post_meta( $inserted_event_id, 'end_ts', $end_time );
 
+			// Series id
+			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
+			if( !empty( $series_id ) ){
+				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
+
 			if ( $is_exitsing_event ) {
 				do_action( 'iee_after_update_ee4_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(

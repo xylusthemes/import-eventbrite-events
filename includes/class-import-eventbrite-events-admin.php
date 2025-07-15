@@ -48,9 +48,11 @@ class Import_Eventbrite_Events_Admin {
 		add_filter( 'submenu_file', array( $this, 'get_selected_tab_submenu_iee' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		add_action( 'admin_notices', array( $this, 'display_notices' ) );
+		add_action( 'admin_notices', array( $this,'iee_remove_default_notices' ), 1 );
+		add_action( 'iee_display_all_notice', array( $this, 'iee_display_notices' ) );
 		add_filter( 'admin_footer_text', array( $this, 'add_event_aggregator_credit' ) );
 		add_action( 'admin_action_iee_view_import_history', array( $this, 'iee_view_import_history_handler' ) );
+		add_action( 'admin_init', array( $this, 'iee_handle_schedule_toggle_action' ) );
 	}
 
 	/**
@@ -62,16 +64,27 @@ class Import_Eventbrite_Events_Admin {
 	public function add_menu_pages() {
 
 		add_menu_page( __( 'Import Eventbrite Events', 'import-eventbrite-events' ), __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', 'eventbrite_event', array( $this, 'admin_page' ), 'dashicons-calendar-alt', '30' );
-		global $submenu;	
+		global $submenu;
+		$submenu['eventbrite_event'][] = array( __( 'Dashboard', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=dashboard' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Eventbrite Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=eventbrite' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Schedule Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=scheduled' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Import History', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=history' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Settings', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=settings' ));
 		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
-		$submenu['eventbrite_event'][] = array( __( 'Support & help', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
+		$submenu['eventbrite_event'][] = array( __( 'Support', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
+		$submenu['eventbrite_event'][] = array( __( 'Wizard', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=iee_setup_wizard' ));
 		if( !iee_is_pro() ){
         	$submenu['eventbrite_event'][] = array( '<li class="iee_upgrade_pro current">' . __( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</li>', 'manage_options', esc_url( "https://xylusthemes.com/plugins/import-eventbrite-events/") );
 		}
+	}
+
+	/**
+	 * Remove All Notices
+	 */
+	public function iee_remove_default_notices() {
+		// Remove default notices display.
+		remove_action( 'admin_notices', 'wp_admin_notices' );
+		remove_action( 'all_admin_notices', 'wp_admin_notices' );
 	}
 
 	/**
@@ -89,6 +102,11 @@ class Import_Eventbrite_Events_Admin {
 		wp_register_script( 'import-eventbrite-events', $js_dir . 'import-eventbrite-events-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'wp-color-picker' ), IEE_VERSION ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 		wp_enqueue_script( 'import-eventbrite-events' );
 
+		if( isset( $_GET['tab'] ) && $_GET['tab'] == 'iee_setup_wizard' ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			wp_register_script( 'import-eventbrite-events-wizard-js', $js_dir . 'import-eventbrite-events-wizard.js',  array( 'jquery', 'jquery-ui-core' ), IEE_VERSION, false );
+			wp_enqueue_script( 'import-eventbrite-events-wizard-js' );
+		}
+
 	}
 
 	/**
@@ -101,98 +119,129 @@ class Import_Eventbrite_Events_Admin {
 	 * @return void
 	 */
 	public function enqueue_admin_styles( $hook ) {
-
 		global $pagenow;
-		$page = isset( $_GET['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( 'eventbrite_event' === $page || 'widgets.php' === $pagenow || 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
-			$css_dir = IEE_PLUGIN_URL . 'assets/css/';
-			wp_enqueue_style( 'jquery-ui', $css_dir . 'jquery-ui.css', false, '1.12.0' );
+
+		$css_dir = IEE_PLUGIN_URL . 'assets/css/';
+		$page    = isset( $_GET['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		// Load styles on plugin admin page
+		if ( 'eventbrite_event' === $page ) {
 			wp_enqueue_style( 'import-eventbrite-events', $css_dir . 'import-eventbrite-events-admin.css', false, IEE_VERSION );
-			wp_enqueue_style('wp-color-picker');
+			wp_enqueue_style( 'wp-color-picker' );
+
+			$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( 'iee_setup_wizard' === $tab ) {
+				wp_enqueue_style( 'import-eventbrite-events-wizard-css', $css_dir . 'import-eventbrite-events-wizard.css', false, IEE_VERSION );
+			}
+		}
+
+		// Load styles on widgets/post screen
+		if ( in_array( $pagenow, [ 'widgets.php', 'post.php', 'post-new.php' ], true ) ) {
+			wp_enqueue_style( 'jquery-ui', $css_dir . 'jquery-ui.css', false, '1.12.0' );
+			wp_enqueue_style( 'import-eventbrite-events-admin-global', $css_dir . 'import-eventbrite-events-admin-global.css', false, IEE_VERSION );
+			wp_enqueue_style( 'wp-color-picker' );
 		}
 	}
 
-	/**
-	 * Load Admin page.
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
 	public function admin_page() {
+		global $iee_events;
 
-		?>
-		<div class="wrap">
-			<h2><?php esc_html_e( 'Import Eventbrite Events', 'import-eventbrite-events' ); ?></h2>
-			<?php
-			// Set Default Tab to Import.
-			$tab  = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$ntab = isset( $_GET['ntab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['ntab'] ) ) ) : 'import'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			?>
-			<div id="poststuff">
-				<div id="post-body" class="metabox-holder columns-2">
+			$active_tab = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) )  : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$gettab     = str_replace( 'by_', '', $active_tab );
+			$gettab     = ucwords( str_replace( '_', ' & ', $gettab ) );
+			if( $active_tab == 'support' ){
+				$page_title = 'Support & Help';
+			}elseif( $active_tab == 'eventbrite' ){
+				$page_title = 'Eventbrite Import';
+			}elseif( $active_tab == 'ics' ){
+				$page_title = 'ICS Import';
+			}elseif( $active_tab == 'scheduled' ){
+				$page_title = 'Scheduled Import';
+			}else{
+				$page_title = $gettab;
+			}
 
-					<div id="postbox-container-1" class="postbox-container">
-						<?php
-						if ( ! iee_is_pro() ) {
-							require_once IEE_PLUGIN_DIR . '/templates/admin/admin-sidebar.php';
-						}
-						?>
-					</div>
-					<div id="postbox-container-2" class="postbox-container">
+			if( $active_tab == 'iee_setup_wizard' ){
+				require_once IEE_PLUGIN_DIR . '/templates/admin/iee-setup-wizard.php';
+				exit();
+			}
 
-						<h1 class="nav-tab-wrapper">
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'eventbrite', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'eventbrite' === $tab ) { echo 'nav-tab-active'; } ?> ">
-								<?php esc_html_e( 'Eventbrite', 'import-eventbrite-events' ); ?>
-							</a>
+			$posts_header_result = $iee_events->common->iee_render_common_header( $page_title );
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'scheduled', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'scheduled' === $tab ) { echo 'nav-tab-active'; } ?>">
-								<?php esc_html_e( 'Scheduled Imports', 'import-eventbrite-events' ); ?>
-							</a>
+			if( $active_tab != 'dashboard' ){
+				?>
+					<div class="iee-container" style="margin-top: 60px;">
+						<div class="iee-wrap" >
+							<div id="poststuff">
+								<div id="post-body" class="metabox-holder columns-2">
+									<?php 
+										do_action( 'iee_display_all_notice' );
+									?>
+									<div class="delete_notice"></div>
+									<div id="postbox-container-2" class="postbox-container">
+										<div class="iee-app">
+											<div class="iee-tabs">
+												<div class="tabs-scroller">
+													<div class="var-tabs var-tabs--item-horizontal var-tabs--layout-horizontal-padding">
+														<div class="var-tabs__tab-wrap var-tabs--layout-horizontal">
+															<a href="?page=eventbrite_event&tab=eventbrite" class="var-tab <?php echo $active_tab == 'eventbrite' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'Import', 'import-eventbrite-events' ); ?></span>
+															</a>
+															<a href="?page=eventbrite_event&tab=scheduled" class="var-tab <?php echo ( $active_tab == 'scheduled' || $active_tab == 'scheduled' )  ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'Schedule Import', 'import-eventbrite-events' ); if( !iee_is_pro() ){ echo '<div class="iee-pro-badge"> PRO </div>'; } ?></span>
+															</a>
+															<a href="?page=eventbrite_event&tab=history" class="var-tab <?php echo $active_tab == 'history' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'History', 'import-eventbrite-events' ); ?></span>
+															</a>
+															<a href="?page=eventbrite_event&tab=settings" class="var-tab <?php echo $active_tab == 'settings' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'Setting', 'import-eventbrite-events' ); ?></span>
+															</a>
+															<a href="?page=eventbrite_event&tab=shortcodes" class="var-tab <?php echo $active_tab == 'shortcodes' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'Shortcodes', 'import-eventbrite-events' ); ?></span>
+															</a>
+															<a href="?page=eventbrite_event&tab=support" class="var-tab <?php echo $active_tab == 'support' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'Support & Help', 'import-eventbrite-events' ); ?></span>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'history', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'history' === $tab ) { echo 'nav-tab-active'; } ?>">
-								<?php esc_html_e( 'Import History', 'import-eventbrite-events' ); ?>
-							</a>
-
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'settings', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'settings' === $tab ) { echo 'nav-tab-active'; } ?>">
-								<?php esc_html_e( 'Settings', 'import-eventbrite-events' ); ?>
-							</a>
-
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'shortcodes', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'shortcodes' == $tab) { echo 'nav-tab-active'; } ?>">
-								<?php esc_html_e( 'Shortcodes', 'import-eventbrite-events' ); ?>
-							</a>
-
-							<a href="<?php echo esc_url( add_query_arg( 'tab', 'support', $this->adminpage_url ) ); ?>" class="nav-tab <?php if ( 'support' === $tab ) { echo 'nav-tab-active'; } ?>">
-								<?php esc_html_e( 'Support & Help', 'import-eventbrite-events' ); ?>
-							</a>
-						</h1>
-
-						<div class="import-eventbrite-events-page">
-							<?php
-							if ( 'eventbrite' === $tab ) {
-								require_once IEE_PLUGIN_DIR . '/templates/admin/eventbrite-import-events.php';
-							} elseif ( 'settings' === $tab ) {
-								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-settings.php';
-							} elseif ( 'scheduled' === $tab ) {
-								if ( iee_is_pro() ) {
-									require_once IEEPRO_PLUGIN_DIR . '/templates/admin/scheduled-import-events.php';
-								} else {
-									do_action( 'iee_render_pro_notice' );
-								}
-							} elseif ( 'history' === $tab ) {
-								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
-							} elseif ( 'support' === $tab ) {
-								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-support.php';
-							}elseif ( 'shortcodes' === $tab ) {
-								require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-shortcode.php';
-							}
-							?>
-							<div style="clear: both"></div>
+										<?php
+											if ( 'eventbrite' === $active_tab ) {
+														require_once IEE_PLUGIN_DIR . '/templates/admin/eventbrite-import-events.php';
+											} elseif ( 'settings' === $active_tab ) {
+												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-settings.php';
+											} elseif ( 'scheduled' === $active_tab ) {
+												if ( iee_is_pro() ) {
+													require_once IEEPRO_PLUGIN_DIR . '/templates/admin/scheduled-import-events.php';
+												} else {
+													?>
+														<div class="iee-blur-filter" >
+															<?php do_action( 'iee_render_pro_notice' ); ?>
+														</div>
+													<?php
+												}
+											} elseif ( 'history' === $active_tab ) {
+												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-history.php';
+											} elseif ( 'support' === $active_tab ) {
+												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-support.php';
+											}elseif ( 'shortcodes' === $active_tab ) {
+												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-shortcode.php';
+											}
+										?>
+									</div>
+								</div>
+								<br class="clear">
+							</div>
 						</div>
-
-				</div>
-			</div>
-		</div>
-		<?php
+					</div>
+				<?php
+			}else{
+				require_once IEE_PLUGIN_DIR . '/templates/admin/iee-dashboard.php';
+			}
+			$posts_footer_result = $iee_events->common->iee_render_common_footer();
 	}
 
 
@@ -201,7 +250,7 @@ class Import_Eventbrite_Events_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function display_notices() {
+	public function iee_display_notices() {
 		global $iee_errors, $iee_success_msg, $iee_warnings, $iee_info_msg;
 
 		if ( ! empty( $iee_errors ) ) {
@@ -415,6 +464,7 @@ class Import_Eventbrite_Events_Admin {
 					$event_data['import_by']           = 'your_events';
 					$event_data['eventbrite_event_id'] = '';
 					$event_data['organizer_id']        = '';
+					$event_data['collection_id']       = '';
 
 					$insert_args = array(
 						'post_type'   => 'iee_scheduled_import',
@@ -454,7 +504,7 @@ class Import_Eventbrite_Events_Admin {
 	 */
 	public function get_selected_tab_submenu_iee( $submenu_file ){
 		if( !empty( $_GET['page'] ) && esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) == 'eventbrite_event' ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$allowed_tabs = array( 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
+			$allowed_tabs = array( 'dashboard', 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
 			$tab = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if( in_array( $tab, $allowed_tabs ) ){
 				$submenu_file = admin_url( 'admin.php?page=eventbrite_event&tab='.$tab );
@@ -596,4 +646,25 @@ class Import_Eventbrite_Events_Admin {
 		}
 
 	}
+
+
+	function iee_handle_schedule_toggle_action() {
+		if ( isset( $_GET['action'], $_GET['schedule_id'], $_GET['new_status'] ) && esc_attr( sanitize_text_field( wp_unslash( $_GET['action'] ) ) ) === 'iee_toggle_status' ) {
+			$schedule_id = absint( $_GET['schedule_id'] );
+			$new_status  = esc_attr( sanitize_text_field( wp_unslash( $_GET['new_status'] ) ) );
+
+			if ( ! current_user_can( 'edit_post', $schedule_id ) ) {
+				wp_die( 'Permission denied' );
+			}
+
+			if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( esc_attr( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ), 'iee_toggle_schedule_' . $schedule_id ) ) {
+				wp_die( 'Security check failed' );
+			}
+
+			update_post_meta( $schedule_id, '_iee_schedule_status', $new_status );
+			wp_redirect( remove_query_arg( [ 'action', 'schedule_id', 'new_status', '_wpnonce' ] ) );
+			exit;
+		}
+	}
+
 }

@@ -253,174 +253,99 @@ class Import_Eventbrite_Events_Cpt {
 		$end_hour       = get_post_meta( $post->ID, 'event_end_hour', true );
 		$end_minute     = get_post_meta( $post->ID, 'event_end_minute', true );
 		$end_meridian   = get_post_meta( $post->ID, 'event_end_meridian', true );
+
+		$fields = [
+			'venue_name'     => __( 'Venue', 'import-eventbrite-events' ),
+			'venue_address'  => __( 'Address', 'import-eventbrite-events' ),
+			'venue_city'     => __( 'City', 'import-eventbrite-events' ),
+			'venue_state'    => __( 'State', 'import-eventbrite-events' ),
+			'venue_country'  => __( 'Country', 'import-eventbrite-events' ),
+			'venue_zipcode'  => __( 'Zipcode', 'import-eventbrite-events' ),
+			'venue_lat'      => __( 'Latitude', 'import-eventbrite-events' ),
+			'venue_lon'      => __( 'Longitude', 'import-eventbrite-events' ),
+			'venue_url'      => __( 'Website', 'import-eventbrite-events' ),
+			'organizer_name' => __( 'Organizer Name', 'import-eventbrite-events' ),
+			'organizer_email'=> __( 'Email', 'import-eventbrite-events' ),
+			'organizer_phone'=> __( 'Phone', 'import-eventbrite-events' ),
+			'organizer_url'  => __( 'Website', 'import-eventbrite-events' ),
+			'iee_event_link' => __( 'Source Link', 'import-eventbrite-events' ),
+		];
+
 		?>
-		<table class="iee_form_table">
-			<thead>
-			<tr>
-				<th colspan="2">
-					<?php esc_attr_e( 'Time & Date', 'import-eventbrite-events' ); ?>
-					<hr>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><?php esc_attr_e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-				<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_start_date', true ) ); ?>" /> @ 
-				<?php
-				$this->generate_dropdown( 'event_start', 'hour', $start_hour );
-				$this->generate_dropdown( 'event_start', 'minute', $start_minute );
-				$this->generate_dropdown( 'event_start', 'meridian', $start_meridian );
-				?>
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_attr_e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</td>
-				<td>
+
+		<div class="iee_form_section">
+			<h3><?php esc_attr_e( 'Time & Date', 'import-eventbrite-events' ); ?></h3>
+			<hr>
+			<div class="iee_form_row">
+				<label for="event_start_date"><?php esc_attr_e( 'Start Date & Time', 'import-eventbrite-events' ); ?>:</label>
+				<div class="iee_form_input_group">
+					<input type="text" name="event_start_date" class="xt_datepicker" id="event_start_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_start_date', true ) ); ?>" /> @ 
+					<?php
+						$this->generate_dropdown( 'event_start', 'hour', $start_hour );
+						$this->generate_dropdown( 'event_start', 'minute', $start_minute );
+						$this->generate_dropdown( 'event_start', 'meridian', $start_meridian );
+					?>
+				</div>
+			</div>
+
+			<div class="iee_form_row">
+				<label for="event_end_date"><?php esc_attr_e( 'End Date & Time', 'import-eventbrite-events' ); ?>:</label>
+				<div class="iee_form_input_group">
 					<input type="text" name="event_end_date" class="xt_datepicker" id="event_end_date" value="<?php echo esc_attr( get_post_meta( $post->ID, 'event_end_date', true ) ); ?>" /> @ 
 					<?php
-					$this->generate_dropdown( 'event_end', 'hour', $end_hour );
-					$this->generate_dropdown( 'event_end', 'minute', $end_minute );
-					$this->generate_dropdown( 'event_end', 'meridian', $end_meridian );
+						$this->generate_dropdown( 'event_end', 'hour', $end_hour );
+						$this->generate_dropdown( 'event_end', 'minute', $end_minute );
+						$this->generate_dropdown( 'event_end', 'meridian', $end_meridian );
 					?>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<div style="clear: both;"></div>
-		<table class="iee_form_table">
-			<thead>
-			<tr>
-				<th colspan="2">
-					<?php esc_attr_e( 'Location Details', 'import-eventbrite-events' ); ?>
-					<hr>
-				</th>
-			</tr>
-			</thead>
+				</div>
+			</div>
+		</div>
 
-			<tbody>
-			<tr>
-				<td><?php esc_attr_e( 'Venue', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_name" id="venue_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_name', true ) ); ?>" />
-				</td>
-			</tr>
+		<div class="iee_form_section">
+			<h3><?php esc_attr_e( 'Location Details', 'import-eventbrite-events' ); ?></h3>
+			<hr>
+			<?php
+			foreach ( [ 'venue_name', 'venue_address', 'venue_city', 'venue_state', 'venue_country', 'venue_zipcode', 'venue_lat', 'venue_lon', 'venue_url' ] as $field ) {
+				?>
+				<div class="iee_form_row">
+					<label for="<?php echo esc_attr( $field ); ?>"><?php echo esc_html( $fields[ $field ] ); ?>:</label>
+					<div class="iee_form_input_group">
+						<input type="text" name="<?php echo esc_attr( $field ); ?>" id="<?php echo esc_attr( $field ); ?>" value="<?php echo esc_attr( get_post_meta( $post->ID, $field, true ) ); ?>" />
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
 
-			<tr>
-				<td><?php esc_attr_e( 'Address', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_address" id="venue_address" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_address', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'City', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_city" id="venue_city" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_city', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'State', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_state" id="venue_state" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_state', true ) ); ?>" />
-				</td>
-			</tr>
-			
-			<tr>
-				<td><?php esc_attr_e( 'Country', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_country" id="venue_country" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_country', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'Zipcode', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_zipcode" id="venue_zipcode" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_zipcode', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'Latitude', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_lat" id="venue_lat" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lat', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'Longitude', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_lon" id="venue_lon" value="<?php echo esc_attr( get_post_meta( $post->ID, 'venue_lon', true ) ); ?>" />
-				</td>
-			</tr>
-
-			<tr>
-				<td><?php esc_attr_e( 'Website', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="venue_url" id="venue_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'venue_url', true ) ); ?>" />
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<div style="clear: both;"></div>
-		<table class="iee_form_table">
-			<thead>
-			<tr>
-				<th colspan="2">
-					<?php esc_attr_e( 'Organizer Details', 'import-eventbrite-events' ); ?>
-					<hr>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><?php esc_attr_e( 'Organizer Name', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="organizer_name" id="organizer_name" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_name', true ) ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_attr_e( 'Email', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="email" name="organizer_email" id="organizer_email" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_email', true ) ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_attr_e( 'Phone', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="organizer_phone" id="organizer_phone" value="<?php echo esc_attr( get_post_meta( $post->ID, 'organizer_phone', true ) ); ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_attr_e( 'Website', 'import-eventbrite-events' ); ?>:</td>
-				<td>
-					<input type="text" name="organizer_url" id="organizer_url" value="<?php echo esc_url( get_post_meta( $post->ID, 'organizer_url', true ) ); ?>" />
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<div style="clear: both;"></div>
-		<table class="iee_form_table">
-			<thead>
-				<tr>
-					<th colspan="2">
-						<?php esc_attr_e( 'Event Source Link', 'import-eventbrite-events' ); ?>
-						<hr>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><?php esc_attr_e( 'Source Link', 'import-eventbrite-events' ); ?>:</td>
-				<td>
+		<div class="iee_form_section">
+			<h3><?php esc_attr_e( 'Organizer Details', 'import-eventbrite-events' ); ?></h3>
+			<hr>
+			<?php
+			foreach ( [ 'organizer_name', 'organizer_email', 'organizer_phone', 'organizer_url' ] as $field ) {
+				$type = $field === 'organizer_email' ? 'email' : 'text';
+				?>
+				<div class="iee_form_row">
+					<label for="<?php echo esc_attr( $field ); ?>"><?php echo esc_html( $fields[ $field ] ); ?>:</label>
+					<div class="iee_form_input_group">
+						<input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $field ); ?>" id="<?php echo esc_attr( $field ); ?>" value="<?php echo esc_attr( get_post_meta( $post->ID, $field, true ) ); ?>" />
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+		
+		<div class="iee_form_section">
+			<h3><?php esc_attr_e( 'Event Source Link', 'import-eventbrite-events' ); ?></h3>
+			<hr>
+			<div class="iee_form_row">
+				<label for="event_source_link"><?php echo esc_html( $fields['iee_event_link'] ); ?>:</label>
+				<div class="iee_form_input_group">
 					<input type="text" name="event_source_link" id="event_source_link" value="<?php echo esc_url( get_post_meta( $post->ID, 'iee_event_link', true ) ); ?>" />
-				</td>
-			</tr>
-			</tbody>
-		</table>
-
+				</div>
+			</div>
+		</div>
 		<?php
 	}
 

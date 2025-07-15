@@ -80,9 +80,15 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'delete' => sprintf( '<a href="%1$s" onclick="return confirm(\'Warning!! Are you sure to Delete this scheduled import? Scheduled import will be permanatly deleted.\')">%2$s</a>', esc_url( wp_nonce_url( add_query_arg( $iee_url_delete_args ), 'iee_delete_import_nonce' ) ), esc_html__( 'Delete', 'import-eventbrite-events' ) ),
 		);
 
-		$organizer_id = $item["eventbrite_id"];
-		if( is_numeric($organizer_id)){
-			$organizer_id = '<a href="https://www.eventbrite.com/o/'.$item["eventbrite_id"].'" target="_blank">'.$item["eventbrite_id"].'</a>';
+		$organizer_id    = $item["eventbrite_id"];
+		$schedule_title = $item['title'];
+		if ( strpos( $schedule_title, '(' ) !== false ) {
+			$parts = explode( '(', $schedule_title, 2 );
+			$schedule_title = trim( $parts[0] ) . '<br>(' . trim( $parts[1] );
+		}
+		if ( is_numeric( $organizer_id ) ) {
+			$base_url = ( strpos( $schedule_title, 'by Collection ID' ) !== false ) ? 'https://www.eventbrite.com/cc/' : 'https://www.eventbrite.com/o/';
+			$organizer_id = '<a href="' . esc_url( $base_url . $item["eventbrite_id"] ) . '" target="_blank">' . esc_html( $item["eventbrite_id"] ) . '</a>';
 		}
 		return sprintf( '<strong>%1$s</strong>
 			<span>%2$s</span></br>
@@ -90,7 +96,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			<span>%4$s</span></br>
 			<span>%5$s</span></br>
 			<span style="color:silver">(id:%6$s)</span>%7$s',
-			$item['title'],
+			$schedule_title,
 			__('Origin', 'import-eventbrite-events') . ': <b>' . ucfirst( $item["import_origin"] ) . '</b>',
 			__('Import By', 'import-eventbrite-events') . ': <b>' . $item["import_by"] . '</b>',
 			__('Eventbrite ID', 'import-eventbrite-events') . ': <b>' . $organizer_id . '</b>',
@@ -99,6 +105,49 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			$this->row_actions( $actions )
 		);
 	}
+
+	/**
+	 * Setup output for Action column.
+	 *
+	 * @since    1.0.0
+	 * @param array $item Items.
+	 * @return array
+	 */
+	function column_active_pause( $item ) {
+		$post_id = $item['ID'];
+		$status  = get_post_meta( $post_id, '_iee_schedule_status', true );
+
+		if ( $status === 'paused' ) {
+			$status_text  = 'Paused';
+			$color        = '#d63638';
+			$action_text  = 'Activate';
+			$new_status   = 'active';
+			$btn_class    = 'button button-secondary';
+		} else {
+			$status_text  = 'Active';
+			$color        = '#008000';
+			$action_text  = 'Pause';
+			$new_status   = 'paused';
+			$btn_class    = 'button button-primary';
+		}
+
+		$url = wp_nonce_url( add_query_arg([ 'action' => 'iee_toggle_status', 'schedule_id' => $post_id, 'new_status'  => $new_status, ]), 'iee_toggle_schedule_' . $post_id );
+
+		return sprintf(
+			'<div class="iee-status-wrap" style="display:flex; flex-direction:column; gap:6px; font-size:13px;">
+				<div><a href="%s" class="%s">%s</a></div>
+				<div><strong>Schedule Status:</strong> <span style="color:%s; font-weight:600;">%s</span></div>
+			</div>',
+			esc_url( $url ),
+			esc_attr( $btn_class ),
+			esc_html( $action_text ),
+			esc_attr( $color ),
+			esc_html( $status_text )
+		);
+	}
+
+
+
 
 	/**
 	 * Setup output for Action column.
@@ -175,8 +224,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'import_status'    => __( 'Import Event Status', 'import-eventbrite-events' ),
 			'import_category'  => __( 'Import Category', 'import-eventbrite-events' ),
 			'import_frequency' => __( 'Import Frequency', 'import-eventbrite-events' ),
-			'next_run' => __( 'Next Run', 'import-eventbrite-events' ),
+			'next_run'         => __( 'Next Run', 'import-eventbrite-events' ),
 			'action'           => __( 'Action', 'import-eventbrite-events' ),
+			'active_pause'     => __( 'Active/Pause', 'import-eventbrite-events' ),
 		);
 		return $columns;
 	}
@@ -304,7 +354,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				$import_origin = get_post_meta( $import_id, 'import_origin', true );
 				$import_plugin = isset( $import_data['import_into'] ) ? $import_data['import_into'] : '';
 				$import_status = isset( $import_data['event_status'] ) ? $import_data['event_status'] : '';
-				$eventbrite_id = ('organizer_id' === $import_data['import_by'] ) ? (isset($import_data['organizer_id']) ? $import_data['organizer_id']:'') : __( 'Your Events', 'import-eventbrite-events' );				
+				$eventbrite_id = $import_data['import_by'] === 'organizer_id' ? $import_data['organizer_id'] : ( $import_data['import_by'] === 'collection_id' ? $import_data['collection_id'] : __( 'Your Events', 'import-eventbrite-events' ) );
 				$import_into = isset( $import_plugins[$import_plugin]) ? $import_plugins[$import_plugin] : $import_plugin;
 
 				$term_names   = array();
@@ -379,14 +429,18 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 				$next_run = '-';
 				if(isset($next_run_times[$import_id]) && !empty($next_run_times[$import_id])){
 					$next_time = $next_run_times[$import_id];
-					$next_run = sprintf( '%s (%s)',
+					$next_run = sprintf( '%s<br>(%s)',
 						esc_html( get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $next_time ), 'Y-m-d H:i:s' ) ),
 						esc_html( human_time_diff( current_time( 'timestamp', true ), $next_time ) )
 					);
 				}
 
 				if( $next_run == '-' ){
-						$iee_events->common->iee_recreate_missing_schedule_import( $import_id );
+					$iee_events->common->iee_recreate_missing_schedule_import( $import_id );
+				}
+				$sstatus  = get_post_meta( $import_id, '_iee_schedule_status', true );
+				if( $sstatus === 'paused' ){
+					$next_run = '-';
 				}
 
 				$scheduled_import = array(
@@ -399,7 +453,7 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 					'import_origin'    => $import_origin,
 					'import_into'	   => $import_into,
 					'eventbrite_id'	   => $eventbrite_id,
-					'import_by'		   => ('organizer_id' === $import_data['import_by'] ) ? __( 'organizer ID', 'import-eventbrite-events' ) : __( 'Your Events', 'import-eventbrite-events' ),
+					'import_by'		   => $import_data['import_by'] === 'organizer_id' ? $import_data['organizer_id'] : ( $import_data['import_by'] === 'collection_id' ? $import_data['collection_id'] : __( 'Your Events', 'import-eventbrite-events' ) ),
 					'last_import'      => $last_import_history_date,
 					'stats'			  => $stats
 				);
@@ -447,8 +501,9 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 		foreach($crons as $time => $cron){
 			foreach($cron as $cron_name){
 				foreach($cron_name as $cron_post_id){
-					if( isset($cron_post_id['args']) && isset($cron_post_id['args']['post_id']) ){
-						$next_runs[$cron_post_id['args']['post_id']] = $time;
+					$schedule_id = isset( $cron_post_id['args']['post_id'] )  ? $cron_post_id['args']['post_id'] : 0;
+					if( isset($cron_post_id['args']) && $schedule_id > 0 ){
+						$next_runs[$schedule_id] = $time;
 					}
 				}
 			}
