@@ -172,7 +172,7 @@ class Import_Eventbrite_Events_TEC {
 			// Series id
 			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
 			if( !empty( $series_id ) ){
-				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+				update_post_meta( $new_event_id, 'series_id', $series_id );
 			}
 
 			// Asign event category.
@@ -199,7 +199,7 @@ class Import_Eventbrite_Events_TEC {
 
 			$event_featured_image = $centralize_array['image_url'];
 			if ( $event_featured_image != '' ) {
-				$iee_events->common->setup_featured_image_to_event( $new_event_id, $event_featured_image );
+				$iee_events->common->iee_set_feature_image_logic( $new_event_id, $event_featured_image, $event_args );
 			}
 
 			//Insert in Custom Table 
@@ -265,7 +265,7 @@ class Import_Eventbrite_Events_TEC {
 			// Series id
 			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
 			if( !empty( $series_id ) ){
-				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+				update_post_meta( $update_event_id, 'series_id', $series_id );
 			}
 
 			// Asign event category.
@@ -296,7 +296,7 @@ class Import_Eventbrite_Events_TEC {
 
 			$event_featured_image = $centralize_array['image_url'];
 			if ( $event_featured_image != '' ) {
-				$iee_events->common->setup_featured_image_to_event( $update_event_id, $event_featured_image );
+				$iee_events->common->iee_set_feature_image_logic( $update_event_id, $event_featured_image, $event_args );
 			} else {
 				delete_post_thumbnail( $update_event_id );
 			}
@@ -333,6 +333,8 @@ class Import_Eventbrite_Events_TEC {
 		$timezone_name = isset( $centralize_array['timezone_name'] ) ? $centralize_array['timezone_name'] : 'Africa/Abidjan';
 		$esource_url   = isset( $centralize_array['url'] ) ? esc_url( $centralize_array['url'] ) : '';
 		$esource_id    = $centralize_array['ID'];
+		$ticket_price  = isset( $centralize_array['ticket_price'] ) ? sanitize_text_field( $centralize_array['ticket_price'] ) : '0';
+		$t_currency    = isset( $centralize_array['ticket_currency'] ) ? sanitize_text_field( $centralize_array['ticket_currency'] ) : '';
 
 		$event_args = array(
 			'_EventStartDate'     => gmdate( 'Y-m-d H:i:s', $start_time ),
@@ -353,6 +355,8 @@ class Import_Eventbrite_Events_TEC {
 			'iee_event_link'      => $esource_url,
 			'iee_event_id'        => $esource_id,
 			'iee_event_timezone_name' => $timezone_name,
+			'iee_ticket_price'    => $ticket_price,
+			'iee_ticket_currency' => $t_currency
 		);
 
 		if( isset( $centralize_array['is_all_day'] ) && true === $centralize_array['is_all_day'] ){
@@ -366,7 +370,7 @@ class Import_Eventbrite_Events_TEC {
 
 		if ( array_key_exists( 'location', $centralize_array ) ) {
 			$get_location = $this->get_venue_args( $centralize_array['location'] );
-			$event_args['_EventVenueID'] = $get_location['VenueID'];
+			$event_args['_EventVenueID'] = !empty( $get_location['VenueID'] ) ? $get_location['VenueID'] : '';
 		}
 		return $event_args;
 	}
@@ -417,9 +421,8 @@ class Import_Eventbrite_Events_TEC {
 	 */
 	public function get_venue_args( $venue ) {
 		global $iee_events;
-
-		
-		if( $venue['name'] == 'Online Event' ){
+	
+		if ( is_array( $venue ) && isset( $venue['name'] ) && $venue['name'] == 'Online Event' ) {
 			$existing_venue = $this->get_venue_by_name( $venue['name'] );
 		}else{
 			if ( ! isset( $venue['ID'] ) ) {
