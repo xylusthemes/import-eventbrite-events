@@ -79,7 +79,7 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 	 * @return array $tabs An associative array of tab key => label, including Action Scheduler's tabs
 	 */
 	public function register_system_status_tab( array $tabs ) {
-		$tabs['action-scheduler'] = __( 'Scheduled Actions', 'action-scheduler' );
+		$tabs['import-eventbrite-events'] = __( 'Scheduled Actions', 'import-eventbrite-events' );
 
 		return $tabs;
 	}
@@ -94,10 +94,10 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 	public function register_menu() {
 		$hook_suffix = add_submenu_page(
 			'tools.php',
-			__( 'Scheduled Actions', 'action-scheduler' ),
-			__( 'Scheduled Actions', 'action-scheduler' ),
+			__( 'Scheduled Actions', 'import-eventbrite-events' ),
+			__( 'Scheduled Actions', 'import-eventbrite-events' ),
 			'manage_options',
-			'action-scheduler',
+			'import-eventbrite-events',
 			array( $this, 'render_admin_ui' )
 		);
 		add_action( 'load-' . $hook_suffix, array( $this, 'process_admin_ui' ) );
@@ -205,7 +205,7 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 
 		$actions_url = add_query_arg(
 			array(
-				'page'   => 'action-scheduler',
+				'page'   => 'import-eventbrite-events',
 				'status' => 'past-due',
 				'order'  => 'asc',
 			),
@@ -221,7 +221,7 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 					'<strong>Action Scheduler:</strong> %1$d <a href="%2$s">past-due action</a> found; something may be wrong. <a href="https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do" target="_blank">Read documentation &raquo;</a>',
 					'<strong>Action Scheduler:</strong> %1$d <a href="%2$s">past-due actions</a> found; something may be wrong. <a href="https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do" target="_blank">Read documentation &raquo;</a>',
 					$num_pastdue_actions,
-					'action-scheduler'
+					'import-eventbrite-events'
 				),
 				array(
 					'strong' => array(),
@@ -267,23 +267,23 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'action_scheduler_about',
-				'title'   => __( 'About', 'action-scheduler' ),
+				'title'   => __( 'About', 'import-eventbrite-events' ),
 				'content' =>
 					// translators: %s is the Action Scheduler version.
-					'<h2>' . sprintf( __( 'About Action Scheduler %s', 'action-scheduler' ), $as_version ) . '</h2>' .
+					'<h2>' . sprintf( __( 'About Action Scheduler %s', 'import-eventbrite-events' ), $as_version ) . '</h2>' .
 					'<p>' .
-						__( 'Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule.', 'action-scheduler' ) .
+						__( 'Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule.', 'import-eventbrite-events' ) .
 					'</p>' .
-					'<h3>' . esc_html__( 'Source', 'action-scheduler' ) . '</h3>' .
+					'<h3>' . esc_html__( 'Source', 'import-eventbrite-events' ) . '</h3>' .
 					'<p>' .
-						esc_html__( 'Action Scheduler is currently being loaded from the following location. This can be useful when debugging, or if requested by the support team.', 'action-scheduler' ) .
+						esc_html__( 'Action Scheduler is currently being loaded from the following location. This can be useful when debugging, or if requested by the support team.', 'import-eventbrite-events' ) .
 					'</p>' .
 					'<p>' . $as_source_markup . '</p>' .
-					'<h3>' . esc_html__( 'WP CLI', 'action-scheduler' ) . '</h3>' .
+					'<h3>' . esc_html__( 'WP CLI', 'import-eventbrite-events' ) . '</h3>' .
 					'<p>' .
 						sprintf(
 							/* translators: %1$s is WP CLI command (not translatable) */
-							esc_html__( 'WP CLI commands are available: execute %1$s for a list of available commands.', 'action-scheduler' ),
+							esc_html__( 'WP CLI commands are available: execute %1$s for a list of available commands.', 'import-eventbrite-events' ),
 							'<code>wp help action-scheduler</code>'
 						) .
 					'</p>',
@@ -293,17 +293,17 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'action_scheduler_columns',
-				'title'   => __( 'Columns', 'action-scheduler' ),
+				'title'   => __( 'Columns', 'import-eventbrite-events' ),
 				'content' =>
-					'<h2>' . __( 'Scheduled Action Columns', 'action-scheduler' ) . '</h2>' .
+					'<h2>' . __( 'Scheduled Action Columns', 'import-eventbrite-events' ) . '</h2>' .
 					'<ul>' .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Hook', 'action-scheduler' ), __( 'Name of the action hook that will be triggered.', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Status', 'action-scheduler' ), __( 'Action statuses are Pending, Complete, Canceled, Failed', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Arguments', 'action-scheduler' ), __( 'Optional data array passed to the action hook.', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Group', 'action-scheduler' ), __( 'Optional action group.', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Recurrence', 'action-scheduler' ), __( 'The action\'s schedule frequency.', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Scheduled', 'action-scheduler' ), __( 'The date/time the action is/was scheduled to run.', 'action-scheduler' ) ) .
-					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Log', 'action-scheduler' ), __( 'Activity log for the action.', 'action-scheduler' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Hook', 'import-eventbrite-events' ), __( 'Name of the action hook that will be triggered.', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Status', 'import-eventbrite-events' ), __( 'Action statuses are Pending, Complete, Canceled, Failed', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Arguments', 'import-eventbrite-events' ), __( 'Optional data array passed to the action hook.', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Group', 'import-eventbrite-events' ), __( 'Optional action group.', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Recurrence', 'import-eventbrite-events' ), __( 'The action\'s schedule frequency.', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Scheduled', 'import-eventbrite-events' ), __( 'The date/time the action is/was scheduled to run.', 'import-eventbrite-events' ) ) .
+					sprintf( '<li><strong>%1$s</strong>: %2$s</li>', __( 'Log', 'import-eventbrite-events' ), __( 'Activity log for the action.', 'import-eventbrite-events' ) ) .
 					'</ul>',
 			)
 		);

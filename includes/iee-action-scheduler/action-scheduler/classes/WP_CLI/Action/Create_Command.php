@@ -107,7 +107,7 @@ class Create_Command extends \ActionScheduler_WPCLI_Command {
 		}
 
 		if ( 0 === $action_id ) {
-			$e = new \Exception( __( 'Unable to create a scheduled action.', 'action-scheduler' ) );
+			$e = new \Exception( __( 'Unable to create a scheduled action.', 'import-eventbrite-events' ) );
 			$this->print_error( $e );
 		}
 
@@ -126,7 +126,7 @@ class Create_Command extends \ActionScheduler_WPCLI_Command {
 		\WP_CLI::success(
 			sprintf(
 				/* translators: %1$s: type of action, %2$d: ID of the created action */
-				__( '%1$s action (%2$d) scheduled.', 'action-scheduler' ),
+				__( '%1$s action (%2$d) scheduled.', 'import-eventbrite-events' ),
 				ucfirst( $action_type ),
 				$action_id
 			)
@@ -144,7 +144,7 @@ class Create_Command extends \ActionScheduler_WPCLI_Command {
 		\WP_CLI::error(
 			sprintf(
 				/* translators: %s refers to the exception error message. */
-				__( 'There was an error creating the scheduled action: %s', 'action-scheduler' ),
+				__( 'There was an error creating the scheduled action: %s', 'import-eventbrite-events' ),
 				$e->getMessage()
 			)
 		);

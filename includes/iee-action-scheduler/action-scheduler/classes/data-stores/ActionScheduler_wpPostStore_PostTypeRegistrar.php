@@ -20,8 +20,8 @@ class ActionScheduler_wpPostStore_PostTypeRegistrar {
 	 */
 	protected function post_type_args() {
 		$args = array(
-			'label'        => __( 'Scheduled Actions', 'action-scheduler' ),
-			'description'  => __( 'Scheduled actions are hooks triggered on a certain date and time.', 'action-scheduler' ),
+			'label'        => __( 'Scheduled Actions', 'import-eventbrite-events' ),
+			'description'  => __( 'Scheduled actions are hooks triggered on a certain date and time.', 'import-eventbrite-events' ),
 			'public'       => false,
 			'map_meta_cap' => true,
 			'hierarchical' => false,
@@ -31,19 +31,19 @@ class ActionScheduler_wpPostStore_PostTypeRegistrar {
 			'can_export'   => true,
 			'ep_mask'      => EP_NONE,
 			'labels'       => array(
-				'name'               => __( 'Scheduled Actions', 'action-scheduler' ),
-				'singular_name'      => __( 'Scheduled Action', 'action-scheduler' ),
-				'menu_name'          => _x( 'Scheduled Actions', 'Admin menu name', 'action-scheduler' ),
-				'add_new'            => __( 'Add', 'action-scheduler' ),
-				'add_new_item'       => __( 'Add New Scheduled Action', 'action-scheduler' ),
-				'edit'               => __( 'Edit', 'action-scheduler' ),
-				'edit_item'          => __( 'Edit Scheduled Action', 'action-scheduler' ),
-				'new_item'           => __( 'New Scheduled Action', 'action-scheduler' ),
-				'view'               => __( 'View Action', 'action-scheduler' ),
-				'view_item'          => __( 'View Action', 'action-scheduler' ),
-				'search_items'       => __( 'Search Scheduled Actions', 'action-scheduler' ),
-				'not_found'          => __( 'No actions found', 'action-scheduler' ),
-				'not_found_in_trash' => __( 'No actions found in trash', 'action-scheduler' ),
+				'name'               => __( 'Scheduled Actions', 'import-eventbrite-events' ),
+				'singular_name'      => __( 'Scheduled Action', 'import-eventbrite-events' ),
+				'menu_name'          => _x( 'Scheduled Actions', 'Admin menu name', 'import-eventbrite-events' ),
+				'add_new'            => __( 'Add', 'import-eventbrite-events' ),
+				'add_new_item'       => __( 'Add New Scheduled Action', 'import-eventbrite-events' ),
+				'edit'               => __( 'Edit', 'import-eventbrite-events' ),
+				'edit_item'          => __( 'Edit Scheduled Action', 'import-eventbrite-events' ),
+				'new_item'           => __( 'New Scheduled Action', 'import-eventbrite-events' ),
+				'view'               => __( 'View Action', 'import-eventbrite-events' ),
+				'view_item'          => __( 'View Action', 'import-eventbrite-events' ),
+				'search_items'       => __( 'Search Scheduled Actions', 'import-eventbrite-events' ),
+				'not_found'          => __( 'No actions found', 'import-eventbrite-events' ),
+				'not_found_in_trash' => __( 'No actions found in trash', 'import-eventbrite-events' ),
 			),
 		);
 
