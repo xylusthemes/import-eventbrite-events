@@ -37,8 +37,8 @@ $counts = $iee_events->common->iee_get_eventbrite_events_counts();
                                                 <iframe width="850" height="450" src="https://www.youtube.com/embed/pbtcEcy4J4o?si=iHSv-EtnECWKLL36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
                                             </div>
                                             <div class="iee-intro-section-links wp-core-ui" >
-                                                <a class="iee-intro-section-link-tag button iee-button-primary button-hero" href="https://plugindevelopment.in/wp-admin/post-new.php?post_type=eventbrite_events" target="_blank"><?php esc_attr_e( 'Add New Event', 'import-eventbrite-events' ); ?></a>
-                                                <a class="iee-intro-section-link-tag button iee-button-secondary button-hero" href="https://plugindevelopment.in/wp-admin/admin.php?page=eventbrite_event&tab=settings"target="_blank"><?php esc_attr_e( 'Settings', 'import-eventbrite-events' ); ?></a>
+                                                <a class="iee-intro-section-link-tag button iee-button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=eventbrite_events' ) ); ?>" target="_blank"><?php esc_attr_e( 'Add New Event', 'import-eventbrite-events' ); ?></a>
+                                                <a class="iee-intro-section-link-tag button iee-button-secondary button-hero" href="<?php echo esc_url( admin_url( 'admin.php?page=eventbrite_event&tab=settings' ) ); ?>"target="_blank"><?php esc_attr_e( 'Settings', 'import-eventbrite-events' ); ?></a>
                                                 <a class="iee-intro-section-link-tag button iee-button-secondary button-hero" href="https://docs.xylusthemes.com/docs/import-eventbrite-events/" target="_blank"><?php esc_attr_e( 'Documentation', 'import-eventbrite-events' ); ?></a>
                                             </div>
                                         </div>
