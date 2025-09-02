@@ -35,7 +35,7 @@ $ShortcodeTable->prepare_items();
                     echo '<a href="' . esc_url( $activate_url ) . '" class="button button-secondary">⚡ Activate Plugin</a>';
                 } else {
                     echo '<div class="iee-xylus-plugin-box">';
-                    echo '<h3>✅ Xylus Events Calendar is Active</h3>';
+                    echo '<h3>✅ Easy Events Calendar is Active</h3>';
                     echo '<p style="margin: 0;">You can now display events anywhere using this shortcode</p>';
                     echo '<span class="iee_short_code">[easy_events_calendar]</span>';
                     echo '<button class="iee-btn-copy-shortcode iee_button" data-value="[easy_events_calendar]">Copy</button>';
