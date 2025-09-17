@@ -1349,7 +1349,7 @@ class Import_Eventbrite_Events_Common {
 	 * @since 1.1
 	 * @return void
 	 */
-	function iee_render_common_header( $page_title  ){
+	public function iee_render_common_header( $page_title  ){
 		?>
 		<div class="iee-header" >
 			<div class="iee-container" >
@@ -1378,7 +1378,7 @@ class Import_Eventbrite_Events_Common {
 	 * @since 1.1
 	 * @return void
 	 */
-	function iee_render_common_footer(){
+	public function iee_render_common_footer(){
 		?>
 			<div id="iee-footer-links" >
 				<div class="iee-footer">
@@ -1426,7 +1426,7 @@ class Import_Eventbrite_Events_Common {
 	 * @since 1.5.0
 	 * @return array
 	 */
-	function iee_get_eventbrite_events_counts() {
+	public function iee_get_eventbrite_events_counts() {
 		global $wpdb;
 	
 		// Table names with WordPress prefix
@@ -1457,6 +1457,24 @@ class Import_Eventbrite_Events_Common {
 			'upcoming' => intval( $counts->upcoming_events_count ),
 			'past'     => intval( $counts->past_events_count ),
 		];
+	}
+
+	/**
+	 * Render Event Feature Image Action
+	 *
+	 * @since 1.1
+	 * @return void
+	 */
+	public function iee_set_feature_image_logic( $event_id, $image_url, $event_args ){
+		global $iee_events;
+		
+		if ( $event_args['import_type'] === 'onetime' && $event_args['import_by'] === 'event_id' ) {
+			$iee_events->common->setup_featured_image_to_event( $event_id, $image_url );
+		} else {
+			if ( class_exists( 'IEE_Event_Image_Scheduler' ) ) {
+				IEE_Event_Image_Scheduler::schedule_image_download( $event_id, $image_url, $event_args );
+			}
+		}
 	}
 
 }
