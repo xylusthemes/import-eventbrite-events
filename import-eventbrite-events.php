@@ -195,6 +195,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-iee-plugin-deactivation.php';
 			// Gutenberg Block.
 			require_once IEE_PLUGIN_DIR . 'blocks/eventbrite-events/index.php';
+			require_once IEE_PLUGIN_DIR . 'includes/iee-action-scheduler/iee-image-init.php';
 		}
 
 		/**

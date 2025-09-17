@@ -153,7 +153,7 @@ class Import_Eventbrite_Events_EM {
 			// Assign Featured images
 			$event_image = $centralize_array['image_url'];
 			if ( $event_image != '' ) {
-				$iee_events->common->setup_featured_image_to_event( $inserted_event_id, $event_image );
+				$iee_events->common->iee_set_feature_image_logic( $inserted_event_id, $event_image, $event_args );
 			} else {
 				if ( $is_exitsing_event ) {
 					delete_post_thumbnail( $inserted_event_id );
@@ -189,6 +189,14 @@ class Import_Eventbrite_Events_EM {
 			update_post_meta( $inserted_event_id, '_end_ts', str_pad( $end_time, 10, 0, STR_PAD_LEFT ) );
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $ticket_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
+
+			// Ticket Price
+			$iee_ticket_price    = isset( $centralize_array['ticket_price'] ) ? sanitize_text_field( $centralize_array['ticket_price'] ) : '0';
+			$iee_ticket_currency = isset( $centralize_array['ticket_currency'] ) ? sanitize_text_field( $centralize_array['ticket_currency'] ) : '';
+			
+			// Update Ticket Price
+			update_post_meta( $inserted_event_id, 'iee_ticket_price', $iee_ticket_price );
+			update_post_meta( $inserted_event_id, 'iee_ticket_currency', $iee_ticket_currency );
 
 
 			// Series id

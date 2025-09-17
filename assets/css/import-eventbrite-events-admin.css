@@ -2129,3 +2129,13 @@ a.iee-intro-section-link-tag.button.button-hero {
     margin-right: 10px;
 }
 /* end new calendar section css */
+
+.iee_source_import input[type="text"], 
+.iee_source_import select{
+  width: 45%;
+  max-width: 100%;
+}
+
+.bulkactions{
+  display: contents;
+}

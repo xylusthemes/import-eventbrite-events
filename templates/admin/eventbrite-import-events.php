@@ -7,7 +7,7 @@ global $iee_events;
 ?>
 <form method="post" enctype="multipart/form-data" id="iee_eventbrite_form">
 	<div class="iee-card" style="margin-top:20px;" >			
-		<div class="iee-content"  aria-expanded="true" style=" ">
+		<div class="iee-content iee_source_import"  aria-expanded="true" style=" ">
 			<div class="iee-inner-main-section">
 				<div class="iee-inner-section-1" >
 					<span class="iee-title-text" >
@@ -56,7 +56,7 @@ global $iee_events;
 				</div>
 				<div class="iee-inner-section-2">
 					<?php if ( iee_is_pro() ) { ?>
-					<textarea class="iee_eventbrite_ids" name="iee_eventbrite_id" type="text" rows="5" cols="50"></textarea>
+					<textarea class="iee_eventbrite_ids" name="iee_eventbrite_id" type="text" rows="5" cols="52"></textarea>
 					<span class="iee_small">
 						<?php echo wp_kses_post( 'Insert eventbrite event IDs, One event ID per line ( Eg. https://www.eventbrite.com/e/event-import-with-wordpress-<span class="borderall">12265498440</span>  ).', 'import-eventbrite-events' ); ?>
 					</span>
