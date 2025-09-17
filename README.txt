@@ -5,7 +5,7 @@ Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.8
-Stable tag: 1.7.8
+Stable tag: 1.7.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,11 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.7.9 =
+* IMPROVEMENTS: Optimized Eventbrite API calls to significantly boost import speed and reduce server load.
+* IMPROVEMENTS: Moved image imports to the background for faster event imports.
+* FIXED: Import Private Events Bug
 
 = 1.7.8 =
 * ADDED: Revamped admin interface with new, user-friendly GUI
