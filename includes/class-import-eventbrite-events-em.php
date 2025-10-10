@@ -187,6 +187,8 @@ class Import_Eventbrite_Events_EM {
 			update_post_meta( $inserted_event_id, '_event_private', 0 );
 			update_post_meta( $inserted_event_id, '_start_ts', str_pad( $start_time, 10, 0, STR_PAD_LEFT ) );
 			update_post_meta( $inserted_event_id, '_end_ts', str_pad( $end_time, 10, 0, STR_PAD_LEFT ) );
+			update_post_meta( $inserted_event_id, 'start_ts', $start_time );
+			update_post_meta( $inserted_event_id, 'end_ts', $end_time );
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $ticket_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
@@ -322,8 +324,8 @@ class Import_Eventbrite_Events_EM {
 			$city    = isset( $venue['city'] ) ? $venue['city'] : '';
 			$state   = isset( $venue['state'] ) ? $venue['state'] : '';
 			$zip     = isset( $venue['zip'] ) ? $venue['zip'] : '';
-			$lat     = isset( $venue['lat'] ) ? round( $venue['lat'], 6 ) : 0.000000;
-			$lon     = isset( $venue['long'] ) ? round( $venue['long'], 6 ) : 0.000000;
+			$lat     = isset( $venue['lat'] ) && is_numeric( $venue['lat'] ) ? round( (float) $venue['lat'], 6 ) : 0.000000;
+			$lon     = isset( $venue['long'] ) && is_numeric( $venue['long'] ) ? round( (float) $venue['long'], 6 )	: 0.000000;
 
 			// Save metas.
 			update_post_meta( $location_id, '_blog_id', $blog_id );

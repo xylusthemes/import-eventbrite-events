@@ -170,6 +170,8 @@ class Import_Eventbrite_Events_EventPrime {
 			update_post_meta( $inserted_event_id, 'em_allow_cancellations', '0' );
 			update_post_meta( $inserted_event_id, 'em_enable_recurrence', '0' );
 			update_post_meta( $inserted_event_id, 'em_recurrence_step', '0' );
+			update_post_meta( $inserted_event_id, 'start_ts', $start_time );
+			update_post_meta( $inserted_event_id, 'end_ts', $end_time );
 
 			// Ticket Price
 			$iee_ticket_price    = isset( $centralize_array['ticket_price'] ) ? sanitize_text_field( $centralize_array['ticket_price'] ) : '0';
