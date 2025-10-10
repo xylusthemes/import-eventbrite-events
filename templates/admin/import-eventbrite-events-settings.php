@@ -7,6 +7,9 @@ global $iee_events;
 $iee_options        = get_option( IEE_OPTIONS );
 $eventbrite_options = isset( $iee_options ) ? $iee_options : array();
 $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
+
+$iee_ap_options       = get_option( IEE_AP_OPTIONS );
+$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 ?>
 
 <div class="iee-card" style="margin-top:20px;" >
@@ -20,6 +23,9 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 								<div class="var-tabs__tab-wrap var-tabs--layout-horizontal iee_nav_tabs">
 									<a href="javascript:void(0)" class="var-tab var-tab--active iee_tab_link"  data-tab="settings">
 										<span class="tab-label"><?php esc_attr_e( 'General Settings', 'import-eventbrite-events' ); ?></span>
+									</a>
+									<a href="javascript:void(0)" class="var-tab var-tab--inactive iee_tab_link"  data-tab="appearance">
+										<span class="tab-label"><?php esc_attr_e( 'Appearance', 'import-eventbrite-events' ); ?></span>
 									</a>
 									<a href="javascript:void(0)"  class="var-tab var-tab--inactive iee_tab_link" data-tab="google_maps_key" >
 										<span class="tab-label"><?php esc_attr_e( 'Google Maps API', 'import-eventbrite-events' ); ?></span>
@@ -298,6 +304,63 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 										<?php wp_nonce_field( 'iee_setting_form_nonce_action', 'iee_setting_form_nonce' ); ?>
 										<input type="submit" class="iee_button" style=""  value="<?php esc_attr_e( 'Save Settings', 'import-eventbrite-events' ); ?>" />
 									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div id="appearance" class="iee_tab_content" style="margin-top: 15px;">
+						<div class="iee_container">
+							<div class="iee_row">
+								<form method="post" id="iee_setting_form">
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Ticket Button Text', 'import-eventbrite-events' ); ?></span> 
+										</div>
+										<div class="iee-inner-section-2">
+											<input class="eventbrite_oauth_token iee_input_w25" name="eventbrite_ap[ticket_button_text]" type="text" value="<?php echo esc_html( ! empty( $eventbrite_optionsap['ticket_button_text'] ) ? $eventbrite_optionsap['ticket_button_text'] : __( 'Buy Tickets', 'import-eventbrite-events' ) ); ?>" />
+										</div>
+									</div>
+									
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Next Events Text', 'import-eventbrite-events' ); ?></span> 
+										</div>
+										<div class="iee-inner-section-2">
+											<input class="eventbrite_oauth_token iee_input_w25" name="eventbrite_ap[next_event_text]" type="text" value="<?php echo esc_html( ! empty( $eventbrite_optionsap['next_event_text'] ) ? $eventbrite_optionsap['next_event_text'] : __( 'Next Events', 'import-eventbrite-events' ) ); ?>" />
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Previous Events Text', 'import-eventbrite-events' ); ?></span> 
+										</div>
+										<div class="iee-inner-section-2">
+											<input class="eventbrite_oauth_token iee_input_w25" name="eventbrite_ap[previous_event_text]" type="text" value="<?php echo esc_html( ! empty( $eventbrite_optionsap['previous_event_text'] ) ? $eventbrite_optionsap['previous_event_text'] : __( 'Previous Events', 'import-eventbrite-events' ) ); ?>" />
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Display Buy Ticket section After Event', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$sbntb = isset( $eventbrite_optionsap['sbntb'] ) ? $eventbrite_optionsap['sbntb'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite_ap[sbntb]" value="yes" <?php if ( $sbntb == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_attr_e( 'Check to enable show to buy ticket section after event', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
+									<div class="" style="margin-bottom: 5px;">
+										<input type="hidden" name="iee_ap_action" value="iee_ap_save_settings" />
+										<?php wp_nonce_field( 'iee_ap_setting_form_nonce_action', 'iee_ap_setting_form_nonce' ); ?>
+										<input type="submit" class="iee_button" style=""  value="<?php esc_attr_e( 'Save Settings', 'import-eventbrite-events' ); ?>" />
+									</div>
+
 								</form>
 							</div>
 						</div>

@@ -25,6 +25,7 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'init', array( $this, 'setup_success_messages' ) );
 		add_action( 'admin_init', array( $this, 'handle_listtable_oprations' ), 99 );
 		add_action( 'admin_init', array( $this, 'handle_import_settings_submit' ), 99 );
+		add_action( 'admin_init', array( $this, 'handle_ap_settings_submit' ), 99 );
 		add_action( 'wp_ajax_iee_render_terms_by_plugin', array( $this, 'iee_render_terms_by_plugin' ) );
 		add_action( 'tribe_events_single_event_after_the_meta', array( $this, 'iee_add_tec_ticket_section' ) );
 		add_filter( 'the_content', array( $this, 'iee_add_em_add_ticket_section' ), 20 );
@@ -325,7 +326,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id            = get_the_ID();
 		$xt_post_type        = get_post_type();
 		$event_origin        = get_post_meta( $event_id, 'iee_event_origin', true );
-		$eventbrite_event_id = get_post_meta( $event_id, 'iee_eventbrite_event_id', true );
+		$eventbrite_event_id = get_post_meta( $event_id, 'iee_event_id', true );
 		if ( $event_id > 0 ) {
 			if ( $event_origin == 'eventbrite' ) {
 				if ( $iee_events->tec->get_event_posttype() == $xt_post_type ) {
@@ -334,14 +335,18 @@ class Import_Eventbrite_Events_Common {
 					if( !empty( $series_id ) ){
 						$eventbrite_id = $series_id;
 					}
-					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
-						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
-						echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					if ( $eventbrite_id && is_numeric( $eventbrite_id ) && $eventbrite_id > 0 ) {
+						if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+							$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+							echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						}
 					}
 				}
 			} elseif ( $eventbrite_event_id && $eventbrite_event_id > 0 && is_numeric( $eventbrite_event_id ) ) {
-				$ticket_section = $this->iee_get_ticket_section( $eventbrite_event_id );
-				echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_event_id ) ) {
+					$ticket_section = $this->iee_get_ticket_section( $eventbrite_event_id );
+					echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
 			}
 		}
 	}
@@ -356,11 +361,11 @@ class Import_Eventbrite_Events_Common {
 		$ticket_section = '';
 		if ( $type == 'single' ) {
 			$event_id     = $event->event_post;
+			$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 			$xt_post_type = get_post_type( $event_id );
 			$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 			if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 				if ( $iee_events->my_calendar->get_event_posttype() == $xt_post_type ) {
-					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 					$series_id  = get_post_meta( $event_id, 'series_id', true );
 					if( !empty( $series_id ) ){
 						$eventbrite_id = $series_id;
@@ -371,7 +376,11 @@ class Import_Eventbrite_Events_Common {
 				}
 			}
 		}
-		return $details . $ticket_section;
+		if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+			return $details . $ticket_section;
+		} else {
+			return $details;
+		}
 	}
 
 	/**
@@ -389,6 +398,39 @@ class Import_Eventbrite_Events_Common {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Check whether ticket section should be displayed for given eventbrite event.
+	 *
+	 * The function will return true if the event is upcoming, or if the event is past and the option to display ticket section after event is enabled.
+	 *
+	 * @param int $event_id The ID of the event.
+	 * @param int $eventbrite_id The ID of the eventbrite event.
+	 *
+	 * @return bool Whether the ticket section should be displayed.
+	 */
+	public function iee_should_display_ticket_section( $event_id, $eventbrite_id ) {
+		if ( empty( $event_id ) || empty( $eventbrite_id ) || ! is_numeric( $eventbrite_id ) ) {
+			return false;
+		}
+
+		$iee_ap_options = get_option( IEE_AP_OPTIONS );
+		$display_after  = isset( $iee_ap_options['sbntb'] ) ? $iee_ap_options['sbntb'] : 'no';
+		$end_ts         = get_post_meta( $event_id, 'end_ts', true );
+		$current_time   = current_time( 'timestamp' );
+
+		// Always show if event is upcoming.
+		if ( $current_time <= $end_ts ) {
+			return true;
+		}
+
+		// If event is past, show only if option is enabled.
+		if ( $display_after === 'yes' ) {
+			return true;
+		}
+
+		return false;
 	}
 
 
@@ -409,9 +451,13 @@ class Import_Eventbrite_Events_Common {
 				if( !empty( $series_id ) ){
 					$eventbrite_id = $series_id;
 				}
-				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
-					$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
-					return $content . $ticket_section;
+				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {			
+					if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+						return $content . $ticket_section;
+					} else {
+						return $content;
+					}
 				}
 			}
 		}
@@ -437,8 +483,10 @@ class Import_Eventbrite_Events_Common {
 					$eventbrite_id = $series_id;
 				}
 				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
-					$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
-					echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+						echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
 				}
 			}
 		}
@@ -1250,6 +1298,26 @@ class Import_Eventbrite_Events_Common {
 	}
 
 	/**
+	 * Process insert group form for TEC.
+	 *
+	 * @since    1.0.0
+	 */
+	public function handle_ap_settings_submit() {
+		global $iee_errors, $iee_success_msg, $iee_events;
+		if ( isset( $_POST['iee_ap_action'] ) && $_POST['iee_ap_action'] == 'iee_ap_save_settings' && check_admin_referer( 'iee_ap_setting_form_nonce_action', 'iee_ap_setting_form_nonce' ) ) {
+
+			$iee_ap_options = array();
+			$iee_ap_options = isset( $_POST['eventbrite_ap'] ) ? $_POST['eventbrite_ap'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$is_update      = update_option( IEE_AP_OPTIONS, $iee_ap_options );
+			if ( $is_update ) {
+				$iee_success_msg[] = __( 'Appearance settings has been saved successfully.', 'import-eventbrite-events' );
+			}else{
+				$iee_errors[] = __( 'There are no changes in the appearance settings.', 'import-eventbrite-events' );
+			}
+		}
+	}
+
+	/**
      * Create missing Scheduled Import
      *
      * @param int $post_id Post id.
@@ -1629,9 +1697,12 @@ function iee_nonmodel_checkout_markup( $eventbrite_id ){
  */
 function iee_model_checkout_markup( $eventbrite_id ){
 	ob_start();
+	$iee_ap_options       = get_option( IEE_AP_OPTIONS );
+	$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
+	$buy_tickets      = isset( $eventbrite_optionsap['ticket_button_text'] ) ? $eventbrite_optionsap['ticket_button_text'] : 'Buy Tickets';
 	?>
 	<button id="iee-eventbrite-checkout-trigger" type="button">
-		<?php esc_html_e( 'Buy Tickets', 'import-eventbrite-events' ); ?>
+		<?php esc_html_e( $buy_tickets, 'import-eventbrite-events' ); ?>
 	</button>
 	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 	<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>

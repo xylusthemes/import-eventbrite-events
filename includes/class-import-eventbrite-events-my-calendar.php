@@ -143,6 +143,8 @@ class Import_Eventbrite_Events_My_Calendar {
 
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 			update_post_meta( $inserted_event_id, 'iee_event_link', $centralize_array['url'] );
+			update_post_meta( $inserted_event_id, 'start_ts', $start_time );
+			update_post_meta( $inserted_event_id, 'end_ts', $end_time );
 
 			// Ticket Price
 			$iee_ticket_price    = isset( $centralize_array['ticket_price'] ) ? sanitize_text_field( $centralize_array['ticket_price'] ) : '0';
