@@ -33,7 +33,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * Import_Eventbrite_Events The one true Import_Eventbrite_Events.
 		 */
 		private static $instance;
-		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget;
+		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $ajax;
 
 		/**
 		 * Main Import Eventbrite Events Instance.
@@ -61,6 +61,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 
 				self::$instance->includes();
 				self::$instance->common     = new Import_Eventbrite_Events_Common();
+				self::$instance->ajax       = new Import_Eventbrite_Events_Ajax();
 				self::$instance->cpt        = new Import_Eventbrite_Events_Cpt();
 				self::$instance->eventbrite = new Import_Eventbrite_Events_Eventbrite();
 				self::$instance->admin      = new Import_Eventbrite_Events_Admin();
@@ -170,6 +171,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		private function includes() {
 
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-common.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ajax.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-list-table.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-admin.php';
 			if ( iee_is_pro() ) {
@@ -271,6 +273,11 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 */
 		public function iee_enqueue_script() {
 			// enqueue script here.
+			$js_dir = IEE_PLUGIN_URL . 'assets/js/';
+			wp_enqueue_script( 'iee-ajax-pagi', $js_dir . 'iee-ajax-pagi.js', array( 'jquery' ), IEE_VERSION, true );
+			wp_localize_script( 'iee-ajax-pagi', 'iee_ajax', array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			));
 		}
 
 	}
