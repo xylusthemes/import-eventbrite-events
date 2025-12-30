@@ -2139,3 +2139,32 @@ a.iee-intro-section-link-tag.button.button-hero {
 .bulkactions{
   display: contents;
 }
+
+/* public api option css start */
+.iee-new-feature {
+    border: 2px solid #4CAF50;
+    padding: 15px 20px;
+    background: #f9fff9;
+    border-radius: 8px;
+}
+.iee-new-feature .iee-title-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d7a2d;
+}
+.iee-new-feature .iee_small {
+    font-size: 13px;
+    color: #555;
+    display: block;
+    margin-top: 5px;
+}
+
+.iee-new-feature .iee-inner-section-2 input[type="checkbox"] {
+    transform: scale(1.5);
+}
+.eventbrite_or_keyandsecrate{
+  width: 56%;
+  display: flex;
+  justify-content: center;
+}
+/* public api option css end */
