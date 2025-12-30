@@ -1242,6 +1242,12 @@ class Import_Eventbrite_Events_Common {
 				flush_rewrite_rules();
 			}
 
+			if( isset( $iee_options['using_standard_api'] ) && ! empty( $iee_options['using_standard_api'] ) ) {
+				if( $iee_options['using_standard_api'] === 'yes' ){
+					unset( $iee_options['private_events'] );
+				}
+			}
+
 			$is_update = update_option( IEE_OPTIONS, $iee_options );
 			if ( $is_update ) {
 				$iee_success_msg[] = __( 'Import settings has been saved successfully.', 'import-eventbrite-events' );

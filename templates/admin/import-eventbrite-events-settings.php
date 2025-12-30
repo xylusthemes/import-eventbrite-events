@@ -40,6 +40,33 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 						<div class="iee_container">
 							<div class="iee_row">
 								<form method="post" id="iee_setting_form">
+
+									<div class="iee-inner-main-section iee-new-feature" >
+                                        <div class="iee-inner-section-1" >
+                                            <span class="iee-title-text">
+												<?php esc_attr_e( 'Import Event With Standard API', 'import-eventbrite-events' ); ?>
+												<br/>
+												<?php esc_attr_e( '(No Private Token Required)', 'import-eventbrite-events' ); ?>
+											</span>
+                                        </div>
+                                        <div class="iee-inner-section-2" >
+                                            <?php
+                                                $using_standard_api = isset( $eventbrite_options['using_standard_api'] ) ? $eventbrite_options['using_standard_api'] : 'no';
+                                            ?>
+                                            <input type="checkbox" name="eventbrite[using_standard_api]" value="yes" <?php if( $using_standard_api == 'yes' ) { echo 'checked="checked"'; } ?> />
+                                            <span class="iee_small">
+                                                <strong><?php esc_attr_e( 'Using "Import Event With Standard API" lets you fetch events directly. No Eventbrite private token is required.', 'import-eventbrite-events' ); ?></strong>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="iee-inner-main-section" >
+                                        <div class="eventbrite_or_keyandsecrate">
+                                            <span class="iee-title-text" ><?php esc_attr_e( '- OR -', 'import-eventbrite-events' ); ?></span>
+                                        </div>
+                                    </div> 
+
+
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >
 											<span class="iee-title-text" ><?php esc_attr_e( 'Eventbrite Private token', 'import-eventbrite-events' ); ?></span> 
@@ -184,18 +211,31 @@ $iee_google_maps_api_key = get_option( 'iee_google_maps_api_key', array() );
 										</div>
 									</div>
 
-									<div class="iee-inner-main-section"  >
-										<div class="iee-inner-section-1" >
-											<span class="iee-title-text" ><?php esc_attr_e( 'Import Private Events', 'import-eventbrite-events' ); ?></span>
+									<?php
+									$private_events     = isset( $eventbrite_options['private_events'] ) ? $eventbrite_options['private_events'] : 'no';
+									$using_standard_api = isset( $eventbrite_options['using_standard_api'] ) ? $eventbrite_options['using_standard_api'] : 'no';
+									$disable_section    = ! iee_is_pro() || $using_standard_api == 'yes';
+									?>
+
+									<div class="iee-inner-main-section" <?php echo $disable_section ? 'style="opacity:0.5; pointer-events:none;"' : ''; ?>>
+										<div class="iee-inner-section-1">
+											<span class="iee-title-text"><?php esc_attr_e( 'Import Private Events', 'import-eventbrite-events' ); ?></span>
 										</div>
 										<div class="iee-inner-section-2">
-											<?php
-											$private_events = isset( $eventbrite_options['private_events'] ) ? $eventbrite_options['private_events'] : 'no';
-											?>
-											<input type="checkbox" name="eventbrite[private_events]" value="yes" <?php if ( $private_events == 'yes' ) { echo 'checked="checked"'; } if ( ! iee_is_pro() ) { echo 'disabled="disabled"'; } ?> />
+											<input type="checkbox" name="eventbrite[private_events]" value="yes"
+												<?php 
+												if ( $private_events == 'yes' ) { echo 'checked="checked"'; } 
+												if ( $disable_section ) { echo 'disabled="disabled"'; } 
+												?> 
+											/>
 											<span class="iee_small">
 												<?php esc_attr_e( 'Tick to import Private events, Untick to not import private event.', 'import-eventbrite-events' ); ?>
 											</span>
+											<?php if ( $disable_section ): ?>
+												<div class="iee_notice" style="margin-top:5px; color:#d63638; font-size:13px;">
+													<?php esc_html_e( 'This option only works with a eventbrite private token.', 'import-eventbrite-events' ); ?>
+												</div>
+											<?php endif; ?>
 											<?php do_action( 'iee_render_pro_notice' ); ?>
 										</div>
 									</div>
