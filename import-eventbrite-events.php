@@ -33,8 +33,10 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * Import_Eventbrite_Events The one true Import_Eventbrite_Events.
 		 */
 		private static $instance;
-		public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $ajax;
-
+    
+		
+     	public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $eventbrite_api, $ajax
+    
 		/**
 		 * Main Import Eventbrite Events Instance.
 		 *
@@ -64,6 +66,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				self::$instance->ajax       = new Import_Eventbrite_Events_Ajax();
 				self::$instance->cpt        = new Import_Eventbrite_Events_Cpt();
 				self::$instance->eventbrite = new Import_Eventbrite_Events_Eventbrite();
+				self::$instance->eventbrite_api = new Import_Eventbrite_Events_Eventbrite_API();
 				self::$instance->admin      = new Import_Eventbrite_Events_Admin();
 				if ( iee_is_pro() ) {
 					self::$instance->manage_import = new Import_Eventbrite_Events_Pro_Manage_Import();
@@ -189,6 +192,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			}
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-cpt.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-eventbrite.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-eventbrite_api.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-iee.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-tec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-em.php';

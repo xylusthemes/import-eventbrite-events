@@ -79,9 +79,11 @@ class Import_Eventbrite_Events_Manage_Import {
 		global $iee_errors, $iee_success_msg, $iee_events;
 		$import_events      = array();
 		$eventbrite_options = iee_get_import_options( 'eventbrite' );
-		if ( ! isset( $eventbrite_options['eventbrite_oauth_token'] ) || $eventbrite_options['eventbrite_oauth_token'] == '' ) {
-			$iee_errors[] = esc_html__( 'Please insert Eventbrite "Personal OAuth token" in settings.', 'import-eventbrite-events' );
-			return;
+		if( ! isset( $eventbrite_options['using_standard_api'] ) || $eventbrite_options['using_standard_api'] !== 'yes' ){
+			if ( ! isset( $eventbrite_options['eventbrite_oauth_token'] ) || $eventbrite_options['eventbrite_oauth_token'] == '' ) {
+				$iee_errors[] = esc_html__( 'Please insert Eventbrite "Personal OAuth token" in settings.', 'import-eventbrite-events' );
+				return;
+			}
 		}
 
 		$event_data['import_origin']       = 'eventbrite';
@@ -94,7 +96,11 @@ class Import_Eventbrite_Events_Manage_Import {
 			$iee_errors[] = esc_html__( 'Please provide valid Eventbrite event ID.', 'import-eventbrite-events' );
 			return;
 		}
-		$import_events[] = $iee_events->eventbrite->import_event_by_event_id( $event_data );
+		if( ! isset( $eventbrite_options['using_standard_api'] ) || $eventbrite_options['using_standard_api'] !== 'yes' ){
+			$import_events[] = $iee_events->eventbrite->import_event_by_event_id( $event_data );
+		}else{
+			$import_events[] = $iee_events->eventbrite_api->import_event_by_event_id( $event_data );
+		}
 		if ( $import_events && ! empty( $import_events ) ) {
 			$iee_events->common->display_import_success_message( $import_events, $event_data );
 		}
