@@ -550,10 +550,37 @@ class Import_Eventbrite_Events_Cpt {
 	 */
 	public function eventbrite_events_archive( $atts = array() ) {
 		// [eventbrite_events layout="style2" col='2' posts_per_page='12' category="cat1,cat2" past_events="yes" order="desc" orderby="" start_date="" end_date="" ]
+
+		$atts = (array) $atts;
+		/* integers */
+		$atts['paged']          = isset($atts['paged']) ? absint($atts['paged']) : 1;
+		$atts['posts_per_page'] = isset($atts['posts_per_page']) ? absint($atts['posts_per_page']) : '';
+		$atts['col']            = isset($atts['col']) ? absint($atts['col']) : '2';
+
+		/* yes/no flags */
+		$atts['ajaxpagi']    = (isset($atts['ajaxpagi']) && $atts['ajaxpagi'] === 'yes') ? 'yes' : 'no';
+		$atts['past_events'] = (isset($atts['past_events']) && ($atts['past_events'] === 'yes' || $atts['past_events'] === true)) ? 'yes' : '';
+
+		/* layout whitelist */
+		$allowed_layouts = array( 'style1', 'style2', 'style3', 'style4', 'style5', 'style6' );
+		$atts['layout'] = (isset($atts['layout']) && in_array($atts['layout'], $allowed_layouts, true)) ? $atts['layout'] : 'style1';
+
+		/* order */
+		$atts['order'] = (isset($atts['order']) && strtoupper($atts['order']) === 'DESC') ? 'DESC' : 'ASC';
+
+		/* orderby whitelist */
+		$allowed_orderby = array( 'post_title', 'meta_value', 'event_start_date' );
+		$atts['orderby'] = (isset($atts['orderby']) && in_array($atts['orderby'], $allowed_orderby, true)) ? $atts['orderby'] : '';
+		
 		$current_date = current_time( 'timestamp' );
-		$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
-		if ( is_front_page() ) {
-			$paged = ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
+		$ajaxpagi     = isset( $atts['ajaxpagi'] ) ? $atts['ajaxpagi'] : '';
+		if ( $ajaxpagi != 'yes' ) {
+			$paged        = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 );
+			if ( is_front_page() ) {
+				$paged = ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 );
+			}
+		}else{
+			$paged  = isset( $atts['paged'] ) ? $atts['paged'] : 1;
 		}
 		$eve_args = array(
 			'post_type'   => 'eventbrite_events',
@@ -737,7 +764,7 @@ class Import_Eventbrite_Events_Cpt {
 		}
 		ob_start();
 		?>
-		<div class="iee_archive row_grid">
+		<div class="iee_archive row_grid" data-paged="<?php echo esc_attr( $paged ); ?>" data-shortcode="<?php echo esc_attr( wp_json_encode($atts, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT) ); ?>" >
 			<?php
 			if( isset( $atts['layout'] ) && $atts['layout'] == 'style6' ){
 				?>
@@ -772,21 +799,46 @@ class Import_Eventbrite_Events_Cpt {
 							}
 
 						endwhile; // End of the loop.
+						
+						$iee_ap_options       = get_option( IEE_AP_OPTIONS );
+						$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
+						$next_event_text      = isset( $eventbrite_optionsap['next_event_text'] ) ? $eventbrite_optionsap['next_event_text'] : 'Next Events';
+						$previous_events      = isset( $eventbrite_optionsap['previous_event_text'] ) ? $eventbrite_optionsap['previous_event_text'] : 'Previous Events';
 
-						if ( $eventbrite_events->max_num_pages > 1 ) : // custom pagination
-						?>
-							<div class="col-iee-md-12">
-								<nav class="prev-next-posts">
-									<div class="prev-posts-link alignright">
-										<?php echo wp_kses_post( get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ) ); ?>
-									</div>
-									<div class="next-posts-link alignleft">
-										<?php echo wp_kses_post( get_previous_posts_link( '&laquo; Previous Events' ) ); ?>
-									</div>
-								</nav>
-							</div>
-						<?php
-						endif;
+						if ( isset( $atts['ajaxpagi'] ) && $atts['ajaxpagi'] == 'yes' ) {
+							if ( $eventbrite_events->max_num_pages > 1 ) { ?>
+								<div class="col-iee-md-12">
+									<nav class="prev-next-posts">
+										<div class="prev-posts-link alignright">
+											<?php if($paged < $eventbrite_events->max_num_pages) : ?>
+												<a href="#" class="iee-next-page" data-page="<?php echo $paged + 1; ?>"><?php esc_attr_e( $next_event_text . '&raquo;' ); ?></a>
+											<?php endif; ?>
+										</div>
+										<div class="next-posts-link alignleft">
+											<?php if($paged > 1) : ?>
+												<a href="#" class="iee-prev-page" data-page="<?php echo $paged - 1; ?>"><?php esc_attr_e( '&laquo;' . $previous_events ); ?></a>
+											<?php endif; ?>
+										</div>
+									</nav>
+								</div>
+								<?php
+							}
+						}else{
+							if ( $eventbrite_events->max_num_pages > 1 ) : // custom pagination
+							?>
+								<div class="col-iee-md-12">
+									<nav class="prev-next-posts">
+										<div class="prev-posts-link alignright">
+											<?php echo wp_kses_post( get_next_posts_link( $next_event_text . '&raquo;', $eventbrite_events->max_num_pages ) ); ?>
+										</div>
+										<div class="next-posts-link alignleft">
+											<?php echo wp_kses_post( get_previous_posts_link( '&laquo; Previous Events' ) ); ?>
+										</div>
+									</nav>
+								</div>
+							<?php
+							endif;
+						}
 					else :
 						echo esc_html( apply_filters( 'iee_no_events_found_message', esc_html__( 'There are no upcoming Events at this time.', 'import-eventbrite-events' ) ) );
 					endif;
