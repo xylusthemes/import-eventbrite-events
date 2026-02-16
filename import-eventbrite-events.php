@@ -154,6 +154,10 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				define( 'IEE_OPTIONS', 'xtei_eventbrite_options' );
 			}
 
+			if ( ! defined( 'IEE_AP_OPTIONS' ) ) {
+				define( 'IEE_AP_OPTIONS', 'xtei_ap_eventbrite_options' );
+			}
+
 			// Pro plugin Buy now Link.
 			if ( ! defined( 'IEE_PLUGIN_BUY_NOW_URL' ) ) {
 				define( 'IEE_PLUGIN_BUY_NOW_URL', 'http://xylusthemes.com/plugins/import-eventbrite-events/?utm_source=insideplugin&utm_medium=web&utm_content=sidebar&utm_campaign=freeplugin' );
