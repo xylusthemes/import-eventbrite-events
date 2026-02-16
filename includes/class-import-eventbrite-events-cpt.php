@@ -799,6 +799,11 @@ class Import_Eventbrite_Events_Cpt {
 							}
 
 						endwhile; // End of the loop.
+						
+						$iee_ap_options       = get_option( IEE_AP_OPTIONS );
+						$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
+						$next_event_text      = isset( $eventbrite_optionsap['next_event_text'] ) ? $eventbrite_optionsap['next_event_text'] : 'Next Events';
+						$previous_events      = isset( $eventbrite_optionsap['previous_event_text'] ) ? $eventbrite_optionsap['previous_event_text'] : 'Previous Events';
 
 						if ( isset( $atts['ajaxpagi'] ) && $atts['ajaxpagi'] == 'yes' ) {
 							if ( $eventbrite_events->max_num_pages > 1 ) { ?>
@@ -806,12 +811,12 @@ class Import_Eventbrite_Events_Cpt {
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
 											<?php if($paged < $eventbrite_events->max_num_pages) : ?>
-												<a href="#" class="iee-next-page" data-page="<?php echo $paged + 1; ?>"><?php esc_attr_e( 'Next Events &raquo;' ); ?></a>
+												<a href="#" class="iee-next-page" data-page="<?php echo $paged + 1; ?>"><?php esc_attr_e( $next_event_text . '&raquo;' ); ?></a>
 											<?php endif; ?>
 										</div>
 										<div class="next-posts-link alignleft">
 											<?php if($paged > 1) : ?>
-												<a href="#" class="iee-prev-page" data-page="<?php echo $paged - 1; ?>"><?php esc_attr_e( '&laquo; Previous Events' ); ?></a>
+												<a href="#" class="iee-prev-page" data-page="<?php echo $paged - 1; ?>"><?php esc_attr_e( '&laquo;' . $previous_events ); ?></a>
 											<?php endif; ?>
 										</div>
 									</nav>
@@ -824,7 +829,7 @@ class Import_Eventbrite_Events_Cpt {
 								<div class="col-iee-md-12">
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
-											<?php echo wp_kses_post( get_next_posts_link( 'Next Events &raquo;', $eventbrite_events->max_num_pages ) ); ?>
+											<?php echo wp_kses_post( get_next_posts_link( $next_event_text . '&raquo;', $eventbrite_events->max_num_pages ) ); ?>
 										</div>
 										<div class="next-posts-link alignleft">
 											<?php echo wp_kses_post( get_previous_posts_link( '&laquo; Previous Events' ) ); ?>

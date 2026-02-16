@@ -303,13 +303,13 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 						'skip_trash' => 0
 					);
 					foreach ( $import_data as $key => $value ) {
-						if ( $value['status'] == 'created' ) {
+						if ( isset( $value['status'] ) && $value['status'] == 'created' ) {
 							$import_status['created'] += 1;
-						} elseif ( $value['status'] == 'updated' ) {
+						} elseif (  isset( $value['status'] ) && $value['status'] == 'updated' ) {
 							$import_status['updated'] += 1;
-						} elseif ( $value['status'] == 'skipped' ) {
+						} elseif (  isset( $value['status'] ) && $value['status'] == 'skipped' ) {
 							$import_status['skipped'] += 1;
-						} elseif ( $value['status'] == 'skip_trash' ) {
+						} elseif (  isset( $value['status'] ) && $value['status'] == 'skip_trash' ) {
 							$import_status['skip_trash'] += 1;
 						}
 					}	

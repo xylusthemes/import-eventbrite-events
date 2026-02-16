@@ -356,7 +356,9 @@ class Import_Eventbrite_Events_TEC {
 			'iee_event_id'        => $esource_id,
 			'iee_event_timezone_name' => $timezone_name,
 			'iee_ticket_price'    => $ticket_price,
-			'iee_ticket_currency' => $t_currency
+			'iee_ticket_currency' => $t_currency,
+			'start_ts'            => $start_time,
+			'end_ts'              => $end_time,
 		);
 
 		if( isset( $centralize_array['is_all_day'] ) && true === $centralize_array['is_all_day'] ){
