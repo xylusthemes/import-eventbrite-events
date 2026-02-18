@@ -50,7 +50,7 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			return;
 		}
 
-		$eventbrite_api_url  = 'https://www.eventbrite.com/api/v3/events/' . $eventbrite_id . '/?expand=venue,ticket_availability,organizer,organizer.logo';
+		$eventbrite_api_url  = 'https://www.eventbrite.com/api/v3/events/' . $eventbrite_id . '/?expand=venue,ticket_availability,organizer,organizer.logo,category';
 		$eventbrite_response = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( is_wp_error( $eventbrite_response ) ) {
@@ -179,6 +179,13 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		$series_id         = isset( $eventbrite_event['series_id'] ) ? $eventbrite_event['series_id'] : '';
 		$ticket_price      = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] : '';	
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
+		$eventbrite_cat    = isset( $eventbrite_event['category']['name'] ) ? $eventbrite_event['category']['name'] : '';	
+
+		$ct_ids = '';
+		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
+		if( !empty( $get_collections ) ){
+			$ct_ids = $iee_events->common->sync_event_collection( $get_collections );
+		}
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -198,6 +205,8 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			'series_id'		  => $series_id,
 			'ticket_price'    => $ticket_price,
 			'ticket_currency' => $ticket_currency,
+			'collection_ids'  => $ct_ids,
+			'e_category'      => $eventbrite_cat,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {
@@ -311,5 +320,28 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			}
 		}
 		return '';
+	}
+
+	/**
+	 * Get collections for event.
+	 *
+	 * @since 1.0.0
+	 * @param int $event_id Eventbrite event ID.
+	 * @return array collections
+	 */
+	public function get_iee_collections( $event_id ){
+
+		$eventbrite_api_url  = 'https://www.eventbrite.com/api/v3/events/' . $event_id . '/collections/public/?expand=image';
+		$ec_response         = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+
+		if ( is_wp_error( $ec_response ) ) {
+			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
+			return;
+		}
+
+		
+		$eventbrite_collections = json_decode( $ec_response['body'], true );
+		$e_collections = isset( $eventbrite_collections['collections'] ) ? $eventbrite_collections['collections'] : '';
+		return $e_collections;
 	}
 }

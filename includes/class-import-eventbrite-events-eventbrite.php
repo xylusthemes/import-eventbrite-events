@@ -46,7 +46,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			return;
 		}
 
-		$eventbrite_api_url  = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/?expand=venue,ticket_availability,organizer,organizer.logo&token=' . $this->oauth_token;
+		$eventbrite_api_url  = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/?expand=venue,ticket_availability,organizer,organizer.logo,category&token=' . $this->oauth_token;
 		$eventbrite_response = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
 
 		if ( is_wp_error( $eventbrite_response ) ) {
@@ -175,6 +175,7 @@ class Import_Eventbrite_Events_Eventbrite {
 		$series_id         = isset( $eventbrite_event['series_id'] ) ? $eventbrite_event['series_id'] : '';
 		$ticket_price      = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] : '';	
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
+		$eventbrite_cat    = isset( $eventbrite_event['category']['name'] ) ? $eventbrite_event['category']['name'] : '';	
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -194,6 +195,8 @@ class Import_Eventbrite_Events_Eventbrite {
 			'series_id'		  => $series_id,
 			'ticket_price'    => $ticket_price,
 			'ticket_currency' => $ticket_currency,
+			'collection_ids'  => $ct_ids,
+			'e_category'      => $eventbrite_cat,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {

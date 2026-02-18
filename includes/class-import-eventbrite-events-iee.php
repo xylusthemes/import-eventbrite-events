@@ -21,6 +21,9 @@ class Import_Eventbrite_Events_IEE {
 	// Event Posttype
 	protected $event_posttype;
 
+	// Event Collection
+	protected $event_collection;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -30,6 +33,7 @@ class Import_Eventbrite_Events_IEE {
 
 		$this->event_posttype = 'eventbrite_events';
 		$this->taxonomy       = 'eventbrite_category';
+		$this->event_collection = 'eventbrite_collection';
 
 	}
 
@@ -44,6 +48,10 @@ class Import_Eventbrite_Events_IEE {
 	}
 	public function get_taxonomy() {
 		return $this->taxonomy;
+	}
+
+	public function get_collection() {
+		return $this->event_collection;
 	}
 
 	/**
@@ -61,12 +69,12 @@ class Import_Eventbrite_Events_IEE {
 		}
 
 		$is_exitsing_event = $iee_events->common->get_event_by_event_id( $this->event_posttype, $centralize_array['ID'] );
+		$options       = iee_get_import_options( $centralize_array['origin'] );
+		$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
+		$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
 
 		if ( $is_exitsing_event ) {
 			// Update event or not?
-			$options       = iee_get_import_options( $centralize_array['origin'] );
-			$update_events = isset( $options['update_events'] ) ? $options['update_events'] : 'no';
-			$skip_trash    = isset( $options['skip_trash'] ) ? $options['skip_trash'] : 'no';
 			$post_status   = get_post_status( $is_exitsing_event );
 			if ( 'trash' == $post_status && $skip_trash == 'yes' ) {
 				return array(
@@ -117,6 +125,19 @@ class Import_Eventbrite_Events_IEE {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
+			$is_insert_ecat = isset( $options['eventbritre_category'] ) ? $options['eventbritre_category'] : 'no';
+			$eiee_cats      = isset( $event_args['event_cats'] ) && is_array( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+			$e_cats         = isset( $event_args['e_category'] ) && is_array( $event_args['e_category'] ) ? $event_args['e_category'] : '';
+
+			if ( $is_insert_ecat === 'yes' ) {
+				$get_ecat_id = $iee_events->common->insert_eventbrite_category_and_assing_into_event( $e_cats );
+				if ( ! empty( $get_ecat_id ) ) {
+					$eiee_cats[] = (int) $get_ecat_id;
+					$eiee_cats = array_unique( $eiee_cats );
+				}
+			}
+
+			$event_args['event_cats'] = $eiee_cats;
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
@@ -127,6 +148,12 @@ class Import_Eventbrite_Events_IEE {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
 					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
+			}
+
+			// Asign event collection.
+			$collection_ids = isset( $centralize_array['collection_ids'] ) ? $centralize_array['collection_ids'] : array();
+			if ( ! empty( $collection_ids ) ) {
+				wp_set_object_terms( $inserted_event_id, $collection_ids, $this->event_collection );
 			}
 
 			// Assign Featured images
@@ -171,6 +198,7 @@ class Import_Eventbrite_Events_IEE {
 
 			// Oraganizer Deatails
 			$organizer_array = isset( $centralize_array['organizer'] ) ? $centralize_array['organizer'] : array();
+			$organizer_id    = isset( $organizer_array['ID'] ) ? sanitize_text_field( $organizer_array['ID'] ) : '';
 			$organizer_name  = isset( $organizer_array['name'] ) ? sanitize_text_field( $organizer_array['name'] ) : '';
 			$organizer_email = isset( $organizer_array['email'] ) ? sanitize_text_field( $organizer_array['email'] ) : '';
 			$organizer_phone = isset( $organizer_array['phone'] ) ? sanitize_text_field( $organizer_array['phone'] ) : '';
@@ -215,6 +243,7 @@ class Import_Eventbrite_Events_IEE {
 			update_post_meta( $inserted_event_id, 'venue_url', $venue_url );
 
 			// Organizer
+			update_post_meta( $inserted_event_id, 'organizer_id', $organizer_id );
 			update_post_meta( $inserted_event_id, 'organizer_name', $organizer_name );
 			update_post_meta( $inserted_event_id, 'organizer_email', $organizer_email );
 			update_post_meta( $inserted_event_id, 'organizer_phone', $organizer_phone );

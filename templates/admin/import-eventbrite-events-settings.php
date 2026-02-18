@@ -126,13 +126,28 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Automatically Import and Assign Eventbrite Categories', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$eventbritre_category = isset( $eventbrite_options['eventbritre_category'] ) ? $eventbrite_options['eventbritre_category'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[eventbritre_category]" value="yes" <?php if ( $eventbritre_category == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_html_e( 'Enable this option to automatically import Eventbrite categories and assign them in events.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
 											<span class="iee-title-text" ><?php esc_attr_e( 'Move past events in trash', 'import-eventbrite-events' ); ?></span>
 										</div>
 										<div class="iee-inner-section-2">
 											<?php
-											$update_eventbrite_events = isset( $eventbrite_options['move_peit'] ) ? $eventbrite_options['move_peit'] : 'no';
+											$move_peit = isset( $eventbrite_options['move_peit'] ) ? $eventbrite_options['move_peit'] : 'no';
 											?>
-											<input type="checkbox" name="eventbrite[move_peit]" value="yes" <?php if ( $update_eventbrite_events == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<input type="checkbox" name="eventbrite[move_peit]" value="yes" <?php if ( $move_peit == 'yes' ) { echo 'checked="checked"'; } ?> />
 											<span class="iee_small">
 												<?php esc_attr_e( 'Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background.', 'import-eventbrite-events' ); ?>
 											</span>

@@ -53,6 +53,72 @@ class Import_Eventbrite_Events_Admin {
 		add_filter( 'admin_footer_text', array( $this, 'add_event_aggregator_credit' ) );
 		add_action( 'admin_action_iee_view_import_history', array( $this, 'iee_view_import_history_handler' ) );
 		add_action( 'admin_init', array( $this, 'iee_handle_schedule_toggle_action' ) );
+		add_action( 'init', array( $this, 'sync_organizer_from_url_weekly' ) );
+	}
+
+	/**
+
+	* Sync organizer from url weekly.
+	*
+	* This function runs weekly and fetches all published events with organizer_url set but without organizer_id.
+	* It then tries to extract the organizer_id from the organizer_url and updates the organizer_id for the event.
+	*
+	* The function uses a transient to prevent it from running multiple times in a week.
+	*
+	* @since 1.8.0
+	*/
+	public function sync_organizer_from_url_weekly() {
+		global $wpdb;
+
+		$transient_key = 'iee_sync_organizer_from_url_last_run';
+
+		if ( get_transient( $transient_key ) ) {
+			return;
+		}
+
+		$post_type = 'eventbrite_events';
+		$limit     = 2000;
+		$query     = $wpdb->prepare(
+			"SELECT  p.ID as post_id,  pm.meta_value as organizer_url, pm3.meta_value as start_ts
+			FROM {$wpdb->posts} p
+			INNER JOIN {$wpdb->postmeta} pm  ON p.ID = pm.post_id AND pm.meta_key = 'organizer_url'
+			LEFT JOIN {$wpdb->postmeta} pm2  ON p.ID = pm2.post_id AND pm2.meta_key = 'organizer_id'
+			LEFT JOIN {$wpdb->postmeta} pm3  ON p.ID = pm3.post_id AND pm3.meta_key = 'start_ts'
+			WHERE p.post_type = %s
+			AND p.post_status = 'publish'
+			AND (pm2.meta_value IS NULL OR pm2.meta_value = '')
+			ORDER BY CAST(pm3.meta_value AS UNSIGNED) DESC
+			LIMIT %d",
+			$post_type,
+			$limit
+		);
+
+		$events = $wpdb->get_results( $query, ARRAY_A );
+
+		if ( empty( $events ) ) {
+			set_transient( $transient_key, 1, WEEK_IN_SECONDS );
+			return;
+		}
+
+		foreach ( $events as $event ) {
+
+			$post_id = (int) $event['post_id'];
+			$url     = trim( $event['organizer_url'] );
+
+			if ( empty( $url ) ) {
+				continue;
+			}
+
+			if ( preg_match( '/(\d+)$/', $url, $matches ) ) {
+				$organizer_id = $matches[1];
+
+				if ( ! empty( $organizer_id ) ) {
+					update_post_meta( $post_id, 'organizer_id', $organizer_id );
+				}
+			}
+		}
+
+		set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 	}
 
 	/**
