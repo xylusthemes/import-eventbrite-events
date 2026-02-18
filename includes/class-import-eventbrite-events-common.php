@@ -1551,6 +1551,88 @@ class Import_Eventbrite_Events_Common {
 		}
 	}
 
+	/**
+	 * Sync API collection data
+	 */
+	public function sync_event_collection( $collections ) {
+		global $iee_events;
+
+		if ( empty( $collections ) ) return;
+
+		$taxonomy = $iee_events->cpt->get_event_collection_taxonomy();
+		$term_ids = [];
+
+		// Detect multiple collections
+		foreach ( $collections as $item ) {
+
+			if ( empty( $item['name'] ) ) continue;
+
+			$name        = sanitize_text_field( $item['name'] );
+			$slug        = sanitize_title( $item['slug'] ?? $item['name'] );
+			$description = ! empty( $item['summary'] ) ? wp_kses_post( $item['summary'] ) : '';
+
+			$term = get_term_by( 'slug', $slug, $taxonomy );
+
+			if ( ! $term ) {
+				$term_result = wp_insert_term( $name, $taxonomy, [ 'slug' => $slug, 'description' => $description ] );
+
+				if ( is_wp_error( $term_result ) ) continue;
+
+				$term_id = $term_result['term_id'];
+			} else {
+				$term_id = $term->term_id;
+				wp_update_term( $term_id, $taxonomy, [ 'description' => $description ] );
+			}
+
+			update_term_meta( $term_id, 'image_url', esc_url_raw( $item['image']['original']['url'] ?? '' ) );
+			update_term_meta( $term_id, 'collection_url', esc_url_raw( $item['absolute_url'] ?? '' ) );
+			update_term_meta( $term_id, 'organizer_id', sanitize_text_field( $item['organizer_id'] ?? '' ) );
+			update_term_meta( $term_id, 'collection_id', sanitize_text_field( $item['id'] ?? '' ) );
+
+			$term_ids[] = (int) $term_id;
+		}
+
+		// Return single ID if single input
+		if ( count( $term_ids ) === 1 ) {
+			return $term_ids[0];
+		}
+
+		return $term_ids;
+	}
+
+	/**
+	 * Sync API collection data
+	 */
+
+	public function insert_eventbrite_category_and_assing_into_event( $category_name ) {
+		global $iee_events;
+
+		if ( empty( $category_name ) ) {
+			return [];
+		}
+
+		$taxonomy = $iee_events->cpt->get_event_categroy_taxonomy();
+		$ecat_id = 0;
+
+		// Sanitize name
+		$name = sanitize_text_field( $category_name );
+		$term = term_exists( $name, $taxonomy );
+
+		if ( $term !== 0 && $term !== null ) {
+			if ( is_array( $term ) ) {
+				$ecat_id = (int) $term['term_id'];
+			} else {
+				$ecat_id = (int) $term;
+			}
+		} else {
+			$new_term = wp_insert_term( $name, $taxonomy );
+			if ( ! is_wp_error( $new_term ) && isset( $new_term['term_id'] ) ) {
+				$ecat_id = (int) $new_term['term_id'];
+			}
+		}
+
+		return $ecat_id;
+	}
 }
 
 

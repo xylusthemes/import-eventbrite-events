@@ -27,6 +27,9 @@ class Import_Eventbrite_Events_Cpt {
 	// Event post type.
 	protected $event_tag;
 
+	// Event post type.
+	protected $event_collection;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -38,6 +41,7 @@ class Import_Eventbrite_Events_Cpt {
 		$this->event_posttype = 'eventbrite_events';
 		$this->event_category = 'eventbrite_category';
 		$this->event_tag      = 'eventbrite_tag';
+		$this->event_collection = 'eventbrite_collection';
 
 		$iee_options       = get_option( IEE_OPTIONS );
 		if( iee_is_pro() ){
@@ -55,6 +59,11 @@ class Import_Eventbrite_Events_Cpt {
 
 			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) );
 			add_shortcode( 'eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
+
+			add_action( $this->event_collection . '_add_form_fields', [$this, 'add_collection_fields'] );
+			add_action( $this->event_collection . '_edit_form_fields', [$this, 'edit_collection_fields'] );
+			add_action( 'created_' . $this->event_collection, [$this, 'save_collection_fields'] );
+			add_action( 'edited_' . $this->event_collection, [$this, 'save_collection_fields'] );
 		}
 	}
 
@@ -83,6 +92,15 @@ class Import_Eventbrite_Events_Cpt {
 	 */
 	public function get_event_tag_taxonomy() {
 		return $this->event_tag;
+	}
+
+	/**
+	 * get events collection taxonomy
+	 *
+	 * @since    1.0.0
+	 */
+	public function get_event_collection_taxonomy() {
+		return $this->event_collection;
 	}
 
 	/**
@@ -134,7 +152,7 @@ class Import_Eventbrite_Events_Cpt {
 			'description'         => __( 'Post type for Events', 'import-eventbrite-events' ),
 			'labels'              => $event_labels,
 			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions' ),
-			'taxonomies'          => array( $this->event_category, $this->event_tag ),
+			'taxonomies'          => array( $this->event_category, $this->event_tag, $this->event_collection ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -221,6 +239,114 @@ class Import_Eventbrite_Events_Cpt {
 				),
 			)
 		);
+
+		register_taxonomy(
+			$this->event_collection, array( $this->event_posttype ), array(
+				'labels'            => array(
+					'name'           => __( 'Event Collections', 'import-eventbrite-events' ),
+					'singular_name'  => __( 'Event Collection', 'import-eventbrite-events' ),
+					'menu_name'      => __( 'Event Collections', 'import-eventbrite-events' ),
+					'name_admin_bar' => __( 'Event Collection', 'import-eventbrite-events' ),
+					'search_items'   => __( 'Search Collections', 'import-eventbrite-events' ),
+					'popular_items'  => __( 'Popular Collections', 'import-eventbrite-events' ),
+					'parent_item'       => __( 'Parent Collection', 'import-eventbrite-events' ),
+        			'parent_item_colon' => __( 'Parent Collection:', 'import-eventbrite-events' ),
+					'not_found'      => __( 'No Collections found', 'import-eventbrite-events' ),
+					'all_items'      => __( 'All Collections', 'import-eventbrite-events' ),
+					'edit_item'      => __( 'Edit Collection', 'import-eventbrite-events' ),
+					'view_item'      => __( 'View Collection', 'import-eventbrite-events' ),
+					'update_item'    => __( 'Update Collection', 'import-eventbrite-events' ),
+					'add_new_item'   => __( 'Add New Collection', 'import-eventbrite-events' ),
+					'new_item_name'  => __( 'New Collection Name', 'import-eventbrite-events' ),
+				),
+				'public'            => true,
+				'show_ui'           => true,
+				'show_in_nav_menus' => true,
+				'show_admin_column' => true,
+				'hierarchical'      => true,
+				'query_var'         => true,
+			)
+		);
+	}
+
+	public function add_collection_fields() {
+		?>
+		<div class="form-field">
+			<label for="collection_id"><?php esc_attr_e( 'Collection ID', 'import-eventbrite-events' ); ?></label>
+			<input type="text" name="collection_id" id="collection_id" />
+		</div>
+
+		<div class="form-field">
+			<label for="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></label>
+			<input type="text" name="organizer_id" id="organizer_id" />
+		</div>
+
+		<div class="form-field">
+			<label for="collection_url"><?php esc_attr_e( 'Collection URL', 'import-eventbrite-events' ); ?></label>
+			<input type="text" name="collection_url" id="collection_url" />
+		</div>
+
+		<div class="form-field">
+			<label for="image_url"><?php esc_attr_e( 'Image URL', 'import-eventbrite-events' ); ?></label>
+			<input type="text" name="image_url" id="image_url" />
+		</div>
+		<?php
+	}
+
+	/**
+	 * Admin: Edit term fields
+	 */
+	public function edit_collection_fields( $term ) {
+
+		$collection_id  = get_term_meta( $term->term_id, 'collection_id', true );
+		$organizer_id   = get_term_meta( $term->term_id, 'organizer_id', true );
+		$collection_url = get_term_meta( $term->term_id, 'collection_url', true );
+		$image_url      = get_term_meta( $term->term_id, 'image_url', true );
+		?>
+
+		<tr class="form-field">
+			<th scope="row"><label for="collection_id"><?php esc_attr_e( 'Collection ID', 'import-eventbrite-events' ); ?></label></th>
+			<td><input type="text" name="collection_id" value="<?php echo esc_attr( $collection_id ); ?>"></td>
+		</tr>
+
+		<tr class="form-field">
+			<th scope="row"><label for="organizer_id"><?php esc_attr_e( 'Organizer ID', 'import-eventbrite-events' ); ?></label></th>
+			<td><input type="text" name="organizer_id" value="<?php echo esc_attr( $organizer_id ); ?>"></td>
+		</tr>
+
+		<tr class="form-field">
+			<th scope="row"><label for="collection_url"><?php esc_attr_e( 'Collection URL', 'import-eventbrite-events' ); ?></label></th>
+			<td><input type="text" name="collection_url" value="<?php echo esc_attr( $collection_url ); ?>"></td>
+		</tr>
+
+		<tr class="form-field">
+			<th scope="row"><label for="image_url"><?php esc_attr_e( 'Image URL', 'import-eventbrite-events' ); ?></label></th>
+			<td><input type="text" name="image_url" value="<?php echo esc_attr( $image_url ); ?>"></td>
+		</tr>
+
+		<?php
+	}
+
+	/**
+	 * Save term meta
+	 */
+	public function save_collection_fields( $term_id ) {
+
+		if ( isset( $_POST['collection_id'] ) ) {
+			update_term_meta( $term_id, 'collection_id', sanitize_text_field( $_POST['collection_id'] ) );
+		}
+
+		if ( isset( $_POST['organizer_id'] ) ) {
+			update_term_meta( $term_id, 'organizer_id', sanitize_text_field( $_POST['organizer_id'] ) );
+		}
+
+		if ( isset( $_POST['collection_url'] ) ) {
+			update_term_meta( $term_id, 'collection_url', esc_url_raw( $_POST['collection_url'] ) );
+		}
+
+		if ( isset( $_POST['image_url'] ) ) {
+			update_term_meta( $term_id, 'image_url', esc_url_raw( $_POST['image_url'] ) );
+		}
 
 	}
 
@@ -686,6 +812,39 @@ class Import_Eventbrite_Events_Cpt {
 						'field'    => $tax_field,
 						'terms'    => $categories,
 					),
+				);
+			}
+		}
+
+		// Collection
+		if ( isset( $atts['collection'] ) && $atts['collection'] != '' ) {
+			$collections = explode( ',', $atts['collection'] );
+			$tax_field  = 'slug';
+			if ( is_numeric( implode( '', $collections ) ) ) {
+				$tax_field = 'term_id';
+			}
+			if ( ! empty( $collections ) ) {
+				$eve_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+					array(
+						'taxonomy' => $this->event_collection,
+						'field'    => $tax_field,
+						'terms'    => $collections,
+					),
+				);
+			}
+		}
+		
+		// Organizer
+		if ( isset( $atts['organizer'] ) && $atts['organizer'] != '' ) {
+
+			$organizers = explode( ',', $atts['organizer'] );
+
+			if ( ! empty( $organizers ) ) {
+
+				$eve_args['meta_query'][] = array(
+					'key'     => 'organizer_id',
+					'value'   => $organizers,
+					'compare' => 'IN',
 				);
 			}
 		}
