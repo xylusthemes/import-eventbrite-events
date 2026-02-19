@@ -1427,6 +1427,154 @@
 
 /*new layout style 4 end*/
 
+/*lauout 5 css start*/
+.iee5_event {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .iee5_event-details {
+    flex: 1;
+    width: 60%;
+  }
+  
+  .iee5_event-date {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 !important;
+    text-transform: uppercase;
+  }
+  
+  .iee5_event-title {
+    position: relative;
+    top: -2px;
+    display: block;
+    text-align: left;
+    margin-top: 5px;
+    padding: 0;
+    line-height: 0;
+    font-size: 20px !important;
+    line-height: 1.29;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: left;
+    letter-spacing: -0.3px;
+    transition: all .3sease-in-out;
+    cursor: pointer;
+  }
+  
+  .iee5_event-location {
+    font-size: 13px;
+  }
+  
+  .iee5_eventbrite-item-location-icon {
+    position: relative;
+    top: 3px;
+    width: 12px;
+    height: 15px;
+    margin-right: 5px;
+  }
+  
+  .iee5_buy-tickets {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-right: 10px;
+    padding: 7px 16px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    box-shadow: rgba(50, 50, 93, .25) 0px 2px 5px -1px, rgba(0, 0, 0, .3) 0px 1px 3px -1px;
+    cursor: pointer;
+    border: none;
+    transform: none;
+    min-height: 0;
+    opacity: 0.8;
+  }
+  
+  .iee5_buy-tickets:hover {
+    opacity: 1;
+  }
+  
+  .iee5_event-image {
+    width: 400px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .iee5_event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  @media  (max-width: 576px) { 
+    .iee5_main_container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin: 0 20px;
+    }
+    .iee5_event {
+      flex-direction: column;
+      width: 100%;
+    }
+    .iee5_event-image {
+      order: -1;
+      width: auto;
+      height: 200px;
+  
+    }
+    .iee5_event-details {
+      width: 100%;
+    }
+  
+  }
+  
+  @media ( min-width: 576px ) and ( max-width: 768px ) { 
+    .iee5_main_container{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 20px;
+      justify-content: center;
+    }
+    .iee5_event {
+      flex-direction: column;
+      width: 45%;
+    }
+    .iee5_event-image {
+      order: -1;
+      width: auto;
+      height: 200px;
+  
+    }
+    .iee5_event-details {
+      width: 100%;
+    }
+  }
+  /*lauout 5 css end*/
+
 /*new style 6 start*/
     /* Events Container */
     .iee6_events-container {

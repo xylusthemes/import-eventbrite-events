@@ -42,6 +42,10 @@ registerBlockType( 'iee-block/eventbrite-events', {
 			type: 'number',
 			default: 12,
 		},
+		ajaxpagi: {
+			type: 'string',
+			default: ''
+		},
 		past_events: {
 			type: 'boolean',
      		default: false
@@ -68,7 +72,7 @@ registerBlockType( 'iee-block/eventbrite-events', {
 		},
     },
     edit: ( { attributes, setAttributes } ) => {
-        const { col, posts_per_page, past_events, start_date, end_date, order, orderby, layout } = attributes;
+        const { col, posts_per_page, ajaxpagi, past_events, start_date, end_date, order, orderby, layout } = attributes;
 		const settings = getSettings();
 		const dateClassName = past_events === true ? 'iee_hidden' : '';
 		const { serverSideRender: ServerSideRender } = wp;
@@ -98,6 +102,13 @@ registerBlockType( 'iee-block/eventbrite-events', {
 							max={ 100 }
 						/>
 						<ToggleControl
+							label={ __( 'Ajax Pagination' ) }
+							checked={ ajaxpagi === 'yes' }
+							onChange={ (value) => setAttributes({
+								ajaxpagi: value ? 'yes' : ''
+							}) }
+						/>
+						<ToggleControl
 							label={ __( 'Display past events' ) }
 							checked={ past_events }
 							onChange={ value => {
@@ -115,6 +126,10 @@ registerBlockType( 'iee-block/eventbrite-events', {
 							options={ [
 								{ label: 'Default', value: '' },
 								{ label: 'Style 2', value: 'style2' },
+								{ label: 'Style 3', value: 'style3' },
+								{ label: 'Style 4', value: 'style4' },
+								{ label: 'Style 5', value: 'style5' },
+								{ label: 'Style 6', value: 'style6' },
 							] }
 							onChange={ ( value ) => setAttributes( { layout: value } ) }
 						/>

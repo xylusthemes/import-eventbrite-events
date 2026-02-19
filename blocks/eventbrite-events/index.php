@@ -46,47 +46,24 @@ function iee_register_gutenberg_block() {
 		);
 
 		// Register our block.
-		register_block_type( 'iee-block/eventbrite-events', array(
+		$block_args = array(
 			'attributes'      => array(
-				'col'            => array(
-					'type'    => 'number',
-					'default' => 2,
-				),
-				'posts_per_page' => array(
-					'type'    => 'number',
-					'default' => 12,
-				),
-				'past_events'    => array(
-					'type'    => 'boolean',
-					'default' => false,
-				),
-				'start_date'     => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-				'end_date'       => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-				'order'          => array(
-					'type'    => 'string',
-					'default' => 'ASC',
-				),
-				'orderby'        => array(
-					'type'    => 'string',
-					'default' => 'event_start_date',
-				),
-				'layout'         => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-
+				'col'            => array( 'type' => 'number', 'default' => 2 ),
+				'posts_per_page' => array( 'type' => 'number', 'default' => 12 ),
+				'ajaxpagi'       => array( 'type' => 'string', 'default' => false ),
+				'past_events'    => array( 'type' => 'boolean', 'default' => false ),
+				'start_date'     => array( 'type' => 'string', 'default' => '' ),
+				'end_date'       => array( 'type' => 'string', 'default' => '' ),
+				'order'          => array( 'type' => 'string', 'default' => 'ASC' ),
+				'orderby'        => array( 'type' => 'string', 'default' => 'event_start_date' ),
+				'layout'         => array( 'type' => 'string', 'default' => '' ),
 			),
-			'editor_script'   => 'iee-eventbrite-events-block', // The script name we gave in the wp_register_script() call.
-			'editor_style'    => 'iee-eventbrite-events-block-style', // The script name we gave in the wp_register_style() call.
-			'style'           => 'iee-eventbrite-events-block-style2', 
+			'editor_script'   => 'iee-eventbrite-events-block',
+			'editor_style'    => 'iee-eventbrite-events-block-style',
+			'style'           => 'iee-eventbrite-events-block-style2',
 			'render_callback' => array( $iee_events->cpt, 'eventbrite_events_archive' ),
-		) );
+		);
+		register_block_type( 'iee-block/eventbrite-events', $block_args );
 	}
 }
 
