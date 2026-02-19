@@ -988,10 +988,10 @@ class Import_Eventbrite_Events_Cpt {
 								<div class="col-iee-md-12">
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
-											<?php echo wp_kses_post( get_next_posts_link( $next_event_text . '&raquo;', $eventbrite_events->max_num_pages ) ); ?>
+											<?php echo get_next_posts_link( $next_event_text . '&raquo;', $eventbrite_events->max_num_pages ); ?>
 										</div>
 										<div class="next-posts-link alignleft">
-											<?php echo wp_kses_post( get_previous_posts_link( '&laquo; Previous Events' ) ); ?>
+											<?php echo get_previous_posts_link( '&laquo; '. $previous_events ); ?>
 										</div>
 									</nav>
 								</div>
