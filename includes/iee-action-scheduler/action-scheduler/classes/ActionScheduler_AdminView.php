@@ -213,7 +213,7 @@ class ActionScheduler_AdminView extends ActionScheduler_AdminView_Deprecated {
 		);
 
 		// Print notice.
-		echo '<div class="notice notice-warning"><p>';
+		echo '<div class="notice notice-warning iee_notice"><p>';
 		printf(
 			wp_kses(
 				// translators: 1) is the number of affected actions, 2) is a link to an admin screen.

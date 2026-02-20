@@ -127,7 +127,7 @@ class Import_Eventbrite_Events_IEE {
 			// Asign event category.
 			$is_insert_ecat = isset( $options['eventbritre_category'] ) ? $options['eventbritre_category'] : 'no';
 			$eiee_cats      = isset( $event_args['event_cats'] ) && is_array( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			$e_cats         = isset( $event_args['e_category'] ) && is_array( $event_args['e_category'] ) ? $event_args['e_category'] : '';
+			$e_cats         = isset( $centralize_array['e_category'] ) ? $centralize_array['e_category'] : '';
 
 			if ( $is_insert_ecat === 'yes' ) {
 				$get_ecat_id = $iee_events->common->insert_eventbrite_category_and_assing_into_event( $e_cats );

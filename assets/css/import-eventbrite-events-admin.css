@@ -1699,6 +1699,12 @@ html:not([data-scroll="0"]) .iee-header {
 .notice {
   margin: 10px 0;
 }
+.notice {
+    display: none;
+}
+.iee_notice{
+    display: block;
+}
 /* end header*/
 
 /*support page start*/

@@ -128,6 +128,6 @@ class ActionScheduler_WPCommentCleaner {
 			'https://github.com/woocommerce/action-scheduler/issues/368'
 		);
 
-		echo '<div class="notice notice-warning"><p>' . wp_kses_post( $notice ) . '</p></div>';
+		echo '<div class="notice notice-warning iee_notice"><p>' . wp_kses_post( $notice ) . '</p></div>';
 	}
 }

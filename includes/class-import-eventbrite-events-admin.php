@@ -322,7 +322,7 @@ class Import_Eventbrite_Events_Admin {
 		if ( ! empty( $iee_errors ) ) {
 			foreach ( $iee_errors as $error ) :
 				?>
-				<div class="notice notice-error is-dismissible">
+				<div class="notice notice-error is-dismissible iee_notice">
 					<p><?php echo $error; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
@@ -332,7 +332,7 @@ class Import_Eventbrite_Events_Admin {
 		if ( ! empty( $iee_success_msg ) ) {
 			foreach ( $iee_success_msg as $success ) :
 				?>
-				<div class="notice notice-success is-dismissible">
+				<div class="notice notice-success is-dismissible iee_notice">
 					<p><?php echo $success; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
@@ -342,7 +342,7 @@ class Import_Eventbrite_Events_Admin {
 		if ( ! empty( $iee_warnings ) ) {
 			foreach ( $iee_warnings as $warning ) :
 				?>
-				<div class="notice notice-warning is-dismissible">
+				<div class="notice notice-warning is-dismissible iee_notice">
 					<p><?php echo $warning; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
@@ -352,7 +352,7 @@ class Import_Eventbrite_Events_Admin {
 		if ( ! empty( $iee_info_msg ) ) {
 			foreach ( $iee_info_msg as $info ) :
 				?>
-				<div class="notice notice-info is-dismissible">
+				<div class="notice notice-info is-dismissible iee_notice">
 					<p><?php echo $info; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 				<?php
