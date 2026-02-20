@@ -5,7 +5,7 @@ Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 4.0
 Requires PHP: 5.3
 Tested up to: 6.9
-Stable tag: 1.7.9
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,22 +126,34 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 == Screenshots ==
 
-1. Events page using '[eventbrite_events posts_per_page="12"]' shortcode
-2. Single Event page (Twenty Sixteen Theme).
-3. Eventbrite Events Gutenberg Block
-4. Import Eventbrite events by Event IDs (Pro) -Free version has one Event ID at a time.
-5. Eventbrite Import for your profile Events(Pro)
-6. Import Eventbrite events by Organiser ID.(Pro)
-7. Scheduled Eventbrite Imports (Pro).
-8. Import History
-9. Settings
-10. Front-end side event ticket display.
-11. Upcoming Eventbrite Events widget in backend (Pro)
-12. Upcoming Eventbrite Events widget in front-end with Event image(Pro)
-13. Upcoming Eventbrite Events widget in front-end without Event image(Pro)
+1. **Display events with Shortcode Layout Style 1** — Elegant grid layout to showcase your events neatly using the first style shortcode.  
+2. **Display events with Shortcode Layout Style 2 (Pro)** — Modern alternative layout for event lists, perfect for professional websites.  
+3. **Display events with Shortcode Layout Style 3** — Clean and compact grid layout for events (Pro version).  
+4. **Display events with Shortcode Layout Style 4** — Full-width event display with detailed info (Pro version).  
+5. **Display events with Shortcode Layout Style 5** — Full-width event display with detailed info (Pro version).  
+6. **Display events with Shortcode Layout Style 6** — Full-width event display with detailed info (Pro version).  
+7. **Display events using the Gutenberg Block for WP Events** — Drag and drop your events directly into posts and pages using Gutenberg (Pro version).  
+8. **Upcoming WP Events Widget in backend (Pro)** — Manage and preview upcoming events in your WordPress widget panel.  
+9. **Preview events directly in the widget area** — Quick live preview of events before placing them on your site.  
+10. **Import event by ID** — Easily import a specific Meetup event by its unique ID in one click.  
+11. **Import event by Organizer ID** — Import all events from a Eventbrite Organizer quickly using the Organizer's ID.  
+12. **Import events by Collection ID** — Import all events from a Eventbrite Collection quickly using the Collection's ID.  
+13. **Schedule Import** — Automatically run event imports at scheduled intervals, ensuring your events stay updated without manual effort.
+14. **Import history logs** — Keep track of all past imports, including successes, failures, and scheduled imports.  
+15. **Plugin Settings Dashboard** — Central control panel to configure your Meetup API key, import settings, and display options.  
+16. **All Shortcodes** — Use all available shortcode options to display events anywhere on your website. 
 
 
 == Changelog ==
+
+= 1.8.0 =
+* ADDED: New “More Options” mode in Elementor block for enhanced display customization.
+* ADDED: AJAX pagination support in shortcode for smoother event browsing.
+* ADDED: Organizer parameter in shortcode to display events by specific organizer.
+* ADDED: Collection taxonomy support with automatic create, update, and assignment during event import.
+* ADDED: New Appearance settings for improved design control.
+* ADDED: Automatic Eventbrite category create, update, and assignment option in settings.
+* IMPROVEMENTS: Standard Eventbrite API integration.
 
 = 1.7.9 =
 * IMPROVEMENTS: Optimized Eventbrite API calls to significantly boost import speed and reduce server load.
