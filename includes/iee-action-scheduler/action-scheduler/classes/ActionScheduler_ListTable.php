@@ -402,7 +402,7 @@ class ActionScheduler_ListTable extends ActionScheduler_Abstract_ListTable {
 			}
 
 			$this->admin_notices[] = array(
-				'class'   => 'notice notice-info',
+				'class'   => 'notice notice-info iee_notice',
 				'message' => $async_request_message,
 			);
 		}

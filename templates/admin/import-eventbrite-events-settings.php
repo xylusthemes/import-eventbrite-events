@@ -397,7 +397,7 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >
-											<span class="iee-title-text" ><?php esc_attr_e( 'Display Buy Ticket section After Event', 'import-eventbrite-events' ); ?></span>
+											<span class="iee-title-text" ><?php esc_attr_e( 'Display Buy Ticket section in Past Event', 'import-eventbrite-events' ); ?></span>
 										</div>
 										<div class="iee-inner-section-2">
 											<?php
@@ -405,7 +405,7 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											?>
 											<input type="checkbox" name="eventbrite_ap[sbntb]" value="yes" <?php if ( $sbntb == 'yes' ) { echo 'checked="checked"'; } ?> />
 											<span class="iee_small">
-												<?php esc_attr_e( 'Check to enable show to buy ticket section after event', 'import-eventbrite-events' ); ?>
+												<?php esc_attr_e( 'Check to enable show to buy ticket section in past event', 'import-eventbrite-events' ); ?>
 											</span>
 										</div>
 									</div>
