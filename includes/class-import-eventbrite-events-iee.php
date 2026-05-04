@@ -97,6 +97,8 @@ class Import_Eventbrite_Events_IEE {
 		$end_time         = $centralize_array['endtime_local'];
 		$ticket_uri       = $centralize_array['url'];
 
+		$post_description = $iee_events->htmltblock->convert( $post_description );
+
 		$emeventdata = array(
 			'post_title'   => $post_title,
 			'post_content' => $post_description,
