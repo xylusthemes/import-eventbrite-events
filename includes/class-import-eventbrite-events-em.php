@@ -18,6 +18,9 @@ class Import_Eventbrite_Events_EM {
 	// The Events Calendar Event Taxonomy
 	protected $taxonomy;
 
+	// Events Manager Event Tag Taxonomy
+	protected $tag_taxonomy;
+
 	// The Events Calendar Event Posttype
 	protected $event_posttype;
 
@@ -40,6 +43,11 @@ class Import_Eventbrite_Events_EM {
 			$this->taxonomy = EM_TAXONOMY_CATEGORY;
 		} else {
 			$this->taxonomy = 'event-categories';
+		}
+		if ( defined( 'EM_TAXONOMY_TAG' ) ) {
+			$this->tag_taxonomy = EM_TAXONOMY_TAG;
+		} else {
+			$this->tag_taxonomy = 'event-tags';
 		}
 		if ( defined( 'EM_POST_TYPE_LOCATION' ) ) {
 			$this->venue_posttype = EM_POST_TYPE_LOCATION;
@@ -138,6 +146,7 @@ class Import_Eventbrite_Events_EM {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
@@ -149,6 +158,8 @@ class Import_Eventbrite_Events_EM {
 					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
+
+			$iee_events->common->assign_eventbrite_tags_to_event( $inserted_event_id, $centralize_array, $event_args, $this->tag_taxonomy, $is_exitsing_event );
 
 			// Assign Featured images
 			$event_image = $centralize_array['image_url'];
