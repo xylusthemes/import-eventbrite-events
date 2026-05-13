@@ -336,6 +336,15 @@ function iee_activate_import_eventbrite_events() {
 	global $iee_events;
 	$iee_events->cpt->register_event_post_type();
 	flush_rewrite_rules();
+	add_option(
+		IEE_OPTIONS,
+		array(
+			'using_standard_api' => 'yes',
+			'enable_ticket_sec'  => 'yes',
+			'ticket_model'       => '0',
+			'update_events'      => 'yes',
+		)
+	);
 	add_option( 'iee_plugin_activated', true );
 }
 register_activation_hook( __FILE__, 'iee_activate_import_eventbrite_events' );
