@@ -207,6 +207,11 @@ class Import_Eventbrite_Events_Common {
 		if ( defined( 'EVENT_ESPRESSO_VERSION' ) && defined( 'EVENT_ESPRESSO_MAIN_FILE' ) ) {
 			$supported_plugins['ee4'] = __( 'Event Espresso (EE4)', 'import-eventbrite-events' );
 		}
+		
+		// Check Xylus Events Calendar
+		if ( class_exists( 'Xylus_Events_Calendar' ) ) {
+			$supported_plugins['xec'] = __( 'Easy Events Calendar', 'import-eventbrite-events' );
+		}
 
 		$iee_options       = get_option( IEE_OPTIONS );
 		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
@@ -445,7 +450,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
@@ -569,8 +574,6 @@ class Import_Eventbrite_Events_Common {
 					$import_status['skipped'][] = $value;
 				} elseif ( $value['status'] == 'skip_trash' ) {
 					$import_status['skip_trash'][] = $value;
-				} else {
-
 				}
 				if ( isset( $value['id'] ) ) {
 					$import_ids[] = $value['id'];
