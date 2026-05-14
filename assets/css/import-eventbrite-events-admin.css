@@ -707,6 +707,96 @@ table.iee_form_table tr td:nth-child(1) {
   gap: 30px;
 }
 
+.iee-ical-export-card {
+  padding: 24px;
+}
+
+.iee-ical-export-form .iee-inner-main-section {
+  align-items: flex-start;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #edf0f3;
+}
+
+.iee-ical-export-form .iee-inner-main-section:first-of-type {
+  padding-top: 0;
+}
+
+.iee-ical-export-form .iee-inner-main-section:last-of-type {
+  border-bottom: 0;
+}
+
+.iee-ical-export-form .iee-inner-section-1 {
+  max-width: 220px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.iee-ical-export-form .iee-inner-section-2 {
+  max-width: 680px;
+}
+
+.iee-ical-control {
+  width: 100%;
+  max-width: 520px;
+}
+
+.iee-ical-number {
+  width: 140px;
+}
+
+.iee-ical-inline-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.iee-ical-inline-fields input[type="date"] {
+  min-width: 160px;
+}
+
+.iee-ical-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.iee-ical-checkboxes label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.iee-ical-actions {
+  margin-top: 20px;
+}
+
+@media (max-width: 782px) {
+  .iee-ical-export-card {
+    padding: 18px;
+  }
+
+  .iee-ical-export-form .iee-inner-main-section {
+    display: block;
+  }
+
+  .iee-ical-export-form .iee-inner-section-1,
+  .iee-ical-export-form .iee-inner-section-2 {
+    width: 100%;
+    max-width: none;
+  }
+
+  .iee-ical-export-form .iee-inner-section-1 {
+    margin-bottom: 8px;
+  }
+}
+
+.iee-ical-export-card input[type="search"], .iee-ical-export-card select, .iee-ical-export-card input[type="number"] {
+    width: 60%;
+    max-width: 100%;
+}
+
 .iee-title-text{
   font-weight: 600;
   font-size: 14px;
