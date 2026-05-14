@@ -396,6 +396,12 @@ class Import_Eventbrite_Events_My_Calendar {
 				update_post_meta( $inserted_event_id, 'series_id', $series_id );
 			}
 
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $inserted_event_id, 'discount_code', $discount_code );
+			}
+
 			if ( $is_exitsing_event ) {
 				do_action( 'iee_after_update_my_calendar_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(

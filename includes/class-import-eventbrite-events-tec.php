@@ -175,6 +175,12 @@ class Import_Eventbrite_Events_TEC {
 				update_post_meta( $new_event_id, 'series_id', $series_id );
 			}
 
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $new_event_id, 'discount_code', $discount_code );
+			}
+
 			// Asign event category.
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
@@ -266,6 +272,12 @@ class Import_Eventbrite_Events_TEC {
 			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
 			if( !empty( $series_id ) ){
 				update_post_meta( $update_event_id, 'series_id', $series_id );
+			}
+
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $update_event_id, 'discount_code', $discount_code );
 			}
 
 			// Asign event category.

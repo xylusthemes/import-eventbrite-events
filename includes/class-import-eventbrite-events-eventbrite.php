@@ -176,6 +176,9 @@ class Import_Eventbrite_Events_Eventbrite {
 		$ticket_price      = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] : '';	
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
 		$eventbrite_cat    = isset( $eventbrite_event['category']['short_name'] ) ? $eventbrite_event['category']['short_name'] : '';	
+		$organization_id   = isset( $eventbrite_event['organization_id'] ) ? $eventbrite_event['organization_id'] : '';
+		$get_promocode     = $iee_events->common->get_event_discount_code( $eventbrite_event['id'], $organization_id );
+
 
 		$xt_event = array(
 			'origin'          => 'eventbrite',
@@ -197,6 +200,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			'ticket_currency' => $ticket_currency,
 			'collection_ids'  => $ct_ids,
 			'e_category'      => $eventbrite_cat,
+			'discount_code'   => $get_promocode,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {
