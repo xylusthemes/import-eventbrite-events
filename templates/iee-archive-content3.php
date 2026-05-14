@@ -42,13 +42,8 @@ if( $time_format === '12hours' ){
 
 
 
-$image_url = array();
-if ( '' !== get_the_post_thumbnail() ) {
-	$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-} else {
-	$image_date  = date_i18n( 'F+d', $start_date_str );
-	$image_url[] = 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date;
-}
+$image_date = date_i18n( 'F+d', $start_date_str );
+$image_url  = $iee_events->common->iee_get_event_image_url( get_the_ID(), 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date );
 
 $event_url = get_permalink();
 $target    = '';
@@ -67,7 +62,7 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
     <div class="iee-event-content-wrap">
         <div class="iee-event-img">
 			<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
-            <img src="<?php echo esc_url( $image_url[0] ); ?>" alt="">
+            <img src="<?php echo esc_url( $image_url ); ?>" alt="">
         </div>
         <div class="iee-event-content">
             <div class="iee-event-info">

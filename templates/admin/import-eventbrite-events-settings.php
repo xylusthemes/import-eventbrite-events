@@ -232,6 +232,21 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 										</div>
 									</div>
 
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Do Not Import Event Image', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$skip_image_import = isset( $eventbrite_options['skip_image_import'] ) ? $eventbrite_options['skip_image_import'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[skip_image_import]" value="yes" <?php if ( $skip_image_import == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_attr_e( 'Check to save the Eventbrite source image URL and display it without downloading media as the featured image.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
 									<?php
 									$private_events     = isset( $eventbrite_options['private_events'] ) ? $eventbrite_options['private_events'] : 'no';
 									$using_standard_api = isset( $eventbrite_options['using_standard_api'] ) ? $eventbrite_options['using_standard_api'] : 'no';

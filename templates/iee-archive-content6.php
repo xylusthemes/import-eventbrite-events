@@ -27,14 +27,8 @@ if( $time_format === '12hours' ){
     $start_time = date_i18n( get_option( 'time_format' ), $start_date_str );
 }
 
-$image_url = array();
-if ( has_post_thumbnail() ) {
-    $image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-    $event_image = $image_url[0];
-} else {
-    $image_date  = date_i18n( 'F+d', $start_date_str );
-    $event_image = 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date;
-}
+$image_date  = date_i18n( 'F+d', $start_date_str );
+$event_image = $iee_events->common->iee_get_event_image_url( get_the_ID(), 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date );
 
 $event_url = get_permalink();
 $eb_event_url = get_post_meta( get_the_ID(), 'iee_event_link', true );
