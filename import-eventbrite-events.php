@@ -63,6 +63,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 
 				self::$instance->includes();
 				self::$instance->common     = new Import_Eventbrite_Events_Common();
+				self::$instance->htmltblock = new Import_Eventbrite_Events_Html_To_Blocks();
 				self::$instance->ajax       = new Import_Eventbrite_Events_Ajax();
 				self::$instance->cpt        = new Import_Eventbrite_Events_Cpt();
 				self::$instance->eventbrite = new Import_Eventbrite_Events_Eventbrite();
@@ -179,6 +180,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		private function includes() {
 
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-common.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-html-to-blocks.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ajax.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-list-table.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-admin.php';

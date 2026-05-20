@@ -141,6 +141,21 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Automatically Import and Assign Eventbrite Tags', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$eventbritre_tags = isset( $eventbrite_options['eventbritre_tags'] ) ? $eventbrite_options['eventbritre_tags'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[eventbritre_tags]" value="yes" <?php if ( $eventbritre_tags == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_html_e( 'Enable this option to automatically import Eventbrite tags and assign them in events.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
 											<span class="iee-title-text" ><?php esc_attr_e( 'Move past events in trash', 'import-eventbrite-events' ); ?></span>
 										</div>
 										<div class="iee-inner-section-2">
@@ -270,6 +285,7 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											$dont_update_sc = isset($eventbrite_options['dont_update'])? $eventbrite_options['dont_update'] : array();
 											$sdontupdate = isset( $dont_update_sc['status'] ) ? $dont_update_sc['status'] : 'no';
 											$cdontupdate = isset( $dont_update_sc['category'] ) ? $dont_update_sc['category'] : 'no';
+											$tdontupdate = isset( $dont_update_sc['tag'] ) ? $dont_update_sc['tag'] : 'no';
 											?>
 											<input type="checkbox" name="eventbrite[dont_update][status]" value="yes" <?php checked( $sdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 											<span>
@@ -278,6 +294,10 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											<input type="checkbox" name="eventbrite[dont_update][category]" value="yes" <?php checked( $cdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 											<span>
 												<?php esc_attr_e( 'Event category', 'import-eventbrite-events' ); ?>
+											</span><br/>
+											<input type="checkbox" name="eventbrite[dont_update][tag]" value="yes" <?php checked( $tdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
+											<span>
+												<?php esc_attr_e( 'Event tag', 'import-eventbrite-events' ); ?>
 											</span><br/>
 											<span class="iee_small">
 												<?php esc_attr_e( "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')", 'import-eventbrite-events' ); ?>
