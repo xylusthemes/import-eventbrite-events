@@ -29,6 +29,10 @@ $iee_options  = get_option( IEE_OPTIONS );
 $accent_color = isset( $iee_options['accent_color'] ) ? $iee_options['accent_color'] : '#039ED7';
 $time_format  = isset( $iee_options['time_format'] ) ? $iee_options['time_format'] : '12hours';
 
+$iee_ap_options       = get_option( IEE_AP_OPTIONS );
+$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
+$buy_tickets_text     = isset( $eventbrite_optionsap['ticket_button_text'] ) ? $eventbrite_optionsap['ticket_button_text'] : __( 'Buy Tickets', 'import-eventbrite-events' );
+
 if( $time_format === '12hours' ){
 	$start_time = date_i18n( 'h:i A', $start_date_str );
 	$end_time   = date_i18n( 'h:i A', $end_date_str );
@@ -61,6 +65,9 @@ $post_description    = get_the_content();
 $limited_description = wp_html_excerpt( $post_description, 100, '...' );
 $event_address       = wp_html_excerpt( $event_address, 80, '...' );
 
+$current_time = current_time( 'timestamp' );
+$is_past      = ( $end_date_str < $current_time );
+
 ?>
 <div class="iee-event-item">
     <span class="iee-event-count"><?php echo esc_attr( $day ); ?><span><?php echo esc_attr( $month ); ?></span></span>
@@ -74,14 +81,10 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
                 <div class="iee-event-meta">
                     <div class="iee-event-dtl-meta">
                         <div class="iee-event-time">
-							<?php
-								if( wp_is_mobile() ) {
-									echo '<div ' . esc_attr( 'data-day="' . $day . '" data-month="' . $month . '"' ) . '>
-											<i class="fa fa-calendar"></i>
-											' . esc_html( $day . ' - ' . $month ) . '
-										</div>';
-								}
-							?>
+							<div class="iee-event-mobile-date" <?php echo esc_attr( 'data-day="' . $day . '" data-month="' . $month . '"' ); ?>>
+								<i class="fa fa-calendar"></i>
+								<?php echo esc_html( $day . ' - ' . $month ); ?>
+							</div>
 							<i class="fa fa-clock-o"></i><?php echo esc_attr( ' '. $start_time .' - ' . $end_time ) ; ?>
 						 </div>
                         <div class="iee-event-location" ><i class="fa fa-map-marker"></i> <?php echo esc_attr( ucfirst( $event_address ) ); ?></div>
@@ -92,7 +95,11 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
             </div>
         </div>
         <div class="iee-event-bottom" >
-            <a href="javascript:void(0)" class="iee-theme-btn" data-series-id="<?php echo esc_attr( $iee_event_id );  ?>" id="iee-eventbrite-recurring-checkout-<?php echo esc_attr( $iee_event_id );?>" ><?php esc_html_e( 'Buy Tickets', 'import-eventbrite-events' ); ?></a>
+			<?php if ( $is_past ) : ?>
+				<a href="<?php echo esc_url( $event_url ); ?>" class="iee-theme-btn iee-view-event-btn" <?php echo esc_attr( $target ); ?>><?php esc_html_e( 'View Details', 'import-eventbrite-events' ); ?></a>
+			<?php else : ?>
+            	<a href="javascript:void(0)" class="iee-theme-btn" data-series-id="<?php echo esc_attr( $iee_event_id );  ?>" id="iee-eventbrite-recurring-checkout-<?php echo esc_attr( $iee_event_id );?>" ><?php echo esc_html( $buy_tickets_text ); ?></a>
+			<?php endif; ?>
         </div>
     </div>
 </div>
@@ -100,7 +107,7 @@ $event_address       = wp_html_excerpt( $event_address, 80, '...' );
 <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery('.iee-theme-btn').on("click", function(){
+		jQuery('.iee-theme-btn').not('.iee-view-event-btn').on("click", function(){
 			const id        = jQuery(this).attr('id');
 			const series_id = jQuery(this).data('series-id');
 			var orderCompleteCallback = function() {

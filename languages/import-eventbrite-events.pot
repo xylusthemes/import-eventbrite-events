@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-20T11:36:49+00:00\n"
+"POT-Creation-Date: 2026-05-20T11:39:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -2460,7 +2460,9 @@ msgid "Ticket Button Text"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:396
-#: templates/iee-archive-content3.php:95
+#: templates/iee-archive-content3.php:34
+#: templates/iee-archive-content5.php:23
+#: templates/iee-archive-content6.php:25
 msgid "Buy Tickets"
 msgstr ""
 
@@ -2627,20 +2629,21 @@ msgstr ""
 msgid "Status : "
 msgstr ""
 
+#: templates/iee-archive-content3.php:99
+#: templates/iee-archive-content5.php:78
+#: templates/iee-archive-content6.php:92
+msgid "View Details"
+msgstr ""
+
 #: templates/iee-archive-content4.php:76
 msgid "Date - Time"
 msgstr ""
 
-#: templates/iee-archive-content5.php:47
+#: templates/iee-archive-content5.php:54
 msgid "Event date not available"
 msgstr ""
 
-#: templates/iee-archive-content5.php:71
-#: templates/iee-archive-content6.php:84
-msgid "Buy tickets"
-msgstr ""
-
-#: templates/iee-archive-content6.php:86
+#: templates/iee-archive-content6.php:94
 msgid "View details"
 msgstr ""
 
