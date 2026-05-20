@@ -34,8 +34,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 */
 		private static $instance;
     
-		
-     	public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $eventbrite_api, $ajax, $xec;
+     	public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $eventbrite_api, $ajax, $xec, $ical_export;
     
 		/**
 		 * Main Import Eventbrite Events Instance.
@@ -83,6 +82,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 				self::$instance->aioec           = new Import_Eventbrite_Events_Aioec();
 				self::$instance->my_calendar     = new Import_Eventbrite_Events_My_Calendar();
 				self::$instance->ee4             = new Import_Eventbrite_Events_EE4();
+				self::$instance->ical_export     = new Import_Eventbrite_Events_Ical_Export();
 				self::$instance->xec             = new Import_Eventbrite_Events_XEC();
 
 			}
@@ -205,6 +205,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-aioec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-my-calendar.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ee4.php';
+			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-ical-export.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-import-eventbrite-events-xec.php';
 			require_once IEE_PLUGIN_DIR . 'includes/class-iee-plugin-deactivation.php';
 			// Gutenberg Block.

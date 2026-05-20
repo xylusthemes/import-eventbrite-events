@@ -234,4 +234,15 @@ jQuery(document).ready(function($){
 		}, 3000);
 	});
 
+	jQuery(document).ready(function($) {
+		jQuery(document).on('change', '#iee_ical_date_filter', function(){
+
+			if( jQuery(this).val() == 'range' ){
+				jQuery('.date-range-section').show();
+			} else {
+				jQuery('.date-range-section').hide();
+			}
+		});
+	});
+
 });
