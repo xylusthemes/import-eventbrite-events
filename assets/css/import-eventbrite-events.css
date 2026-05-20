@@ -1235,6 +1235,10 @@
   flex: 0 0 78%;
 }
 
+.iee-event-mobile-date {
+  display: none;
+}
+
 .iee-event-time{
   flex:  0 0 22;
 }
@@ -1264,6 +1268,12 @@
       flex-direction: column;
       align-items: unset;
       width: 100%;
+      overflow: visible;
+  }
+
+  .iee-event-mobile-date {
+      display: block;
+      margin-bottom: 5px;
   }
 
   .iee-event-img img {
