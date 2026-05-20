@@ -18,6 +18,9 @@ class Import_Eventbrite_Events_Aioec {
 	// The Events Calendar Event Taxonomy
 	protected $taxonomy;
 
+	// All-in-One Event Calendar Tag Taxonomy
+	protected $tag_taxonomy;
+
 	// The Events Calendar Event Posttype
 	protected $event_posttype;
 
@@ -37,6 +40,7 @@ class Import_Eventbrite_Events_Aioec {
 		global $wpdb;
 		$this->event_posttype        = 'ai1ec_event';
 		$this->taxonomy              = 'events_categories';
+		$this->tag_taxonomy          = 'events_tags';
 		$this->event_db_table        = "{$wpdb->prefix}ai1ec_events";
 		$this->event_instances_table = "{$wpdb->prefix}ai1ec_event_instances";
 
@@ -128,6 +132,7 @@ class Import_Eventbrite_Events_Aioec {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
@@ -139,6 +144,8 @@ class Import_Eventbrite_Events_Aioec {
 					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
+
+			$iee_events->common->assign_eventbrite_tags_to_event( $inserted_event_id, $centralize_array, $event_args, $this->tag_taxonomy, $is_exitsing_event );
 
 			// Assign Featured images
 			$event_image = $centralize_array['image_url'];

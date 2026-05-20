@@ -10,6 +10,7 @@
  * @version 1.0
  */
 
+global $iee_events;
 $event_date = get_post_meta( get_the_ID(), 'event_start_date', true );
 if ( $event_date != '' ) {
 	$event_date = strtotime( $event_date );
@@ -22,17 +23,8 @@ if ( $event_address != '' && $venue_address != '' ) {
 	$event_address = $venue_address;
 }
 
-$image_url = array();
-if ( '' !== get_the_post_thumbnail() ) {
-	$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-} else {
-	$image_date  = date_i18n( 'F+d', $event_date );
-	$image_url[] = 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date;
-}
-
-if ( '' !== get_the_post_thumbnail() ) {
-	$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-}
+$image_date = date_i18n( 'F+d', $event_date );
+$image_url  = $iee_events->common->iee_get_event_image_url( get_the_ID(), 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date );
 
 $event_url = esc_url( get_permalink() );
 $target = '';
@@ -45,7 +37,7 @@ if ( 'yes' === $direct_link ){
 <a href="<?php echo esc_attr( $event_url ); ?>" <?php echo esc_attr( $target ); ?>>	
 	<div <?php post_class( array( $css_class, 'archive-event' ) ); ?>>
 		<div class="iee_event" >
-			<div class="img_placeholder" style=" background: url('<?php echo esc_url( $image_url[0] ); ?>') no-repeat left top;"></div>
+			<div class="img_placeholder" style=" background: url('<?php echo esc_url( $image_url ); ?>') no-repeat left top;"></div>
 			<div class="event_details">
 				<div class="event_date">
 					<span class="month"><?php echo esc_attr( date_i18n( 'M', $event_date ) ); ?></span>

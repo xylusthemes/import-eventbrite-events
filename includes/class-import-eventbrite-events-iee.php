@@ -24,6 +24,9 @@ class Import_Eventbrite_Events_IEE {
 	// Event Collection
 	protected $event_collection;
 
+	// Event Tag
+	protected $event_tag;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -34,6 +37,7 @@ class Import_Eventbrite_Events_IEE {
 		$this->event_posttype = 'eventbrite_events';
 		$this->taxonomy       = 'eventbrite_category';
 		$this->event_collection = 'eventbrite_collection';
+		$this->event_tag      = 'eventbrite_tag';
 
 	}
 
@@ -97,6 +101,8 @@ class Import_Eventbrite_Events_IEE {
 		$end_time         = $centralize_array['endtime_local'];
 		$ticket_uri       = $centralize_array['url'];
 
+		$post_description = $iee_events->htmltblock->convert( $post_description );
+
 		$emeventdata = array(
 			'post_title'   => $post_title,
 			'post_content' => $post_description,
@@ -125,19 +131,7 @@ class Import_Eventbrite_Events_IEE {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
-			$is_insert_ecat = isset( $options['eventbritre_category'] ) ? $options['eventbritre_category'] : 'no';
-			$eiee_cats      = isset( $event_args['event_cats'] ) && is_array( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
-			$e_cats         = isset( $centralize_array['e_category'] ) ? $centralize_array['e_category'] : '';
-
-			if ( $is_insert_ecat === 'yes' ) {
-				$get_ecat_id = $iee_events->common->insert_eventbrite_category_and_assing_into_event( $e_cats );
-				if ( ! empty( $get_ecat_id ) ) {
-					$eiee_cats[] = (int) $get_ecat_id;
-					$eiee_cats = array_unique( $eiee_cats );
-				}
-			}
-
-			$event_args['event_cats'] = $eiee_cats;
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
@@ -147,6 +141,33 @@ class Import_Eventbrite_Events_IEE {
 			if ( ! empty( $iee_cats ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
 					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+				}
+			}
+
+			// Assign Eventbrite tags.
+			$is_insert_etags = isset( $options['eventbritre_tags'] ) ? $options['eventbritre_tags'] : 'no';
+			$iee_tags        = isset( $event_args['event_tags'] ) && is_array( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+			$e_tags          = isset( $centralize_array['e_tags'] ) && is_array( $centralize_array['e_tags'] ) ? $centralize_array['e_tags'] : array();
+
+			if ( 'yes' === $is_insert_etags && ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'tag' ) ) ) {
+				$eventbrite_tag_ids = $iee_events->common->insert_eventbrite_tags_and_assing_into_event( $e_tags, $this->event_tag );
+
+				if ( ! empty( $eventbrite_tag_ids ) ) {
+					$iee_tags = array_merge( $iee_tags, $eventbrite_tag_ids );
+				}
+			}
+
+			if ( ! empty( $iee_tags ) ) {
+				foreach ( $iee_tags as $iee_tagk => $iee_tagv ) {
+					$iee_tags[ $iee_tagk ] = (int) $iee_tagv;
+				}
+
+				$iee_tags = array_unique( $iee_tags );
+			}
+
+			if ( ! empty( $iee_tags ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('tag') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_tags, $this->event_tag );
 				}
 			}
 

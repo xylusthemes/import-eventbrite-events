@@ -182,6 +182,16 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		$eventbrite_cat    = isset( $eventbrite_event['category']['short_name'] ) ? $eventbrite_event['category']['short_name'] : '';	
 		$organization_id   = isset( $eventbrite_event['organization_id'] ) ? $eventbrite_event['organization_id'] : '';
 		$get_promocode     = $iee_events->common->get_event_discount_code( $eventbrite_event['id'], $organization_id );
+		$is_insert_etags   = isset( $iee_options['eventbritre_tags'] ) ? $iee_options['eventbritre_tags'] : 'no';
+		$eventbrite_tags   = array();
+
+		if ( 'yes' === $is_insert_etags ) {
+			$eventbrite_tags = isset( $eventbrite_event['tags'] ) ? $iee_events->common->prepare_eventbrite_tag_names( $eventbrite_event['tags'] ) : array();
+
+			if ( empty( $eventbrite_tags ) ) {
+				$eventbrite_tags = $iee_events->common->get_eventbrite_tags_by_event_id( $eventbrite_event['id'] );
+			}
+		}
 
 		$ct_ids = '';
 		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
@@ -199,6 +209,7 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			'startime_utc'    => $start_time_utc,
 			'endtime_utc'     => $end_time_utc,
 			'timezone'        => $timezone,
+			'timezone_name'   => $timezone,
 			'utc_offset'      => $utc_offset,
 			'event_duration'  => '',
 			'is_all_day'      => '',
@@ -210,6 +221,7 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			'collection_ids'  => $ct_ids,
 			'e_category'      => $eventbrite_cat,
 			'discount_code'   => $get_promocode,
+			'e_tags'          => $eventbrite_tags,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {

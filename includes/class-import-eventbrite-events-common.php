@@ -34,6 +34,7 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
 		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
 		add_action( 'admin_init', array( $this, 'iee_redirect_after_activation' ) );
+		add_filter( 'post_thumbnail_html', array( $this, 'iee_source_image_thumbnail_html' ), 10, 5 );
 	}
 
 	/**
@@ -207,6 +208,11 @@ class Import_Eventbrite_Events_Common {
 		if ( defined( 'EVENT_ESPRESSO_VERSION' ) && defined( 'EVENT_ESPRESSO_MAIN_FILE' ) ) {
 			$supported_plugins['ee4'] = __( 'Event Espresso (EE4)', 'import-eventbrite-events' );
 		}
+		
+		// Check Xylus Events Calendar
+		if ( class_exists( 'Xylus_Events_Calendar' ) ) {
+			$supported_plugins['xec'] = __( 'Easy Events Calendar', 'import-eventbrite-events' );
+		}
 
 		$iee_options       = get_option( IEE_OPTIONS );
 		$deactive_ieevents = isset( $iee_options['deactive_ieevents'] ) ? $iee_options['deactive_ieevents'] : 'no';
@@ -215,6 +221,78 @@ class Import_Eventbrite_Events_Common {
 		}
 		$supported_plugins = apply_filters( 'iee_supported_plugins', $supported_plugins );
 		return $supported_plugins;
+	}
+
+	/**
+	 * Get event image URL.
+	 *
+	 * @since 1.8.0
+	 * @param int    $event_id Event ID.
+	 * @param string $fallback Fallback image URL.
+	 * @return string Image URL.
+	 */
+	public function iee_get_event_image_url( $event_id = 0, $fallback = '' ) {
+		$event_id = $event_id ? $event_id : get_the_ID();
+
+		if ( ! $event_id ) {
+			return $fallback;
+		}
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+		
+		$source_image_url  = $this->iee_normalize_event_image_url( html_entity_decode( get_post_meta( $event_id, 'iee_event_image_url', true ), ENT_QUOTES, 'UTF-8' ) );
+
+		if ( 'yes' === $skip_image_import && ! empty( $source_image_url ) ) {
+			return $source_image_url;
+		}
+
+		
+		if ( has_post_thumbnail( $event_id ) ) {
+			$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $event_id ), 'full' );
+			if ( ! empty( $image_url[0] ) ) {
+				return $image_url[0];
+			}
+		}
+
+		if ( ! empty( $source_image_url ) ) {
+			return $source_image_url;
+		}
+
+		return $fallback;
+	}
+
+	/**
+	 * Normalize Eventbrite image URLs before storing or rendering.
+	 *
+	 * @since 1.8.0
+	 * @param string $image_url Image URL.
+	 * @return string Image URL.
+	 */
+	public function iee_normalize_event_image_url( $image_url = '' ) {
+		$image_url = trim( (string) $image_url );
+
+		if ( empty( $image_url ) ) {
+			return '';
+		}
+
+		// HTML entities decode karo pehle (&#038; → &)
+		$image_url = html_entity_decode( $image_url, ENT_QUOTES, 'UTF-8' );
+
+		if ( 0 === strpos( $image_url, '//' ) ) {
+			$image_url = 'https:' . $image_url;
+		}
+
+		if ( ! preg_match( '#^https?://#i', $image_url ) ) {
+			$image_url = ltrim( $image_url, '/' );
+			if ( 0 === strpos( $image_url, 'img.evbuc.com/' ) || 0 === strpos( $image_url, 'cdn.evbuc.com/' ) ) {
+				$image_url = 'https://' . $image_url;
+			} else {
+				$image_url = 'https://img.evbuc.com/' . $image_url;
+			}
+		}
+
+		return esc_url_raw( $image_url );
 	}
 
 	/**
@@ -234,6 +312,21 @@ class Import_Eventbrite_Events_Common {
 			return;
 		}
 
+		$image_url = $this->iee_normalize_event_image_url( $image_url );
+		if ( empty( $image_url ) ) {
+			return;
+		}
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+		if ( 'yes' === $skip_image_import ) {
+			$image_url = html_entity_decode( $image_url, ENT_QUOTES, 'UTF-8' );
+			$image_url = $this->iee_normalize_event_image_url( $image_url );
+			update_post_meta( $event_id, 'iee_event_image_url', $image_url );
+			delete_post_thumbnail( $event_id );
+			return $image_url;
+		}
+
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -251,7 +344,6 @@ class Import_Eventbrite_Events_Common {
 					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
 			}
-			$iee_options         = get_option( IEE_OPTIONS );
 			$small_thumbnail     = isset( $iee_options['small_thumbnail'] ) ? $iee_options['small_thumbnail'] : 'no';
 			if( $small_thumbnail == 'yes'){
 				$image_url       = str_replace( 'original.', 'logo.', $image_url );
@@ -307,6 +399,7 @@ class Import_Eventbrite_Events_Common {
 
 			if ( $att_id ) {
 				set_post_thumbnail( $event_id, $att_id );
+				update_post_meta( $event_id, 'iee_event_image_url', esc_url_raw( $image_url ) );
 			}
 
 			// Save attachment source for future reference.
@@ -314,6 +407,48 @@ class Import_Eventbrite_Events_Common {
 
 			return $att_id;
 		}
+	}
+
+	/**
+	 * Display the saved source image URL as featured image HTML when media import is disabled.
+	 *
+	 * @since 1.8.0
+	 * @param string       $html              Post thumbnail HTML.
+	 * @param int          $post_id           Post ID.
+	 * @param int          $post_thumbnail_id Post thumbnail ID.
+	 * @param string|array $size              Requested image size.
+	 * @param string|array $attr              Image attributes.
+	 * @return string Post thumbnail HTML.
+	 */
+	public function iee_source_image_thumbnail_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+
+		if ( 'yes' !== $skip_image_import ) {
+			return $html;
+		}
+
+		$source_image_url = $this->iee_normalize_event_image_url( html_entity_decode( get_post_meta( $post_id, 'iee_event_image_url', true ), ENT_QUOTES, 'UTF-8' ) );
+		if ( empty( $source_image_url ) ) {
+			return $html;
+		}
+
+		$attributes = array(
+			'src' => esc_url( $source_image_url ),
+			'alt' => get_the_title( $post_id ),
+		);
+
+		if ( is_array( $attr ) ) {
+			$attributes = array_merge( $attributes, $attr );
+		}
+
+		$image_html = '<img';
+		foreach ( $attributes as $name => $value ) {
+			$image_html .= ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+		}
+		$image_html .= ' />';
+
+		return $image_html;
 	}
 
 	/**
@@ -445,7 +580,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
@@ -569,8 +704,6 @@ class Import_Eventbrite_Events_Common {
 					$import_status['skipped'][] = $value;
 				} elseif ( $value['status'] == 'skip_trash' ) {
 					$import_status['skip_trash'][] = $value;
-				} else {
-
 				}
 				if ( isset( $value['id'] ) ) {
 					$import_ids[] = $value['id'];
@@ -1560,6 +1693,14 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function iee_set_feature_image_logic( $event_id, $image_url, $event_args ){
 		global $iee_events;
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+
+		if ( 'yes' === $skip_image_import ) {
+			$iee_events->common->setup_featured_image_to_event( $event_id, $image_url );
+			return;
+		}
 		
 		if ( $event_args['import_type'] === 'onetime' && $event_args['import_by'] === 'event_id' ) {
 			$iee_events->common->setup_featured_image_to_event( $event_id, $image_url );
@@ -1623,14 +1764,21 @@ class Import_Eventbrite_Events_Common {
 	 * Sync API collection data
 	 */
 
-	public function insert_eventbrite_category_and_assing_into_event( $category_name ) {
+	public function insert_eventbrite_category_and_assing_into_event( $category_name, $taxonomy = '' ) {
 		global $iee_events;
 
 		if ( empty( $category_name ) ) {
 			return [];
 		}
 
-		$taxonomy = $iee_events->cpt->get_event_categroy_taxonomy();
+		if ( empty( $taxonomy ) ) {
+			$taxonomy = $iee_events->cpt->get_event_categroy_taxonomy();
+		}
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return 0;
+		}
+
 		$ecat_id = 0;
 
 		// Sanitize name
@@ -1651,6 +1799,277 @@ class Import_Eventbrite_Events_Common {
 		}
 
 		return $ecat_id;
+	}
+
+	/**
+	 * Add Eventbrite category to the destination category list.
+	 *
+	 * @since 1.0.0
+	 * @param array  $centralize_array  Centralized event data.
+	 * @param array  $event_args        Import arguments.
+	 * @param string $taxonomy          Destination category taxonomy.
+	 * @param bool   $is_existing_event Whether this is updating an existing event.
+	 * @return array Category term IDs.
+	 */
+	public function prepare_eventbrite_category_terms( $centralize_array, $event_args, $taxonomy, $is_existing_event = false ) {
+		$category_ids = isset( $event_args['event_cats'] ) && is_array( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+
+		if ( empty( $taxonomy ) || ! taxonomy_exists( $taxonomy ) ) {
+			return $category_ids;
+		}
+
+		if ( $is_existing_event && ! $this->iee_is_updatable( 'category' ) ) {
+			return $category_ids;
+		}
+
+		$options            = iee_get_import_options( $centralize_array['origin'] );
+		$is_insert_category = isset( $options['eventbritre_category'] ) ? $options['eventbritre_category'] : 'no';
+		$category_name      = isset( $centralize_array['e_category'] ) ? $centralize_array['e_category'] : '';
+
+		if ( 'yes' === $is_insert_category && ! empty( $category_name ) ) {
+			$eventbrite_category_id = $this->insert_eventbrite_category_and_assing_into_event( $category_name, $taxonomy );
+
+			if ( ! empty( $eventbrite_category_id ) ) {
+				$category_ids[] = (int) $eventbrite_category_id;
+			}
+		}
+
+		if ( ! empty( $category_ids ) ) {
+			foreach ( $category_ids as $category_key => $category_id ) {
+				$category_ids[ $category_key ] = (int) $category_id;
+			}
+		}
+
+		return array_values( array_unique( $category_ids ) );
+	}
+
+	/**
+	 * Get Eventbrite organizer tags by event ID.
+	 *
+	 * @since 1.0.0
+	 * @param string $event_id Eventbrite event ID.
+	 * @return array Eventbrite tag names.
+	 */
+	public function get_eventbrite_tags_by_event_id( $event_id ) {
+		$event_id = sanitize_text_field( $event_id );
+
+		if ( empty( $event_id ) ) {
+			return array();
+		}
+
+		$transient_key = 'iee_eventbrite_tags_' . $event_id;
+		$cached_tags   = get_transient( $transient_key );
+
+		if ( false !== $cached_tags ) {
+			return is_array( $cached_tags ) ? $cached_tags : array();
+		}
+
+		$eventbrite_api_url = add_query_arg(
+			array(
+				'event_ids' => $event_id,
+				'expand'    => 'series',
+			),
+			'https://www.eventbrite.nl/api/v3/destination/events/'
+		);
+
+		$response = wp_remote_get(
+			$eventbrite_api_url,
+			array(
+				'headers' => array(
+					'Content-Type' => 'application/json',
+				),
+				'timeout' => 20,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
+		$tags = array();
+
+		if ( is_array( $body ) && ! empty( $body['events'][0]['tags'] ) && is_array( $body['events'][0]['tags'] ) ) {
+			$tags = $this->prepare_eventbrite_tag_names( $body['events'][0]['tags'] );
+		}
+
+		set_transient( $transient_key, $tags, HOUR_IN_SECONDS );
+
+		return $tags;
+	}
+
+	/**
+	 * Prepare Eventbrite tag names from API tag objects.
+	 *
+	 * @since 1.0.0
+	 * @param array $eventbrite_tags Eventbrite tag objects.
+	 * @return array Tag names.
+	 */
+	public function prepare_eventbrite_tag_names( $eventbrite_tags ) {
+		if ( empty( $eventbrite_tags ) || ! is_array( $eventbrite_tags ) ) {
+			return array();
+		}
+
+		$allowed_prefixes = apply_filters( 'iee_eventbrite_tag_prefixes', array( 'OrganizerTag' ) );
+		$tag_names        = array();
+
+		foreach ( $eventbrite_tags as $eventbrite_tag ) {
+			if ( empty( $eventbrite_tag ) || ! is_array( $eventbrite_tag ) ) {
+				continue;
+			}
+
+			$prefix = isset( $eventbrite_tag['prefix'] ) ? sanitize_text_field( $eventbrite_tag['prefix'] ) : '';
+
+			if ( ! empty( $allowed_prefixes ) && ! in_array( $prefix, $allowed_prefixes, true ) ) {
+				continue;
+			}
+
+			$tag_name = isset( $eventbrite_tag['display_name'] ) ? sanitize_text_field( $eventbrite_tag['display_name'] ) : '';
+
+			if ( empty( $tag_name ) && ! empty( $eventbrite_tag['tag'] ) ) {
+				$tag_parts = explode( '/', sanitize_text_field( $eventbrite_tag['tag'] ) );
+				$tag_name  = end( $tag_parts );
+			}
+
+			if ( ! empty( $tag_name ) ) {
+				$tag_names[] = $this->normalize_eventbrite_tag_name( $tag_name );
+			}
+		}
+
+		return array_values( array_unique( $tag_names ) );
+	}
+
+	/**
+	 * Convert Eventbrite organizer tag values into readable WordPress tag names.
+	 *
+	 * @since 1.0.0
+	 * @param string $tag_name Eventbrite tag name.
+	 * @return string Normalized tag name.
+	 */
+	public function normalize_eventbrite_tag_name( $tag_name ) {
+		$tag_name = sanitize_text_field( $tag_name );
+
+		if ( empty( $tag_name ) ) {
+			return '';
+		}
+
+		$tag_name = preg_replace( '/[_-]+/', ' ', $tag_name );
+		$tag_name = preg_replace( '/\s+/', ' ', $tag_name );
+		$tag_name = trim( $tag_name );
+
+		if ( function_exists( 'mb_convert_case' ) ) {
+			return mb_convert_case( $tag_name, MB_CASE_TITLE, 'UTF-8' );
+		}
+
+		return ucwords( strtolower( $tag_name ) );
+	}
+
+	/**
+	 * Create/update Eventbrite tags and return term IDs.
+	 *
+	 * @since 1.0.0
+	 * @param array  $eventbrite_tags Eventbrite tag names.
+	 * @param string $taxonomy Tag taxonomy.
+	 * @return array Term IDs.
+	 */
+	public function insert_eventbrite_tags_and_assing_into_event( $eventbrite_tags, $taxonomy = '' ) {
+		global $iee_events;
+
+		if ( empty( $eventbrite_tags ) || ! is_array( $eventbrite_tags ) ) {
+			return array();
+		}
+
+		if ( empty( $taxonomy ) ) {
+			$taxonomy = $iee_events->cpt->get_event_tag_taxonomy();
+		}
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return array();
+		}
+
+		$term_ids = array();
+
+		foreach ( $eventbrite_tags as $tag_name ) {
+			$raw_name = sanitize_text_field( $tag_name );
+			$name     = $this->normalize_eventbrite_tag_name( $raw_name );
+
+			if ( empty( $name ) ) {
+				continue;
+			}
+
+			$slug = sanitize_title( $name );
+			$term = get_term_by( 'slug', $slug, $taxonomy );
+
+			if ( ! $term ) {
+				$term = term_exists( $raw_name, $taxonomy );
+			}
+
+			if ( $term ) {
+				if ( is_array( $term ) ) {
+					$term_id = (int) $term['term_id'];
+				} else {
+					$term_id = (int) $term->term_id;
+				}
+
+				wp_update_term( $term_id, $taxonomy, array( 'name' => $name, 'slug' => $slug ) );
+			} else {
+				$new_term = wp_insert_term( $name, $taxonomy, array( 'slug' => $slug ) );
+
+				if ( is_wp_error( $new_term ) || empty( $new_term['term_id'] ) ) {
+					continue;
+				}
+
+				$term_id = (int) $new_term['term_id'];
+			}
+
+			$term_ids[] = $term_id;
+		}
+
+		return array_values( array_unique( $term_ids ) );
+	}
+
+	/**
+	 * Create and assign Eventbrite tags to an imported event.
+	 *
+	 * @since 1.0.0
+	 * @param int    $event_id          Imported event post ID.
+	 * @param array  $centralize_array  Centralized event data.
+	 * @param array  $event_args        Import arguments.
+	 * @param string $taxonomy          Destination tag taxonomy.
+	 * @param bool   $is_existing_event Whether this is updating an existing event.
+	 * @return void
+	 */
+	public function assign_eventbrite_tags_to_event( $event_id, $centralize_array, $event_args, $taxonomy, $is_existing_event = false ) {
+		if ( empty( $event_id ) || empty( $taxonomy ) || ! taxonomy_exists( $taxonomy ) ) {
+			return;
+		}
+
+		if ( $is_existing_event && ! $this->iee_is_updatable( 'tag' ) ) {
+			return;
+		}
+
+		$options         = iee_get_import_options( $centralize_array['origin'] );
+		$is_insert_tags  = isset( $options['eventbritre_tags'] ) ? $options['eventbritre_tags'] : 'no';
+		$event_tag_ids   = isset( $event_args['event_tags'] ) && is_array( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+		$eventbrite_tags = isset( $centralize_array['e_tags'] ) && is_array( $centralize_array['e_tags'] ) ? $centralize_array['e_tags'] : array();
+
+		if ( 'yes' === $is_insert_tags ) {
+			$eventbrite_tag_ids = $this->insert_eventbrite_tags_and_assing_into_event( $eventbrite_tags, $taxonomy );
+
+			if ( ! empty( $eventbrite_tag_ids ) ) {
+				$event_tag_ids = array_merge( $event_tag_ids, $eventbrite_tag_ids );
+			}
+		}
+
+		if ( empty( $event_tag_ids ) ) {
+			return;
+		}
+
+		foreach ( $event_tag_ids as $event_tag_key => $event_tag_id ) {
+			$event_tag_ids[ $event_tag_key ] = (int) $event_tag_id;
+		}
+
+		wp_set_object_terms( $event_id, array_unique( $event_tag_ids ), $taxonomy );
 	}
 }
 

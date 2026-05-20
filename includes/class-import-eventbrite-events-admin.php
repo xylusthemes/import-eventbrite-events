@@ -136,6 +136,7 @@ class Import_Eventbrite_Events_Admin {
 		$submenu['eventbrite_event'][] = array( __( 'Schedule Import', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=scheduled' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Import History', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=history' ) );
 		$submenu['eventbrite_event'][] = array( __( 'Settings', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=settings' ));
+		$submenu['eventbrite_event'][] = array( __( 'iCal Export', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=ical_export' ));
 		$submenu['eventbrite_event'][] = array( __( 'Shortcodes', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=shortcodes' ));
 		$submenu['eventbrite_event'][] = array( __( 'Support', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=support' ));
 		$submenu['eventbrite_event'][] = array( __( 'Wizard', 'import-eventbrite-events' ), 'manage_options', admin_url( 'admin.php?page=eventbrite_event&tab=iee_setup_wizard' ));
@@ -223,6 +224,8 @@ class Import_Eventbrite_Events_Admin {
 				$page_title = 'ICS Import';
 			}elseif( $active_tab == 'scheduled' ){
 				$page_title = 'Scheduled Import';
+			}elseif( $active_tab == 'ical_export' ){
+				$page_title = 'iCal Export';
 			}else{
 				$page_title = $gettab;
 			}
@@ -262,6 +265,9 @@ class Import_Eventbrite_Events_Admin {
 															<a href="?page=eventbrite_event&tab=settings" class="var-tab <?php echo $active_tab == 'settings' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
 																<span class="tab-label"><?php esc_attr_e( 'Setting', 'import-eventbrite-events' ); ?></span>
 															</a>
+															<a href="?page=eventbrite_event&tab=ical_export" class="var-tab <?php echo $active_tab == 'ical_export' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
+																<span class="tab-label"><?php esc_attr_e( 'iCal Export', 'import-eventbrite-events' ); ?></span>
+															</a>
 															<a href="?page=eventbrite_event&tab=shortcodes" class="var-tab <?php echo $active_tab == 'shortcodes' ? 'var-tab--active' : 'var-tab--inactive'; ?>">
 																<span class="tab-label"><?php esc_attr_e( 'Shortcodes', 'import-eventbrite-events' ); ?></span>
 															</a>
@@ -276,9 +282,11 @@ class Import_Eventbrite_Events_Admin {
 
 										<?php
 											if ( 'eventbrite' === $active_tab ) {
-														require_once IEE_PLUGIN_DIR . '/templates/admin/eventbrite-import-events.php';
+												require_once IEE_PLUGIN_DIR . '/templates/admin/eventbrite-import-events.php';
 											} elseif ( 'settings' === $active_tab ) {
 												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-settings.php';
+											} elseif ( 'ical_export' === $active_tab ) {
+												require_once IEE_PLUGIN_DIR . '/templates/admin/import-eventbrite-events-ical-export.php';
 											} elseif ( 'scheduled' === $active_tab ) {
 												if ( iee_is_pro() ) {
 													require_once IEEPRO_PLUGIN_DIR . '/templates/admin/scheduled-import-events.php';
@@ -570,7 +578,7 @@ class Import_Eventbrite_Events_Admin {
 	 */
 	public function get_selected_tab_submenu_iee( $submenu_file ){
 		if( !empty( $_GET['page'] ) && esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) == 'eventbrite_event' ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$allowed_tabs = array( 'dashboard', 'eventbrite', 'scheduled', 'history', 'settings', 'shortcodes', 'support' );
+			$allowed_tabs = array( 'dashboard', 'eventbrite', 'scheduled', 'history', 'settings', 'ical_export', 'shortcodes', 'support' );
 			$tab = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if( in_array( $tab, $allowed_tabs ) ){
 				$submenu_file = admin_url( 'admin.php?page=eventbrite_event&tab='.$tab );
