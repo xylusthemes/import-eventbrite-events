@@ -472,14 +472,14 @@ class Import_Eventbrite_Events_Common {
 					}
 					if ( $eventbrite_id && is_numeric( $eventbrite_id ) && $eventbrite_id > 0 ) {
 						if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
-							$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+							$ticket_section = $this->iee_get_ticket_section( $eventbrite_id, $event_id );
 							echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 					}
 				}
 			} elseif ( $eventbrite_event_id && $eventbrite_event_id > 0 && is_numeric( $eventbrite_event_id ) ) {
 				if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_event_id ) ) {
-					$ticket_section = $this->iee_get_ticket_section( $eventbrite_event_id );
+					$ticket_section = $this->iee_get_ticket_section( $eventbrite_event_id,$event_id );
 					echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			}
@@ -506,7 +506,7 @@ class Import_Eventbrite_Events_Common {
 						$eventbrite_id = $series_id;
 					}
 					if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
-						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id, $event_id );
 					}
 				}
 			}
@@ -588,7 +588,7 @@ class Import_Eventbrite_Events_Common {
 				}
 				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {			
 					if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
-						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id, $event_id );
 						return $content . $ticket_section;
 					} else {
 						return $content;
@@ -619,7 +619,7 @@ class Import_Eventbrite_Events_Common {
 				}
 				if ( $eventbrite_id && $eventbrite_id > 0 && is_numeric( $eventbrite_id ) ) {
 					if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
-						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id );
+						$ticket_section = $this->iee_get_ticket_section( $eventbrite_id, $event_id  );
 						echo $ticket_section; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 				}
@@ -633,7 +633,7 @@ class Import_Eventbrite_Events_Common {
 	 * @since  1.1.0
 	 * @return html
 	 */
-	public function iee_get_ticket_section( $eventbrite_id = 0 ) {
+	public function iee_get_ticket_section( $eventbrite_id = 0, $event_id = 0 ) {
 		$options = iee_get_import_options( 'eventbrite' );
 
 		$enable_ticket_sec = isset( $options['enable_ticket_sec'] ) ? $options['enable_ticket_sec'] : 'no';
@@ -646,9 +646,9 @@ class Import_Eventbrite_Events_Common {
 			ob_start();
 			if( is_ssl() ){
 				if('1'=== $ticket_model ){
-					echo iee_model_checkout_markup($eventbrite_id); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo iee_model_checkout_markup( $eventbrite_id, $event_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}else{
-					echo iee_nonmodel_checkout_markup($eventbrite_id); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo iee_nonmodel_checkout_markup( $eventbrite_id, $event_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 			} else {
 				?>
@@ -956,6 +956,25 @@ class Import_Eventbrite_Events_Common {
 			return $get_post_id[0];
 		}
 		return false;
+	}
+	
+	/**
+	 * Get discount code for eventbrite event.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_event_discount_code( $event_id, $organization_id ) {
+
+		$discount_code          = '';
+		$eventbrite_dc_url      = 'https://www.eventbrite.com/e/api/' . $event_id . '/ticket-information?organizationId=' . $organization_id;
+		$eventbrite_dc_response = wp_remote_get( $eventbrite_dc_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+		if ( ! is_wp_error( $eventbrite_dc_response ) && 200 === wp_remote_retrieve_response_code( $eventbrite_dc_response ) ) {
+			$event_d_code  = json_decode( wp_remote_retrieve_body( $eventbrite_dc_response ) );
+			if ( is_object( $event_d_code ) ) {
+				$discount_code = $event_d_code->appliedPromoCode ?? '';
+			}
+		}
+		return $discount_code;
 	}
 
 	/**
@@ -2175,7 +2194,8 @@ function iee_get_inprogress_import(){
  *
  * @return string
  */
-function iee_nonmodel_checkout_markup( $eventbrite_id ){
+function iee_nonmodel_checkout_markup( $eventbrite_id, $event_id ){
+	$discount_code = get_post_meta( $event_id, 'discount_code', true );
 	ob_start();
 	?>
 	<div id="iee-eventbrite-checkout-widget"></div>
@@ -2190,7 +2210,8 @@ function iee_nonmodel_checkout_markup( $eventbrite_id ){
 			eventId: "<?php echo esc_attr( $eventbrite_id ); ?>",
 			iframeContainerId: "iee-eventbrite-checkout-widget",
 			iframeContainerHeight: <?php echo esc_attr( apply_filters('iee_embeded_checkout_height', 530) ); ?>,
-			onOrderComplete: orderCompleteCallback
+			onOrderComplete: orderCompleteCallback,
+			promoCode: "<?php echo esc_attr( $discount_code ); ?>"
 		});
 	</script>
 	<?php
@@ -2202,7 +2223,8 @@ function iee_nonmodel_checkout_markup( $eventbrite_id ){
  *
  * @return string
  */
-function iee_model_checkout_markup( $eventbrite_id ){
+function iee_model_checkout_markup( $eventbrite_id, $event_id ){
+	$discount_code = get_post_meta( $event_id, 'discount_code', true );
 	ob_start();
 	$iee_ap_options       = get_option( IEE_AP_OPTIONS );
 	$eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
@@ -2222,7 +2244,8 @@ function iee_model_checkout_markup( $eventbrite_id ){
 			eventId: "<?php echo esc_attr( $eventbrite_id ); ?>",
 			modal: true,
 			modalTriggerElementId: "iee-eventbrite-checkout-trigger",
-			onOrderComplete: orderCompleteCallback
+			onOrderComplete: orderCompleteCallback,
+			promoCode: "<?php echo esc_attr( $discount_code ); ?>"
 		});
 	</script>
 	<?php

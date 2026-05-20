@@ -231,6 +231,12 @@ class Import_Eventbrite_Events_IEE {
 				update_post_meta( $inserted_event_id, 'series_id', $series_id );
 			}
 
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $inserted_event_id, 'discount_code', $discount_code );
+			}
+
 			// Ticket Price
 			$iee_ticket_price    = isset( $centralize_array['ticket_price'] ) ? sanitize_text_field( $centralize_array['ticket_price'] ) : '0';
 			$iee_ticket_currency = isset( $centralize_array['ticket_currency'] ) ? sanitize_text_field( $centralize_array['ticket_currency'] ) : '';
