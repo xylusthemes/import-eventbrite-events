@@ -151,6 +151,7 @@ class Import_Eventbrite_Events_Cpt {
 			'label'               => __( 'Events', 'import-eventbrite-events' ),
 			'description'         => __( 'Post type for Events', 'import-eventbrite-events' ),
 			'labels'              => $event_labels,
+			'show_in_rest'        => true,
 			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions' ),
 			'taxonomies'          => array( $this->event_category, $this->event_tag, $this->event_collection ),
 			'hierarchical'        => false,
