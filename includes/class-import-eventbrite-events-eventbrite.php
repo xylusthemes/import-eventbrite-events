@@ -188,6 +188,12 @@ class Import_Eventbrite_Events_Eventbrite {
 			}
 		}
 
+		$ct_ids = '';
+		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
+		if( !empty( $get_collections ) ){
+			$ct_ids = $iee_events->common->sync_event_collection( $get_collections );
+		}
+
 		$xt_event = array(
 			'origin'          => 'eventbrite',
 			'ID'              => isset( $eventbrite_event['id'] ) ? $eventbrite_event['id'] : '',
@@ -198,6 +204,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			'startime_utc'    => $start_time_utc,
 			'endtime_utc'     => $end_time_utc,
 			'timezone'        => $timezone,
+			'timezone_name'   => $timezone,
 			'utc_offset'      => $utc_offset,
 			'event_duration'  => '',
 			'is_all_day'      => '',
@@ -322,5 +329,21 @@ class Import_Eventbrite_Events_Eventbrite {
 			}
 		}
 		return '';
+	}
+
+	public function get_iee_collections( $event_id ){
+
+		$eventbrite_api_url  = 'https://www.eventbriteapi.com/v3/events/' . $event_id . '/collections/public/?expand=image' . '&token=' . $this->oauth_token;
+		$ec_response         = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+
+		if ( is_wp_error( $ec_response ) ) {
+			$iee_errors[] = __( 'Something went wrong, please try again.', 'import-eventbrite-events' );
+			return;
+		}
+
+		
+		$eventbrite_collections = json_decode( $ec_response['body'], true );
+		$e_collections = isset( $eventbrite_collections['collections'] ) ? $eventbrite_collections['collections'] : '';
+		return $e_collections;
 	}
 }

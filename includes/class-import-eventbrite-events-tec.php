@@ -385,7 +385,7 @@ class Import_Eventbrite_Events_TEC {
 			'_EventShowMap'       => 1,
 			'_EventShowMapLink'   => 1,
 			'iee_event_timezone'  => $timezone,
-			'_EventTimezone'      => $timezone_name,
+			'_EventTimezone'      => $timezone,
 			'iee_event_link'      => $esource_url,
 			'iee_event_id'        => $esource_id,
 			'iee_event_timezone_name' => $timezone_name,
