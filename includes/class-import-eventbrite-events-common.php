@@ -1604,14 +1604,21 @@ class Import_Eventbrite_Events_Common {
 	 * Sync API collection data
 	 */
 
-	public function insert_eventbrite_category_and_assing_into_event( $category_name ) {
+	public function insert_eventbrite_category_and_assing_into_event( $category_name, $taxonomy = '' ) {
 		global $iee_events;
 
 		if ( empty( $category_name ) ) {
 			return [];
 		}
 
-		$taxonomy = $iee_events->cpt->get_event_categroy_taxonomy();
+		if ( empty( $taxonomy ) ) {
+			$taxonomy = $iee_events->cpt->get_event_categroy_taxonomy();
+		}
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return 0;
+		}
+
 		$ecat_id = 0;
 
 		// Sanitize name
@@ -1632,6 +1639,277 @@ class Import_Eventbrite_Events_Common {
 		}
 
 		return $ecat_id;
+	}
+
+	/**
+	 * Add Eventbrite category to the destination category list.
+	 *
+	 * @since 1.0.0
+	 * @param array  $centralize_array  Centralized event data.
+	 * @param array  $event_args        Import arguments.
+	 * @param string $taxonomy          Destination category taxonomy.
+	 * @param bool   $is_existing_event Whether this is updating an existing event.
+	 * @return array Category term IDs.
+	 */
+	public function prepare_eventbrite_category_terms( $centralize_array, $event_args, $taxonomy, $is_existing_event = false ) {
+		$category_ids = isset( $event_args['event_cats'] ) && is_array( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
+
+		if ( empty( $taxonomy ) || ! taxonomy_exists( $taxonomy ) ) {
+			return $category_ids;
+		}
+
+		if ( $is_existing_event && ! $this->iee_is_updatable( 'category' ) ) {
+			return $category_ids;
+		}
+
+		$options            = iee_get_import_options( $centralize_array['origin'] );
+		$is_insert_category = isset( $options['eventbritre_category'] ) ? $options['eventbritre_category'] : 'no';
+		$category_name      = isset( $centralize_array['e_category'] ) ? $centralize_array['e_category'] : '';
+
+		if ( 'yes' === $is_insert_category && ! empty( $category_name ) ) {
+			$eventbrite_category_id = $this->insert_eventbrite_category_and_assing_into_event( $category_name, $taxonomy );
+
+			if ( ! empty( $eventbrite_category_id ) ) {
+				$category_ids[] = (int) $eventbrite_category_id;
+			}
+		}
+
+		if ( ! empty( $category_ids ) ) {
+			foreach ( $category_ids as $category_key => $category_id ) {
+				$category_ids[ $category_key ] = (int) $category_id;
+			}
+		}
+
+		return array_values( array_unique( $category_ids ) );
+	}
+
+	/**
+	 * Get Eventbrite organizer tags by event ID.
+	 *
+	 * @since 1.0.0
+	 * @param string $event_id Eventbrite event ID.
+	 * @return array Eventbrite tag names.
+	 */
+	public function get_eventbrite_tags_by_event_id( $event_id ) {
+		$event_id = sanitize_text_field( $event_id );
+
+		if ( empty( $event_id ) ) {
+			return array();
+		}
+
+		$transient_key = 'iee_eventbrite_tags_' . $event_id;
+		$cached_tags   = get_transient( $transient_key );
+
+		if ( false !== $cached_tags ) {
+			return is_array( $cached_tags ) ? $cached_tags : array();
+		}
+
+		$eventbrite_api_url = add_query_arg(
+			array(
+				'event_ids' => $event_id,
+				'expand'    => 'series',
+			),
+			'https://www.eventbrite.nl/api/v3/destination/events/'
+		);
+
+		$response = wp_remote_get(
+			$eventbrite_api_url,
+			array(
+				'headers' => array(
+					'Content-Type' => 'application/json',
+				),
+				'timeout' => 20,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $response ), true );
+		$tags = array();
+
+		if ( is_array( $body ) && ! empty( $body['events'][0]['tags'] ) && is_array( $body['events'][0]['tags'] ) ) {
+			$tags = $this->prepare_eventbrite_tag_names( $body['events'][0]['tags'] );
+		}
+
+		set_transient( $transient_key, $tags, HOUR_IN_SECONDS );
+
+		return $tags;
+	}
+
+	/**
+	 * Prepare Eventbrite tag names from API tag objects.
+	 *
+	 * @since 1.0.0
+	 * @param array $eventbrite_tags Eventbrite tag objects.
+	 * @return array Tag names.
+	 */
+	public function prepare_eventbrite_tag_names( $eventbrite_tags ) {
+		if ( empty( $eventbrite_tags ) || ! is_array( $eventbrite_tags ) ) {
+			return array();
+		}
+
+		$allowed_prefixes = apply_filters( 'iee_eventbrite_tag_prefixes', array( 'OrganizerTag' ) );
+		$tag_names        = array();
+
+		foreach ( $eventbrite_tags as $eventbrite_tag ) {
+			if ( empty( $eventbrite_tag ) || ! is_array( $eventbrite_tag ) ) {
+				continue;
+			}
+
+			$prefix = isset( $eventbrite_tag['prefix'] ) ? sanitize_text_field( $eventbrite_tag['prefix'] ) : '';
+
+			if ( ! empty( $allowed_prefixes ) && ! in_array( $prefix, $allowed_prefixes, true ) ) {
+				continue;
+			}
+
+			$tag_name = isset( $eventbrite_tag['display_name'] ) ? sanitize_text_field( $eventbrite_tag['display_name'] ) : '';
+
+			if ( empty( $tag_name ) && ! empty( $eventbrite_tag['tag'] ) ) {
+				$tag_parts = explode( '/', sanitize_text_field( $eventbrite_tag['tag'] ) );
+				$tag_name  = end( $tag_parts );
+			}
+
+			if ( ! empty( $tag_name ) ) {
+				$tag_names[] = $this->normalize_eventbrite_tag_name( $tag_name );
+			}
+		}
+
+		return array_values( array_unique( $tag_names ) );
+	}
+
+	/**
+	 * Convert Eventbrite organizer tag values into readable WordPress tag names.
+	 *
+	 * @since 1.0.0
+	 * @param string $tag_name Eventbrite tag name.
+	 * @return string Normalized tag name.
+	 */
+	public function normalize_eventbrite_tag_name( $tag_name ) {
+		$tag_name = sanitize_text_field( $tag_name );
+
+		if ( empty( $tag_name ) ) {
+			return '';
+		}
+
+		$tag_name = preg_replace( '/[_-]+/', ' ', $tag_name );
+		$tag_name = preg_replace( '/\s+/', ' ', $tag_name );
+		$tag_name = trim( $tag_name );
+
+		if ( function_exists( 'mb_convert_case' ) ) {
+			return mb_convert_case( $tag_name, MB_CASE_TITLE, 'UTF-8' );
+		}
+
+		return ucwords( strtolower( $tag_name ) );
+	}
+
+	/**
+	 * Create/update Eventbrite tags and return term IDs.
+	 *
+	 * @since 1.0.0
+	 * @param array  $eventbrite_tags Eventbrite tag names.
+	 * @param string $taxonomy Tag taxonomy.
+	 * @return array Term IDs.
+	 */
+	public function insert_eventbrite_tags_and_assing_into_event( $eventbrite_tags, $taxonomy = '' ) {
+		global $iee_events;
+
+		if ( empty( $eventbrite_tags ) || ! is_array( $eventbrite_tags ) ) {
+			return array();
+		}
+
+		if ( empty( $taxonomy ) ) {
+			$taxonomy = $iee_events->cpt->get_event_tag_taxonomy();
+		}
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return array();
+		}
+
+		$term_ids = array();
+
+		foreach ( $eventbrite_tags as $tag_name ) {
+			$raw_name = sanitize_text_field( $tag_name );
+			$name     = $this->normalize_eventbrite_tag_name( $raw_name );
+
+			if ( empty( $name ) ) {
+				continue;
+			}
+
+			$slug = sanitize_title( $name );
+			$term = get_term_by( 'slug', $slug, $taxonomy );
+
+			if ( ! $term ) {
+				$term = term_exists( $raw_name, $taxonomy );
+			}
+
+			if ( $term ) {
+				if ( is_array( $term ) ) {
+					$term_id = (int) $term['term_id'];
+				} else {
+					$term_id = (int) $term->term_id;
+				}
+
+				wp_update_term( $term_id, $taxonomy, array( 'name' => $name, 'slug' => $slug ) );
+			} else {
+				$new_term = wp_insert_term( $name, $taxonomy, array( 'slug' => $slug ) );
+
+				if ( is_wp_error( $new_term ) || empty( $new_term['term_id'] ) ) {
+					continue;
+				}
+
+				$term_id = (int) $new_term['term_id'];
+			}
+
+			$term_ids[] = $term_id;
+		}
+
+		return array_values( array_unique( $term_ids ) );
+	}
+
+	/**
+	 * Create and assign Eventbrite tags to an imported event.
+	 *
+	 * @since 1.0.0
+	 * @param int    $event_id          Imported event post ID.
+	 * @param array  $centralize_array  Centralized event data.
+	 * @param array  $event_args        Import arguments.
+	 * @param string $taxonomy          Destination tag taxonomy.
+	 * @param bool   $is_existing_event Whether this is updating an existing event.
+	 * @return void
+	 */
+	public function assign_eventbrite_tags_to_event( $event_id, $centralize_array, $event_args, $taxonomy, $is_existing_event = false ) {
+		if ( empty( $event_id ) || empty( $taxonomy ) || ! taxonomy_exists( $taxonomy ) ) {
+			return;
+		}
+
+		if ( $is_existing_event && ! $this->iee_is_updatable( 'tag' ) ) {
+			return;
+		}
+
+		$options         = iee_get_import_options( $centralize_array['origin'] );
+		$is_insert_tags  = isset( $options['eventbritre_tags'] ) ? $options['eventbritre_tags'] : 'no';
+		$event_tag_ids   = isset( $event_args['event_tags'] ) && is_array( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+		$eventbrite_tags = isset( $centralize_array['e_tags'] ) && is_array( $centralize_array['e_tags'] ) ? $centralize_array['e_tags'] : array();
+
+		if ( 'yes' === $is_insert_tags ) {
+			$eventbrite_tag_ids = $this->insert_eventbrite_tags_and_assing_into_event( $eventbrite_tags, $taxonomy );
+
+			if ( ! empty( $eventbrite_tag_ids ) ) {
+				$event_tag_ids = array_merge( $event_tag_ids, $eventbrite_tag_ids );
+			}
+		}
+
+		if ( empty( $event_tag_ids ) ) {
+			return;
+		}
+
+		foreach ( $event_tag_ids as $event_tag_key => $event_tag_id ) {
+			$event_tag_ids[ $event_tag_key ] = (int) $event_tag_id;
+		}
+
+		wp_set_object_terms( $event_id, array_unique( $event_tag_ids ), $taxonomy );
 	}
 }
 
