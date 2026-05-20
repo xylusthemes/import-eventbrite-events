@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-04T12:06:17+00:00\n"
+"POT-Creation-Date: 2026-05-20T11:36:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -956,12 +956,12 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-eventbrite.php:53
 #: includes/class-import-eventbrite-events-eventbrite.php:73
-#: includes/class-import-eventbrite-events-eventbrite.php:328
+#: includes/class-import-eventbrite-events-eventbrite.php:340
 #: includes/class-import-eventbrite-events-eventbrite_api.php:57
 #: includes/class-import-eventbrite-events-eventbrite_api.php:77
-#: includes/class-import-eventbrite-events-eventbrite_api.php:331
-#: includes/class-import-eventbrite-events-tec.php:216
-#: includes/class-import-eventbrite-events-tec.php:313
+#: includes/class-import-eventbrite-events-eventbrite_api.php:342
+#: includes/class-import-eventbrite-events-tec.php:235
+#: includes/class-import-eventbrite-events-tec.php:347
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -2257,7 +2257,7 @@ msgid "Appearance"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:31
-#: templates/admin/import-eventbrite-events-settings.php:432
+#: templates/admin/import-eventbrite-events-settings.php:452
 msgid "Google Maps API"
 msgstr ""
 
@@ -2318,181 +2318,193 @@ msgid "Enable this option to automatically import Eventbrite categories and assi
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:144
-msgid "Move past events in trash"
+msgid "Automatically Import and Assign Eventbrite Tags"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:152
-msgid "Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background."
+msgid "Enable this option to automatically import Eventbrite tags and assign them in events."
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:159
-msgid "Skip Trashed Events"
+msgid "Move past events in trash"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:167
+msgid "Check to move past events in the trash, Automatically move events to the trash 24 hours after their end date using wp-cron. This runs once daily in the background."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:174
+msgid "Skip Trashed Events"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:182
 msgid "Check to enable skip-the-trash events during importing."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:175
+#: templates/admin/import-eventbrite-events-settings.php:190
 msgid "Accent Color"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:183
+#: templates/admin/import-eventbrite-events-settings.php:198
 msgid "Choose accent color for front-end event grid and event widget."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:190
+#: templates/admin/import-eventbrite-events-settings.php:205
 msgid "Direct link to Eventbrite"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:198
+#: templates/admin/import-eventbrite-events-settings.php:213
 msgid "Check to enable direct event link to eventbrite instead of event detail page."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:206
+#: templates/admin/import-eventbrite-events-settings.php:221
 msgid "Advanced Synchronization"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:214
+#: templates/admin/import-eventbrite-events-settings.php:229
 msgid "Check to enable advanced synchronization, this will delete events which are removed from Eventbrite. Also, it deletes passed events."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:222
+#: templates/admin/import-eventbrite-events-settings.php:237
 msgid "Import Small Event Thumbnail"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:230
+#: templates/admin/import-eventbrite-events-settings.php:245
 msgid "You can import small thumbnails of events into an event by enabling this option."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:243
+#: templates/admin/import-eventbrite-events-settings.php:258
 msgid "Import Private Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:253
+#: templates/admin/import-eventbrite-events-settings.php:268
 msgid "Tick to import Private events, Untick to not import private event."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:257
+#: templates/admin/import-eventbrite-events-settings.php:272
 msgid "This option only works with a eventbrite private token."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:266
+#: templates/admin/import-eventbrite-events-settings.php:281
 msgid "Don't Update these data"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:276
+#: templates/admin/import-eventbrite-events-settings.php:292
 msgid "Status ( Publish, Pending, Draft etc.. )"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:280
+#: templates/admin/import-eventbrite-events-settings.php:296
 msgid "Event category"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:283
+#: templates/admin/import-eventbrite-events-settings.php:300
+msgid "Event tag"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:303
 msgid "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:291
+#: templates/admin/import-eventbrite-events-settings.php:311
 msgid "Event Slug"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:299
+#: templates/admin/import-eventbrite-events-settings.php:319
 msgid "Slug for the event."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:307
+#: templates/admin/import-eventbrite-events-settings.php:327
 msgid "Event Display Time Format"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:314
+#: templates/admin/import-eventbrite-events-settings.php:334
 msgid "12 Hours"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:315
+#: templates/admin/import-eventbrite-events-settings.php:335
 msgid "24 Hours"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:316
+#: templates/admin/import-eventbrite-events-settings.php:336
 msgid "WordPress Default"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:319
+#: templates/admin/import-eventbrite-events-settings.php:339
 msgid "Choose event display time format for front-end."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:328
+#: templates/admin/import-eventbrite-events-settings.php:348
 msgid "Disable Eventbrite Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:336
+#: templates/admin/import-eventbrite-events-settings.php:356
 msgid "Check to disable inbuilt event management system."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:343
+#: templates/admin/import-eventbrite-events-settings.php:363
 msgid "Delete Import Eventbrite Events data on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:351
+#: templates/admin/import-eventbrite-events-settings.php:371
 msgid "Delete Import Eventbrite Events data like settings, scheduled imports, import history on Uninstall"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:360
-#: templates/admin/import-eventbrite-events-settings.php:416
-#: templates/admin/import-eventbrite-events-settings.php:455
+#: templates/admin/import-eventbrite-events-settings.php:380
+#: templates/admin/import-eventbrite-events-settings.php:436
+#: templates/admin/import-eventbrite-events-settings.php:475
 msgid "Save Settings"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:373
+#: templates/admin/import-eventbrite-events-settings.php:393
 msgid "Ticket Button Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:376
+#: templates/admin/import-eventbrite-events-settings.php:396
 #: templates/iee-archive-content3.php:95
 msgid "Buy Tickets"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:382
+#: templates/admin/import-eventbrite-events-settings.php:402
 msgid "Next Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:385
+#: templates/admin/import-eventbrite-events-settings.php:405
 msgid "Next Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:391
+#: templates/admin/import-eventbrite-events-settings.php:411
 msgid "Previous Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:394
+#: templates/admin/import-eventbrite-events-settings.php:414
 msgid "Previous Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:400
+#: templates/admin/import-eventbrite-events-settings.php:420
 msgid "Display Buy Ticket section in Past Event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:408
+#: templates/admin/import-eventbrite-events-settings.php:428
 msgid "Check to enable show to buy ticket section in past event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:436
+#: templates/admin/import-eventbrite-events-settings.php:456
 msgid "Check Google Maps Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:443
+#: templates/admin/import-eventbrite-events-settings.php:463
 msgid "Google maps API Key (Required)"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:444
+#: templates/admin/import-eventbrite-events-settings.php:464
 msgid "How to get an API Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:445
+#: templates/admin/import-eventbrite-events-settings.php:465
 msgid "Find out more about API Key restrictions"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:471
+#: templates/admin/import-eventbrite-events-settings.php:491
 msgid "Here"
 msgstr ""
 
