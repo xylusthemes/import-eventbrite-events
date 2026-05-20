@@ -10,6 +10,7 @@
  * @version 1.0
  */
 
+global $iee_events;
 $iee_options    = get_option( IEE_OPTIONS );
 $accent_color   = isset( $iee_options['accent_color'] ) ? $iee_options['accent_color'] : '#039ED7';
 $time_format    = isset( $iee_options['time_format'] ) ? $iee_options['time_format'] : '12hours';
@@ -25,14 +26,8 @@ $buy_tickets_text     = isset( $eventbrite_optionsap['ticket_button_text'] ) ? $
 $current_time = current_time( 'timestamp' );
 $is_past      = ( $end_date_str < $current_time );
 
-$image_url = array();
-if ( '' !== get_the_post_thumbnail() ) {
-    $image_url = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-} else {
-    $image_date  = date_i18n( 'F+d', $start_date_str );
-    $image_url[] = 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date;
-}
-$img_src = $image_url[0];
+$image_date = date_i18n( 'F+d', $start_date_str );
+$img_src    = $iee_events->common->iee_get_event_image_url( get_the_ID(), 'https://dummyimage.com/420x210/ccc/969696.png&text=' . $image_date );
 
 $event_url = get_permalink();
 $eb_event_url = get_post_meta( get_the_ID(), 'iee_event_link', true );
@@ -84,4 +79,3 @@ if ( 'yes' === $direct_link ){
         <img src="<?php echo esc_url( $img_src ); ?>" alt="<?php the_title_attribute(); ?>">
     </a>
 </div>
-

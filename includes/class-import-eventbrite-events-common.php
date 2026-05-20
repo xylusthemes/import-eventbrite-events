@@ -34,6 +34,7 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'iee_render_pro_notice', array( $this, 'render_pro_notice' ) );
 		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
 		add_action( 'admin_init', array( $this, 'iee_redirect_after_activation' ) );
+		add_filter( 'post_thumbnail_html', array( $this, 'iee_source_image_thumbnail_html' ), 10, 5 );
 	}
 
 	/**
@@ -223,6 +224,78 @@ class Import_Eventbrite_Events_Common {
 	}
 
 	/**
+	 * Get event image URL.
+	 *
+	 * @since 1.8.0
+	 * @param int    $event_id Event ID.
+	 * @param string $fallback Fallback image URL.
+	 * @return string Image URL.
+	 */
+	public function iee_get_event_image_url( $event_id = 0, $fallback = '' ) {
+		$event_id = $event_id ? $event_id : get_the_ID();
+
+		if ( ! $event_id ) {
+			return $fallback;
+		}
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+		
+		$source_image_url  = $this->iee_normalize_event_image_url( html_entity_decode( get_post_meta( $event_id, 'iee_event_image_url', true ), ENT_QUOTES, 'UTF-8' ) );
+
+		if ( 'yes' === $skip_image_import && ! empty( $source_image_url ) ) {
+			return $source_image_url;
+		}
+
+		
+		if ( has_post_thumbnail( $event_id ) ) {
+			$image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $event_id ), 'full' );
+			if ( ! empty( $image_url[0] ) ) {
+				return $image_url[0];
+			}
+		}
+
+		if ( ! empty( $source_image_url ) ) {
+			return $source_image_url;
+		}
+
+		return $fallback;
+	}
+
+	/**
+	 * Normalize Eventbrite image URLs before storing or rendering.
+	 *
+	 * @since 1.8.0
+	 * @param string $image_url Image URL.
+	 * @return string Image URL.
+	 */
+	public function iee_normalize_event_image_url( $image_url = '' ) {
+		$image_url = trim( (string) $image_url );
+
+		if ( empty( $image_url ) ) {
+			return '';
+		}
+
+		// HTML entities decode karo pehle (&#038; → &)
+		$image_url = html_entity_decode( $image_url, ENT_QUOTES, 'UTF-8' );
+
+		if ( 0 === strpos( $image_url, '//' ) ) {
+			$image_url = 'https:' . $image_url;
+		}
+
+		if ( ! preg_match( '#^https?://#i', $image_url ) ) {
+			$image_url = ltrim( $image_url, '/' );
+			if ( 0 === strpos( $image_url, 'img.evbuc.com/' ) || 0 === strpos( $image_url, 'cdn.evbuc.com/' ) ) {
+				$image_url = 'https://' . $image_url;
+			} else {
+				$image_url = 'https://img.evbuc.com/' . $image_url;
+			}
+		}
+
+		return esc_url_raw( $image_url );
+	}
+
+	/**
 	 * Setup Featured image to events
 	 *
 	 * @since    1.0.0
@@ -237,6 +310,21 @@ class Import_Eventbrite_Events_Common {
 		$event = get_post( $event_id );
 		if ( empty( $event ) ) {
 			return;
+		}
+
+		$image_url = $this->iee_normalize_event_image_url( $image_url );
+		if ( empty( $image_url ) ) {
+			return;
+		}
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+		if ( 'yes' === $skip_image_import ) {
+			$image_url = html_entity_decode( $image_url, ENT_QUOTES, 'UTF-8' );
+			$image_url = $this->iee_normalize_event_image_url( $image_url );
+			update_post_meta( $event_id, 'iee_event_image_url', $image_url );
+			delete_post_thumbnail( $event_id );
+			return $image_url;
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/media.php';
@@ -256,7 +344,6 @@ class Import_Eventbrite_Events_Common {
 					return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL', 'import-eventbrite-events' ) );
 				}
 			}
-			$iee_options         = get_option( IEE_OPTIONS );
 			$small_thumbnail     = isset( $iee_options['small_thumbnail'] ) ? $iee_options['small_thumbnail'] : 'no';
 			if( $small_thumbnail == 'yes'){
 				$image_url       = str_replace( 'original.', 'logo.', $image_url );
@@ -312,6 +399,7 @@ class Import_Eventbrite_Events_Common {
 
 			if ( $att_id ) {
 				set_post_thumbnail( $event_id, $att_id );
+				update_post_meta( $event_id, 'iee_event_image_url', esc_url_raw( $image_url ) );
 			}
 
 			// Save attachment source for future reference.
@@ -319,6 +407,48 @@ class Import_Eventbrite_Events_Common {
 
 			return $att_id;
 		}
+	}
+
+	/**
+	 * Display the saved source image URL as featured image HTML when media import is disabled.
+	 *
+	 * @since 1.8.0
+	 * @param string       $html              Post thumbnail HTML.
+	 * @param int          $post_id           Post ID.
+	 * @param int          $post_thumbnail_id Post thumbnail ID.
+	 * @param string|array $size              Requested image size.
+	 * @param string|array $attr              Image attributes.
+	 * @return string Post thumbnail HTML.
+	 */
+	public function iee_source_image_thumbnail_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+
+		if ( 'yes' !== $skip_image_import ) {
+			return $html;
+		}
+
+		$source_image_url = $this->iee_normalize_event_image_url( html_entity_decode( get_post_meta( $post_id, 'iee_event_image_url', true ), ENT_QUOTES, 'UTF-8' ) );
+		if ( empty( $source_image_url ) ) {
+			return $html;
+		}
+
+		$attributes = array(
+			'src' => esc_url( $source_image_url ),
+			'alt' => get_the_title( $post_id ),
+		);
+
+		if ( is_array( $attr ) ) {
+			$attributes = array_merge( $attributes, $attr );
+		}
+
+		$image_html = '<img';
+		foreach ( $attributes as $name => $value ) {
+			$image_html .= ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+		}
+		$image_html .= ' />';
+
+		return $image_html;
 	}
 
 	/**
@@ -1544,6 +1674,14 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function iee_set_feature_image_logic( $event_id, $image_url, $event_args ){
 		global $iee_events;
+
+		$iee_options       = get_option( IEE_OPTIONS, array() );
+		$skip_image_import = isset( $iee_options['skip_image_import'] ) ? $iee_options['skip_image_import'] : 'no';
+
+		if ( 'yes' === $skip_image_import ) {
+			$iee_events->common->setup_featured_image_to_event( $event_id, $image_url );
+			return;
+		}
 		
 		if ( $event_args['import_type'] === 'onetime' && $event_args['import_by'] === 'event_id' ) {
 			$iee_events->common->setup_featured_image_to_event( $event_id, $image_url );
