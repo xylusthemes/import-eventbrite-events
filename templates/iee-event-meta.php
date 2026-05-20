@@ -20,6 +20,8 @@ $real_time  		 = current_time( 'timestamp' );
 $iee_options = get_option( IEE_OPTIONS );
 $accent_color = isset( $iee_options['accent_color'] ) ? $iee_options['accent_color'] : '#039ED7';
 $time_format = isset( $iee_options['time_format'] ) ? $iee_options['time_format'] : '12hours';
+$image_date  = date_i18n( 'F+d', $start_date_str );
+$event_image = $iee_events->common->iee_get_event_image_url( $event_id, 'https://dummyimage.com/840x420/ccc/969696.png&text=' . $image_date );
 if($time_format == '12hours' ){
     $start_time          = date_i18n( 'h:i a', $start_date_str );
     $end_time            = date_i18n( 'h:i a', $end_date_str );
@@ -32,6 +34,12 @@ if($time_format == '12hours' ){
 }
 
 ?>
+<?php if ( ! empty( $event_image ) ) { ?>
+	<div class="iee_event_image">
+		<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+		<img src="<?php echo esc_url( $event_image ); ?>" alt="<?php echo esc_attr( get_the_title( $event_id ) ); ?>" />
+	</div>
+<?php } ?>
 <div class="iee_event_meta">
 <div class="iee_organizermain">
   <div class="details">

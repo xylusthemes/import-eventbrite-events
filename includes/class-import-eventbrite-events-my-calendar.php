@@ -119,6 +119,7 @@ class Import_Eventbrite_Events_My_Calendar {
 			update_post_meta( $inserted_event_id, 'iee_event_id', $centralize_array['ID'] );
 
 			// Asign event category.
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
@@ -394,6 +395,12 @@ class Import_Eventbrite_Events_My_Calendar {
 			$series_id   = isset( $centralize_array['series_id'] ) ? $centralize_array['series_id'] : '';			
 			if( !empty( $series_id ) ){
 				update_post_meta( $inserted_event_id, 'series_id', $series_id );
+			}
+
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $inserted_event_id, 'discount_code', $discount_code );
 			}
 
 			if ( $is_exitsing_event ) {

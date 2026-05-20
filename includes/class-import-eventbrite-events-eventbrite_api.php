@@ -180,6 +180,18 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		$ticket_price      = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] : '';	
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
 		$eventbrite_cat    = isset( $eventbrite_event['category']['short_name'] ) ? $eventbrite_event['category']['short_name'] : '';	
+		$organization_id   = isset( $eventbrite_event['organization_id'] ) ? $eventbrite_event['organization_id'] : '';
+		$get_promocode     = $iee_events->common->get_event_discount_code( $eventbrite_event['id'], $organization_id );
+		$is_insert_etags   = isset( $iee_options['eventbritre_tags'] ) ? $iee_options['eventbritre_tags'] : 'no';
+		$eventbrite_tags   = array();
+
+		if ( 'yes' === $is_insert_etags ) {
+			$eventbrite_tags = isset( $eventbrite_event['tags'] ) ? $iee_events->common->prepare_eventbrite_tag_names( $eventbrite_event['tags'] ) : array();
+
+			if ( empty( $eventbrite_tags ) ) {
+				$eventbrite_tags = $iee_events->common->get_eventbrite_tags_by_event_id( $eventbrite_event['id'] );
+			}
+		}
 
 		$ct_ids = '';
 		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
@@ -208,6 +220,8 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			'ticket_currency' => $ticket_currency,
 			'collection_ids'  => $ct_ids,
 			'e_category'      => $eventbrite_cat,
+			'discount_code'   => $get_promocode,
+			'e_tags'          => $eventbrite_tags,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {
