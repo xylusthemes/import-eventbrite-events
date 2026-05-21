@@ -19,6 +19,9 @@ class Import_Eventbrite_Events_XEC {
 	// Xylus Events Calendar Event Taxonomy
 	protected $taxonomy;
 
+	// Xylus Events Calendar tag Taxonomy
+	protected $tag_taxonomy;
+
 	// Xylus Events Calendar Event Posttype
 	protected $event_posttype;
 
@@ -49,6 +52,9 @@ class Import_Eventbrite_Events_XEC {
 	 */
 	public function get_event_posttype() {
 		return $this->event_posttype;
+	}
+	public function get_tag_posttype() {
+		return $this->tag_taxonomy;
 	}
 	public function get_organizer_posttype() {
 		return $this->organizer_taxonomy;
@@ -93,7 +99,7 @@ class Import_Eventbrite_Events_XEC {
 					$formated_args['post_status'] = get_post_status( $is_exitsing_event );
 				}
 
-				return $this->update_event( $is_exitsing_event, $centralize_array, $formated_args, $event_args );
+				return $this->update_event( $is_exitsing_event, $centralize_array, $formated_args, $event_args, $is_exitsing_event );
 			} else {
 
 				return array(
@@ -112,7 +118,7 @@ class Import_Eventbrite_Events_XEC {
 				$formated_args['post_status'] = 'publish'; // Default for new events if not specified
 			}
 
-			return $this->create_event( $centralize_array, $formated_args, $event_args );
+			return $this->create_event( $centralize_array, $formated_args, $event_args, $is_exitsing_event );
 		}
 
 	}
@@ -126,13 +132,14 @@ class Import_Eventbrite_Events_XEC {
 	 * @param array $event_args Event arguments.
 	 * @return array
 	 */
-	public function create_event( $centralize_array = array(), $formated_args = array(), $event_args = array() ) {
+	public function create_event( $centralize_array = array(), $formated_args = array(), $event_args = array(), $is_exitsing_event = false ) {
 		global $iee_events ,$wpdb;
 	
 		$event_title   = isset( $centralize_array['name'] ) ? $centralize_array['name'] : '';
 		$event_content = isset( $centralize_array['description'] ) ? $centralize_array['description'] : '';
 		$event_status  = $formated_args['post_status'];
 		$event_author  = $formated_args['post_author'];
+		$event_content = $iee_events->htmltblock->convert( $event_content );
 		
 		$xec_event     = array(
 			'post_title'   => $event_title,
@@ -163,22 +170,52 @@ class Import_Eventbrite_Events_XEC {
 				update_post_meta( $new_event_id, 'series_id', $series_id );
 			}
 
-			// Assign event category.
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $new_event_id, 'discount_code', $discount_code );
+			}
+
+			// Asign event category.
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
 			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
 					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
-				wp_set_object_terms( $new_event_id, $iee_cats, $this->taxonomy );
+			}
+			if ( ! empty( $iee_cats ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+				}
 			}
 
-			// Assign event tag.
-			$iee_tags = isset( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+			// Assign Eventbrite tags.
+			$options         = iee_get_import_options( $centralize_array['origin'] );
+			$is_insert_etags = isset( $options['eventbritre_tags'] ) ? $options['eventbritre_tags'] : 'no';
+			$iee_tags        = isset( $event_args['event_tags'] ) && is_array( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+			$e_tags          = isset( $centralize_array['e_tags'] ) && is_array( $centralize_array['e_tags'] ) ? $centralize_array['e_tags'] : array();
+
+			if ( 'yes' === $is_insert_etags && ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'tag' ) ) ) {
+				$eventbrite_tag_ids = $iee_events->common->insert_eventbrite_tags_and_assing_into_event( $e_tags, $this->tag_taxonomy );
+
+				if ( ! empty( $eventbrite_tag_ids ) ) {
+					$iee_tags = array_merge( $iee_tags, $eventbrite_tag_ids );
+				}
+			}
+
 			if ( ! empty( $iee_tags ) ) {
 				foreach ( $iee_tags as $iee_tagk => $iee_tagv ) {
 					$iee_tags[ $iee_tagk ] = (int) $iee_tagv;
 				}
-				wp_set_object_terms( $new_event_id, $iee_tags, $this->tag_taxonomy );
+
+				$iee_tags = array_unique( $iee_tags );
+			}
+
+			if ( ! empty( $iee_tags ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('tag') )) {
+					wp_set_object_terms( $inserted_event_id, $iee_tags, $this->tag_taxonomy );
+				}
 			}
 
 			// Handle Location/Venue
@@ -224,13 +261,14 @@ class Import_Eventbrite_Events_XEC {
 	 * @param array $event_args Event arguments.
 	 * @return array
 	 */
-	public function update_event( $event_id, $centralize_array, $formated_args = array(), $event_args = array() ) {
+	public function update_event( $event_id, $centralize_array, $formated_args = array(), $event_args = array(), $is_exitsing_event = false ) {
 		global $iee_events, $wpdb;
 
 		$event_title   = isset( $centralize_array['name'] ) ? $centralize_array['name'] : '';
 		$event_content = isset( $centralize_array['description'] ) ? $centralize_array['description'] : '';
 		$event_status  = $formated_args['post_status'];
 		$event_author  = $formated_args['post_author'];
+		$event_content = $iee_events->htmltblock->convert( $event_content );
 		
 		$xec_event     = array(
 			'ID'           => $event_id,
@@ -271,24 +309,50 @@ class Import_Eventbrite_Events_XEC {
 				update_post_meta( $update_event_id, 'series_id', $series_id );
 			}
 
-			// Assign event category.
-			$iee_cats = isset( $event_args['event_cats'] ) ? (array) $event_args['event_cats'] : array();
+			// Discount code
+			$discount_code   = isset( $centralize_array['discount_code'] ) ? $centralize_array['discount_code'] : '';
+			if( !empty( $discount_code ) ){
+				update_post_meta( $update_event_id, 'discount_code', $discount_code );
+			}
+
+			// Asign event category.
+			$event_args['event_cats'] = $iee_events->common->prepare_eventbrite_category_terms( $centralize_array, $event_args, $this->taxonomy, $is_exitsing_event );
+			$iee_cats = isset( $event_args['event_cats'] ) ? $event_args['event_cats'] : array();
 			if ( ! empty( $iee_cats ) ) {
 				foreach ( $iee_cats as $iee_catk => $iee_catv ) {
 					$iee_cats[ $iee_catk ] = (int) $iee_catv;
 				}
-				if ( $iee_events->common->iee_is_updatable('category') ){
+			}
+			if ( ! empty( $iee_cats ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
 					wp_set_object_terms( $update_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
 
-			// Assign event tag.
-			$iee_tags = isset( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+			// Assign Eventbrite tags.
+			$options         = iee_get_import_options( $centralize_array['origin'] );
+			$is_insert_etags = isset( $options['eventbritre_tags'] ) ? $options['eventbritre_tags'] : 'no';
+			$iee_tags        = isset( $event_args['event_tags'] ) && is_array( $event_args['event_tags'] ) ? $event_args['event_tags'] : array();
+			$e_tags          = isset( $centralize_array['e_tags'] ) && is_array( $centralize_array['e_tags'] ) ? $centralize_array['e_tags'] : array();
+
+			if ( 'yes' === $is_insert_etags && ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'tag' ) ) ) {
+				$eventbrite_tag_ids = $iee_events->common->insert_eventbrite_tags_and_assing_into_event( $e_tags, $this->tag_taxonomy );
+
+				if ( ! empty( $eventbrite_tag_ids ) ) {
+					$iee_tags = array_merge( $iee_tags, $eventbrite_tag_ids );
+				}
+			}
+
 			if ( ! empty( $iee_tags ) ) {
 				foreach ( $iee_tags as $iee_tagk => $iee_tagv ) {
 					$iee_tags[ $iee_tagk ] = (int) $iee_tagv;
 				}
-				if ( $iee_events->common->iee_is_updatable( 'category' ) ) {
+
+				$iee_tags = array_unique( $iee_tags );
+			}
+
+			if ( ! empty( $iee_tags ) ) {
+				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('tag') )) {
 					wp_set_object_terms( $update_event_id, $iee_tags, $this->tag_taxonomy );
 				}
 			}

@@ -61,10 +61,12 @@ if ( 'yes' === $direct_link ){
                 </g>
             </svg>
             <?php 
-                if ($event_address && $venue_address) {
+                if ( $event_address && $venue_address) {
                     echo esc_html( $event_address . ' - ' . $venue_address );
                 } elseif ($venue_address) {
                     echo esc_html($venue_address);
+                } elseif ($event_address) {
+                    echo esc_html($event_address);
                 }
             ?>
         </div>
