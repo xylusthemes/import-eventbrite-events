@@ -228,7 +228,7 @@ class Import_Eventbrite_Events_Admin {
 
 			<div class="iee-bottom-cta">
 				<h3><?php esc_html_e( 'Ready to go live with Eventbrite Widget?', 'import-eventbrite-events' ); ?></h3>
-				<p><?php esc_html_e( 'Upgrade to PRO and start displaying events on your website in minutes — no technical setup needed.', 'import-eventbrite-events' ); ?></p>
+				<p><?php esc_html_e( 'Upgrade to PRO and start displaying events on your website in minutes, no technical setup needed.', 'import-eventbrite-events' ); ?></p>
 				<a href="<?php echo esc_url( $pro_url ); ?>" target="_blank" 
 				style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,#f06342,#3d64f4); color:#fff; font-size:14px; font-weight:700; padding:13px 30px; border-radius:8px; text-decoration:none; box-shadow:0 4px 16px rgba(240,99,66,0.35);">
 					✦ <?php esc_html_e( 'Get PRO Now', 'import-eventbrite-events' ); ?>

@@ -4,8 +4,8 @@ Donate link: http://xylusthemes.com/
 Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 4.0
 Requires PHP: 5.3
-Tested up to: 6.9
-Stable tag: 1.8.0
+Tested up to: 7.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,6 +145,19 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.8.1 =
+* ADDED: Export events to iCal Option.
+* ADDED: Eventbrite widget to display events directly on your site. ( PRO )
+* ADDED: Discount code support, applied codes in ticket section.
+* ADDED: Show event images without downloading them to your media library.
+* ADDED: Sensible default settings are now pre-configured on plugin activation.
+* ADDED: Import events into Easy Event Calendar plugin.
+* ADDED: Import and assign tags to events, with option to skip tag updates.
+* FIXED: Modal layout on mobile devices now displays correctly.
+* IMPROVEMENTS: Full compatibility with PHP 8.5.
+* IMPROVEMENTS: Full compatibility with WordPress 7.0.
+* IMPROVEMENTS: Custom post types now use the modern Gutenberg editor.
 
 = 1.8.0 =
 * ADDED: New “More Options” mode in Elementor block for enhanced display customization.

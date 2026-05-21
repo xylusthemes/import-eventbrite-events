@@ -3,7 +3,7 @@
  * Plugin Name:       Import Eventbrite Events
  * Plugin URI:        http://xylusthemes.com/plugins/import-eventbrite-events/
  * Description:       Import Eventbrite Events allows you to import Eventbrite (eventbrite.com) events into your WordPress site.
- * Version:           1.8.0
+ * Version:           1.8.1
  * Author:            Xylus Themes
  * Author URI:        https://xylusthemes.com
  * License:           GPL-2.0+
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @since 1.0.0
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.8.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.8.1' );
 		}
 
 		/**
@@ -117,7 +117,7 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 * @since 1.0.0
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.8.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'import-eventbrite-events' ), '1.8.1' );
 		}
 
 
@@ -132,12 +132,12 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 
 			// Plugin version.
 			if ( ! defined( 'IEE_VERSION' ) ) {
-				define( 'IEE_VERSION', '1.8.0' );
+				define( 'IEE_VERSION', '1.8.1' );
 			}
 
 			// Minimum Pro plugin version.
 			if ( ! defined( 'IEE_MIN_PRO_VERSION' ) ) {
-				define( 'IEE_MIN_PRO_VERSION', '1.7.6' );
+				define( 'IEE_MIN_PRO_VERSION', '1.7.8' );
 			}
 
 			// Plugin folder Path.
