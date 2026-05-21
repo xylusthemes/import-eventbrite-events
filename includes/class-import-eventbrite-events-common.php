@@ -35,6 +35,7 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'admin_init', array( $this, 'iee_check_for_minimum_pro_version' ) );
 		add_action( 'admin_init', array( $this, 'iee_redirect_after_activation' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'iee_source_image_thumbnail_html' ), 10, 5 );
+		add_action( 'eec_after_event_description', array( $this, 'iee_xec_render_ticket_section' ) );
 	}
 
 	/**
@@ -449,6 +450,28 @@ class Import_Eventbrite_Events_Common {
 		$image_html .= ' />';
 
 		return $image_html;
+	}
+
+	public function iee_xec_render_ticket_section( $event_id ) {
+		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
+		if ( $event_origin !== 'eventbrite' ) {
+			return;
+		}
+
+		$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
+		$series_id     = get_post_meta( $event_id, 'series_id', true );
+
+		if ( ! empty( $series_id ) ) {
+			$eventbrite_id = $series_id;
+		}
+
+		if ( empty( $eventbrite_id ) || ! is_numeric( $eventbrite_id ) ) {
+			return;
+		}
+
+		if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+			echo $this->iee_get_ticket_section( $eventbrite_id, $event_id );
+		}
 	}
 
 	/**

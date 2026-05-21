@@ -61,8 +61,9 @@ class Import_Eventbrite_Events_Admin {
 
 	function iee_widget_free_page() {
 		if ( ! post_type_exists( 'ieepro_live_feed' ) && ! defined( 'IEEPRO_VERSION' ) ) {
+			// Hidden page: menu link is added in add_menu_pages() at the second position.
 			add_submenu_page(
-				'eventbrite_event',
+				null,
 				__( 'Eventbrite Widget', 'import-eventbrite-events' ),
 				__( 'Eventbrite Widget', 'import-eventbrite-events' ),
 				'manage_options',
@@ -778,6 +779,9 @@ class Import_Eventbrite_Events_Admin {
 	 * @return void
 	 */
 	public function get_selected_tab_submenu_iee( $submenu_file ){
+		if ( ! empty( $_GET['page'] ) && 'iee_eventbrite_feed_upgrade' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return 'admin.php?page=iee_eventbrite_feed_upgrade';
+		}
 		if( !empty( $_GET['page'] ) && esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) == 'eventbrite_event' ){ // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$allowed_tabs = array( 'dashboard', 'eventbrite', 'scheduled', 'history', 'settings', 'ical_export', 'shortcodes', 'support' );
 			$tab = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'eventbrite'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -800,6 +804,9 @@ class Import_Eventbrite_Events_Admin {
 	 * @since 1.8.0
 	 */
 	public function get_selected_tab_parent_iee( $parent_file ){
+		if ( ! empty( $_GET['page'] ) && 'iee_eventbrite_feed_upgrade' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return 'eventbrite_event';
+		}
 		global $post_type;
 		if ( 'ieepro_live_feed' === $post_type ) {
 			$parent_file = 'eventbrite_event';
