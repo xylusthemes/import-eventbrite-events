@@ -21,6 +21,7 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
  eventbrite events, import, eventbrite import, the events calendar, event import,events manager, import events, import event, my calendar, eventon, all in one event calendar, timely, event organiser, event management, event calendar, event manager
 
  <h3>Features</h3>
+* Eventbrite Widget to display live Eventbrite events on your site without importing ([Pro][1]).
 * Upcoming Events Elementor Widget ([Pro][1]).
 * Easy and seemless Event import from Eventbrite to WordPres.
 * Import Eventbrite event by Event ID using Eventbrite API
@@ -47,7 +48,20 @@ Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Disp
 * Works with leading WordPress Event Calendar Plug-ins
 * Import Event using latest Eventbrite API
  
- 
+
+ <h3>Eventbrite Widget Features (Pro)</h3>
+* Display live Eventbrite events directly on your WordPress site without importing events first.
+* No API token, OAuth setup, or Eventbrite authorization required for widget display.
+* Show events by Organizer ID, Collection ID, or specific Eventbrite Event IDs.
+* Choose from 7 display layouts including grid, list, masonry, timeline, ticket, minimal grid, and compact list.
+* Add a ticket button with popup checkout modal or direct Eventbrite link.
+* Use the visual shortcode builder to generate widget shortcodes for pages, posts, and widget areas.
+* Filter widget feeds by date and time.
+* Smart cache with auto refresh keeps event listings up to date.
+* Pagination options including Load More and Infinite Scroll.
+* Add custom CSS per feed for flexible styling.
+* Upgrade to Pro for Eventbrite Widget features: [Import Eventbrite Events Pro][1].
+
 
  <h3>Import Eventbrite Events into</h3>
 
