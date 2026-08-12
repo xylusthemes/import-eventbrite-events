@@ -194,7 +194,8 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		}
 
 		$ct_ids = '';
-		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
+		$collection_fetch_id = !empty( $series_id ) ? $series_id : $eventbrite_event['id'];
+		$get_collections = $this->get_iee_collections( $collection_fetch_id );
 		if( !empty( $get_collections ) ){
 			$ct_ids = $iee_events->common->sync_event_collection( $get_collections );
 		}
