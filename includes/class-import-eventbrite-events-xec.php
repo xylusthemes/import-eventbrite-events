@@ -31,6 +31,9 @@ class Import_Eventbrite_Events_XEC {
 	// Xylus Events Calendar Organizer Taxonomy
 	protected $organizer_taxonomy;
 
+	// Xylus Events Calendar Collection Taxonomy
+	protected $collection_taxonomy;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -43,6 +46,7 @@ class Import_Eventbrite_Events_XEC {
 		$this->event_posttype     = 'eec_events';
 		$this->venue_taxonomy     = 'eec_venue';
 		$this->organizer_taxonomy = 'eec_organizer';
+		$this->collection_taxonomy = 'eec_collection';
 
 	}
 	/**
@@ -61,6 +65,9 @@ class Import_Eventbrite_Events_XEC {
 	}
 	public function get_venue_posttype() {
 		return $this->venue_taxonomy;
+	}
+	public function get_collection_taxonomy() {
+		return $this->collection_taxonomy;
 	}
 	public function get_taxonomy() {
 		return $this->taxonomy;
@@ -186,7 +193,7 @@ class Import_Eventbrite_Events_XEC {
 			}
 			if ( ! empty( $iee_cats ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('category') )) {
-					wp_set_object_terms( $inserted_event_id, $iee_cats, $this->taxonomy );
+					wp_set_object_terms( $new_event_id, $iee_cats, $this->taxonomy );
 				}
 			}
 
@@ -214,7 +221,16 @@ class Import_Eventbrite_Events_XEC {
 
 			if ( ! empty( $iee_tags ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('tag') )) {
-					wp_set_object_terms( $inserted_event_id, $iee_tags, $this->tag_taxonomy );
+					wp_set_object_terms( $new_event_id, $iee_tags, $this->tag_taxonomy );
+				}
+			}
+
+			// Assign event collection.
+			$collection_ids = isset( $centralize_array['collection_ids'] ) ? $centralize_array['collection_ids'] : array();
+			if ( ! empty( $collection_ids ) ) {
+				$xec_collection_ids = $this->sync_collections_to_xec( $collection_ids );
+				if ( ! empty( $xec_collection_ids ) ) {
+					wp_set_object_terms( $new_event_id, $xec_collection_ids, $this->collection_taxonomy );
 				}
 			}
 
@@ -354,6 +370,15 @@ class Import_Eventbrite_Events_XEC {
 			if ( ! empty( $iee_tags ) ) {
 				if (!($is_exitsing_event && ! $iee_events->common->iee_is_updatable('tag') )) {
 					wp_set_object_terms( $update_event_id, $iee_tags, $this->tag_taxonomy );
+				}
+			}
+
+			// Assign event collection.
+			$collection_ids = isset( $centralize_array['collection_ids'] ) ? $centralize_array['collection_ids'] : array();
+			if ( ! empty( $collection_ids ) ) {
+				$xec_collection_ids = $this->sync_collections_to_xec( $collection_ids );
+				if ( ! empty( $xec_collection_ids ) ) {
+					wp_set_object_terms( $update_event_id, $xec_collection_ids, $this->collection_taxonomy );
 				}
 			}
 
@@ -539,6 +564,67 @@ class Import_Eventbrite_Events_XEC {
 				array( '%d', '%s', '%s', '%d' )
 			);
 		}
+	}
+
+	/**
+	 * Sync collections from eventbrite_collection to eec_collection
+	 *
+	 * @since 1.0.0
+	 * @param array|int $collection_ids Collection term IDs from eventbrite_collection.
+	 * @return array Collection term IDs in eec_collection.
+	 */
+	public function sync_collections_to_xec( $collection_ids ) {
+		if ( empty( $collection_ids ) ) {
+			return array();
+		}
+
+		$collection_ids = (array) $collection_ids;
+		$new_collection_ids = array();
+
+		foreach ( $collection_ids as $term_id ) {
+			$term = get_term( $term_id, 'eventbrite_collection' );
+			if ( ! $term || is_wp_error( $term ) ) {
+				continue;
+			}
+
+			$collection_id  = get_term_meta( $term_id, 'collection_id', true );
+			$organizer_id   = get_term_meta( $term_id, 'organizer_id', true );
+			$collection_url = get_term_meta( $term_id, 'collection_url', true );
+			$image_url      = get_term_meta( $term_id, 'image_url', true );
+
+			$slug = $term->slug;
+			$name = $term->name;
+			$description = $term->description;
+
+			$target_term = get_term_by( 'slug', $slug, $this->collection_taxonomy );
+
+			if ( ! $target_term ) {
+				$term_result = wp_insert_term( $name, $this->collection_taxonomy, array(
+					'slug'        => $slug,
+					'description' => $description,
+				) );
+
+				if ( is_wp_error( $term_result ) ) {
+					continue;
+				}
+
+				$new_term_id = $term_result['term_id'];
+			} else {
+				$new_term_id = $target_term->term_id;
+				wp_update_term( $new_term_id, $this->collection_taxonomy, array(
+					'description' => $description,
+				) );
+			}
+
+			update_term_meta( $new_term_id, 'collection_id', $collection_id );
+			update_term_meta( $new_term_id, 'organizer_id', $organizer_id );
+			update_term_meta( $new_term_id, 'collection_url', $collection_url );
+			update_term_meta( $new_term_id, 'image_url', $image_url );
+
+			$new_collection_ids[] = (int) $new_term_id;
+		}
+
+		return $new_collection_ids;
 	}
 
 }

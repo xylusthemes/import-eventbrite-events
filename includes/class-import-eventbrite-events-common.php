@@ -599,6 +599,11 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function iee_add_em_add_ticket_section( $content = '' ) {
 		global $iee_events;
+
+		if ( ! is_singular() ) {
+			return $content;
+		}
+
 		$xt_post_type = get_post_type();
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
