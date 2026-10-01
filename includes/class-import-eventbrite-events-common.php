@@ -604,6 +604,15 @@ class Import_Eventbrite_Events_Common {
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
+				$iee_ap_options = get_option( IEE_AP_OPTIONS );
+				$details_layout = isset( $iee_ap_options['details_layout'] ) ? $iee_ap_options['details_layout'] : 'default';
+				
+				// Do not automatically append ticket section if using Elementor or Gutenberg layouts in Pro, 
+				// as these layouts have their own dedicated ticket section widget/block.
+				if ( iee_is_pro() && ( $details_layout === 'elementor' || $details_layout === 'gutenberg' ) ) {
+					return $content;
+				}
+
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){

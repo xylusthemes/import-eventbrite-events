@@ -351,4 +351,77 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		$e_collections = isset( $eventbrite_collections['collections'] ) ? $eventbrite_collections['collections'] : '';
 		return $e_collections;
 	}
+
+	/**
+	 * Get Event structured content (lineup, speaker, images, faqs) from eventbrite.
+	 *
+	 * @since 1.0.0
+	 * @param string $event_id Event ID.
+	 * @return array Structured content data.
+	 */
+	public function get_structured_content( $event_id ) {
+		$structured_data = array(
+			'lineup'        => array(),
+			'speakers'      => array(),
+			'images'        => array(),
+			'slider_images' => array(),
+			'faqs'          => array(),
+			'videos'        => array(),
+		);
+
+		if ( empty( $event_id ) ) {
+			return $structured_data;
+		}
+
+		$eventbrite_api_url  = 'https://www.eventbrite.com/api/v3/events/' . $event_id . '/structured_content/';
+		$response            = wp_remote_get( $eventbrite_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+
+		if ( is_wp_error( $response ) ) {
+			return $structured_data;
+		}
+
+		$body = json_decode( $response['body'], true );
+
+		if ( isset( $body['modules'] ) && is_array( $body['modules'] ) ) {
+			foreach ( $body['modules'] as $module ) {
+				if ( isset( $module['type'] ) ) {
+					if ( $module['type'] === 'image' && isset( $module['data']['image']['url'] ) ) {
+						$structured_data['images'][] = $module['data']['image']['url'];
+					} elseif ( $module['type'] === 'video' && isset( $module['data']['video']['url'] ) ) {
+						$structured_data['videos'][] = $module['data']['video']['url'];
+					}
+				}
+			}
+		}
+
+		if ( isset( $body['widgets'] ) && is_array( $body['widgets'] ) ) {
+			foreach ( $body['widgets'] as $widget ) {
+				if ( isset( $widget['type'] ) ) {
+					if ( $widget['type'] === 'lineup' && isset( $widget['data']['artist_list'] ) ) {
+						if ( isset( $widget['data']['artist_type'] ) && $widget['data']['artist_type'] === 'speakers' ) {
+							$structured_data['speakers'] = array_merge( $structured_data['speakers'], $widget['data']['artist_list'] );
+						} else {
+							$structured_data['lineup'] = array_merge( $structured_data['lineup'], $widget['data']['artist_list'] );
+						}
+					} elseif ( ( $widget['type'] === 'faqs' || $widget['type'] === 'faq' ) && isset( $widget['data']['faqs'] ) ) {
+						$structured_data['faqs'] = array_merge( $structured_data['faqs'], $widget['data']['faqs'] );
+					} elseif ( $widget['type'] === 'herocarousel' && isset( $widget['data']['slides'] ) ) {
+						foreach ( $widget['data']['slides'] as $slide ) {
+							if ( isset( $slide['image']['url'] ) ) {
+								$structured_data['slider_images'][] = $slide['image']['url'];
+							} elseif ( isset( $slide['image']['original']['url'] ) ) {
+								$structured_data['slider_images'][] = $slide['image']['original']['url'];
+							}
+						}
+					} elseif ( $widget['type'] === 'native_video' && isset( $widget['data']['id'] ) ) {
+						$structured_data['videos'][] = 'https://d1xykzbd1twk8p.cloudfront.net/' . $widget['data']['id'] . '_480p_vertical.mp4';
+					} elseif ( $widget['type'] === 'featured_video' && isset( $widget['data']['video']['embed_url'] ) ) {
+						$structured_data['videos'][] = $widget['data']['video']['embed_url'];
+					}
+				}
+			}
+		}
+
+		return $structured_data;
+	}
 }

@@ -34,7 +34,31 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 		 */
 		private static $instance;
     
-     	public $common, $cpt, $eventbrite, $admin, $manage_import, $iee, $tec, $em, $eventon, $event_organizer, $aioec, $my_calendar, $ee4, $common_pro, $cron, $eventbrite_pro, $eventprime, $elementor_widget, $eventbrite_api, $ajax, $xec, $ical_export, $htmltblock;
+     	public 
+			$common, 
+			$cpt, 
+			$eventbrite, 
+			$admin, 
+			$manage_import, 
+			$iee, 
+			$tec, 
+			$em, 
+			$eventon, 
+			$event_organizer, 
+			$aioec, 
+			$my_calendar, 
+			$ee4, 
+			$common_pro, 
+			$cron, 
+			$eventbrite_pro, 
+			$eventprime, 
+			$elementor_widget, 
+			$eventbrite_api, 
+			$ajax, 
+			$xec, 
+			$ical_export, 
+			$htmltblock, 
+			$blocks;
     
 		/**
 		 * Main Import Eventbrite Events Instance.
