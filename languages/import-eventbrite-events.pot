@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-21T07:10:34+00:00\n"
+"POT-Creation-Date: 2026-10-01T11:04:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -40,23 +40,24 @@ msgstr ""
 msgid "https://xylusthemes.com"
 msgstr ""
 
-#: import-eventbrite-events.php:111
-#: import-eventbrite-events.php:120
+#: import-eventbrite-events.php:135
+#: import-eventbrite-events.php:144
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: import-eventbrite-events.php:244
+#: import-eventbrite-events.php:268
 #: includes/class-import-eventbrite-events-admin.php:468
 msgid "Setting"
 msgstr ""
 
-#: import-eventbrite-events.php:249
-#: includes/class-import-eventbrite-events-common.php:1638
+#: import-eventbrite-events.php:273
+#: includes/class-import-eventbrite-events-common.php:1647
 msgid "Docs"
 msgstr ""
 
-#: import-eventbrite-events.php:258
+#: import-eventbrite-events.php:282
 #: includes/class-import-eventbrite-events-admin.php:346
+#: templates/admin/import-eventbrite-events-settings.php:430
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -151,7 +152,7 @@ msgid "Display Eventbrite events directly on your website no import, no authoriz
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:123
-#: includes/class-import-eventbrite-events-common.php:1012
+#: includes/class-import-eventbrite-events-common.php:1021
 #: templates/admin/iee-dashboard.php:71
 msgid "Upgrade to PRO"
 msgstr ""
@@ -277,7 +278,7 @@ msgid "Eventbrite Import"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:317
-#: includes/class-import-eventbrite-events-common.php:1606
+#: includes/class-import-eventbrite-events-common.php:1615
 msgid "Dashboard"
 msgstr ""
 
@@ -308,7 +309,7 @@ msgid "Shortcodes"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:343
-#: includes/class-import-eventbrite-events-common.php:1636
+#: includes/class-import-eventbrite-events-common.php:1645
 msgid "Support"
 msgstr ""
 
@@ -416,7 +417,7 @@ msgid "Import History"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:630
-#: includes/class-import-eventbrite-events-cpt.php:125
+#: includes/class-import-eventbrite-events-cpt.php:128
 msgid "Add New"
 msgstr ""
 
@@ -545,8 +546,8 @@ msgid "Easy Events Calendar"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-common.php:221
-#: includes/class-import-eventbrite-events-cpt.php:119
-#: includes/class-import-eventbrite-events-cpt.php:123
+#: includes/class-import-eventbrite-events-cpt.php:122
+#: includes/class-import-eventbrite-events-cpt.php:126
 msgid "Eventbrite Events"
 msgstr ""
 
@@ -554,17 +555,17 @@ msgstr ""
 msgid "Invalid image URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:701
+#: includes/class-import-eventbrite-events-common.php:710
 msgid "Your current \"Import Eventbrite Pro\" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:743
+#: includes/class-import-eventbrite-events-common.php:752
 msgid "Event(s) are imported successfully."
 msgstr ""
 
 #. translators: %d: Number of events created.
 #. translators: %d: Number of events Created.
-#: includes/class-import-eventbrite-events-common.php:746
+#: includes/class-import-eventbrite-events-common.php:755
 #: includes/class-import-eventbrite-events-list-table.php:174
 #: includes/class-import-eventbrite-events-list-table.php:398
 #: includes/class-import-eventbrite-events-list-table.php:597
@@ -573,7 +574,7 @@ msgid "%d Created"
 msgstr ""
 
 #. translators: %d: Number of events Updated.
-#: includes/class-import-eventbrite-events-common.php:750
+#: includes/class-import-eventbrite-events-common.php:759
 #: includes/class-import-eventbrite-events-list-table.php:178
 #: includes/class-import-eventbrite-events-list-table.php:402
 #: includes/class-import-eventbrite-events-list-table.php:601
@@ -582,517 +583,517 @@ msgid "%d Updated"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
-#: includes/class-import-eventbrite-events-common.php:754
+#: includes/class-import-eventbrite-events-common.php:763
 #, php-format
 msgid "%d Skipped (Already exists)"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
-#: includes/class-import-eventbrite-events-common.php:758
+#: includes/class-import-eventbrite-events-common.php:767
 #, php-format
 msgid "%d Skipped (Already exists in Trash )"
 msgstr ""
 
 #. translators: %d: Number of events error.
-#: includes/class-import-eventbrite-events-common.php:762
+#: includes/class-import-eventbrite-events-common.php:771
 #, php-format
 msgid "%d "
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:827
+#: includes/class-import-eventbrite-events-common.php:836
 msgid "Once Hourly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:830
+#: includes/class-import-eventbrite-events-common.php:839
 msgid "Twice Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:833
+#: includes/class-import-eventbrite-events-common.php:842
 msgid "Once Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:836
+#: includes/class-import-eventbrite-events-common.php:845
 msgid "Once Weekly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:839
+#: includes/class-import-eventbrite-events-common.php:848
 msgid "Once a Month"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:854
+#: includes/class-import-eventbrite-events-common.php:863
 msgid "One-time Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:856
+#: includes/class-import-eventbrite-events-common.php:865
 msgid "Scheduled Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:911
+#: includes/class-import-eventbrite-events-common.php:920
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:301
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:97
 msgid "Status"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:916
+#: includes/class-import-eventbrite-events-common.php:925
 #: templates/admin/import-eventbrite-events-ical-export.php:64
 msgid "Published"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:919
+#: includes/class-import-eventbrite-events-common.php:928
 #: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:456
 #: templates/admin/import-eventbrite-events-ical-export.php:67
 msgid "Pending"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:922
+#: includes/class-import-eventbrite-events-common.php:931
 #: templates/admin/import-eventbrite-events-ical-export.php:66
 msgid "Draft"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1012
+#: includes/class-import-eventbrite-events-common.php:1021
 msgid "Available in Pro version."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1289
+#: includes/class-import-eventbrite-events-common.php:1298
 msgid "Scheduled import deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1293
-#: includes/class-import-eventbrite-events-common.php:1317
+#: includes/class-import-eventbrite-events-common.php:1302
+#: includes/class-import-eventbrite-events-common.php:1326
 msgid "Scheduled imports are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1297
+#: includes/class-import-eventbrite-events-common.php:1306
 msgid "Scheduled import has been run successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1301
+#: includes/class-import-eventbrite-events-common.php:1310
 msgid "Import history deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1305
+#: includes/class-import-eventbrite-events-common.php:1314
 msgid "Import histories are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1309
+#: includes/class-import-eventbrite-events-common.php:1318
 msgid "Update has been finish successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1313
+#: includes/class-import-eventbrite-events-common.php:1322
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1476
+#: includes/class-import-eventbrite-events-common.php:1485
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1494
+#: includes/class-import-eventbrite-events-common.php:1503
 msgid "Appearance settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1496
+#: includes/class-import-eventbrite-events-common.php:1505
 msgid "There are no changes in the appearance settings."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1586
+#: includes/class-import-eventbrite-events-common.php:1595
 msgid "WP Bulk Delete"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1587
+#: includes/class-import-eventbrite-events-common.php:1596
 msgid "WP Event Aggregator"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1588
+#: includes/class-import-eventbrite-events-common.php:1597
 msgid "Import Social Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1589
+#: includes/class-import-eventbrite-events-common.php:1598
 msgid "Import Meetup Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1590
+#: includes/class-import-eventbrite-events-common.php:1599
 msgid "Event Schema / Structured Data"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1591
+#: includes/class-import-eventbrite-events-common.php:1600
 msgid "WP Smart Import : Import any XML File to WordPress"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1634
+#: includes/class-import-eventbrite-events-common.php:1643
 msgid "Made with ♥ by the Xylus Themes"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1640
+#: includes/class-import-eventbrite-events-common.php:1649
 msgid "Free Plugins"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:117
+#: includes/class-import-eventbrite-events-cpt.php:120
 msgctxt "Post Type General Name"
 msgid "Eventbrite Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:118
+#: includes/class-import-eventbrite-events-cpt.php:121
 msgctxt "Post Type Singular Name"
 msgid "Eventbrite Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:120
+#: includes/class-import-eventbrite-events-cpt.php:123
 msgid "Eventbrite Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:121
+#: includes/class-import-eventbrite-events-cpt.php:124
 msgid "Event Archives"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:122
+#: includes/class-import-eventbrite-events-cpt.php:125
 msgid "Parent Event:"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:124
+#: includes/class-import-eventbrite-events-cpt.php:127
 #: templates/admin/iee-dashboard.php:113
 msgid "Add New Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:126
+#: includes/class-import-eventbrite-events-cpt.php:129
 msgid "New Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:127
+#: includes/class-import-eventbrite-events-cpt.php:130
 msgid "Edit Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:128
+#: includes/class-import-eventbrite-events-cpt.php:131
 msgid "Update Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:129
+#: includes/class-import-eventbrite-events-cpt.php:132
 msgid "View Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:130
+#: includes/class-import-eventbrite-events-cpt.php:133
 msgid "Search Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:131
+#: includes/class-import-eventbrite-events-cpt.php:134
 msgid "Not found"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:132
+#: includes/class-import-eventbrite-events-cpt.php:135
 msgid "Not found in Trash"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:133
+#: includes/class-import-eventbrite-events-cpt.php:136
 msgid "Featured Image"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:134
+#: includes/class-import-eventbrite-events-cpt.php:137
 msgid "Set featured image"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:135
+#: includes/class-import-eventbrite-events-cpt.php:138
 msgid "Remove featured image"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:136
+#: includes/class-import-eventbrite-events-cpt.php:139
 msgid "Use as featured image"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:137
+#: includes/class-import-eventbrite-events-cpt.php:140
 msgid "Insert into Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:138
+#: includes/class-import-eventbrite-events-cpt.php:141
 msgid "Uploaded to this Event"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:139
+#: includes/class-import-eventbrite-events-cpt.php:142
 msgid "Event Items list"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:140
+#: includes/class-import-eventbrite-events-cpt.php:143
 msgid "Event Items list navigation"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:141
+#: includes/class-import-eventbrite-events-cpt.php:144
 msgid "Filter Event items list"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:151
+#: includes/class-import-eventbrite-events-cpt.php:154
 msgid "Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:152
+#: includes/class-import-eventbrite-events-cpt.php:155
 msgid "Post type for Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:186
-#: includes/class-import-eventbrite-events-cpt.php:188
+#: includes/class-import-eventbrite-events-cpt.php:189
+#: includes/class-import-eventbrite-events-cpt.php:191
 msgid "Event Categories"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:187
-#: includes/class-import-eventbrite-events-cpt.php:189
+#: includes/class-import-eventbrite-events-cpt.php:190
+#: includes/class-import-eventbrite-events-cpt.php:192
 #: templates/iee-event-meta.php:84
 msgid "Event Category"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:190
+#: includes/class-import-eventbrite-events-cpt.php:193
 msgid "Search Categories"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:191
+#: includes/class-import-eventbrite-events-cpt.php:194
 msgid "Popular Categories"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:192
+#: includes/class-import-eventbrite-events-cpt.php:195
 msgid "All Categories"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:193
+#: includes/class-import-eventbrite-events-cpt.php:196
 msgid "Edit Category"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:194
+#: includes/class-import-eventbrite-events-cpt.php:197
 msgid "View Category"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:195
+#: includes/class-import-eventbrite-events-cpt.php:198
 msgid "Update Category"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:196
+#: includes/class-import-eventbrite-events-cpt.php:199
 msgid "Add New Category"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:197
+#: includes/class-import-eventbrite-events-cpt.php:200
 msgid "New Category Name"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:222
-#: includes/class-import-eventbrite-events-cpt.php:224
+#: includes/class-import-eventbrite-events-cpt.php:225
+#: includes/class-import-eventbrite-events-cpt.php:227
 #: templates/iee-event-meta.php:91
 msgid "Event Tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:223
-#: includes/class-import-eventbrite-events-cpt.php:225
+#: includes/class-import-eventbrite-events-cpt.php:226
+#: includes/class-import-eventbrite-events-cpt.php:228
 msgid "Event Tag"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:226
+#: includes/class-import-eventbrite-events-cpt.php:229
 msgid "Search Tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:227
+#: includes/class-import-eventbrite-events-cpt.php:230
 msgid "Popular Tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:228
+#: includes/class-import-eventbrite-events-cpt.php:231
 msgid "All Tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:229
+#: includes/class-import-eventbrite-events-cpt.php:232
 msgid "Edit Tag"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:230
+#: includes/class-import-eventbrite-events-cpt.php:233
 msgid "View Tag"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:231
+#: includes/class-import-eventbrite-events-cpt.php:234
 msgid "Update Tag"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:232
+#: includes/class-import-eventbrite-events-cpt.php:235
 msgid "Add New Tag"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:233
+#: includes/class-import-eventbrite-events-cpt.php:236
 msgid "New Tag Name"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:234
+#: includes/class-import-eventbrite-events-cpt.php:237
 msgid "Separate tags with commas"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:235
+#: includes/class-import-eventbrite-events-cpt.php:238
 msgid "Add or remove tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:236
+#: includes/class-import-eventbrite-events-cpt.php:239
 msgid "Choose from the most used tags"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:237
+#: includes/class-import-eventbrite-events-cpt.php:240
 msgid "No tags found"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:247
-#: includes/class-import-eventbrite-events-cpt.php:249
+#: includes/class-import-eventbrite-events-cpt.php:250
+#: includes/class-import-eventbrite-events-cpt.php:252
 msgid "Event Collections"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:248
-#: includes/class-import-eventbrite-events-cpt.php:250
+#: includes/class-import-eventbrite-events-cpt.php:251
+#: includes/class-import-eventbrite-events-cpt.php:253
 msgid "Event Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:251
+#: includes/class-import-eventbrite-events-cpt.php:254
 msgid "Search Collections"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:252
+#: includes/class-import-eventbrite-events-cpt.php:255
 msgid "Popular Collections"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:253
+#: includes/class-import-eventbrite-events-cpt.php:256
 msgid "Parent Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:254
+#: includes/class-import-eventbrite-events-cpt.php:257
 msgid "Parent Collection:"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:255
+#: includes/class-import-eventbrite-events-cpt.php:258
 msgid "No Collections found"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:256
+#: includes/class-import-eventbrite-events-cpt.php:259
 msgid "All Collections"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:257
+#: includes/class-import-eventbrite-events-cpt.php:260
 msgid "Edit Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:258
+#: includes/class-import-eventbrite-events-cpt.php:261
 msgid "View Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:259
+#: includes/class-import-eventbrite-events-cpt.php:262
 msgid "Update Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:260
+#: includes/class-import-eventbrite-events-cpt.php:263
 msgid "Add New Collection"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:261
+#: includes/class-import-eventbrite-events-cpt.php:264
 msgid "New Collection Name"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:276
-#: includes/class-import-eventbrite-events-cpt.php:309
+#: includes/class-import-eventbrite-events-cpt.php:279
+#: includes/class-import-eventbrite-events-cpt.php:312
 #: templates/admin/eventbrite-import-events.php:48
 msgid "Collection ID"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:281
-#: includes/class-import-eventbrite-events-cpt.php:314
+#: includes/class-import-eventbrite-events-cpt.php:284
+#: includes/class-import-eventbrite-events-cpt.php:317
 #: templates/admin/eventbrite-import-events.php:47
 msgid "Organizer ID"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:286
-#: includes/class-import-eventbrite-events-cpt.php:319
+#: includes/class-import-eventbrite-events-cpt.php:289
+#: includes/class-import-eventbrite-events-cpt.php:322
 msgid "Collection URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:291
-#: includes/class-import-eventbrite-events-cpt.php:324
+#: includes/class-import-eventbrite-events-cpt.php:294
+#: includes/class-import-eventbrite-events-cpt.php:327
 msgid "Image URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:361
+#: includes/class-import-eventbrite-events-cpt.php:364
 msgid "Events Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:385
+#: includes/class-import-eventbrite-events-cpt.php:388
 #: templates/iee-event-meta.php:159
 msgid "Venue"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:386
+#: includes/class-import-eventbrite-events-cpt.php:389
 msgid "Address"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:387
+#: includes/class-import-eventbrite-events-cpt.php:390
 msgid "City"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:388
+#: includes/class-import-eventbrite-events-cpt.php:391
 msgid "State"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:389
+#: includes/class-import-eventbrite-events-cpt.php:392
 msgid "Country"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:390
+#: includes/class-import-eventbrite-events-cpt.php:393
 msgid "Zipcode"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:391
+#: includes/class-import-eventbrite-events-cpt.php:394
 msgid "Latitude"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:392
+#: includes/class-import-eventbrite-events-cpt.php:395
 msgid "Longitude"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:393
-#: includes/class-import-eventbrite-events-cpt.php:397
+#: includes/class-import-eventbrite-events-cpt.php:396
+#: includes/class-import-eventbrite-events-cpt.php:400
 #: templates/iee-event-meta.php:127
 msgid "Website"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:394
+#: includes/class-import-eventbrite-events-cpt.php:397
 msgid "Organizer Name"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:395
+#: includes/class-import-eventbrite-events-cpt.php:398
 #: templates/iee-event-meta.php:118
 msgid "Email"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:396
+#: includes/class-import-eventbrite-events-cpt.php:399
 #: templates/iee-event-meta.php:122
 msgid "Phone"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:398
+#: includes/class-import-eventbrite-events-cpt.php:401
 msgid "Source Link"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:404
+#: includes/class-import-eventbrite-events-cpt.php:407
 msgid "Time & Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:407
+#: includes/class-import-eventbrite-events-cpt.php:410
 msgid "Start Date & Time"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:419
+#: includes/class-import-eventbrite-events-cpt.php:422
 msgid "End Date & Time"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:432
+#: includes/class-import-eventbrite-events-cpt.php:435
 msgid "Location Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:449
+#: includes/class-import-eventbrite-events-cpt.php:452
 msgid "Organizer Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:467
+#: includes/class-import-eventbrite-events-cpt.php:470
 msgid "Event Source Link"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:628
+#: includes/class-import-eventbrite-events-cpt.php:631
 msgid "Start Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:1003
+#: includes/class-import-eventbrite-events-cpt.php:1100
 msgid "There are no upcoming Events at this time."
 msgstr ""
 
@@ -2514,7 +2515,7 @@ msgid "Appearance"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:31
-#: templates/admin/import-eventbrite-events-settings.php:467
+#: templates/admin/import-eventbrite-events-settings.php:785
 msgid "Google Maps API"
 msgstr ""
 
@@ -2715,63 +2716,205 @@ msgid "Delete Import Eventbrite Events data like settings, scheduled imports, im
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:395
-#: templates/admin/import-eventbrite-events-settings.php:451
-#: templates/admin/import-eventbrite-events-settings.php:490
+#: templates/admin/import-eventbrite-events-settings.php:769
+#: templates/admin/import-eventbrite-events-settings.php:808
 msgid "Save Settings"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:408
+msgid "Single Event Details Layout"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:416
+msgid "Default Template"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:417
+msgid "Template 2 (Sidebar Layout)"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:418
+msgid "Template 3 (Modern Grid Layout)"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:419
+msgid "Template 4 (Split Screen Layout)"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:420
+msgid "Custom Gutenberg Builder"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:421
+msgid "Custom Elementor Builder"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:425
+msgid "Choose the layout template for the single event details page."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:430
+#, php-format
+msgid "Premium templates are available in the Pro version. %s"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:439
+msgid "Sidebar Position"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:446
+msgid "Right Sidebar"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:447
+msgid "Left Sidebar"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:451
+msgid "Choose whether the sidebar should be on the left or the right side."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:458
+msgid "Select Custom Template Page"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:467
+#: templates/admin/import-eventbrite-events-settings.php:538
+msgid "Auto-Generate Template"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:471
+#: templates/admin/import-eventbrite-events-settings.php:542
+msgid "Choose Existing Page"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:480
+#: templates/admin/import-eventbrite-events-settings.php:548
+msgid "&mdash; Select Page &mdash;"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:489
+msgid "Select the page you built with IEE Gutenberg blocks to use as the template for single events."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:494
+msgid "Select a pre-built layout to generate:"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:497
+msgid "Premium Template (Recommended)"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:498
+msgid "Exclusive Experience Template"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:499
+msgid "Featured Gathering Template"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:501
+#: templates/admin/import-eventbrite-events-settings.php:575
+msgid "Create & Select"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:504
+msgid "This will create a new WordPress Page with pre-configured Gutenberg blocks and automatically select it."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:511
+msgid "Select Elementor Template Page"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:550
+msgid "Pages"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:557
+msgid "Elementor Saved Templates"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:566
+msgid "Select the page or template you built with IEE Elementor widgets to use as the template for single events."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:570
+msgid "Select a pre-built Elementor layout to generate:"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:573
+msgid "Advanced Elementor Template"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:578
+msgid "This will create a new Elementor Saved Template with pre-configured widgets and automatically select it."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:631
+msgid "This will create a new Page with the selected Gutenberg layout. Proceed?"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:663
+#: templates/admin/import-eventbrite-events-settings.php:715
+msgid "An error occurred. Please try again."
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:675
+msgid "This will create a new Elementor Saved Template. Proceed?"
+msgstr ""
+
+#: templates/admin/import-eventbrite-events-settings.php:726
 msgid "Ticket Button Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:411
+#: templates/admin/import-eventbrite-events-settings.php:729
 #: templates/iee-archive-content3.php:34
 #: templates/iee-archive-content5.php:24
 #: templates/iee-archive-content6.php:25
 msgid "Buy Tickets"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:417
+#: templates/admin/import-eventbrite-events-settings.php:735
 msgid "Next Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:420
+#: templates/admin/import-eventbrite-events-settings.php:738
 msgid "Next Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:426
+#: templates/admin/import-eventbrite-events-settings.php:744
 msgid "Previous Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:429
+#: templates/admin/import-eventbrite-events-settings.php:747
 msgid "Previous Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:435
+#: templates/admin/import-eventbrite-events-settings.php:753
 msgid "Display Buy Ticket section in Past Event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:443
+#: templates/admin/import-eventbrite-events-settings.php:761
 msgid "Check to enable show to buy ticket section in past event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:471
+#: templates/admin/import-eventbrite-events-settings.php:789
 msgid "Check Google Maps Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:478
+#: templates/admin/import-eventbrite-events-settings.php:796
 msgid "Google maps API Key (Required)"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:479
+#: templates/admin/import-eventbrite-events-settings.php:797
 msgid "How to get an API Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:480
+#: templates/admin/import-eventbrite-events-settings.php:798
 msgid "Find out more about API Key restrictions"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:506
+#: templates/admin/import-eventbrite-events-settings.php:824
 msgid "Here"
 msgstr ""
 
