@@ -279,6 +279,60 @@ class Import_Eventbrite_Events_IEE {
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $ticket_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
+			// Structured Content
+			$structured = isset( $centralize_array['structured_content'] ) ? $centralize_array['structured_content'] : array();
+
+			if ( ! empty( $structured ) ) {
+				// Featured Video (kept separate from the description inline videos)
+				if ( ! empty( $structured['featured_video'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_featured_video', $structured['featured_video'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_featured_video' );
+				}
+
+				// FAQs
+				if ( ! empty( $structured['faqs'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_event_faqs', $structured['faqs'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_event_faqs' );
+				}
+
+				// Slider/Carousel Images
+				if ( ! empty( $structured['slider_images'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_slider_images', $structured['slider_images'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_slider_images' );
+				}
+
+				// Inline Content Images
+				if ( ! empty( $structured['images'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_event_images', $structured['images'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_event_images' );
+				}
+
+				// Description Inline Videos (NOT the featured video)
+				if ( ! empty( $structured['videos'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_event_videos', $structured['videos'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_event_videos' );
+				}
+
+				// Lineup/Artists
+				if ( ! empty( $structured['lineup'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_event_lineup', $structured['lineup'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_event_lineup' );
+				}
+
+				// Parking Info
+				if ( ! empty( $structured['parking'] ) ) {
+					update_post_meta( $inserted_event_id, 'iee_parking_info', $structured['parking'] );
+				} else {
+					delete_post_meta( $inserted_event_id, 'iee_parking_info' );
+				}
+			}
+
 			if ( $is_exitsing_event ) {
 				do_action( 'iee_after_update_em_' . $centralize_array['origin'] . '_event', $inserted_event_id, $centralize_array );
 				return array(

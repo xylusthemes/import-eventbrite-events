@@ -58,6 +58,9 @@ class Import_Eventbrite_Events_Cpt {
 			add_action( 'manage_posts_custom_column', array( $this, 'eventbrite_events_columns_data' ), 10, 2 );
 
 			add_filter( 'the_content', array( $this, 'eventbrite_events_meta_before_content' ) );
+			if ( iee_is_pro() ) {
+				add_filter( 'single_template', array( $this, 'eventbrite_events_single_template' ) );
+			}
 			add_shortcode( 'eventbrite_events', array( $this, 'eventbrite_events_archive' ) );
 
 			add_action( $this->event_collection . '_add_form_fields', [$this, 'add_collection_fields'] );
@@ -648,12 +651,96 @@ class Import_Eventbrite_Events_Cpt {
 	}
 
 	/**
+	 * Override the single template to remove the sidebar and provide full-width layout.
+	 *
+	 * @param string $single Template path
+	 * @return string
+	 */
+	public function eventbrite_events_single_template( $single ) {
+		global $post;
+
+		if ( $post->post_type === $this->event_posttype ) {
+			// Look for template in pro plugin directory first
+			if ( defined( 'IEEPRO_PLUGIN_DIR' ) ) {
+				$custom_template = IEEPRO_PLUGIN_DIR . 'templates/single-eventbrite_events.php';
+				if ( file_exists( $custom_template ) ) {
+					return $custom_template;
+				}
+			}
+		}
+
+		return $single;
+	}
+
+	/**
 	 * render event information above event content
 	 */
 	function eventbrite_events_meta_before_content( $content ) {
+		global $iee_skip_meta_injection;
+		if ( ! empty( $iee_skip_meta_injection ) ) {
+			return $content;
+		}
+
+		static $is_rendering = false;
+		if ( $is_rendering ) {
+			return $content;
+		}
 		if ( is_singular( $this->event_posttype ) ) {
-			$event_details = $this->eventbrite_events_get_event_meta( get_the_ID() );
-			$content       = $event_details . $content;
+			$iee_ap_options = get_option( IEE_AP_OPTIONS );
+			$details_layout = isset( $iee_ap_options['details_layout'] ) ? $iee_ap_options['details_layout'] : 'default';
+
+			// Non-pro users can only use the default layout
+			if ( ! iee_is_pro() ) {
+				$details_layout = 'default';
+			}
+
+			if ( $details_layout === 'gutenberg' ) {
+				$gutenberg_page_id = isset( $iee_ap_options['gutenberg_page_id'] ) ? intval( $iee_ap_options['gutenberg_page_id'] ) : 0;
+				if ( $gutenberg_page_id > 0 ) {
+					$template_post = get_post( $gutenberg_page_id );
+					if ( $template_post ) {
+						// Render the blocks from the custom page, completely replacing the default content
+						$is_rendering = true;
+						$output = do_blocks( $template_post->post_content );
+						$is_rendering = false;
+						return $output;
+					}
+				}
+			}
+
+			if ( $details_layout === 'elementor' ) {
+				$elementor_page_id = isset( $iee_ap_options['elementor_page_id'] ) ? intval( $iee_ap_options['elementor_page_id'] ) : 0;
+				if ( $elementor_page_id > 0 && class_exists( '\Elementor\Plugin' ) ) {
+					// Render the Elementor template
+					$is_rendering = true;
+					global $iee_current_event_id;
+					$iee_current_event_id = get_the_ID();
+					$output = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $elementor_page_id, true );
+					$iee_current_event_id = null; // reset
+					$is_rendering = false;
+					return $output;
+				}
+			}
+
+			// If the user has built the layout natively on this specific event using our blocks, 
+			// skip the default template injection and just return their designed content.
+			$post_content = get_post_field( 'post_content', get_the_ID() );
+			if ( has_blocks( $post_content ) && strpos( $post_content, 'wp:iee/' ) !== false ) {
+				return $content;
+			}
+
+			// Pass content for custom layouts
+			global $iee_event_content_for_template;
+			$iee_event_content_for_template = $content;
+
+			// Traditional PHP templates
+			$event_details = $this->eventbrite_events_get_event_meta( get_the_ID(), $details_layout );
+			
+			if ( $details_layout === 'template2' || $details_layout === 'template3' || $details_layout === 'template4' ) {
+				$content = $event_details;
+			} else {
+				$content = $event_details . $content;
+			}
 		}
 		return $content;
 	}
@@ -661,11 +748,21 @@ class Import_Eventbrite_Events_Cpt {
 	/**
 	 * get meta information for event.
 	 */
-	function eventbrite_events_get_event_meta( $event_id = '' ) {
+	function eventbrite_events_get_event_meta( $event_id = '', $layout = 'default' ) {
 
 		ob_start();
 
-		get_iee_template( 'iee-event-meta.php' );
+		$pro_template_path = defined( 'IEEPRO_PLUGIN_DIR' ) ? IEEPRO_PLUGIN_DIR . 'templates/' : '';
+
+		if ( iee_is_pro() && $layout === 'template2' ) {
+			get_iee_template( 'iee-event-meta-2.php', array(), 'import-eventbrite-events', $pro_template_path );
+		} elseif ( iee_is_pro() && $layout === 'template3' ) {
+			get_iee_template( 'iee-event-meta-3.php', array(), 'import-eventbrite-events', $pro_template_path );
+		} elseif ( iee_is_pro() && $layout === 'template4' ) {
+			get_iee_template( 'iee-event-meta-4.php', array(), 'import-eventbrite-events', $pro_template_path );
+		} else {
+			get_iee_template( 'iee-event-meta.php' );
+		}
 
 		$event_meta_details = ob_get_contents();
 		ob_end_clean();

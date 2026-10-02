@@ -23,6 +23,7 @@ class Import_Eventbrite_Events_Common {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'setup_success_messages' ) );
+		add_action( 'admin_init', array( $this, 'iee_set_default_options' ) );
 		add_action( 'admin_init', array( $this, 'handle_listtable_oprations' ), 99 );
 		add_action( 'admin_init', array( $this, 'handle_import_settings_submit' ), 99 );
 		add_action( 'admin_init', array( $this, 'handle_ap_settings_submit' ), 99 );
@@ -103,6 +104,32 @@ class Import_Eventbrite_Events_Common {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Make sure every default import setting exists in the database.
+	 *
+	 * The activation hook only runs `add_option()`, which is a no-op once the
+	 * option already exists, so sites installed before a setting was introduced
+	 * would otherwise never get it. Only missing keys are filled in, existing
+	 * user choices are never overwritten.
+	 *
+	 * @since 1.0
+	 * @return void
+	 */
+	public function iee_set_default_options() {
+		$saved_options = get_option( IEE_OPTIONS );
+
+		if ( ! is_array( $saved_options ) ) {
+			$saved_options = array();
+		}
+
+		$defaults = iee_default_options();
+		$missing  = array_diff_key( $defaults, $saved_options );
+
+		if ( ! empty( $missing ) ) {
+			update_option( IEE_OPTIONS, array_merge( $saved_options, $missing ) );
+		}
 	}
 
 	/**
@@ -604,6 +631,15 @@ class Import_Eventbrite_Events_Common {
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
 			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
+				$iee_ap_options = get_option( IEE_AP_OPTIONS );
+				$details_layout = isset( $iee_ap_options['details_layout'] ) ? $iee_ap_options['details_layout'] : 'default';
+				
+				// Do not automatically append ticket section if using Elementor or Gutenberg layouts in Pro, 
+				// as these layouts have their own dedicated ticket section widget/block.
+				if ( iee_is_pro() && ( $details_layout === 'elementor' || $details_layout === 'gutenberg' ) ) {
+					return $content;
+				}
+
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id  = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
@@ -1464,6 +1500,35 @@ class Import_Eventbrite_Events_Common {
 				$iee_events->cpt->register_event_post_type();
 				flush_rewrite_rules();
 			}
+
+			$checkbox_keys = array(
+				'using_standard_api',
+				'enable_ticket_sec',
+				'update_events',
+				'dont_update',
+				'eventbritre_category',
+				'eventbritre_tags',
+				'import_structured_content',
+				'import_promo_codes',
+				'import_collections',
+				'move_peit',
+				'skip_trash',
+				'advanced_sync',
+				'direct_link',
+				'small_thumbnail',
+				'skip_image_import',
+				'deactive_ieevents',
+				'delete_ieedata',
+				'private_events',
+			);
+
+			foreach ( $checkbox_keys as $checkbox_key ) {
+				if ( ! isset( $iee_options[ $checkbox_key ] ) ) {
+					$iee_options[ $checkbox_key ] = 'no';
+				}
+			}
+
+			$iee_options = array_merge( iee_default_options(), $iee_options );
 
 			if( isset( $iee_options['using_standard_api'] ) && ! empty( $iee_options['using_standard_api'] ) ) {
 				if( $iee_options['using_standard_api'] === 'yes' ){
