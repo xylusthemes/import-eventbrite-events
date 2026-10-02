@@ -357,6 +357,48 @@ $iee_events = run_import_eventbrite_events();
 $iee_errors = $iee_warnings = $iee_success_msg = $iee_info_msg = array();
 
 /**
+ * Default import settings saved on activation.
+ *
+ * Kept in a single place so activation, the default seeder and the settings
+ * save handler all fall back to the same values.
+ *
+ * @since 1.0
+ * @return array
+ */
+function iee_default_options() {
+	return array(
+		// General
+		'using_standard_api'              => 'yes',
+		'eventbrite_oauth_token'          => '',
+		'enable_ticket_sec'               => 'yes',
+		'ticket_model'                    => '0',
+		'update_events'                   => 'yes',
+		'dont_update'                     => 'no',
+		'eventbritre_category'            => 'no',
+		'eventbritre_tags'                => 'no',
+		'import_structured_content'       => 'no',
+		'import_promo_codes'              => 'no',
+		'import_collections'              => 'no',
+		'move_peit'                       => 'no',
+		'skip_trash'                      => 'no',
+		'advanced_sync'                   => 'no',
+		'direct_link'                     => 'no',
+		'deactive_ieevents'               => 'no',
+		'delete_ieedata'                  => 'no',
+
+		// Appearance
+		'accent_color'                    => '#039ED7',
+		'event_slug'                      => 'eventbrite-event',
+		'time_format'                     => '12hours',
+		'small_thumbnail'                 => 'no',
+		'skip_image_import'               => 'no',
+
+		// Standard API only, unset when using the private token.
+		'private_events'                  => 'no',
+	);
+}
+
+/**
  * The code that runs during plugin activation.
  *
  * @since 1.0
@@ -365,15 +407,7 @@ function iee_activate_import_eventbrite_events() {
 	global $iee_events;
 	$iee_events->cpt->register_event_post_type();
 	flush_rewrite_rules();
-	add_option(
-		IEE_OPTIONS,
-		array(
-			'using_standard_api' => 'yes',
-			'enable_ticket_sec'  => 'yes',
-			'ticket_model'       => '0',
-			'update_events'      => 'yes',
-		)
-	);
+	add_option( IEE_OPTIONS, iee_default_options() );
 	add_option( 'iee_plugin_activated', true );
 }
 register_activation_hook( __FILE__, 'iee_activate_import_eventbrite_events' );

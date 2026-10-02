@@ -177,7 +177,12 @@ class Import_Eventbrite_Events_Eventbrite {
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
 		$eventbrite_cat    = isset( $eventbrite_event['category']['short_name'] ) ? $eventbrite_event['category']['short_name'] : '';	
 		$organization_id   = isset( $eventbrite_event['organization_id'] ) ? $eventbrite_event['organization_id'] : '';
-		$get_promocode     = $iee_events->common->get_event_discount_code( $eventbrite_event['id'], $organization_id );
+		$import_promo_codes = isset( $iee_options['import_promo_codes'] ) ? $iee_options['import_promo_codes'] : 'no';
+		$get_promocode     = '';
+
+		if ( 'yes' === $import_promo_codes ) {
+			$get_promocode = $iee_events->common->get_event_discount_code( $eventbrite_event['id'], $organization_id );
+		}
 
 		$is_insert_etags   = isset( $iee_options['eventbritre_tags'] ) ? $iee_options['eventbritre_tags'] : 'no';
 		$eventbrite_tags   = array();
@@ -191,10 +196,21 @@ class Import_Eventbrite_Events_Eventbrite {
 			}
 		}
 
-		$ct_ids = '';
-		$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
-		if( !empty( $get_collections ) ){
-			$ct_ids = $iee_events->common->sync_event_collection( $get_collections );
+		$ct_ids            = '';
+		$structured_content = array();
+		$import_collections = isset( $iee_options['import_collections'] ) ? $iee_options['import_collections'] : 'no';
+
+		if ( 'yes' === $import_collections ) {
+			$get_collections = $this->get_iee_collections( $eventbrite_event['id'] );
+			if( !empty( $get_collections ) ){
+				$ct_ids = $iee_events->common->sync_event_collection( $get_collections );
+			}
+		}
+
+		$import_structured_content = isset( $iee_options['import_structured_content'] ) ? $iee_options['import_structured_content'] : 'no';
+
+		if ( 'yes' === $import_structured_content ) {
+			$structured_content = $this->get_structured_content( $eventbrite_event['id'] );
 		}
 
 		$xt_event = array(
@@ -220,6 +236,7 @@ class Import_Eventbrite_Events_Eventbrite {
 			'e_category'      => $eventbrite_cat,
 			'discount_code'   => $get_promocode,
 			'e_tags'          => $eventbrite_tags,
+			'structured_content' => $structured_content,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {
@@ -360,12 +377,14 @@ class Import_Eventbrite_Events_Eventbrite {
 	 */
 	public function get_structured_content( $event_id ) {
 		$structured_data = array(
-			'lineup'        => array(),
-			'speakers'      => array(),
-			'images'        => array(),
-			'slider_images' => array(),
-			'faqs'          => array(),
-			'videos'        => array(),
+			'lineup'         => array(),
+			'speakers'       => array(),
+			'images'         => array(),
+			'slider_images'  => array(),
+			'faqs'           => array(),
+			'videos'         => array(),
+			'featured_video' => array(),
+			'parking'        => '',
 		);
 
 		if ( empty( $event_id ) ) {
@@ -381,6 +400,10 @@ class Import_Eventbrite_Events_Eventbrite {
 
 		$body = json_decode( $response['body'], true );
 
+		if ( empty( $body ) || ! is_array( $body ) ) {
+			return $structured_data;
+		}
+
 		if ( isset( $body['modules'] ) && is_array( $body['modules'] ) ) {
 			foreach ( $body['modules'] as $module ) {
 				if ( isset( $module['type'] ) ) {
@@ -393,6 +416,8 @@ class Import_Eventbrite_Events_Eventbrite {
 			}
 		}
 
+		$faq_widget = array();
+
 		if ( isset( $body['widgets'] ) && is_array( $body['widgets'] ) ) {
 			foreach ( $body['widgets'] as $widget ) {
 				if ( isset( $widget['type'] ) ) {
@@ -403,7 +428,10 @@ class Import_Eventbrite_Events_Eventbrite {
 							$structured_data['lineup'] = array_merge( $structured_data['lineup'], $widget['data']['artist_list'] );
 						}
 					} elseif ( ( $widget['type'] === 'faqs' || $widget['type'] === 'faq' ) && isset( $widget['data']['faqs'] ) ) {
-						$structured_data['faqs'] = array_merge( $structured_data['faqs'], $widget['data']['faqs'] );
+						// Eventbrite sends `faqs` and `faq` widgets holding the same FAQs, keep only one of them.
+						if ( 'faqs' === $widget['type'] || empty( $faq_widget ) ) {
+							$faq_widget = $widget['data']['faqs'];
+						}
 					} elseif ( $widget['type'] === 'herocarousel' && isset( $widget['data']['slides'] ) ) {
 						foreach ( $widget['data']['slides'] as $slide ) {
 							if ( isset( $slide['image']['url'] ) ) {
@@ -414,11 +442,39 @@ class Import_Eventbrite_Events_Eventbrite {
 						}
 					} elseif ( $widget['type'] === 'native_video' && isset( $widget['data']['id'] ) ) {
 						$structured_data['videos'][] = 'https://d1xykzbd1twk8p.cloudfront.net/' . $widget['data']['id'] . '_480p_vertical.mp4';
-					} elseif ( $widget['type'] === 'featured_video' && isset( $widget['data']['video']['embed_url'] ) ) {
-						$structured_data['videos'][] = $widget['data']['video']['embed_url'];
+					} elseif ( $widget['type'] === 'featured_video' && ! empty( $widget['data']['video'] ) ) {
+						$featured_video = $widget['data']['video'];
+						$thumbnail      = '';
+
+						// Thumbnail comes either as a plain URL or grouped by size (large/medium/small).
+						if ( ! empty( $featured_video['thumbnail'] ) ) {
+							foreach ( array( 'large', 'medium', 'small', 'url' ) as $size ) {
+								if ( isset( $featured_video['thumbnail'][ $size ] ) ) {
+									$candidate    = $featured_video['thumbnail'][ $size ];
+									$thumbnail    = is_array( $candidate ) ? ( isset( $candidate['url'] ) ? $candidate['url'] : '' ) : $candidate;
+									$thumbnail    = is_string( $thumbnail ) ? $thumbnail : '';
+									if ( '' !== $thumbnail ) {
+										break;
+									}
+								}
+							}
+						}
+
+						$structured_data['featured_video'] = array(
+							'url'       => isset( $featured_video['url'] ) ? $featured_video['url'] : '',
+							'embed_url' => isset( $featured_video['embed_url'] ) ? $featured_video['embed_url'] : '',
+							'provider'  => isset( $featured_video['provider'] ) ? $featured_video['provider'] : '',
+							'thumbnail' => $thumbnail,
+						);
+					} elseif ( $widget['type'] === 'parking' && isset( $widget['data']['availability'] ) ) {
+						$structured_data['parking'] = $widget['data']['availability'];
 					}
 				}
 			}
+		}
+
+		if ( ! empty( $faq_widget ) ) {
+			$structured_data['faqs'] = $faq_widget;
 		}
 
 		return $structured_data;

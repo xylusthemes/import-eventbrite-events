@@ -154,6 +154,51 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 										</div>
 									</div>
 
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Import Structured Content (Slider Images, Featured Video, FAQs, Lineup)', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$import_structured_content = isset( $eventbrite_options['import_structured_content'] ) ? $eventbrite_options['import_structured_content'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[import_structured_content]" value="yes" <?php if ( $import_structured_content == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_html_e( 'Enable this option to import structured content like slider images, featured video, FAQs, and lineup from Eventbrite. This will make an additional API call per event.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Import Promo/Discount Codes', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$import_promo_codes = isset( $eventbrite_options['import_promo_codes'] ) ? $eventbrite_options['import_promo_codes'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[import_promo_codes]" value="yes" <?php if ( $import_promo_codes == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_html_e( 'Enable this option to import promo/discount codes from Eventbrite. This will make an additional API call per event.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Import Event Collections', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$import_collections = isset( $eventbrite_options['import_collections'] ) ? $eventbrite_options['import_collections'] : 'no';
+											?>
+											<input type="checkbox" name="eventbrite[import_collections]" value="yes" <?php if ( $import_collections == 'yes' ) { echo 'checked="checked"'; } ?> />
+											<span class="iee_small">
+												<?php esc_html_e( 'Enable this option to import event collections from Eventbrite. This will make an additional API call per event.', 'import-eventbrite-events' ); ?>
+											</span>
+										</div>
+									</div>
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >
 											<span class="iee-title-text" ><?php esc_attr_e( 'Move past events in trash', 'import-eventbrite-events' ); ?></span>

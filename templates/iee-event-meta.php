@@ -34,7 +34,7 @@ if($time_format == '12hours' ){
 }
 
 ?>
-<?php if ( ! empty( $event_image ) ) { ?>
+<?php if ( ! empty( $event_image ) && ! has_post_thumbnail( $event_id ) ) { ?>
 	<div class="iee_event_image">
 		<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 		<img src="<?php echo esc_url( $event_image ); ?>" alt="<?php echo esc_attr( get_the_title( $event_id ) ); ?>" />
