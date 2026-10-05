@@ -1412,6 +1412,7 @@ class Import_Eventbrite_Events_Common {
 			$import_id   = isset( $_GET['import_id'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['import_id'] ) ) ) : '0';
 			$page        = isset( $_GET['page'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : 'eventbrite_event';
 			$tab         = isset( $_GET['tab'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ) : 'scheduled';
+			$paged       = isset( $_GET['paged'] ) ? intval( $_GET['paged'] ) : 0;
 			$wp_redirect = admin_url( 'admin.php?page=' . $page );
 			if ( $import_id > 0 ) {
 				do_action( 'iee_run_scheduled_import', $import_id );
@@ -1419,6 +1420,9 @@ class Import_Eventbrite_Events_Common {
 					'iee_msg' => 'import_success',
 					'tab'     => $tab,
 				);
+				if ( $paged > 0 ) {
+					$query_args['paged'] = $paged;
+				}
 				wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
 				exit;
 			}

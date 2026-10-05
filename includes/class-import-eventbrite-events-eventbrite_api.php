@@ -214,7 +214,22 @@ class Import_Eventbrite_Events_Eventbrite_API {
 		$import_structured_content = isset( $iee_options['import_structured_content'] ) ? $iee_options['import_structured_content'] : 'no';
 
 		if ( 'yes' === $import_structured_content ) {
-			$structured_content = $this->get_structured_content( $eventbrite_event['id'] );
+			$dont_update_sc = isset($iee_options['dont_update']['structured_content']) ? $iee_options['dont_update']['structured_content'] : 'no';
+			$skip_api = false;
+			if ( 'yes' === $dont_update_sc ) {
+				global $wpdb;
+				$is_existing = $wpdb->get_var( $wpdb->prepare(
+					"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s LIMIT 1",
+					'iee_event_id',
+					$eventbrite_event['id']
+				) );
+				if ( ! empty( $is_existing ) ) {
+					$skip_api = true;
+				}
+			}
+			if ( ! $skip_api ) {
+				$structured_content = $this->get_structured_content( $eventbrite_event['id'] );
+			}
 		}
 
 		$xt_event = array(

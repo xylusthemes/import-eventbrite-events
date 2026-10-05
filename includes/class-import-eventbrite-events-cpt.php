@@ -476,6 +476,51 @@ class Import_Eventbrite_Events_Cpt {
 				</div>
 			</div>
 		</div>
+
+		<div class="iee_form_section">
+			<h3><?php esc_attr_e( 'Event Media & Structured Content', 'import-eventbrite-events' ); ?></h3>
+			<hr>
+			<?php
+			$video_meta = get_post_meta( $post->ID, 'iee_featured_video', true );
+			$video_url  = ( is_array( $video_meta ) && isset( $video_meta['url'] ) ) ? $video_meta['url'] : '';
+			
+			$gallery_meta = get_post_meta( $post->ID, 'iee_slider_images', true );
+			$gallery_urls = is_array( $gallery_meta ) ? implode( "\n", $gallery_meta ) : '';
+
+			$faqs_meta = get_post_meta( $post->ID, 'iee_event_faqs', true );
+			$faqs_text = '';
+			if ( is_array( $faqs_meta ) ) {
+				foreach ( $faqs_meta as $faq ) {
+					if ( isset( $faq['question'] ) && isset( $faq['answer'] ) ) {
+						$faqs_text .= $faq['question'] . " | " . $faq['answer'] . "\n";
+					}
+				}
+			}
+			?>
+			<div class="iee_form_row">
+				<label for="iee_featured_video_url"><?php esc_attr_e( 'Promo Video URL', 'import-eventbrite-events' ); ?>:</label>
+				<div class="iee_form_input_group">
+					<input type="text" name="iee_featured_video_url" id="iee_featured_video_url" value="<?php echo esc_url( $video_url ); ?>" style="width: 100%;" />
+				</div>
+			</div>
+			
+			<div class="iee_form_row">
+				<label for="iee_slider_images_urls"><?php esc_attr_e( 'Gallery Images URLs', 'import-eventbrite-events' ); ?>:</label>
+				<div class="iee_form_input_group">
+					<textarea name="iee_slider_images_urls" id="iee_slider_images_urls" rows="5" style="width: 100%;" placeholder="Enter one image URL per line"><?php echo esc_textarea( $gallery_urls ); ?></textarea>
+					<span class="description"><?php esc_attr_e( 'Enter one image URL per line.', 'import-eventbrite-events' ); ?></span>
+				</div>
+			</div>
+
+			<div class="iee_form_row">
+				<label for="iee_event_faqs_text"><?php esc_attr_e( 'Event FAQs', 'import-eventbrite-events' ); ?>:</label>
+				<div class="iee_form_input_group">
+					<textarea name="iee_event_faqs_text" id="iee_event_faqs_text" rows="5" style="width: 100%;" placeholder="Question | Answer"><?php echo esc_textarea( $faqs_text ); ?></textarea>
+					<span class="description"><?php esc_attr_e( 'Format: Question | Answer (one FAQ per line)', 'import-eventbrite-events' ); ?></span>
+				</div>
+			</div>
+		</div>
+
 		<?php
 	}
 
@@ -598,6 +643,55 @@ class Import_Eventbrite_Events_Cpt {
 		update_post_meta( $post_id, 'event_start_meridian', $event_start_meridian );
 		update_post_meta( $post_id, 'event_end_date', $event_end_date );
 		update_post_meta( $post_id, 'event_end_hour', $event_end_hour );
+
+
+		// Save Media & Structured Content
+		if ( isset( $_POST['iee_featured_video_url'] ) ) {
+			$video_url = esc_url_raw( wp_unslash( $_POST['iee_featured_video_url'] ) );
+			if ( ! empty( $video_url ) ) {
+				update_post_meta( $post_id, 'iee_featured_video', array( 'url' => $video_url ) );
+			} else {
+				delete_post_meta( $post_id, 'iee_featured_video' );
+			}
+		}
+
+		if ( isset( $_POST['iee_slider_images_urls'] ) ) {
+			$gallery_text = wp_unslash( $_POST['iee_slider_images_urls'] );
+			$gallery_lines = array_filter( array_map( 'trim', explode( "\n", $gallery_text ) ) );
+			$gallery_urls = array();
+			foreach ( $gallery_lines as $url ) {
+				$clean_url = esc_url_raw( $url );
+				if ( ! empty( $clean_url ) ) {
+					$gallery_urls[] = $clean_url;
+				}
+			}
+			if ( ! empty( $gallery_urls ) ) {
+				update_post_meta( $post_id, 'iee_slider_images', $gallery_urls );
+			} else {
+				delete_post_meta( $post_id, 'iee_slider_images' );
+			}
+		}
+
+		if ( isset( $_POST['iee_event_faqs_text'] ) ) {
+			$faqs_text = wp_unslash( $_POST['iee_event_faqs_text'] );
+			$faqs_lines = array_filter( array_map( 'trim', explode( "\n", $faqs_text ) ) );
+			$faqs_array = array();
+			foreach ( $faqs_lines as $line ) {
+				$parts = explode( '|', $line, 2 );
+				if ( count( $parts ) === 2 ) {
+					$faqs_array[] = array(
+						'question' => sanitize_text_field( trim( $parts[0] ) ),
+						'answer'   => wp_kses_post( trim( $parts[1] ) ),
+					);
+				}
+			}
+			if ( ! empty( $faqs_array ) ) {
+				update_post_meta( $post_id, 'iee_event_faqs', $faqs_array );
+			} else {
+				delete_post_meta( $post_id, 'iee_event_faqs' );
+			}
+		}
+
 		update_post_meta( $post_id, 'event_end_minute', $event_end_minute );
 		update_post_meta( $post_id, 'event_end_meridian', $event_end_meridian );
 		update_post_meta( $post_id, 'start_ts', $start_ts );
@@ -694,40 +788,6 @@ class Import_Eventbrite_Events_Cpt {
 				$details_layout = 'default';
 			}
 
-			if ( $details_layout === 'gutenberg' ) {
-				$gutenberg_page_id = isset( $iee_ap_options['gutenberg_page_id'] ) ? intval( $iee_ap_options['gutenberg_page_id'] ) : 0;
-				if ( $gutenberg_page_id > 0 ) {
-					$template_post = get_post( $gutenberg_page_id );
-					if ( $template_post ) {
-						// Render the blocks from the custom page, completely replacing the default content
-						$is_rendering = true;
-						$output = do_blocks( $template_post->post_content );
-						$is_rendering = false;
-						return $output;
-					}
-				}
-			}
-
-			if ( $details_layout === 'elementor' ) {
-				$elementor_page_id = isset( $iee_ap_options['elementor_page_id'] ) ? intval( $iee_ap_options['elementor_page_id'] ) : 0;
-				if ( $elementor_page_id > 0 && class_exists( '\Elementor\Plugin' ) ) {
-					// Render the Elementor template
-					$is_rendering = true;
-					global $iee_current_event_id;
-					$iee_current_event_id = get_the_ID();
-					$output = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $elementor_page_id, true );
-					$iee_current_event_id = null; // reset
-					$is_rendering = false;
-					return $output;
-				}
-			}
-
-			// If the user has built the layout natively on this specific event using our blocks, 
-			// skip the default template injection and just return their designed content.
-			$post_content = get_post_field( 'post_content', get_the_ID() );
-			if ( has_blocks( $post_content ) && strpos( $post_content, 'wp:iee/' ) !== false ) {
-				return $content;
-			}
 
 			// Pass content for custom layouts
 			global $iee_event_content_for_template;
@@ -736,7 +796,7 @@ class Import_Eventbrite_Events_Cpt {
 			// Traditional PHP templates
 			$event_details = $this->eventbrite_events_get_event_meta( get_the_ID(), $details_layout );
 			
-			if ( $details_layout === 'template2' || $details_layout === 'template3' || $details_layout === 'template4' ) {
+			if ( $details_layout === 'template2' || $details_layout === 'template3' || $details_layout === 'template4' || $details_layout === 'template5' || $details_layout === 'template6' ) {
 				$content = $event_details;
 			} else {
 				$content = $event_details . $content;
@@ -760,6 +820,10 @@ class Import_Eventbrite_Events_Cpt {
 			get_iee_template( 'iee-event-meta-3.php', array(), 'import-eventbrite-events', $pro_template_path );
 		} elseif ( iee_is_pro() && $layout === 'template4' ) {
 			get_iee_template( 'iee-event-meta-4.php', array(), 'import-eventbrite-events', $pro_template_path );
+		} elseif ( iee_is_pro() && $layout === 'template5' ) {
+			get_iee_template( 'iee-event-meta-5.php', array(), 'import-eventbrite-events', $pro_template_path );
+		} elseif ( iee_is_pro() && $layout === 'template6' ) {
+			get_iee_template( 'iee-event-meta-6.php', array(), 'import-eventbrite-events', $pro_template_path );
 		} else {
 			get_iee_template( 'iee-event-meta.php' );
 		}

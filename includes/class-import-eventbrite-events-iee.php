@@ -284,24 +284,30 @@ class Import_Eventbrite_Events_IEE {
 
 			if ( ! empty( $structured ) ) {
 				// Featured Video (kept separate from the description inline videos)
-				if ( ! empty( $structured['featured_video'] ) ) {
-					update_post_meta( $inserted_event_id, 'iee_featured_video', $structured['featured_video'] );
-				} else {
-					delete_post_meta( $inserted_event_id, 'iee_featured_video' );
+				if ( ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'video' ) ) ) {
+					if ( ! empty( $structured['featured_video'] ) ) {
+						update_post_meta( $inserted_event_id, 'iee_featured_video', $structured['featured_video'] );
+					} else {
+						delete_post_meta( $inserted_event_id, 'iee_featured_video' );
+					}
 				}
 
 				// FAQs
-				if ( ! empty( $structured['faqs'] ) ) {
-					update_post_meta( $inserted_event_id, 'iee_event_faqs', $structured['faqs'] );
-				} else {
-					delete_post_meta( $inserted_event_id, 'iee_event_faqs' );
+				if ( ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'faqs' ) ) ) {
+					if ( ! empty( $structured['faqs'] ) ) {
+						update_post_meta( $inserted_event_id, 'iee_event_faqs', $structured['faqs'] );
+					} else {
+						delete_post_meta( $inserted_event_id, 'iee_event_faqs' );
+					}
 				}
 
 				// Slider/Carousel Images
-				if ( ! empty( $structured['slider_images'] ) ) {
-					update_post_meta( $inserted_event_id, 'iee_slider_images', $structured['slider_images'] );
-				} else {
-					delete_post_meta( $inserted_event_id, 'iee_slider_images' );
+				if ( ! ( $is_exitsing_event && ! $iee_events->common->iee_is_updatable( 'gallery' ) ) ) {
+					if ( ! empty( $structured['slider_images'] ) ) {
+						update_post_meta( $inserted_event_id, 'iee_slider_images', $structured['slider_images'] );
+					} else {
+						delete_post_meta( $inserted_event_id, 'iee_slider_images' );
+					}
 				}
 
 				// Inline Content Images

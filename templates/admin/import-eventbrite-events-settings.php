@@ -346,6 +346,7 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											$sdontupdate = isset( $dont_update_sc['status'] ) ? $dont_update_sc['status'] : 'no';
 											$cdontupdate = isset( $dont_update_sc['category'] ) ? $dont_update_sc['category'] : 'no';
 											$tdontupdate = isset( $dont_update_sc['tag'] ) ? $dont_update_sc['tag'] : 'no';
+											$scdontupdate = isset( $dont_update_sc['structured_content'] ) ? $dont_update_sc['structured_content'] : 'no';
 											?>
 											<input type="checkbox" name="eventbrite[dont_update][status]" value="yes" <?php checked( $sdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 											<span>
@@ -358,6 +359,10 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											<input type="checkbox" name="eventbrite[dont_update][tag]" value="yes" <?php checked( $tdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
 											<span>
 												<?php esc_attr_e( 'Event tag', 'import-eventbrite-events' ); ?>
+											</span><br/>
+											<input type="checkbox" name="eventbrite[dont_update][structured_content]" value="yes" <?php checked( $scdontupdate, 'yes' ); disabled( iee_is_pro(), false );?> />
+											<span>
+												<?php esc_attr_e( 'Structured Content (Video, Gallery, FAQs)', 'import-eventbrite-events' ); ?>
 											</span><br/>
 											<span class="iee_small">
 												<?php esc_attr_e( "Select data which you don't want to update during existing events update. (This is applicable only if you have checked 'update existing events')", 'import-eventbrite-events' ); ?>
@@ -462,8 +467,8 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 												<option value="template2" <?php selected( $details_layout, 'template2' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Template 2 (Sidebar Layout)', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
 												<option value="template3" <?php selected( $details_layout, 'template3' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Template 3 (Modern Grid Layout)', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
 												<option value="template4" <?php selected( $details_layout, 'template4' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Template 4 (Split Screen Layout)', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
-												<option value="gutenberg" <?php selected( $details_layout, 'gutenberg' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Custom Gutenberg Builder', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
-												<option value="elementor" <?php selected( $details_layout, 'elementor' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Custom Elementor Builder', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
+												<option value="template5" <?php selected( $details_layout, 'template5' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Template 5 (Premium Elegant Layout)', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
+												<option value="template6" <?php selected( $details_layout, 'template6' ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>><?php esc_html_e( 'Template 6 (Modern Immersive Layout)', 'import-eventbrite-events' ); ?><?php echo ! $is_pro ? ' — Pro' : ''; ?></option>
 											</select>
 											<br/>
 											<span class="iee_small">
@@ -498,272 +503,6 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 										</div>
 									</div>
 
-									<div class="iee-inner-main-section" id="iee_gutenberg_page_select" style="display: <?php echo $details_layout === 'gutenberg' ? 'flex' : 'none'; ?>;">
-										<div class="iee-inner-section-1">
-											<span class="iee-title-text"><?php esc_attr_e( 'Select Custom Template Page', 'import-eventbrite-events' ); ?></span>
-										</div>
-										<div class="iee-inner-section-2">
-											<?php
-											$gutenberg_page_id = isset( $eventbrite_optionsap['gutenberg_page_id'] ) ? $eventbrite_optionsap['gutenberg_page_id'] : '';
-											$gutenberg_mode = empty( $gutenberg_page_id ) ? 'auto' : 'manual';
-											?>
-											<div style="margin-bottom: 15px;">
-												<label>
-													<input type="radio" name="iee_gutenberg_mode" value="auto" <?php checked($gutenberg_mode, 'auto'); ?>> <?php esc_html_e('Auto-Generate Template', 'import-eventbrite-events'); ?>
-												</label>
-												&nbsp;&nbsp;
-												<label>
-													<input type="radio" name="iee_gutenberg_mode" value="manual" <?php checked($gutenberg_mode, 'manual'); ?>> <?php esc_html_e('Choose Existing Page', 'import-eventbrite-events'); ?>
-												</label>
-											</div>
-
-											<div id="iee_gutenberg_manual_wrap" style="display: <?php echo $gutenberg_mode === 'manual' ? 'block' : 'none'; ?>;">
-												<?php
-												wp_dropdown_pages( array(
-													'name'              => 'eventbrite_ap[gutenberg_page_id]',
-													'echo'              => 1,
-													'show_option_none'  => __( '&mdash; Select Page &mdash;', 'import-eventbrite-events' ),
-													'option_none_value' => '0',
-													'selected'          => $gutenberg_page_id,
-													'class'             => 'iee_input_w25',
-													'id'                => 'iee_gutenberg_page_dropdown'
-												) );
-												?>
-												<br/>
-												<span class="iee_small">
-													<?php esc_attr_e( 'Select the page you built with IEE Gutenberg blocks to use as the template for single events.', 'import-eventbrite-events' ); ?>
-												</span>
-											</div>
-
-											<div id="iee_gutenberg_auto_wrap" style="display: <?php echo $gutenberg_mode === 'auto' ? 'block' : 'none'; ?>; padding: 15px; background: #f9f9f9; border-left: 4px solid #039ED7;">
-												<strong><?php esc_attr_e( 'Select a pre-built layout to generate:', 'import-eventbrite-events' ); ?></strong>
-												<br/>
-												<select id="iee_auto_template_select" style="margin-top: 10px;">
-													<option value="layout1"><?php esc_html_e( 'Premium Template (Recommended)', 'import-eventbrite-events' ); ?></option>
-													<option value="layout3"><?php esc_html_e( 'Exclusive Experience Template', 'import-eventbrite-events' ); ?></option>
-													<option value="layout4"><?php esc_html_e( 'Featured Gathering Template', 'import-eventbrite-events' ); ?></option>
-												</select>
-												<button type="button" class="button" id="iee_generate_template_btn" style="vertical-align: top; margin-top: 10px; margin-left: 5px;"><?php esc_html_e( 'Create & Select', 'import-eventbrite-events' ); ?></button>
-												<span class="spinner" id="iee_generate_spinner" style="float: none; margin-top: 10px;"></span>
-												<br/>
-												<span class="iee_small" style="color: #555;"><?php esc_html_e( 'This will create a new WordPress Page with pre-configured Gutenberg blocks and automatically select it.', 'import-eventbrite-events' ); ?></span>
-											</div>
-										</div>
-									</div>
-
-									<div class="iee-inner-main-section" id="iee_elementor_page_select" style="display: <?php echo $details_layout === 'elementor' ? 'flex' : 'none'; ?>;">
-										<div class="iee-inner-section-1">
-											<span class="iee-title-text"><?php esc_attr_e( 'Select Elementor Template Page', 'import-eventbrite-events' ); ?></span>
-										</div>
-										<div class="iee-inner-section-2">
-											<?php
-											$elementor_page_id = isset( $eventbrite_optionsap['elementor_page_id'] ) ? $eventbrite_optionsap['elementor_page_id'] : '';
-											
-											// Get regular pages
-											$pages = get_posts( array(
-												'post_type'      => 'page',
-												'post_status'    => 'publish',
-												'posts_per_page' => -1,
-												'orderby'        => 'title',
-												'order'          => 'ASC',
-											) );
-
-											// Get Elementor saved templates
-											$elementor_templates = get_posts( array(
-												'post_type'      => 'elementor_library',
-												'post_status'    => 'publish',
-												'posts_per_page' => -1,
-												'orderby'        => 'title',
-												'order'          => 'ASC',
-											) );
-											?>
-											<?php $elementor_mode = empty( $elementor_page_id ) ? 'auto' : 'manual'; ?>
-											<div style="margin-bottom: 15px;">
-												<label>
-													<input type="radio" name="iee_elementor_mode" value="auto" <?php checked($elementor_mode, 'auto'); ?>> <?php esc_html_e('Auto-Generate Template', 'import-eventbrite-events'); ?>
-												</label>
-												&nbsp;&nbsp;
-												<label>
-													<input type="radio" name="iee_elementor_mode" value="manual" <?php checked($elementor_mode, 'manual'); ?>> <?php esc_html_e('Choose Existing Page', 'import-eventbrite-events'); ?>
-												</label>
-											</div>
-
-											<div id="iee_elementor_manual_wrap" style="display: <?php echo $elementor_mode === 'manual' ? 'block' : 'none'; ?>; padding-bottom: 10px;">
-												<select name="eventbrite_ap[elementor_page_id]" id="iee_elementor_page_dropdown" class="iee_input_w25">
-													<option value="0"><?php esc_html_e( '&mdash; Select Page &mdash;', 'import-eventbrite-events' ); ?></option>
-													<?php if ( ! empty( $pages ) ) : ?>
-														<optgroup label="<?php esc_attr_e( 'Pages', 'import-eventbrite-events' ); ?>">
-															<?php foreach ( $pages as $page_item ) : ?>
-																<option value="<?php echo esc_attr( $page_item->ID ); ?>" <?php selected( $elementor_page_id, $page_item->ID ); ?>><?php echo esc_html( $page_item->post_title ); ?></option>
-															<?php endforeach; ?>
-														</optgroup>
-													<?php endif; ?>
-													<?php if ( ! empty( $elementor_templates ) ) : ?>
-														<optgroup label="<?php esc_attr_e( 'Elementor Saved Templates', 'import-eventbrite-events' ); ?>">
-															<?php foreach ( $elementor_templates as $template_item ) : ?>
-																<option value="<?php echo esc_attr( $template_item->ID ); ?>" <?php selected( $elementor_page_id, $template_item->ID ); ?>><?php echo esc_html( $template_item->post_title ); ?></option>
-															<?php endforeach; ?>
-														</optgroup>
-													<?php endif; ?>
-												</select>
-												<br/>
-												<span class="iee_small">
-													<?php esc_attr_e( 'Select the page or template you built with IEE Elementor widgets to use as the template for single events.', 'import-eventbrite-events' ); ?>
-												</span>
-											</div>
-											<div id="iee_elementor_auto_wrap" style="display: <?php echo $elementor_mode === 'auto' ? 'block' : 'none'; ?>; padding: 15px; background: #f9f9f9; border-left: 4px solid #039ED7;">
-												<strong><?php esc_attr_e( 'Select a pre-built Elementor layout to generate:', 'import-eventbrite-events' ); ?></strong>
-												<br/>
-												<select id="iee_auto_elementor_template_select" style="margin-top: 10px;">
-													<option value="layout2"><?php esc_html_e( 'Advanced Elementor Template', 'import-eventbrite-events' ); ?></option>
-												</select>
-												<button type="button" class="button" id="iee_generate_elementor_template_btn" style="vertical-align: top; margin-top: 10px; margin-left: 5px;"><?php esc_html_e( 'Create & Select', 'import-eventbrite-events' ); ?></button>
-												<span class="spinner" id="iee_generate_elementor_spinner" style="float: none; margin-top: 10px;"></span>
-												<br/>
-												<span class="iee_small" style="color: #555;"><?php esc_html_e( 'This will create a new Elementor Saved Template with pre-configured widgets and automatically select it.', 'import-eventbrite-events' ); ?></span>
-											</div>
-										</div>
-									</div>
-
-									<script>
-										jQuery(document).ready(function($) {
-											$('input[name="iee_gutenberg_mode"]').on('change', function() {
-												if ($(this).val() === 'manual') {
-													$('#iee_gutenberg_manual_wrap').show();
-													$('#iee_gutenberg_auto_wrap').hide();
-												} else {
-													$('#iee_gutenberg_manual_wrap').hide();
-													$('#iee_gutenberg_auto_wrap').show();
-												}
-											});
-
-											$('input[name="iee_elementor_mode"]').on('change', function() {
-												if ($(this).val() === 'manual') {
-													$('#iee_elementor_manual_wrap').show();
-													$('#iee_elementor_auto_wrap').hide();
-												} else {
-													$('#iee_elementor_manual_wrap').hide();
-													$('#iee_elementor_auto_wrap').show();
-												}
-											});
-
-											$('#iee_details_layout').on('change', function() {
-												if ($(this).val() === 'gutenberg') {
-													$('#iee_gutenberg_page_select').css('display', 'flex');
-												} else {
-													$('#iee_gutenberg_page_select').hide();
-												}
-												
-												if ($(this).val() === 'elementor') {
-													$('#iee_elementor_page_select').css('display', 'flex');
-												} else {
-													$('#iee_elementor_page_select').hide();
-												}
-												
-												if ($(this).val() === 'template2') {
-													$('#iee_sidebar_position_select').css('display', 'flex');
-												} else {
-													$('#iee_sidebar_position_select').hide();
-												}
-											});
-
-											$('#iee_generate_template_btn').on('click', function(e) {
-												e.preventDefault();
-												var templateId = $('#iee_auto_template_select').val();
-												var $btn = $(this);
-												var $spinner = $('#iee_generate_spinner');
-												
-												if ( confirm('<?php echo esc_js( __( "This will create a new Page with the selected Gutenberg layout. Proceed?", "import-eventbrite-events" ) ); ?>') ) {
-													$btn.prop('disabled', true);
-													$spinner.addClass('is-active');
-													
-													$.ajax({
-														url: ajaxurl,
-														type: 'POST',
-														data: {
-															action: 'iee_create_gutenberg_template',
-															template_id: templateId,
-															nonce: '<?php echo wp_create_nonce( "iee_create_template_nonce" ); ?>'
-														},
-														success: function(response) {
-															$btn.prop('disabled', false);
-															$spinner.removeClass('is-active');
-															
-															if ( response.success ) {
-																alert(response.data.message);
-																
-																// Add the new option to the dropdown and select it
-																var newOption = new Option(response.data.page_title, response.data.page_id, true, true);
-																$('#iee_gutenberg_page_dropdown').append(newOption).trigger('change');
-																
-																// Auto submit the form to save the settings
-																$btn.closest('form').submit();
-															} else {
-																alert('Error: ' + (response.data.message || response.data));
-															}
-														},
-														error: function() {
-															$btn.prop('disabled', false);
-															$spinner.removeClass('is-active');
-															alert('<?php echo esc_js( __( "An error occurred. Please try again.", "import-eventbrite-events" ) ); ?>');
-														}
-													});
-												}
-											});
-
-											$('#iee_generate_elementor_template_btn').on('click', function(e) {
-												e.preventDefault();
-												var templateId = $('#iee_auto_elementor_template_select').val();
-												var $btn = $(this);
-												var $spinner = $('#iee_generate_elementor_spinner');
-												
-												if ( confirm('<?php echo esc_js( __( "This will create a new Elementor Saved Template. Proceed?", "import-eventbrite-events" ) ); ?>') ) {
-													$btn.prop('disabled', true);
-													$spinner.addClass('is-active');
-													
-													$.ajax({
-														url: ajaxurl,
-														type: 'POST',
-														data: {
-															action: 'iee_create_elementor_template',
-															template_id: templateId,
-															nonce: '<?php echo wp_create_nonce( "iee_create_template_nonce" ); ?>'
-														},
-														success: function(response) {
-															$btn.prop('disabled', false);
-															$spinner.removeClass('is-active');
-															
-															if ( response.success ) {
-																alert(response.data.message);
-																
-																// Find the Elementor optgroup or append it if it doesn't exist
-																var $optgroup = $('#iee_elementor_page_dropdown optgroup[label="Elementor Saved Templates"]');
-																if ( $optgroup.length === 0 ) {
-																	$('#iee_elementor_page_dropdown').append('<optgroup label="Elementor Saved Templates"></optgroup>');
-																	$optgroup = $('#iee_elementor_page_dropdown optgroup[label="Elementor Saved Templates"]');
-																}
-																
-																// Add the new option to the dropdown and select it
-																var newOption = new Option(response.data.page_title, response.data.page_id, true, true);
-																$optgroup.append(newOption);
-																$('#iee_elementor_page_dropdown').val(response.data.page_id).trigger('change');
-																
-																// Auto submit the form to save the settings
-																$btn.closest('form').submit();
-															} else {
-																alert('Error: ' + (response.data.message || response.data));
-															}
-														},
-														error: function() {
-															$btn.prop('disabled', false);
-															$spinner.removeClass('is-active');
-															alert('<?php echo esc_js( __( "An error occurred. Please try again.", "import-eventbrite-events" ) ); ?>');
-														}
-													});
-												}
-											});
-										});
-									</script>
 									<?php endif; // iee_is_pro() ?>
 
 									<div class="iee-inner-main-section"  >
