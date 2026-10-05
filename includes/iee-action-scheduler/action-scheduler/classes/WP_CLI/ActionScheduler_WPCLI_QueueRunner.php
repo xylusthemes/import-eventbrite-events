@@ -1,5 +1,8 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 use Action_Scheduler\WP_CLI\ProgressBar;
 
 /**

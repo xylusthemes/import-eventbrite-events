@@ -1,5 +1,8 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 namespace Action_Scheduler\Migration;
 
 use ActionScheduler_Store as Store;

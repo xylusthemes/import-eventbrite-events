@@ -95,9 +95,9 @@ $twitter_url  = 'https://twitter.com/XylusThemes/';
 								$plugin_name =  $plugin['plugin_name'];
 								$plugin_description =  $plugin['description'];
 								if( $key == 'wp-event-aggregator' ){
-									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.jpg';
+									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.jpg'; // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent
 								} else {
-									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.png';
+									$plugin_icon = 'https://ps.w.org/'.$key.'/assets/icon-256x256.png'; // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent
 								}
 
 								// Check if the plugin is installed

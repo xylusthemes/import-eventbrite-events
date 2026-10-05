@@ -164,6 +164,10 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 			'import_id'  => $item['ID'],
 		);
 
+		if ( isset( $_REQUEST['paged'] ) ) {
+			$xtmi_run_import_args['paged'] = intval( $_REQUEST['paged'] );
+		}
+
 		$current_import = '';
 		if(isset($item['current_import'])){
 			$cimport = '<strong>'.esc_html__( 'Import is running in Background', 'import-eventbrite-events' ).'</strong>';

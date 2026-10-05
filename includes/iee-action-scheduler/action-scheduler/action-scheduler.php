@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 /**
  * Plugin Name: Action Scheduler
  * Plugin URI: https://actionscheduler.org

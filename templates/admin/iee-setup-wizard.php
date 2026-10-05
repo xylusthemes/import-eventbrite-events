@@ -1,3 +1,7 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}?>
 <div class="iee-wizard-wrap" >
     <h3><?php esc_attr_e( 'Import Eventbrite Event', 'import-eventbrite-events' ); ?></h3>
     <div class="iee-wizard-starter-video" >

@@ -145,7 +145,7 @@ class Import_Eventbrite_Events_Ical_Export {
 			'no_found_rows'         => true,
 			'update_post_meta_cache'=> true,
 			'update_post_term_cache'=> true,
-			'suppress_filters'      => true,
+			'suppress_filters'      => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 		);
 
 		if (!empty($args['s'])) {

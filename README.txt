@@ -2,8 +2,8 @@
 Contributors: xylus,dharm1025, Rajat1192
 Donate link: http://xylusthemes.com/
 Tags: eventbrite, events, import, calendar, eventbrite event
-Requires at least: 4.0
-Requires PHP: 5.3
+Requires at least: 6.0
+Requires PHP: 7.6
 Tested up to: 7.1
 Stable tag: 1.8.1
 License: GPLv2 or later
