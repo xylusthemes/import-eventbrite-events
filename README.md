@@ -3,45 +3,45 @@
 > Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Display with shortcode & Event widget.
 
 [![Release Version](https://img.shields.io/github/v/release/xylusthemes/import-eventbrite-events.svg)](https://github.com/xylusthemes/import-eventbrite-events/releases/latest)
-![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.8%20tested-success.svg)
+![WordPress tested up to version](https://img.shields.io/badge/WordPress-v7.1%20tested-success.svg)
 [![GPLv2.0 License](https://img.shields.io/github/license/xylusthemes/import-eventbrite-events.svg)](https://github.com/xylusthemes/import-eventbrite-events/blob/master/LICENSE.txt)
 
 ## Description
 
 ### Import Eventbrite Events into WordPress :
-Import Eventbrite Events allows you to import eventbrite events into your WordPress site automatically. Automate your Event Marketing using Import Eventbrite Events plug-in. You can schedule event import so it will be imported/syncronized automatically [Pro]
+Import Eventbrite Events allows you to import eventbrite events into your WordPress site automatically. Automate your Event Marketing using Import Eventbrite Events plug-in. You can schedule event import so it will be imported/synchronized automatically [Pro]
  
 * [Check Documentation](http://docs.xylusthemes.com/docs/import-eventbrite-events-plugin/)
 * [Try Now (Admin Demo)](http://testdrive.xylusthemes.com/)
-* [Pro] Add-on.
+* [Pro Add-on](https://xylusthemes.com/plugins/import-eventbrite-events/)
  
 
 #### Features
-* Easy and seemless Event import from Eventbrite to WordPres.
-* Import Eventbrite event by Event ID using Eventbrite API
+* Easy and seamless Event import from Eventbrite to WordPress.
+* Import Eventbrite event by Event ID using Eventbrite API.
 * Import Eventbrite events by Eventbrite organiser ID ([Pro]).
 * Import Eventbrite events from your Eventbrite account ([Pro]).
 * Import Eventbrite events into all WordPress leading Events plugins.
 * Import multiple events using multiple event IDs at one time ([Pro]).
 * Auto Scheduled event import (Automatic import). Import Hourly, Once a Day, Twice a day, Weekly, Monthly from account, IDs  ([Pro]).
 * Edit schedule import later on ([Pro]).
-* Advanced Synchronization with Eventbrite Organiser Profile ([Pro]).
+* Advanced Synchronization with Eventbrite Organizer Profile ([Pro]).
 * Simple and Effective in-built Event Management.
-* Powerful shortcode for render Event listing (`[eventbrite_events]`)
-* Responsive and impresive event listing design
-* Impresive design of event detail page.
-* Upcoming Events widget ([Pro]).
+* Powerful shortcode for render Event listing (`[eventbrite_events]`).
+* Responsive and impressive event listing design.
+* Impressive design of event detail page with Multiple Event Details Templates ([Pro]).
+* Upcoming Events widget & Elementor Widgets ([Pro]).
 * Event registration widget on single event page.
-* It support One Time Import only or schedule import on regular interval from Event IDs or Organizer's page. 
-* Each Event Import can be imported in different categories. 
-* Auto Publish, Draft Imported Events 
-* Get Event details like Event Title, Event Description, Event Images, Event Start Date, Event End date, Event Location (vanue), Event Organizer etc in to WordPress Database.
-* Event Import History Logs when & which Events Imported
-* Option to update existing Events (Syncronize Events)
-* Works with leading WordPress Event Calendar Plug-ins
-* Import Event using latest Eventbrite API
- 
- 
+* Support for Eventbrite structured content including Gallery, Videos, and FAQs ([Pro]).
+* Support for Global Series & Collections ([Pro]).
+* Export events to iCal Option.
+* Discount code support, applied codes in ticket section.
+* Auto Publish, Draft Imported Events.
+* Get Event details like Event Title, Event Description, Event Images, Event Start Date, Event End date, Event Location (venue), Event Organizer etc into WordPress Database.
+* Event Import History Logs when & which Events Imported.
+* Option to update existing Events (Synchronize Events) via robust Action Scheduler background processing.
+* Works with leading WordPress Event Calendar Plug-ins (loaded conditionally for maximum performance).
+* Import Event using latest Eventbrite API v3.
 
  ### Import Eventbrite Events into:
 * [ The Events Calendar ](https://wordpress.org/plugins/the-events-calendar/)
