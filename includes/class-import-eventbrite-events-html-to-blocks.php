@@ -64,7 +64,7 @@ class Import_Eventbrite_Events_Html_To_Blocks {
 		}
 
 		// CHECK 2: Skip if already converted to blocks.
-		if ( str_contains( $post->post_content, '<!-- wp:' ) ) {
+		if ( strpos( (string) $post->post_content, '<!-- wp:' ) !== false ) {
 			return;
 		}
 

@@ -1,5 +1,8 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 /**
  * ActionScheduler Exception Interface.
  *

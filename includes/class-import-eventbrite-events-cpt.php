@@ -335,23 +335,25 @@ class Import_Eventbrite_Events_Cpt {
 	 * Save term meta
 	 */
 	public function save_collection_fields( $term_id ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 
 		if ( isset( $_POST['collection_id'] ) ) {
-			update_term_meta( $term_id, 'collection_id', sanitize_text_field( $_POST['collection_id'] ) );
+			update_term_meta( $term_id, 'collection_id', sanitize_text_field( wp_unslash( $_POST['collection_id'] ) ) );
 		}
 
 		if ( isset( $_POST['organizer_id'] ) ) {
-			update_term_meta( $term_id, 'organizer_id', sanitize_text_field( $_POST['organizer_id'] ) );
+			update_term_meta( $term_id, 'organizer_id', sanitize_text_field( wp_unslash( $_POST['organizer_id'] ) ) );
 		}
 
 		if ( isset( $_POST['collection_url'] ) ) {
-			update_term_meta( $term_id, 'collection_url', esc_url_raw( $_POST['collection_url'] ) );
+			update_term_meta( $term_id, 'collection_url', esc_url_raw( wp_unslash( $_POST['collection_url'] ) ) );
 		}
 
 		if ( isset( $_POST['image_url'] ) ) {
-			update_term_meta( $term_id, 'image_url', esc_url_raw( $_POST['image_url'] ) );
+			update_term_meta( $term_id, 'image_url', esc_url_raw( wp_unslash( $_POST['image_url'] ) ) );
 		}
-
+		
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 
@@ -656,6 +658,7 @@ class Import_Eventbrite_Events_Cpt {
 		}
 
 		if ( isset( $_POST['iee_slider_images_urls'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$gallery_text = wp_unslash( $_POST['iee_slider_images_urls'] );
 			$gallery_lines = array_filter( array_map( 'trim', explode( "\n", $gallery_text ) ) );
 			$gallery_urls = array();
@@ -673,6 +676,7 @@ class Import_Eventbrite_Events_Cpt {
 		}
 
 		if ( isset( $_POST['iee_event_faqs_text'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$faqs_text = wp_unslash( $_POST['iee_event_faqs_text'] );
 			$faqs_lines = array_filter( array_map( 'trim', explode( "\n", $faqs_text ) ) );
 			$faqs_array = array();
@@ -1132,12 +1136,12 @@ class Import_Eventbrite_Events_Cpt {
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
 											<?php if($paged < $eventbrite_events->max_num_pages) : ?>
-												<a href="#" class="iee-next-page" data-page="<?php echo $paged + 1; ?>"><?php esc_attr_e( $next_event_text . '&raquo;' ); ?></a>
+												<a href="#" class="iee-next-page" data-page="<?php echo esc_attr( $paged + 1 ); ?>"><?php echo esc_html( $next_event_text ); ?> &raquo;</a>
 											<?php endif; ?>
 										</div>
 										<div class="next-posts-link alignleft">
 											<?php if($paged > 1) : ?>
-												<a href="#" class="iee-prev-page" data-page="<?php echo $paged - 1; ?>"><?php esc_attr_e( '&laquo;' . $previous_events ); ?></a>
+												<a href="#" class="iee-prev-page" data-page="<?php echo esc_attr( $paged - 1 ); ?>">&laquo; <?php echo esc_html( $previous_events ); ?></a>
 											<?php endif; ?>
 										</div>
 									</nav>
@@ -1150,10 +1154,10 @@ class Import_Eventbrite_Events_Cpt {
 								<div class="col-iee-md-12">
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
-											<?php echo get_next_posts_link( $next_event_text . '&raquo;', $eventbrite_events->max_num_pages ); ?>
+											<?php echo wp_kses_post( get_next_posts_link( esc_html( $next_event_text ) . ' &raquo;', $eventbrite_events->max_num_pages ) ); ?>
 										</div>
 										<div class="next-posts-link alignleft">
-											<?php echo get_previous_posts_link( '&laquo; '. $previous_events ); ?>
+											<?php echo wp_kses_post( get_previous_posts_link( '&laquo; ' . esc_html( $previous_events ) ) ); ?>
 										</div>
 									</nav>
 								</div>

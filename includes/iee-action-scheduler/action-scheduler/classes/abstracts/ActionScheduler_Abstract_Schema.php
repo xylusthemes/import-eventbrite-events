@@ -1,6 +1,5 @@
 <?php
-
-
+// phpcs:ignoreFile
 /**
  * Class ActionScheduler_Abstract_Schema
  *

@@ -276,7 +276,7 @@ class Import_Eventbrite_Events_Admin {
 			$limit
 		);
 
-		$events = $wpdb->get_results( $query, ARRAY_A );
+		$events = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( empty( $events ) ) {
 			set_transient( $transient_key, 1, WEEK_IN_SECONDS );
@@ -755,7 +755,7 @@ class Import_Eventbrite_Events_Admin {
 					$import_frequency = isset( $event_data['import_frequency'] ) ? $event_data['import_frequency'] : 'twicedaily';
 					update_post_meta( $insert, 'import_origin', 'eventbrite' );
 					update_post_meta( $insert, 'import_eventdata', $event_data );
-					wp_schedule_event( time(), $import_frequency, 'iee_run_scheduled_import', array( 'post_id' => $insert ) );
+					wp_schedule_event( time(), $import_frequency, 'iee_run_scheduled_import', array( (int)$insert ) );
 				}
 				delete_option( 'xtei_auto_import_options' );
 				$page        = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : 'eventbrite_event'; // input var okey.
@@ -766,7 +766,7 @@ class Import_Eventbrite_Events_Admin {
 					'iee_msg' => 'upgrade_finish',
 					'tab'     => $tab,
 				);
-				wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+				wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 				exit;
 			}
 		}
@@ -963,7 +963,7 @@ class Import_Eventbrite_Events_Admin {
 			}
 
 			update_post_meta( $schedule_id, '_iee_schedule_status', $new_status );
-			wp_redirect( remove_query_arg( [ 'action', 'schedule_id', 'new_status', '_wpnonce' ] ) );
+			wp_safe_redirect( remove_query_arg( [ 'action', 'schedule_id', 'new_status', '_wpnonce' ] ) );
 			exit;
 		}
 	}

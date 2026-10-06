@@ -1,5 +1,8 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 /**
  * Day of month field.  Allows: * , / - ? L W
  *

@@ -477,6 +477,7 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 											<?php if ( ! $is_pro ) : ?>
 											<br/>
 											<span class="iee_small" style="color: #e67e22; font-weight: 600;">
+												<?php /* translators: %s: upgrade link */ ?>
 												🔒 <?php printf( esc_html__( 'Premium templates are available in the Pro version. %s', 'import-eventbrite-events' ), '<a href="https://xylusthemes.com/plugins/import-eventbrite-events/" target="_blank" style="color: #039ED7; font-weight: 700;">' . esc_html__( 'Upgrade to Pro', 'import-eventbrite-events' ) . '</a>' ); ?>
 											</span>
 											<?php endif; ?>

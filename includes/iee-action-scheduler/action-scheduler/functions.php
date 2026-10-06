@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:ignoreFile
 /**
  * General API functions for scheduling actions
  *

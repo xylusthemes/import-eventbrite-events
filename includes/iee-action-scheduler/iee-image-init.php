@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Load Action Scheduler if not loaded

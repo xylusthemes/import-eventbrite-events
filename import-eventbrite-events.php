@@ -8,6 +8,7 @@
  * Author URI:        https://xylusthemes.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Requires at least: 6.0.0
  * Text Domain:       import-eventbrite-events
  * Domain Path:       /languages
  *

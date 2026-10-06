@@ -37,6 +37,41 @@ class Import_Eventbrite_Events_Common {
 		add_action( 'admin_init', array( $this, 'iee_redirect_after_activation' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'iee_source_image_thumbnail_html' ), 10, 5 );
 		add_action( 'eec_after_event_description', array( $this, 'iee_xec_render_ticket_section' ) );
+		add_action( 'admin_init', array( $this, 'migrate_existing_cron_args' ) );
+	}
+
+	/**
+	 * Migrate existing cron args from associative to indexed arrays to fix PHP 8 named parameter issues.
+	 *
+	 * @since 1.8.2
+	 */
+	public function migrate_existing_cron_args() {
+		if ( get_option( 'iee_cron_args_migrated_v2' ) ) {
+			return;
+		}
+
+		$crons = _get_cron_array();
+		if ( empty( $crons ) ) {
+			return;
+		}
+
+		$updated = false;
+		foreach ( $crons as $timestamp => $cronhooks ) {
+			if ( isset( $cronhooks['iee_run_scheduled_import'] ) ) {
+				foreach ( $cronhooks['iee_run_scheduled_import'] as $key => $event ) {
+					if ( isset( $event['args']['post_id'] ) ) {
+						$post_id = $event['args']['post_id'];
+						$new_args = array( (int) $post_id );
+
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', $event['args'] );
+						wp_schedule_event( $timestamp, $event['schedule'], 'iee_run_scheduled_import', $new_args );
+						$updated = true;
+					}
+				}
+			}
+		}
+
+		update_option( 'iee_cron_args_migrated_v2', true );
 	}
 
 	/**
@@ -421,7 +456,7 @@ class Import_Eventbrite_Events_Common {
 
 			// If error storing permanently, unlink.
 			if ( is_wp_error( $att_id ) ) {
-				@unlink( $file_array['tmp_name'] );
+				wp_delete_file( $file_array['tmp_name'] );
 				return $att_id;
 			}
 
@@ -497,6 +532,7 @@ class Import_Eventbrite_Events_Common {
 		}
 
 		if ( $this->iee_should_display_ticket_section( $event_id, $eventbrite_id ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $this->iee_get_ticket_section( $eventbrite_id, $event_id );
 		}
 	}
@@ -1377,16 +1413,16 @@ class Import_Eventbrite_Events_Common {
 			if ( $import_id > 0 ) {
 				$post_type = get_post_type( $import_id );
 				if ( $post_type == 'iee_scheduled_import' ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$import_id ) );
 					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( 'post_id' => (int)$import_id ) );
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$import_id ) );
 					}
 					wp_delete_post( $import_id, true );
 					$query_args = array(
 						'iee_msg' => 'import_del',
 						'tab'     => $tab,
 					);
-					wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+					wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 					exit;
 				}
 			}
@@ -1403,7 +1439,7 @@ class Import_Eventbrite_Events_Common {
 					'iee_msg' => 'history_del',
 					'tab'     => $tab,
 				);
-				wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+				wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 				exit;
 			}
 		}
@@ -1423,7 +1459,7 @@ class Import_Eventbrite_Events_Common {
 				if ( $paged > 0 ) {
 					$query_args['paged'] = $paged;
 				}
-				wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+				wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 				exit;
 			}
 		}
@@ -1437,9 +1473,9 @@ class Import_Eventbrite_Events_Common {
 			$delete_ids  = isset( $_REQUEST['iee_scheduled_import'] ) ? wp_unslash( $_REQUEST['iee_scheduled_import'] ) : '0'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( 'post_id' => (int)$delete_id ) );
+					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$delete_id ) );
 					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( 'post_id' => (int)$delete_id ) );
+						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$delete_id ) );
 					}
 					wp_delete_post( $delete_id, true );
 				}
@@ -1448,7 +1484,7 @@ class Import_Eventbrite_Events_Common {
 				'iee_msg' => 'import_dels',
 				'tab'     => $tab,
 			);
-			wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+			wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 			exit;
 		}
 		
@@ -1469,7 +1505,7 @@ class Import_Eventbrite_Events_Common {
 				'iee_msg' => 'history_dels',
 				'tab'     => $tab,
 			);			
-			wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+			wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 			exit;
 		}
 
@@ -1487,7 +1523,7 @@ class Import_Eventbrite_Events_Common {
 				'iee_msg' => 'history_dels',
 				'tab'     => $tab,
 			);
-			wp_redirect( add_query_arg( $query_args, $wp_redirect ) );
+			wp_safe_redirect( add_query_arg( $query_args, $wp_redirect ) );
 			exit;
 		}
 	}
@@ -1584,7 +1620,7 @@ class Import_Eventbrite_Events_Common {
         $cron_time         = time() - (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
         
         if( $import_frequency !== 'not_repeat' ) {
-            $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( 'post_id' => $post_id ) );
+            $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( (int)$post_id ) );
 			$status    = get_post_meta( $post_id, '_iee_schedule_status', true );
 			$s_status  = !empty( $status ) ? $status : 'active';
 			update_post_meta( $post_id, '_iee_schedule_status', $s_status );
@@ -1613,7 +1649,8 @@ class Import_Eventbrite_Events_Common {
 		$tec_occurrences_table = $wpdb->prefix . 'tec_occurrences';
 	
 		// Check if event already exists
-		$existing_event_id = $wpdb->get_var( $wpdb->prepare( "SELECT event_id FROM $tec_events_table WHERE post_id = %d", $event_post_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+		$existing_event_id = $wpdb->get_var( $wpdb->prepare( "SELECT event_id FROM $tec_events_table WHERE post_id = %d", $event_post_id ) ); 
 	
 		$event_data = array(
 			'post_id'        => $event_post_id,
@@ -1771,7 +1808,7 @@ class Import_Eventbrite_Events_Common {
 			AND pm.meta_key = %s";
 
 		$prepared_sql = $wpdb->prepare( $sql, $current_time, $current_time, 'eventbrite_events', 'publish', 'end_ts' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		$counts       = $wpdb->get_row( $prepared_sql );
 	
 		// Return the counts as an array
@@ -2328,7 +2365,7 @@ function iee_model_checkout_markup( $eventbrite_id, $event_id ){
 	$buy_tickets      = isset( $eventbrite_optionsap['ticket_button_text'] ) ? $eventbrite_optionsap['ticket_button_text'] : 'Buy Tickets';
 	?>
 	<button id="iee-eventbrite-checkout-trigger" type="button">
-		<?php esc_html_e( $buy_tickets, 'import-eventbrite-events' ); ?>
+		<?php echo esc_html( $buy_tickets ); ?>
 	</button>
 	<?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 	<script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>

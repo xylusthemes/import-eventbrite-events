@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class IEE_Event_Image_Scheduler {

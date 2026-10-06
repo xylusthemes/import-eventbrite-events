@@ -331,7 +331,7 @@ class Import_Eventbrite_Events_Aioec {
 	 * @return str
 	 */
 	public function get_ical_uid_for_event( $event_id ) {
-		$site_url = parse_url( ai1ec_get_site_url() );
+		$site_url = wp_parse_url( ai1ec_get_site_url() );
 		$format   = 'ai1ec-%d@' . $site_url['host'];
 		if ( isset( $site_url['path'] ) ) {
 			$format .= $site_url['path'];
