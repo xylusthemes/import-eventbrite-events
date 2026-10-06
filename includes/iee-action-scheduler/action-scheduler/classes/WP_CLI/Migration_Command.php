@@ -1,9 +1,9 @@
 <?php
+// phpcs:ignoreFile
+namespace Action_Scheduler\WP_CLI;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:ignoreFile
-namespace Action_Scheduler\WP_CLI;
 
 use Action_Scheduler\Migration\Config;
 use Action_Scheduler\Migration\Runner;

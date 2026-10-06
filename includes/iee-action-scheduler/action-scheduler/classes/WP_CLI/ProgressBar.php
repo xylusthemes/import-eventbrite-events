@@ -1,9 +1,9 @@
 <?php
+// phpcs:ignoreFile
+namespace Action_Scheduler\WP_CLI;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:ignoreFile
-namespace Action_Scheduler\WP_CLI;
 
 /**
  * WP_CLI progress bar for Action Scheduler.

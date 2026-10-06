@@ -550,7 +550,7 @@ class Import_Eventbrite_Events_Common {
 		$eventbrite_event_id = get_post_meta( $event_id, 'iee_event_id', true );
 		if ( $event_id > 0 ) {
 			if ( $event_origin == 'eventbrite' ) {
-				if ( $iee_events->tec->get_event_posttype() == $xt_post_type ) {
+				if ( isset( $iee_events->tec ) && $iee_events->tec->get_event_posttype() == $xt_post_type ) {
 					$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 					$series_id  = get_post_meta( $event_id, 'series_id', true );
 					if( !empty( $series_id ) ){
@@ -586,7 +586,7 @@ class Import_Eventbrite_Events_Common {
 			$xt_post_type = get_post_type( $event_id );
 			$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 			if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-				if ( $iee_events->my_calendar->get_event_posttype() == $xt_post_type ) {
+				if ( isset($iee_events->my_calendar) && $iee_events->my_calendar->get_event_posttype() == $xt_post_type ) {
 					$series_id  = get_post_meta( $event_id, 'series_id', true );
 					if( !empty( $series_id ) ){
 						$eventbrite_id = $series_id;
@@ -671,7 +671,7 @@ class Import_Eventbrite_Events_Common {
 		$event_id     = get_the_ID();
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->em->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( isset($iee_events->em) && $iee_events->em->get_event_posttype() == $xt_post_type ) || ( isset($iee_events->eventprime) && $iee_events->eventprime->get_event_posttype() == $xt_post_type ) || ( isset($iee_events->aioec) && $iee_events->aioec->get_event_posttype() == $xt_post_type ) || ( isset($iee_events->iee) && $iee_events->iee->get_event_posttype() == $xt_post_type ) || ( isset($iee_events->eventon) && $iee_events->eventon->get_event_posttype() == $xt_post_type ) || ( isset($iee_events->xec) && $iee_events->xec->get_event_posttype() == $xt_post_type ) ) {
 				$iee_ap_options = get_option( IEE_AP_OPTIONS );
 				$details_layout = isset( $iee_ap_options['details_layout'] ) ? $iee_ap_options['details_layout'] : 'default';
 				
@@ -707,11 +707,11 @@ class Import_Eventbrite_Events_Common {
 	public function iee_add_eventprime_add_ticket_section() {
 		global $iee_events;
 		
-		$xt_post_type = $iee_events->eventprime->get_event_posttype();
+		$xt_post_type = isset($iee_events->eventprime) ? $iee_events->eventprime->get_event_posttype() : '';
 		$event_id     = isset( $_GET['event'] ) ?  esc_attr( sanitize_text_field( wp_unslash( $_GET['event'] ) ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$event_origin = get_post_meta( $event_id, 'iee_event_origin', true );
 		if ( $event_id > 0 && $event_origin == 'eventbrite' ) {
-			if ( ( $iee_events->eventprime->get_event_posttype() == $xt_post_type ) ) {
+			if ( ( isset($iee_events->eventprime) && $iee_events->eventprime->get_event_posttype() == $xt_post_type ) ) {
 				$eventbrite_id = get_post_meta( $event_id, 'iee_event_id', true );
 				$series_id     = get_post_meta( $event_id, 'series_id', true );
 				if( !empty( $series_id ) ){
@@ -1413,10 +1413,7 @@ class Import_Eventbrite_Events_Common {
 			if ( $import_id > 0 ) {
 				$post_type = get_post_type( $import_id );
 				if ( $post_type == 'iee_scheduled_import' ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$import_id ) );
-					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$import_id ) );
-					}
+					wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$import_id ) );
 					wp_delete_post( $import_id, true );
 					$query_args = array(
 						'iee_msg' => 'import_del',
@@ -1473,10 +1470,7 @@ class Import_Eventbrite_Events_Common {
 			$delete_ids  = isset( $_REQUEST['iee_scheduled_import'] ) ? wp_unslash( $_REQUEST['iee_scheduled_import'] ) : '0'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$delete_id ) );
-					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$delete_id ) );
-					}
+					wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$delete_id ) );
 					wp_delete_post( $delete_id, true );
 				}
 			}
@@ -1620,6 +1614,7 @@ class Import_Eventbrite_Events_Common {
         $cron_time         = time() - (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
         
         if( $import_frequency !== 'not_repeat' ) {
+			wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$post_id ) );
             $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( (int)$post_id ) );
 			$status    = get_post_meta( $post_id, '_iee_schedule_status', true );
 			$s_status  = !empty( $status ) ? $status : 'active';

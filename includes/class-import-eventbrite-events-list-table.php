@@ -483,16 +483,22 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 		if(function_exists('_get_cron_array') ){
 			$crons = _get_cron_array();
 		}
-		$wpea_scheduled = array_filter($crons, function($cron) {
-			$cron_name = array_keys($cron) ? array_keys($cron)[0] : '';
-			if (strpos($cron_name, 'iee_run_scheduled_import') !== false) {
-				return true;
+		if ( ! is_array( $crons ) ) {
+			return array();
+		}
+		$wpea_scheduled = array();
+		foreach ( $crons as $time => $cron_hooks ) {
+			foreach ( $cron_hooks as $hook_name => $hook_data ) {
+				if ( strpos( $hook_name, 'iee_run_scheduled_import' ) !== false ) {
+					if ( ! isset( $wpea_scheduled[$time] ) ) {
+						$wpea_scheduled[$time] = array();
+					}
+					$wpea_scheduled[$time][$hook_name] = $hook_data;
+				}
 			}
-			return false;
-		});
+		}
 		return $wpea_scheduled;
 	}
-
 
 	/**
 	 * Get Next run time array for schdeuled import.
@@ -502,10 +508,10 @@ class Import_Eventbrite_Events_List_Table extends WP_List_Table {
 	function get_iee_next_run_times(){
 		$next_runs = array();
 		$crons  = $this->get_iee_crons();
-		foreach($crons as $time => $cron){
-			foreach($cron as $cron_name){
-				foreach($cron_name as $cron_post_id){
-					$schedule_id = isset( $cron_post_id['args']['post_id'] )  ? $cron_post_id['args']['post_id'] : 0;
+		foreach($crons as $time => $cron_hooks){
+			foreach($cron_hooks as $hook_name => $hook_data){
+				foreach($hook_data as $sig => $cron_post_id){
+					$schedule_id = isset( $cron_post_id['args'][0] ) ? $cron_post_id['args'][0] : ( isset( $cron_post_id['args']['post_id'] ) ? $cron_post_id['args']['post_id'] : 0 );
 					if( isset($cron_post_id['args']) && $schedule_id > 0 ){
 						$next_runs[$schedule_id] = $time;
 					}
