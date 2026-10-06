@@ -1413,10 +1413,7 @@ class Import_Eventbrite_Events_Common {
 			if ( $import_id > 0 ) {
 				$post_type = get_post_type( $import_id );
 				if ( $post_type == 'iee_scheduled_import' ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$import_id ) );
-					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$import_id ) );
-					}
+					wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$import_id ) );
 					wp_delete_post( $import_id, true );
 					$query_args = array(
 						'iee_msg' => 'import_del',
@@ -1473,10 +1470,7 @@ class Import_Eventbrite_Events_Common {
 			$delete_ids  = isset( $_REQUEST['iee_scheduled_import'] ) ? wp_unslash( $_REQUEST['iee_scheduled_import'] ) : '0'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if ( ! empty( $delete_ids ) ) {
 				foreach ( $delete_ids as $delete_id ) {
-					$timestamp = wp_next_scheduled( 'iee_run_scheduled_import', array( (int)$delete_id ) );
-					if ( $timestamp ) {
-						wp_unschedule_event( $timestamp, 'iee_run_scheduled_import', array( (int)$delete_id ) );
-					}
+					wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$delete_id ) );
 					wp_delete_post( $delete_id, true );
 				}
 			}
