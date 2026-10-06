@@ -1620,6 +1620,7 @@ class Import_Eventbrite_Events_Common {
         $cron_time         = time() - (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
         
         if( $import_frequency !== 'not_repeat' ) {
+			wp_clear_scheduled_hook( 'iee_run_scheduled_import', array( (int)$post_id ) );
             $scheduled = wp_schedule_event( $cron_time, $import_frequency, 'iee_run_scheduled_import', array( (int)$post_id ) );
 			$status    = get_post_meta( $post_id, '_iee_schedule_status', true );
 			$s_status  = !empty( $status ) ? $status : 'active';
