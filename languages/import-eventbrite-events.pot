@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-05T10:26:20+00:00\n"
+"POT-Creation-Date: 2026-10-06T06:08:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: import-eventbrite-events\n"
@@ -40,24 +40,25 @@ msgstr ""
 msgid "https://xylusthemes.com"
 msgstr ""
 
-#: import-eventbrite-events.php:135
-#: import-eventbrite-events.php:144
+#: import-eventbrite-events.php:136
+#: import-eventbrite-events.php:145
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: import-eventbrite-events.php:268
+#: import-eventbrite-events.php:269
 #: includes/class-import-eventbrite-events-admin.php:468
 msgid "Setting"
 msgstr ""
 
-#: import-eventbrite-events.php:273
-#: includes/class-import-eventbrite-events-common.php:1712
+#: import-eventbrite-events.php:274
+#: includes/class-import-eventbrite-events-common.php:1749
 msgid "Docs"
 msgstr ""
 
-#: import-eventbrite-events.php:282
+#. translators: %s: upgrade link
+#: import-eventbrite-events.php:283
 #: includes/class-import-eventbrite-events-admin.php:346
-#: templates/admin/import-eventbrite-events-settings.php:480
+#: templates/admin/import-eventbrite-events-settings.php:481
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -152,7 +153,7 @@ msgid "Display Eventbrite events directly on your website no import, no authoriz
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:123
-#: includes/class-import-eventbrite-events-common.php:1053
+#: includes/class-import-eventbrite-events-common.php:1089
 #: templates/admin/iee-dashboard.php:71
 msgid "Upgrade to PRO"
 msgstr ""
@@ -278,7 +279,7 @@ msgid "Eventbrite Import"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:317
-#: includes/class-import-eventbrite-events-common.php:1680
+#: includes/class-import-eventbrite-events-common.php:1717
 msgid "Dashboard"
 msgstr ""
 
@@ -294,7 +295,7 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:340
 #: templates/admin/iee-dashboard.php:114
-#: templates/admin/iee-setup-wizard.php:23
+#: templates/admin/iee-setup-wizard.php:27
 msgid "Settings"
 msgstr ""
 
@@ -309,7 +310,7 @@ msgid "Shortcodes"
 msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:343
-#: includes/class-import-eventbrite-events-common.php:1710
+#: includes/class-import-eventbrite-events-common.php:1747
 msgid "Support"
 msgstr ""
 
@@ -488,7 +489,7 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-admin.php:860
 #: includes/class-import-eventbrite-events-list-table.php:79
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:39
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:42
 msgid "Edit"
 msgstr ""
 
@@ -497,75 +498,75 @@ msgstr ""
 msgid "No data found"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:56
+#: includes/class-import-eventbrite-events-common.php:91
 msgid "Import into"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:75
+#: includes/class-import-eventbrite-events-common.php:110
 msgid "Event Categories for Event Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:82
+#: includes/class-import-eventbrite-events-common.php:117
 msgid "These categories are assign to imported event."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:202
+#: includes/class-import-eventbrite-events-common.php:237
 msgid "The Events Calendar"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:207
+#: includes/class-import-eventbrite-events-common.php:242
 msgid "Events Manager"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:212
+#: includes/class-import-eventbrite-events-common.php:247
 msgid "Event Organiser"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:217
+#: includes/class-import-eventbrite-events-common.php:252
 msgid "EventON"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:222
+#: includes/class-import-eventbrite-events-common.php:257
 msgid "EventPrime"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:227
+#: includes/class-import-eventbrite-events-common.php:262
 msgid "All in one Event Calendar"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:232
+#: includes/class-import-eventbrite-events-common.php:267
 msgid "My Calendar"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:237
+#: includes/class-import-eventbrite-events-common.php:272
 msgid "Event Espresso (EE4)"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:242
+#: includes/class-import-eventbrite-events-common.php:277
 msgid "Easy Events Calendar"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:248
+#: includes/class-import-eventbrite-events-common.php:283
 #: includes/class-import-eventbrite-events-cpt.php:122
 #: includes/class-import-eventbrite-events-cpt.php:126
 msgid "Eventbrite Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:372
+#: includes/class-import-eventbrite-events-common.php:407
 msgid "Invalid image URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:742
+#: includes/class-import-eventbrite-events-common.php:778
 msgid "Your current \"Import Eventbrite Pro\" add-on is not compatible with the Free plugin. Please Upgrade Pro latest to work event importing Flawlessly."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:784
+#: includes/class-import-eventbrite-events-common.php:820
 msgid "Event(s) are imported successfully."
 msgstr ""
 
 #. translators: %d: Number of events created.
 #. translators: %d: Number of events Created.
-#: includes/class-import-eventbrite-events-common.php:787
+#: includes/class-import-eventbrite-events-common.php:823
 #: includes/class-import-eventbrite-events-list-table.php:178
 #: includes/class-import-eventbrite-events-list-table.php:402
 #: includes/class-import-eventbrite-events-list-table.php:601
@@ -574,7 +575,7 @@ msgid "%d Created"
 msgstr ""
 
 #. translators: %d: Number of events Updated.
-#: includes/class-import-eventbrite-events-common.php:791
+#: includes/class-import-eventbrite-events-common.php:827
 #: includes/class-import-eventbrite-events-list-table.php:182
 #: includes/class-import-eventbrite-events-list-table.php:406
 #: includes/class-import-eventbrite-events-list-table.php:605
@@ -583,147 +584,147 @@ msgid "%d Updated"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
-#: includes/class-import-eventbrite-events-common.php:795
+#: includes/class-import-eventbrite-events-common.php:831
 #, php-format
 msgid "%d Skipped (Already exists)"
 msgstr ""
 
 #. translators: %d: Number of events Skipped.
-#: includes/class-import-eventbrite-events-common.php:799
+#: includes/class-import-eventbrite-events-common.php:835
 #, php-format
 msgid "%d Skipped (Already exists in Trash )"
 msgstr ""
 
 #. translators: %d: Number of events error.
-#: includes/class-import-eventbrite-events-common.php:803
+#: includes/class-import-eventbrite-events-common.php:839
 #, php-format
 msgid "%d "
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:868
+#: includes/class-import-eventbrite-events-common.php:904
 msgid "Once Hourly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:871
+#: includes/class-import-eventbrite-events-common.php:907
 msgid "Twice Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:874
+#: includes/class-import-eventbrite-events-common.php:910
 msgid "Once Daily"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:877
+#: includes/class-import-eventbrite-events-common.php:913
 msgid "Once Weekly"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:880
+#: includes/class-import-eventbrite-events-common.php:916
 msgid "Once a Month"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:895
+#: includes/class-import-eventbrite-events-common.php:931
 msgid "One-time Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:897
+#: includes/class-import-eventbrite-events-common.php:933
 msgid "Scheduled Import"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:952
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:301
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:97
+#: includes/class-import-eventbrite-events-common.php:988
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:304
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:100
 msgid "Status"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:957
+#: includes/class-import-eventbrite-events-common.php:993
 #: templates/admin/import-eventbrite-events-ical-export.php:64
 msgid "Published"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:960
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:456
+#: includes/class-import-eventbrite-events-common.php:996
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:459
 #: templates/admin/import-eventbrite-events-ical-export.php:67
 msgid "Pending"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:963
+#: includes/class-import-eventbrite-events-common.php:999
 #: templates/admin/import-eventbrite-events-ical-export.php:66
 msgid "Draft"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1053
+#: includes/class-import-eventbrite-events-common.php:1089
 msgid "Available in Pro version."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1330
+#: includes/class-import-eventbrite-events-common.php:1366
 msgid "Scheduled import deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1334
-#: includes/class-import-eventbrite-events-common.php:1358
+#: includes/class-import-eventbrite-events-common.php:1370
+#: includes/class-import-eventbrite-events-common.php:1394
 msgid "Scheduled imports are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1338
+#: includes/class-import-eventbrite-events-common.php:1374
 msgid "Scheduled import has been run successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1342
+#: includes/class-import-eventbrite-events-common.php:1378
 msgid "Import history deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1346
+#: includes/class-import-eventbrite-events-common.php:1382
 msgid "Import histories are deleted successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1350
+#: includes/class-import-eventbrite-events-common.php:1386
 msgid "Update has been finish successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1354
+#: includes/class-import-eventbrite-events-common.php:1390
 msgid "Scheduled import has been updated successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1550
+#: includes/class-import-eventbrite-events-common.php:1586
 msgid "Import settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1568
+#: includes/class-import-eventbrite-events-common.php:1604
 msgid "Appearance settings has been saved successfully."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1570
+#: includes/class-import-eventbrite-events-common.php:1606
 msgid "There are no changes in the appearance settings."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1660
+#: includes/class-import-eventbrite-events-common.php:1697
 msgid "WP Bulk Delete"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1661
+#: includes/class-import-eventbrite-events-common.php:1698
 msgid "WP Event Aggregator"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1662
+#: includes/class-import-eventbrite-events-common.php:1699
 msgid "Import Social Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1663
+#: includes/class-import-eventbrite-events-common.php:1700
 msgid "Import Meetup Events"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1664
+#: includes/class-import-eventbrite-events-common.php:1701
 msgid "Event Schema / Structured Data"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1665
+#: includes/class-import-eventbrite-events-common.php:1702
 msgid "WP Smart Import : Import any XML File to WordPress"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1708
+#: includes/class-import-eventbrite-events-common.php:1745
 msgid "Made with ♥ by the Xylus Themes"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-common.php:1714
+#: includes/class-import-eventbrite-events-common.php:1751
 msgid "Free Plugins"
 msgstr ""
 
@@ -833,7 +834,7 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:190
 #: includes/class-import-eventbrite-events-cpt.php:192
-#: templates/iee-event-meta.php:84
+#: templates/iee-event-meta.php:87
 msgid "Event Category"
 msgstr ""
 
@@ -871,7 +872,7 @@ msgstr ""
 
 #: includes/class-import-eventbrite-events-cpt.php:225
 #: includes/class-import-eventbrite-events-cpt.php:227
-#: templates/iee-event-meta.php:91
+#: templates/iee-event-meta.php:94
 msgid "Event Tags"
 msgstr ""
 
@@ -1004,120 +1005,120 @@ msgstr ""
 msgid "Image URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:364
+#: includes/class-import-eventbrite-events-cpt.php:366
 msgid "Events Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:388
-#: templates/iee-event-meta.php:159
+#: includes/class-import-eventbrite-events-cpt.php:390
+#: templates/iee-event-meta.php:162
 msgid "Venue"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:389
+#: includes/class-import-eventbrite-events-cpt.php:391
 msgid "Address"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:390
+#: includes/class-import-eventbrite-events-cpt.php:392
 msgid "City"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:391
+#: includes/class-import-eventbrite-events-cpt.php:393
 msgid "State"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:392
+#: includes/class-import-eventbrite-events-cpt.php:394
 msgid "Country"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:393
+#: includes/class-import-eventbrite-events-cpt.php:395
 msgid "Zipcode"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:394
+#: includes/class-import-eventbrite-events-cpt.php:396
 msgid "Latitude"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:395
+#: includes/class-import-eventbrite-events-cpt.php:397
 msgid "Longitude"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:396
-#: includes/class-import-eventbrite-events-cpt.php:400
-#: templates/iee-event-meta.php:127
+#: includes/class-import-eventbrite-events-cpt.php:398
+#: includes/class-import-eventbrite-events-cpt.php:402
+#: templates/iee-event-meta.php:130
 msgid "Website"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:397
+#: includes/class-import-eventbrite-events-cpt.php:399
 msgid "Organizer Name"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:398
-#: templates/iee-event-meta.php:118
+#: includes/class-import-eventbrite-events-cpt.php:400
+#: templates/iee-event-meta.php:121
 msgid "Email"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:399
-#: templates/iee-event-meta.php:122
+#: includes/class-import-eventbrite-events-cpt.php:401
+#: templates/iee-event-meta.php:125
 msgid "Phone"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:401
+#: includes/class-import-eventbrite-events-cpt.php:403
 msgid "Source Link"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:407
+#: includes/class-import-eventbrite-events-cpt.php:409
 msgid "Time & Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:410
+#: includes/class-import-eventbrite-events-cpt.php:412
 msgid "Start Date & Time"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:422
+#: includes/class-import-eventbrite-events-cpt.php:424
 msgid "End Date & Time"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:435
+#: includes/class-import-eventbrite-events-cpt.php:437
 msgid "Location Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:452
+#: includes/class-import-eventbrite-events-cpt.php:454
 msgid "Organizer Details"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:470
+#: includes/class-import-eventbrite-events-cpt.php:472
 msgid "Event Source Link"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:481
+#: includes/class-import-eventbrite-events-cpt.php:483
 msgid "Event Media & Structured Content"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:501
+#: includes/class-import-eventbrite-events-cpt.php:503
 msgid "Promo Video URL"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:508
+#: includes/class-import-eventbrite-events-cpt.php:510
 msgid "Gallery Images URLs"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:511
+#: includes/class-import-eventbrite-events-cpt.php:513
 msgid "Enter one image URL per line."
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:516
+#: includes/class-import-eventbrite-events-cpt.php:518
 msgid "Event FAQs"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:519
+#: includes/class-import-eventbrite-events-cpt.php:521
 msgid "Format: Question | Answer (one FAQ per line)"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:725
+#: includes/class-import-eventbrite-events-cpt.php:729
 msgid "Start Date"
 msgstr ""
 
-#: includes/class-import-eventbrite-events-cpt.php:1164
+#: includes/class-import-eventbrite-events-cpt.php:1168
 msgid "There are no upcoming Events at this time."
 msgstr ""
 
@@ -1152,7 +1153,7 @@ msgstr ""
 #: includes/class-import-eventbrite-events-list-table.php:241
 #: includes/class-import-eventbrite-events-list-table.php:570
 #: includes/class-import-eventbrite-events-list-table.php:708
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:92
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:95
 msgid "Delete"
 msgstr ""
 
@@ -1304,333 +1305,333 @@ msgid "Please provide valid Eventbrite event ID."
 msgstr ""
 
 #. translators: %s function name.
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler.php:274
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler.php:277
 #, php-format
 msgid "%s() was called before the Action Scheduler data store was initialized"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:541
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:544
 msgid "Filter"
 msgstr ""
 
 #. translators: %s: search query
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:668
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:671
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:703
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:706
 msgctxt "status labels"
 msgid "All"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:704
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:707
 msgctxt "status labels"
 msgid "Past-due"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:786
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:789
 msgid "Search"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_QueueRunner.php:170
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Abstract_QueueRunner.php:173
 msgid "This action appears to be consistently failing. A new instance will not be scheduled."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:100
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:103
 msgid "action created"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:109
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:142
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:112
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:145
 msgid "action canceled"
 msgstr ""
 
 #. translators: %s: context
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:121
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:124
 #, php-format
 msgid "action started via %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:123
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:126
 msgid "action started"
 msgstr ""
 
 #. translators: %s: context
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:138
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:141
 #, php-format
 msgid "action complete via %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:140
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:143
 msgid "action complete"
 msgstr ""
 
 #. translators: 1: context 2: exception message
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:155
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:158
 #, php-format
 msgid "action failed via %1$s: %2$s"
 msgstr ""
 
 #. translators: %s: exception message
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:158
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:161
 #, php-format
 msgid "action failed: %s"
 msgstr ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:171
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:174
 #, php-format
 msgid "action marked as failed after %s seconds. Unknown error occurred. Check server, PHP and database error logs to diagnose cause."
 msgstr ""
 
 #. translators: 1: error message 2: filename 3: line
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:183
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:186
 #, php-format
 msgid "unexpected shutdown: PHP Fatal error %1$s in %2$s on line %3$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:193
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:196
 msgid "action reset"
 msgstr ""
 
 #. translators: %s: context
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:205
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:208
 #, php-format
 msgid "action ignored via %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:207
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:210
 msgid "action ignored"
 msgstr ""
 
 #. translators: %s: exception message
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:222
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:225
 #, php-format
 msgid "There was a failure fetching this action: %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:224
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:227
 msgid "There was a failure fetching this action"
 msgstr ""
 
 #. translators: %s: exception message
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:238
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:241
 #, php-format
 msgid "There was a failure scheduling the next instance of this action: %s"
 msgstr ""
 
 #. translators: %d is a number (maximum length of action arguments).
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:377
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:380
 #, php-format
 msgid "ActionScheduler_Action::$args too long. To ensure the args column can be indexed, action args should not be more than %d characters when encoded as JSON."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:455
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:458
 msgid "Complete"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:457
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:460
 msgid "In-progress"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:458
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:461
 msgid "Failed"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:459
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_Store.php:462
 msgid "Canceled"
 msgstr ""
 
 #. translators: %s php class name
-#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_WPCLI_Command.php:34
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:45
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ProgressBar.php:67
+#: includes/iee-action-scheduler/action-scheduler/classes/abstracts/ActionScheduler_WPCLI_Command.php:37
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:48
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ProgressBar.php:70
 #, php-format
 msgid "The %s class can only be run within WP CLI."
 msgstr ""
 
 #. translators: 1: action hook.
-#: includes/iee-action-scheduler/action-scheduler/classes/actions/ActionScheduler_Action.php:80
+#: includes/iee-action-scheduler/action-scheduler/classes/actions/ActionScheduler_Action.php:83
 #, php-format
 msgid "Scheduled action for %1$s will not be executed as no callbacks are registered."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ActionFactory.php:233
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ActionFactory.php:236
 msgid "Invalid action - must be a recurring action."
 msgstr ""
 
 #. translators: %1$s is the name of the hook to be enqueued, %2$s is the exception message.
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ActionFactory.php:326
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ActionFactory.php:329
 #, php-format
 msgid "Caught exception while enqueuing action \"%1$s\": %2$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:82
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:97
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:98
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:89
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:23
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:34
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:85
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:100
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:101
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:92
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:26
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:37
 msgid "Scheduled Actions"
 msgstr ""
 
 #. translators: 1) is the number of affected actions, 2) is a link to an admin screen.
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:220
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:223
 #, php-format
 msgid "<strong>Action Scheduler:</strong> %1$d <a href=\"%2$s\">past-due action</a> found; something may be wrong. <a href=\"https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do\" target=\"_blank\">Read documentation &raquo;</a>"
 msgid_plural "<strong>Action Scheduler:</strong> %1$d <a href=\"%2$s\">past-due actions</a> found; something may be wrong. <a href=\"https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do\" target=\"_blank\">Read documentation &raquo;</a>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:270
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:273
 msgid "About"
 msgstr ""
 
 #. translators: %s is the Action Scheduler version.
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:273
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:276
 #, php-format
 msgid "About Action Scheduler %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:275
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:278
 msgid "Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:277
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:280
 msgid "Source"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:279
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:282
 msgid "Action Scheduler is currently being loaded from the following location. This can be useful when debugging, or if requested by the support team."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:282
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:285
 msgid "WP CLI"
 msgstr ""
 
 #. translators: %1$s is WP CLI command (not translatable)
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:286
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:289
 #, php-format
 msgid "WP CLI commands are available: execute %1$s for a list of available commands."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:296
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:299
 msgid "Columns"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:298
-msgid "Scheduled Action Columns"
-msgstr ""
-
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:300
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:96
-msgid "Hook"
-msgstr ""
-
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:300
-msgid "Name of the action hook that will be triggered."
-msgstr ""
-
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:301
-msgid "Action statuses are Pending, Complete, Canceled, Failed"
-msgstr ""
-
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:302
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:98
-msgid "Arguments"
-msgstr ""
-
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:302
-msgid "Optional data array passed to the action hook."
+msgid "Scheduled Action Columns"
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:303
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:99
-msgid "Group"
+msgid "Hook"
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:303
-msgid "Optional action group."
+msgid "Name of the action hook that will be triggered."
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:304
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:100
-msgid "Recurrence"
-msgstr ""
-
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:304
-msgid "The action's schedule frequency."
+msgid "Action statuses are Pending, Complete, Canceled, Failed"
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:305
-#: templates/admin/import-eventbrite-events-ical-export.php:65
-msgid "Scheduled"
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:101
+msgid "Arguments"
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:305
-msgid "The date/time the action is/was scheduled to run."
+msgid "Optional data array passed to the action hook."
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:306
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:102
-msgid "Log"
+msgid "Group"
 msgstr ""
 
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:306
+msgid "Optional action group."
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:307
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:103
+msgid "Recurrence"
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:307
+msgid "The action's schedule frequency."
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:308
+#: templates/admin/import-eventbrite-events-ical-export.php:65
+msgid "Scheduled"
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:308
+msgid "The date/time the action is/was scheduled to run."
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:309
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:105
+msgid "Log"
+msgstr ""
+
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_AdminView.php:309
 msgid "Activity log for the action."
 msgstr ""
 
 #. translators: %d: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_DataController.php:145
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_DataController.php:148
 #, php-format
 msgid "Stopped the insanity for %d second"
 msgid_plural "Stopped the insanity for %d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_DataController.php:149
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_DataController.php:152
 msgid "Attempting to reduce used memory..."
 msgstr ""
 
 #. translators: 1: action ID 2: schedule
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_InvalidActionException.php:22
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_InvalidActionException.php:25
 #, php-format
 msgid "Action [%1$s] has an invalid schedule: %2$s"
 msgstr ""
 
 #. translators: 1: action ID 2: arguments
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_InvalidActionException.php:40
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_InvalidActionException.php:43
 #, php-format
 msgid "Action [%1$s] has invalid arguments. It cannot be JSON decoded to an array. $args = %2$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:101
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:104
 msgid "Scheduled Date"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:122
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:125
 msgid "Claim ID"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:129
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:132
 msgid "Run"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:130
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:133
 msgid "Process the action now as if it were run as part of a queue"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:133
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:136
 msgid "Cancel"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:134
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:137
 msgid "Cancel the action now to avoid it being run in future"
 msgstr ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:144
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:147
 #, php-format
 msgid "%s year"
 msgid_plural "%s years"
@@ -1638,7 +1639,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:149
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:152
 #, php-format
 msgid "%s month"
 msgid_plural "%s months"
@@ -1646,7 +1647,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:154
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:157
 #, php-format
 msgid "%s week"
 msgid_plural "%s weeks"
@@ -1654,7 +1655,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:159
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:162
 #, php-format
 msgid "%s day"
 msgid_plural "%s days"
@@ -1662,7 +1663,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:164
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:167
 #, php-format
 msgid "%s hour"
 msgid_plural "%s hours"
@@ -1670,7 +1671,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:169
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:172
 #, php-format
 msgid "%s minute"
 msgid_plural "%s minutes"
@@ -1678,33 +1679,33 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: amount of time
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:174
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:177
 #, php-format
 msgid "%s second"
 msgid_plural "%s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:224
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:227
 msgid "Now!"
 msgstr ""
 
 #. translators: %s: time interval
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:261
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:264
 #, php-format
 msgid "Every %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:267
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:270
 msgid "Non-repeating"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:365
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:368
 msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 msgstr ""
 
 #. translators: %s: amount of claims
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:381
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:384
 #, php-format
 msgid "Maximum simultaneous queues already in progress (%s queue). No additional queues will begin processing until the current queues are complete."
 msgid_plural "Maximum simultaneous queues already in progress (%s queues). No additional queues will begin processing until the current queues are complete."
@@ -1712,371 +1713,371 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: process URL
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:398
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:401
 #, php-format
 msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
 msgstr ""
 
 #. translators: %d: seconds
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:401
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:404
 #, php-format
 msgid "The next queue will begin processing in approximately %d seconds."
 msgstr ""
 
 #. translators: %s: action HTML
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:423
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:426
 #, php-format
 msgid "Successfully executed action: %s"
 msgstr ""
 
 #. translators: %s: action HTML
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:427
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:430
 #, php-format
 msgid "Successfully canceled action: %s"
 msgstr ""
 
 #. translators: %s: action HTML
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:431
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:434
 #, php-format
 msgid "Successfully processed change for action: %s"
 msgstr ""
 
 #. translators: 1: action HTML 2: action ID 3: error message
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:437
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:440
 #, php-format
 msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:473
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:476
 msgid "async"
-msgstr ""
-
-#. translators: %s: date interval
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:487
-#, php-format
-msgid " (%s ago)"
 msgstr ""
 
 #. translators: %s: date interval
 #: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:490
 #, php-format
+msgid " (%s ago)"
+msgstr ""
+
+#. translators: %s: date interval
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:493
+#, php-format
 msgid " (%s)"
 msgstr ""
 
 #. translators: 1: action ID 2: exception message.
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:516
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:519
 #, php-format
 msgid "Action Scheduler was unable to delete action %1$d. Reason: %2$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:666
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_ListTable.php:669
 msgid "Search hook, args and claim ID"
 msgstr ""
 
 #. Translators: %s is the exception message.
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_QueueCleaner.php:70
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_QueueCleaner.php:73
 #, php-format
 msgid "It was not possible to determine a valid cut-off time: %s."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_QueueRunner.php:249
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_QueueRunner.php:252
 msgid "Every minute"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:110
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:113
 msgid "Action Scheduler"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:110
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:113
 msgid "This section shows details of Action Scheduler."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:113
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:116
 msgid "Version:"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:117
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:120
 msgid "Data store:"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:121
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:124
 msgid "Action Status"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:123
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:126
 msgid "Count"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:124
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:127
 msgid "Oldest Scheduled Date"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:125
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:128
 msgid "Newest Scheduled Date"
 msgstr ""
 
 #. translators: %s: date interval
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:121
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:124
 #, php-format
 msgid "This data will be deleted in %s."
 msgstr ""
 
 #. translators: 1: next cleanup message 2: github issue URL
-#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:126
+#: includes/iee-action-scheduler/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:129
 #, php-format
 msgid "Action Scheduler has migrated data to custom tables; however, orphaned log entries exist in the WordPress Comments table. %1$s <a href=\"%2$s\">Learn more &raquo;</a>"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:130
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:133
 msgid "Database error."
 msgstr ""
 
 #. translators: %s: error message
 #. translators: %s: action error message
 #. translators: %s is an error message.
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:138
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:49
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:49
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:141
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:52
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:52
 #, php-format
 msgid "Error saving action: %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:425
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:428
 msgid "Invalid value for select or count parameter. Cannot query actions."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:490
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:493
 msgid "JSON partial matching not supported in your environment. Please check your MySQL/MariaDB version."
 msgstr ""
 
 #. translators: %s: provided value type
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:508
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:511
 #, php-format
 msgid "The value type for the JSON partial matching is not supported. Must be either integer, boolean, double or string. %s type provided."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:530
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:533
 msgid "Unknown partial args matching value."
 msgstr ""
 
 #. translators: %s: action ID
 #. translators: %s is the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:699
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:515
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:702
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:518
 #, php-format
 msgid "Unidentified action %s: we were unable to cancel this action. It may may have been deleted by another process."
 msgstr ""
 
 #. translators: %s is the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:801
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:534
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:804
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:537
 #, php-format
 msgid "Unidentified action %s: we were unable to delete this action. It may may have been deleted by another process."
 msgstr ""
 
 #. translators: %s is the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:838
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:564
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:841
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:567
 #, php-format
 msgid "Unidentified action %s: we were unable to determine the date of this action. It may may have been deleted by another process."
 msgstr ""
 
 #. translators: %s: group name(s)
 #. translators: %s is the group name
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:975
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:717
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:978
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:720
 #, php-format
 msgid "The group \"%s\" does not exist."
 msgid_plural "The groups \"%s\" do not exist."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1017
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1020
 msgctxt "database error"
 msgid "unknown"
 msgstr ""
 
 #. translators: %s database error.
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1022
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1025
 #, php-format
 msgid "Unable to claim actions. Database error: %s."
 msgstr ""
 
 #. translators: %d is an id.
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1178
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1181
 #, php-format
 msgid "Unable to release actions from claim id %d."
 msgstr ""
 
 #. translators: %s is the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1232
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1235
 #, php-format
 msgid "Unidentified action %s: we were unable to mark this action as having failed. It may may have been deleted by another process."
 msgstr ""
 
 #. translators: 1: action ID. 2: status slug.
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1263
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:984
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1266
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:987
 #, php-format
 msgid "Unable to update the status of action %1$d to %2$s."
 msgstr ""
 
 #. translators: %s is the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1300
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1004
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1303
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1007
 #, php-format
 msgid "Unidentified action %s: we were unable to mark this action as having completed. It may may have been deleted by another process."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1335
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:921
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1338
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:924
 msgid "Invalid action ID. No status found."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1337
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1340
 msgid "Unknown status found for action."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:101
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:104
 msgid "Unable to save action."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:318
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:321
 msgid "Invalid schedule. Cannot save action."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:696
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:699
 msgid "Unable to claim actions. Database error."
 msgstr ""
 
 #. translators: %s: claim ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:841
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:844
 #, php-format
 msgid "Unable to unlock claim %s. Database error."
 msgstr ""
 
 #. translators: %s: action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:869
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:872
 #, php-format
 msgid "Unable to unlock claim on action %s. Database error."
 msgstr ""
 
 #. translators: %s: action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:895
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:898
 #, php-format
 msgid "Unable to mark failure on action %s. Database error."
 msgstr ""
 
 #. translators: %s is the error message
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1085
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1088
 #, php-format
 msgid "%s Support for strings longer than this will be removed in a future version."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:41
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:44
 msgctxt "post"
 msgid "Failed"
 msgstr ""
 
 #. translators: %s: count
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:43
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:46
 #, php-format
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:56
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:59
 msgctxt "post"
 msgid "In-Progress"
 msgstr ""
 
 #. translators: %s: count
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:58
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:61
 #, php-format
 msgid "In-Progress <span class=\"count\">(%s)</span>"
 msgid_plural "In-Progress <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:24
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:27
 msgid "Scheduled actions are hooks triggered on a certain date and time."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:38
 msgid "Scheduled Action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:36
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:39
 msgctxt "Admin menu name"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:37
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:40
 msgid "Add"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:38
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:41
 msgid "Add New Scheduled Action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:40
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:43
 msgid "Edit Scheduled Action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:41
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:44
 msgid "New Scheduled Action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:42
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:43
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:45
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:46
 msgid "View Action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:44
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:47
 msgid "Search Scheduled Actions"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:45
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:48
 msgid "No actions found"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:46
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:49
 msgid "No actions found in trash"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_TaxonomyRegistrar.php:22
+#: includes/iee-action-scheduler/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_TaxonomyRegistrar.php:25
 msgid "Action Group"
 msgstr ""
 
 #. translators: %s is an action ID.
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/ActionMigrator.php:109
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/ActionMigrator.php:111
 #, php-format
 msgid "Unable to remove source migrated action %s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:77
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:79
 msgid "Source store must be configured before running a migration"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:100
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:102
 msgid "Source logger must be configured before running a migration"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:123
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:125
 msgid "Destination store must be configured before running a migration"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:146
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Config.php:148
 msgid "Destination logger must be configured before running a migration"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Controller.php:183
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Controller.php:186
 msgid "Action Scheduler migration in progress. The list of scheduled actions may be incomplete."
 msgstr ""
 
 #. translators: %d: amount of actions
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Runner.php:114
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Runner.php:116
 #, php-format
 msgid "Migrating %d action"
 msgid_plural "Migrating %d actions"
@@ -2084,64 +2085,64 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: source action ID 2: source store class 3: destination action ID 4: destination store class
-#: includes/iee-action-scheduler/action-scheduler/classes/migration/Runner.php:141
+#: includes/iee-action-scheduler/action-scheduler/classes/migration/Runner.php:143
 #, php-format
 msgid "Migrated action with ID %1$d in %2$s to ID %3$d in %4$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:49
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:52
 msgid "Please specify hook of action to cancel."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:59
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:62
 msgid "Unable to cancel scheduled action: check the logs."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:76
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:79
 msgid "Please specify hook and/or group of actions to cancel."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:89
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:92
 msgid "Request to cancel scheduled actions completed."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:98
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:101
 msgid "Scheduled action cancelled."
 msgstr ""
 
 #. translators: %1$s: singular or plural %2$s: refers to the exception error message.
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:113
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:116
 #, php-format
 msgid "There was an error cancelling the %1$s: %2$s"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:114
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:117
 msgid "scheduled actions"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:114
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Cancel_Command.php:117
 msgid "scheduled action"
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:110
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:113
 msgid "Unable to create a scheduled action."
 msgstr ""
 
 #. translators: %1$s: type of action, %2$d: ID of the created action
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:129
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:132
 #, php-format
 msgid "%1$s action (%2$d) scheduled."
 msgstr ""
 
 #. translators: %s refers to the exception error message.
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:147
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:115
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Create_Command.php:150
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:118
 #, php-format
 msgid "There was an error creating the scheduled action: %s"
 msgstr ""
 
 #. translators: %d: number of actions to be deleted
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:54
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:57
 #, php-format
 msgid "Deleting %d action"
 msgid_plural "Deleting %d actions"
@@ -2149,7 +2150,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d: number of actions deleted
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:74
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:77
 #, php-format
 msgid "Deleted %1$d action"
 msgid_plural "Deleted %1$d actions"
@@ -2157,7 +2158,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %2$d: number of actions deletions failed
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:76
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Delete_Command.php:79
 #, php-format
 msgid "%2$d failure."
 msgid_plural "%2$d failures."
@@ -2165,7 +2166,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d is number of actions to create
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:70
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:73
 #, php-format
 msgid "Creating %d action"
 msgid_plural "Creating %d actions"
@@ -2173,7 +2174,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d refers to the total number of tasks added, %2$s is the action type
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:97
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Generate_Command.php:100
 #, php-format
 msgid "%1$d %2$s action scheduled."
 msgid_plural "%1$d %2$s actions scheduled."
@@ -2181,13 +2182,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d is action ID.
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Get_Command.php:23
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Get_Command.php:26
 #, php-format
 msgid "Unable to retrieve action %d."
 msgstr ""
 
 #. translators: %d: number of actions
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:59
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:62
 #, php-format
 msgid "Executing %d action"
 msgid_plural "Executing %d actions"
@@ -2195,7 +2196,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %1$d: count of actions evaluated. %2$s: type of action evaluated.
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:88
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:91
 #, php-format
 msgid "%1$d action %2$s."
 msgid_plural "%1$d actions %2$s."
@@ -2203,7 +2204,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of executed actions
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:102
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/Action/Run_Command.php:105
 #, php-format
 msgid "Executed %d action."
 msgid_plural "Executed %d actions."
@@ -2211,7 +2212,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d refers to the total number of batches processed
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:88
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:91
 #, php-format
 msgid "%d batch processed."
 msgid_plural "%d batches processed."
@@ -2219,65 +2220,65 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s refers to the exception error message
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:103
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:106
 #, php-format
 msgid "There was an error deleting an action: %s"
 msgstr ""
 
 #. translators: %d refers to the total number of actions deleted
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:118
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:121
 #, php-format
 msgid "%d action deleted."
 msgid_plural "%d actions deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:69
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:72
 msgid "There are too many concurrent batches, but the run is forced to continue."
 msgstr ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:71
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:74
 msgid "There are too many concurrent batches."
 msgstr ""
 
 #. translators: %d: amount of actions
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:99
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:102
 #, php-format
 msgid "Running %d action"
 msgid_plural "Running %d actions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:117
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:120
 msgid "The claim has been lost. Aborting current batch."
 msgstr ""
 
 #. translators: %s refers to the action ID
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:140
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:143
 #, php-format
 msgid "Started processing action %s"
 msgstr ""
 
 #. translators: 1: action ID 2: hook name
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:155
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:158
 #, php-format
 msgid "Completed processing action %1$s with hook: %2$s"
 msgstr ""
 
 #. translators: 1: action ID 2: exception message
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:168
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:171
 #, php-format
 msgid "Error processing action %1$s: %2$s"
 msgstr ""
 
 #. translators: %s refers to the schema name
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:30
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:33
 #, php-format
 msgid "Registered schema for %s"
 msgstr ""
 
 #. translators: %d refers to how many scheduled tasks were found to run
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:150
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:153
 #, php-format
 msgid "Found %d scheduled task"
 msgid_plural "Found %d scheduled tasks"
@@ -2285,7 +2286,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d refers to the total number of batches executed
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:165
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:168
 #, php-format
 msgid "%d batch executed."
 msgid_plural "%d batches executed."
@@ -2293,13 +2294,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s refers to the exception error message
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:182
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:185
 #, php-format
 msgid "There was an error running the action scheduler: %s"
 msgstr ""
 
 #. translators: %d refers to the total number of tasks completed
-#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:197
+#: includes/iee-action-scheduler/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:200
 #, php-format
 msgid "%d scheduled task completed."
 msgid_plural "%d scheduled tasks completed."
@@ -2311,13 +2312,13 @@ msgid "Detailed information about registered sources is not currently available.
 msgstr ""
 
 #. translators: 1: provided value 2: provided type.
-#: includes/iee-action-scheduler/action-scheduler/functions.php:137
+#: includes/iee-action-scheduler/action-scheduler/functions.php:141
 #, php-format
 msgid "An integer was expected but \"%1$s\" (%2$s) was received."
 msgstr ""
 
 #. translators: %1$s is the name of the hook to be cancelled, %2$s is the exception message.
-#: includes/iee-action-scheduler/action-scheduler/functions.php:292
+#: includes/iee-action-scheduler/action-scheduler/functions.php:296
 #, php-format
 msgid "Caught exception while cancelling action \"%1$s\": %2$s"
 msgstr ""
@@ -2424,19 +2425,19 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: templates/admin/iee-setup-wizard.php:2
+#: templates/admin/iee-setup-wizard.php:6
 msgid "Import Eventbrite Event"
 msgstr ""
 
-#: templates/admin/iee-setup-wizard.php:8
+#: templates/admin/iee-setup-wizard.php:12
 msgid "Getting Started Video"
 msgstr ""
 
-#: templates/admin/iee-setup-wizard.php:17
+#: templates/admin/iee-setup-wizard.php:21
 msgid "Create Eventbrite Token"
 msgstr ""
 
-#: templates/admin/iee-setup-wizard.php:33
+#: templates/admin/iee-setup-wizard.php:37
 msgid "Back to WordPress Dashboard"
 msgstr ""
 
@@ -2469,12 +2470,12 @@ msgid "Date range"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-ical-export.php:48
-#: templates/iee-event-meta.php:59
+#: templates/iee-event-meta.php:62
 msgid "Start"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-ical-export.php:51
-#: templates/iee-event-meta.php:62
+#: templates/iee-event-meta.php:65
 msgid "End"
 msgstr ""
 
@@ -2539,7 +2540,7 @@ msgid "Appearance"
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:31
-#: templates/admin/import-eventbrite-events-settings.php:569
+#: templates/admin/import-eventbrite-events-settings.php:570
 msgid "Google Maps API"
 msgstr ""
 
@@ -2768,8 +2769,8 @@ msgid "Delete Import Eventbrite Events data like settings, scheduled imports, im
 msgstr ""
 
 #: templates/admin/import-eventbrite-events-settings.php:445
-#: templates/admin/import-eventbrite-events-settings.php:553
-#: templates/admin/import-eventbrite-events-settings.php:592
+#: templates/admin/import-eventbrite-events-settings.php:554
+#: templates/admin/import-eventbrite-events-settings.php:593
 msgid "Save Settings"
 msgstr ""
 
@@ -2805,79 +2806,80 @@ msgstr ""
 msgid "Choose the layout template for the single event details page."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:480
+#. translators: %s: upgrade link
+#: templates/admin/import-eventbrite-events-settings.php:481
 #, php-format
 msgid "Premium templates are available in the Pro version. %s"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:489
+#: templates/admin/import-eventbrite-events-settings.php:490
 msgid "Sidebar Position"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:496
+#: templates/admin/import-eventbrite-events-settings.php:497
 msgid "Right Sidebar"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:497
+#: templates/admin/import-eventbrite-events-settings.php:498
 msgid "Left Sidebar"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:501
+#: templates/admin/import-eventbrite-events-settings.php:502
 msgid "Choose whether the sidebar should be on the left or the right side."
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:510
+#: templates/admin/import-eventbrite-events-settings.php:511
 msgid "Ticket Button Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:513
-#: templates/iee-archive-content3.php:34
-#: templates/iee-archive-content5.php:24
-#: templates/iee-archive-content6.php:25
+#: templates/admin/import-eventbrite-events-settings.php:514
+#: templates/iee-archive-content3.php:37
+#: templates/iee-archive-content5.php:27
+#: templates/iee-archive-content6.php:28
 msgid "Buy Tickets"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:519
+#: templates/admin/import-eventbrite-events-settings.php:520
 msgid "Next Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:522
+#: templates/admin/import-eventbrite-events-settings.php:523
 msgid "Next Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:528
+#: templates/admin/import-eventbrite-events-settings.php:529
 msgid "Previous Events Text"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:531
+#: templates/admin/import-eventbrite-events-settings.php:532
 msgid "Previous Events"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:537
+#: templates/admin/import-eventbrite-events-settings.php:538
 msgid "Display Buy Ticket section in Past Event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:545
+#: templates/admin/import-eventbrite-events-settings.php:546
 msgid "Check to enable show to buy ticket section in past event"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:573
+#: templates/admin/import-eventbrite-events-settings.php:574
 msgid "Check Google Maps Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:580
+#: templates/admin/import-eventbrite-events-settings.php:581
 msgid "Google maps API Key (Required)"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:581
+#: templates/admin/import-eventbrite-events-settings.php:582
 msgid "How to get an API Key"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:582
+#: templates/admin/import-eventbrite-events-settings.php:583
 msgid "Find out more about API Key restrictions"
 msgstr ""
 
-#: templates/admin/import-eventbrite-events-settings.php:608
+#: templates/admin/import-eventbrite-events-settings.php:609
 msgid "Here"
 msgstr ""
 
@@ -3000,48 +3002,48 @@ msgstr ""
 msgid "Status : "
 msgstr ""
 
-#: templates/iee-archive-content3.php:94
-#: templates/iee-archive-content5.php:75
-#: templates/iee-archive-content6.php:86
+#: templates/iee-archive-content3.php:97
+#: templates/iee-archive-content5.php:78
+#: templates/iee-archive-content6.php:89
 msgid "View Details"
 msgstr ""
 
-#: templates/iee-archive-content4.php:71
+#: templates/iee-archive-content4.php:74
 msgid "Date - Time"
 msgstr ""
 
-#: templates/iee-archive-content5.php:49
+#: templates/iee-archive-content5.php:52
 msgid "Event date not available"
 msgstr ""
 
-#: templates/iee-archive-content6.php:88
+#: templates/iee-archive-content6.php:91
 msgid "View details"
 msgstr ""
 
-#: templates/iee-event-meta.php:46
+#: templates/iee-event-meta.php:49
 msgid "Details"
 msgstr ""
 
-#: templates/iee-event-meta.php:51
+#: templates/iee-event-meta.php:54
 msgid "Date"
 msgstr ""
 
-#: templates/iee-event-meta.php:54
+#: templates/iee-event-meta.php:57
 msgid "Time"
 msgstr ""
 
-#: templates/iee-event-meta.php:98
+#: templates/iee-event-meta.php:101
 msgid "Click to Register"
 msgstr ""
 
-#: templates/iee-event-meta.php:114
+#: templates/iee-event-meta.php:117
 msgid "Organizer"
 msgstr ""
 
-#: templates/iee-event-meta.php:249
+#: templates/iee-event-meta.php:252
 msgid "Multiple Dates"
 msgstr ""
 
-#: templates/iee-event-meta.php:270
+#: templates/iee-event-meta.php:273
 msgid "Tickets"
 msgstr ""
