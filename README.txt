@@ -160,6 +160,17 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 == Changelog ==
 
+= 1.8.2 =
+* ADDED: Support for WordPress 7.1.
+* ADDED: Support for Eventbrite structured content including Gallery, Videos, and FAQs. ( PRO )
+* ADDED: Support for Eventbrite Global Series & Collections. ( PRO )
+* ADDED: Multiple Event Details Templates for highly customizable event pages. ( PRO )
+* IMPROVEMENTS: Enhanced security with strict ABSPATH checks across all files.
+* IMPROVEMENTS: Optimize API calls and memory usage during Eventbrite event sync.
+* IMPROVEMENTS: Conditionally load integration classes to improve overall site performance.
+* FIXED: Action Scheduler fatal error by strictly enforcing PHP namespace declaration order.
+* FIXED: Duplicate background cron job creation issue for scheduled imports.
+
 = 1.8.1 =
 * ADDED: Export events to iCal Option.
 * ADDED: Eventbrite widget to display events directly on your site. ( PRO )
