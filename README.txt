@@ -5,7 +5,7 @@ Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 6.0
 Requires PHP: 7.6
 Tested up to: 7.1
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
