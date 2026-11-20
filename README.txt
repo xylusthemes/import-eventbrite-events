@@ -5,7 +5,7 @@ Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 6.0
 Requires PHP: 7.6
 Tested up to: 7.1
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -159,6 +159,14 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.8.4 =
+* ADDED: Live Sold Out Check setting to automatically detect and display "Sold Out" status via Eventbrite API.
+* ADDED: Prominent "Sold Out" and "Online" badges across all event archive layouts and single event details page.
+* ADDED: Shortcode parameters 'display_sold_out' and 'display_online' to filter events.
+* IMPROVEMENTS: Optimized live ticket check using transient caching and asynchronous AJAX execution for fast page loading.
+* IMPROVEMENTS: Optimized Eventbrite API requests during Standard API imports.
+* FIXED: PHP 8.1+ deprecation warning on shortcode pagination links.
 
 = 1.8.3 =
 * FIXED: Import Event function bug.
