@@ -2380,3 +2380,71 @@ function iee_model_checkout_markup( $eventbrite_id, $event_id ){
 	<?php
 	return ob_get_clean();
 }
+
+/**
+ * Check and update live sold out status for an event.
+ *
+ * @param int $post_id
+ */
+function iee_live_check_sold_out_status( $post_id ) {
+	$options = get_option( IEE_OPTIONS );
+	if ( empty( $options['live_sold_out_check'] ) || 'yes' !== $options['live_sold_out_check'] ) {
+		return;
+	}
+
+	$has_tickets = get_post_meta( $post_id, 'iee_has_tickets', true );
+	if ( 'no' === $has_tickets ) {
+		return; // No tickets, skip API check.
+	}
+
+	$is_sold_out = get_post_meta( $post_id, 'iee_is_sold_out', true );
+	if ( 'yes' === $is_sold_out ) {
+		return; // Already sold out, skip API check.
+	}
+
+	$duration = isset( $options['live_sold_out_duration'] ) ? (int) $options['live_sold_out_duration'] : 30;
+	if ( $duration < 1 ) {
+		$duration = 30;
+	}
+	$transient_key = 'iee_sold_out_check_' . $post_id;
+
+	if ( false !== get_transient( $transient_key ) ) {
+		return; // Still cached
+	}
+
+	$eventbrite_id = get_post_meta( $post_id, 'iee_event_id', true );
+	if ( ! $eventbrite_id ) {
+		set_transient( $transient_key, 'checked', $duration * MINUTE_IN_SECONDS );
+		return;
+	}
+
+	$token = isset( $options['eventbrite_oauth_token'] ) ? $options['eventbrite_oauth_token'] : '';
+	if ( empty( $token ) ) {
+		$api_url = 'https://www.eventbrite.com/api/v3/events/' . $eventbrite_id . '/?expand=ticket_availability';
+		$response = wp_remote_get( $api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+	} else {
+		$api_url = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_id . '/?expand=ticket_availability';
+		$response = wp_remote_get( $api_url, array( 'headers' => array( 'Authorization' => 'Bearer ' . $token, 'Content-Type' => 'application/json' ) ) );
+	}
+
+	if ( ! is_wp_error( $response ) ) {
+		$response_code = wp_remote_retrieve_response_code( $response );
+		if ( 200 === (int) $response_code ) {
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body, true );
+
+			if ( is_array( $data ) && isset( $data['ticket_availability'] ) ) {
+				if ( ! empty( $data['ticket_availability']['is_sold_out'] ) ) {
+					update_post_meta( $post_id, 'iee_is_sold_out', 'yes' );
+				} else {
+					update_post_meta( $post_id, 'iee_is_sold_out', 'no' );
+				}
+			} elseif ( is_array( $data ) && isset( $data['id'] ) ) {
+				update_post_meta( $post_id, 'iee_has_tickets', 'no' );
+			}
+		}
+	}
+
+	set_transient( $transient_key, 'checked', $duration * MINUTE_IN_SECONDS );
+}
+

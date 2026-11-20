@@ -198,6 +198,26 @@ $eventbrite_optionsap = isset( $iee_ap_options ) ? $iee_ap_options : array();
 												<?php esc_html_e( 'Enable this option to import event collections from Eventbrite. This will make an additional API call per event.', 'import-eventbrite-events' ); ?>
 											</span>
 										</div>
+									</div> <!-- End of import_collections iee-inner-main-section -->
+
+									<div class="iee-inner-main-section"  >
+										<div class="iee-inner-section-1" >
+											<span class="iee-title-text" ><?php esc_attr_e( 'Enable Live Sold Out Check', 'import-eventbrite-events' ); ?></span>
+										</div>
+										<div class="iee-inner-section-2">
+											<?php
+											$live_sold_out_check = isset( $eventbrite_options['live_sold_out_check'] ) ? $eventbrite_options['live_sold_out_check'] : 'no';
+											$live_sold_out_duration = isset( $eventbrite_options['live_sold_out_duration'] ) ? $eventbrite_options['live_sold_out_duration'] : '30';
+											?>
+											<input type="checkbox" name="eventbrite[live_sold_out_check]" value="yes" <?php if ( $live_sold_out_check == 'yes' ) { echo 'checked="checked"'; } ?> />
+											
+											<span style="margin-left: 15px; margin-right: 5px; font-weight: bold;"><?php esc_attr_e( 'Check frequency (in min)', 'import-eventbrite-events' ); ?></span>
+											<input type="number" style="width: 70px;" name="eventbrite[live_sold_out_duration]" value="<?php echo esc_attr( $live_sold_out_duration ); ?>" min="1" step="1" />
+											
+											<div class="iee_small" style="margin-top: 5px; display: block;">
+												<?php esc_html_e( 'Enable this option to perform live checks for Sold Out status via Eventbrite API.', 'import-eventbrite-events' ); ?>
+											</div>
+										</div>
 									</div>
 									<div class="iee-inner-main-section"  >
 										<div class="iee-inner-section-1" >

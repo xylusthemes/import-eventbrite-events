@@ -77,7 +77,18 @@ if( !empty( $accent_color ) ){
 		</div>
 
 		<div class="iee-style4-event-image">
-			<div class="iee-style4-event-image-img">
+			<div class="iee-style4-event-image-img" style="position: relative;">
+				<?php
+					$is_sold_out = get_post_meta( get_the_ID(), 'iee_is_sold_out', true );
+					$is_online   = get_post_meta( get_the_ID(), 'iee_online_event', true );
+					if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+						echo '<div class="iee-badges-wrapper">';
+						if ( 'yes' === $is_sold_out ) { echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>'; }
+						if ( 'yes' === $is_online ) { echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>'; }
+						echo '</div>';
+					}
+				?>
+
 				<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
                 <img src="<?php echo esc_url( $image_url ); ?>" alt="">
 			</div>

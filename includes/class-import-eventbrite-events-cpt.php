@@ -203,6 +203,7 @@ class Import_Eventbrite_Events_Cpt {
 				'show_ui'           => true,
 				'show_in_nav_menus' => true,
 				'show_admin_column' => true,
+				'show_in_rest'      => true,
 				'hierarchical'      => true,
 				'query_var'         => true,
 			)
@@ -218,6 +219,7 @@ class Import_Eventbrite_Events_Cpt {
 				'show_in_nav_menus' => true,
 				'show_tagcloud'     => true,
 				'show_admin_column' => true,
+				'show_in_rest'      => true,
 				'hierarchical'      => false,
 				'query_var'         => $this->event_tag,
 				/* Labels used when displaying taxonomy and terms. */
@@ -267,6 +269,7 @@ class Import_Eventbrite_Events_Cpt {
 				'show_ui'           => true,
 				'show_in_nav_menus' => true,
 				'show_admin_column' => true,
+				'show_in_rest'      => true,
 				'hierarchical'      => true,
 				'query_var'         => true,
 			)
@@ -852,6 +855,10 @@ class Import_Eventbrite_Events_Cpt {
 		/* yes/no flags */
 		$atts['ajaxpagi']    = (isset($atts['ajaxpagi']) && $atts['ajaxpagi'] === 'yes') ? 'yes' : 'no';
 		$atts['past_events'] = (isset($atts['past_events']) && ($atts['past_events'] === 'yes' || $atts['past_events'] === true)) ? 'yes' : '';
+		
+		/* custom filters */
+		$atts['display_sold_out'] = (isset($atts['display_sold_out']) && in_array(strtolower($atts['display_sold_out']), array('yes', 'no'))) ? strtolower($atts['display_sold_out']) : '';
+		$atts['display_online']   = (isset($atts['display_online']) && in_array(strtolower($atts['display_online']), array('yes', 'no'))) ? strtolower($atts['display_online']) : '';
 
 		/* layout whitelist */
 		$allowed_layouts = array( 'style1', 'style2', 'style3', 'style4', 'style5', 'style6' );
@@ -960,6 +967,66 @@ class Import_Eventbrite_Events_Cpt {
 						'compare' => '>=',
 						'value'   => $current_date,
 					),
+				);
+			}
+		}
+
+		// Sold out filter
+		if ( $atts['display_sold_out'] != '' ) {
+			if ( ! isset( $eve_args['meta_query'] ) ) {
+				$eve_args['meta_query'] = array();
+			}
+			if ( count( $eve_args['meta_query'] ) > 0 && ! isset( $eve_args['meta_query']['relation'] ) ) {
+				$eve_args['meta_query']['relation'] = 'AND';
+			}
+			if ( 'no' === $atts['display_sold_out'] ) {
+				$eve_args['meta_query'][] = array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'iee_is_sold_out',
+						'value'   => 'no',
+						'compare' => '=',
+					),
+					array(
+						'key'     => 'iee_is_sold_out',
+						'compare' => 'NOT EXISTS',
+					),
+				);
+			} else {
+				$eve_args['meta_query'][] = array(
+					'key'     => 'iee_is_sold_out',
+					'value'   => 'yes',
+					'compare' => '=',
+				);
+			}
+		}
+
+		// Online filter
+		if ( $atts['display_online'] != '' ) {
+			if ( ! isset( $eve_args['meta_query'] ) ) {
+				$eve_args['meta_query'] = array();
+			}
+			if ( count( $eve_args['meta_query'] ) > 0 && ! isset( $eve_args['meta_query']['relation'] ) ) {
+				$eve_args['meta_query']['relation'] = 'AND';
+			}
+			if ( 'no' === $atts['display_online'] ) {
+				$eve_args['meta_query'][] = array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'iee_online_event',
+						'value'   => 'no',
+						'compare' => '=',
+					),
+					array(
+						'key'     => 'iee_online_event',
+						'compare' => 'NOT EXISTS',
+					),
+				);
+			} else {
+				$eve_args['meta_query'][] = array(
+					'key'     => 'iee_online_event',
+					'value'   => 'yes',
+					'compare' => '=',
 				);
 			}
 		}
@@ -1154,10 +1221,20 @@ class Import_Eventbrite_Events_Cpt {
 								<div class="col-iee-md-12">
 									<nav class="prev-next-posts">
 										<div class="prev-posts-link alignright">
-											<?php echo wp_kses_post( get_next_posts_link( esc_html( $next_event_text ) . ' &raquo;', $eventbrite_events->max_num_pages ) ); ?>
+											<?php
+											$next_events_link = get_next_posts_link( esc_html( $next_event_text ) . ' &raquo;', $eventbrite_events->max_num_pages );
+											if ( $next_events_link ) {
+												echo wp_kses_post( $next_events_link );
+											}
+											?>
 										</div>
 										<div class="next-posts-link alignleft">
-											<?php echo wp_kses_post( get_previous_posts_link( '&laquo; ' . esc_html( $previous_events ) ) ); ?>
+											<?php
+											$prev_events_link = get_previous_posts_link( '&laquo; ' . esc_html( $previous_events ) );
+											if ( $prev_events_link ) {
+												echo wp_kses_post( $prev_events_link );
+											}
+											?>
 										</div>
 									</nav>
 								</div>

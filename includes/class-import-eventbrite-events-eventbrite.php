@@ -176,6 +176,44 @@ class Import_Eventbrite_Events_Eventbrite {
 		$ticket_price      = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['major_value'] : '';	
 		$ticket_currency   = isset( $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] ) ? $eventbrite_event['ticket_availability']['minimum_ticket_price']['currency'] : '';	
 		$eventbrite_cat    = isset( $eventbrite_event['category']['short_name'] ) ? $eventbrite_event['category']['short_name'] : '';	
+		
+		// Get online_event and is_sold_out status
+		$online_event      = ( isset( $eventbrite_event['online_event'] ) && $eventbrite_event['online_event'] ) ? 'yes' : 'no';
+		$is_sold_out       = 'no';
+		$has_tickets       = 'no';
+		
+		if ( isset( $eventbrite_event['ticket_availability'] ) ) {
+			$has_tickets = 'yes';
+		}
+		
+		if ( isset( $eventbrite_event['ticket_availability']['is_sold_out'] ) && $eventbrite_event['ticket_availability']['is_sold_out'] ) {
+			$is_sold_out = 'yes';
+		} elseif ( ! empty( $this->oauth_token ) ) {
+			// Check ticket classes API if ticket_availability is not conclusive
+			$tickets_api_url  = 'https://www.eventbriteapi.com/v3/events/' . $eventbrite_event['id'] . '/ticket_classes/?token=' . $this->oauth_token;
+			$tickets_response = wp_remote_get( $tickets_api_url, array( 'headers' => array( 'Content-Type' => 'application/json' ) ) );
+			if ( ! is_wp_error( $tickets_response ) ) {
+				$tickets_data = json_decode( $tickets_response['body'], true );
+				if ( isset( $tickets_data['ticket_classes'] ) && is_array( $tickets_data['ticket_classes'] ) ) {
+					$all_sold_out = true;
+					$tc_has_tickets = false;
+					foreach ( $tickets_data['ticket_classes'] as $tc ) {
+						$tc_has_tickets = true;
+						if ( isset( $tc['on_sale_status'] ) && $tc['on_sale_status'] === 'AVAILABLE' ) {
+							$all_sold_out = false;
+							break;
+						}
+					}
+					if ( $tc_has_tickets ) {
+						$has_tickets = 'yes';
+						if ( $all_sold_out ) {
+							$is_sold_out = 'yes';
+						}
+					}
+				}
+			}
+		}
+
 		$organization_id   = isset( $eventbrite_event['organization_id'] ) ? $eventbrite_event['organization_id'] : '';
 		$import_promo_codes = isset( $iee_options['import_promo_codes'] ) ? $iee_options['import_promo_codes'] : 'no';
 		$get_promocode     = '';
@@ -252,6 +290,9 @@ class Import_Eventbrite_Events_Eventbrite {
 			'discount_code'   => $get_promocode,
 			'e_tags'          => $eventbrite_tags,
 			'structured_content' => $structured_content,
+			'online_event'    => $online_event,
+			'is_sold_out'     => $is_sold_out,
+			'has_tickets'     => $has_tickets,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {

@@ -313,8 +313,13 @@ if ( ! class_exists( 'Import_Eventbrite_Events' ) ) :
 			// enqueue script here.
 			$js_dir = IEE_PLUGIN_URL . 'assets/js/';
 			wp_enqueue_script( 'iee-ajax-pagi', $js_dir . 'iee-ajax-pagi.js', array( 'jquery' ), IEE_VERSION, true );
+			
+			$iee_options = get_option( IEE_OPTIONS );
+			$live_check_enabled = isset($iee_options['live_sold_out_check']) ? $iee_options['live_sold_out_check'] : 'no';
+
 			wp_localize_script( 'iee-ajax-pagi', 'iee_ajax', array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+				'live_check_enabled' => $live_check_enabled,
 			));
 		}
 
@@ -386,6 +391,8 @@ function iee_default_options() {
 		'direct_link'                     => 'no',
 		'deactive_ieevents'               => 'no',
 		'delete_ieedata'                  => 'no',
+		'live_sold_out_check'             => 'no',
+		'live_sold_out_duration'          => '30',
 
 		// Appearance
 		'accent_color'                    => '#039ED7',

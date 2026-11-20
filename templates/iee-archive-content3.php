@@ -70,7 +70,17 @@ $is_past      = ( $end_date_str < $current_time );
 <div class="iee-event-item">
     <span class="iee-event-count"><?php echo esc_attr( $day ); ?><span><?php echo esc_attr( $month ); ?></span></span>
     <div class="iee-event-content-wrap">
-        <div class="iee-event-img">
+        <div class="iee-event-img" style="position: relative;">
+			<?php
+				$is_sold_out = get_post_meta( get_the_ID(), 'iee_is_sold_out', true );
+				$is_online   = get_post_meta( get_the_ID(), 'iee_online_event', true );
+				if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+					echo '<div class="iee-badges-wrapper">';
+					if ( 'yes' === $is_sold_out ) { echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>'; }
+					if ( 'yes' === $is_online ) { echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>'; }
+					echo '</div>';
+				}
+			?>
 			<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
             <img src="<?php echo esc_url( $image_url ); ?>" alt="">
         </div>
