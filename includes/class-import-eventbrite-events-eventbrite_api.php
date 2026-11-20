@@ -232,6 +232,17 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			}
 		}
 
+		// Get online_event and is_sold_out status
+		$online_event      = ( isset( $eventbrite_event['online_event'] ) && $eventbrite_event['online_event'] ) ? 'yes' : 'no';
+		$is_sold_out       = 'no';
+		$has_tickets       = 'no';
+		if ( isset( $eventbrite_event['ticket_availability'] ) ) {
+			$has_tickets = 'yes';
+			if ( isset( $eventbrite_event['ticket_availability']['is_sold_out'] ) && $eventbrite_event['ticket_availability']['is_sold_out'] ) {
+				$is_sold_out = 'yes';
+			}
+		}
+
 		$xt_event = array(
 			'origin'          => 'eventbrite',
 			'ID'              => isset( $eventbrite_event['id'] ) ? $eventbrite_event['id'] : '',
@@ -256,6 +267,9 @@ class Import_Eventbrite_Events_Eventbrite_API {
 			'discount_code'   => $get_promocode,
 			'e_tags'          => $eventbrite_tags,
 			'structured_content' => $structured_content,
+			'online_event'    => $online_event,
+			'is_sold_out'     => $is_sold_out,
+			'has_tickets'     => $has_tickets,
 		);
 
 		if ( array_key_exists( 'organizer', $eventbrite_event ) ) {

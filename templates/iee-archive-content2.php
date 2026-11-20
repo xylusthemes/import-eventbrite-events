@@ -59,7 +59,18 @@ if ( ! empty( $event_categories ) ) {
 		<div class="iee_event_style2">
 			<div class="iee_event_thumbnail">
 				<a href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> >
-					<div class="iee_img_placeholder" style=" background: url('<?php echo esc_url( $image_url ); ?>') no-repeat left top;"></div>
+					<div class="iee_img_placeholder" style="position:relative; background: url('<?php echo esc_url( $image_url ); ?>') no-repeat left top;">
+						<?php
+						$is_sold_out = get_post_meta( get_the_ID(), 'iee_is_sold_out', true );
+						$is_online   = get_post_meta( get_the_ID(), 'iee_online_event', true );
+						if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+						    echo '<div class="iee-badges-wrapper">';
+						    if ( 'yes' === $is_sold_out ) { echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>'; }
+						    if ( 'yes' === $is_online ) { echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>'; }
+						    echo '</div>';
+						}
+						?>
+					</div>
 				</a>
 				<span class="iee_event_meta_cat">
 					<?php

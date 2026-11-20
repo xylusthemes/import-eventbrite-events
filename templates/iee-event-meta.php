@@ -38,7 +38,21 @@ if($time_format == '12hours' ){
 
 ?>
 <?php if ( ! empty( $event_image ) && ! has_post_thumbnail( $event_id ) ) { ?>
-	<div class="iee_event_image">
+	<div class="iee_event_image" style="position: relative;">
+		<?php
+		$is_sold_out = get_post_meta( $event_id, 'iee_is_sold_out', true );
+		$is_online   = get_post_meta( $event_id, 'iee_online_event', true );
+		if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+			echo '<div class="iee-badges-wrapper">';
+			if ( 'yes' === $is_sold_out ) {
+				echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>';
+			}
+			if ( 'yes' === $is_online ) {
+				echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>';
+			}
+			echo '</div>';
+		}
+		?>
 		<?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 		<img src="<?php echo esc_url( $event_image ); ?>" alt="<?php echo esc_attr( get_the_title( $event_id ) ); ?>" />
 	</div>

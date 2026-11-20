@@ -56,6 +56,7 @@ class Import_Eventbrite_Events_Admin {
 		add_action( 'admin_init', array( $this, 'iee_handle_schedule_toggle_action' ) );
 		add_action( 'init', array( $this, 'sync_organizer_from_url_weekly' ) );
 		add_action( 'admin_menu', array( $this, 'iee_widget_free_page' ) ); 
+		add_action( 'update_option_' . IEE_OPTIONS, array( $this, 'iee_handle_live_sold_out_option_change' ), 10, 2 );
 		
 	}
 
@@ -965,6 +966,48 @@ class Import_Eventbrite_Events_Admin {
 			update_post_meta( $schedule_id, '_iee_schedule_status', $new_status );
 			wp_safe_redirect( remove_query_arg( [ 'action', 'schedule_id', 'new_status', '_wpnonce' ] ) );
 			exit;
+		}
+	}
+
+	public function iee_handle_live_sold_out_option_change( $old_value, $new_value ) {
+		$old_status = isset( $old_value['live_sold_out_check'] ) ? $old_value['live_sold_out_check'] : 'no';
+		$new_status = isset( $new_value['live_sold_out_check'] ) ? $new_value['live_sold_out_check'] : 'no';
+		$duration   = isset( $new_value['live_sold_out_duration'] ) ? absint( $new_value['live_sold_out_duration'] ) : 30;
+		if ( $duration < 1 ) {
+			$duration = 30;
+		}
+
+		if ( $old_status === $new_status ) {
+			return;
+		}
+
+		$args = array(
+			'post_type'      => 'eventbrite_events',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				array(
+					'key'     => 'end_ts',
+					'value'   => current_time( 'timestamp' ),
+					'compare' => '>=',
+				),
+			),
+		);
+
+		$event_ids = get_posts( $args );
+
+		if ( empty( $event_ids ) ) {
+			return;
+		}
+
+		if ( 'yes' === $new_status ) {
+			foreach ( $event_ids as $post_id ) {
+				set_transient( 'iee_sold_out_check_' . $post_id, 'checked', $duration * MINUTE_IN_SECONDS );
+			}
+		} else {
+			foreach ( $event_ids as $post_id ) {
+				delete_transient( 'iee_sold_out_check_' . $post_id );
+			}
 		}
 	}
 

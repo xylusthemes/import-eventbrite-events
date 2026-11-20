@@ -40,7 +40,18 @@ if ( 'yes' === $direct_link ){
 <a href="<?php echo esc_attr( $event_url ); ?>" <?php echo esc_attr( $target ); ?>>	
 	<div <?php post_class( array( $css_class, 'archive-event' ) ); ?>>
 		<div class="iee_event" >
-			<div class="img_placeholder" style=" background: url('<?php echo esc_url( $image_url ); ?>') no-repeat left top;"></div>
+			<div class="img_placeholder" style="position:relative; background: url('<?php echo esc_url( $image_url ); ?>') no-repeat left top;">
+				<?php
+				$is_sold_out = get_post_meta( get_the_ID(), 'iee_is_sold_out', true );
+				$is_online   = get_post_meta( get_the_ID(), 'iee_online_event', true );
+				if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+				    echo '<div class="iee-badges-wrapper">';
+				    if ( 'yes' === $is_sold_out ) { echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>'; }
+				    if ( 'yes' === $is_online ) { echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>'; }
+				    echo '</div>';
+				}
+				?>
+			</div>
 			<div class="event_details">
 				<div class="event_date">
 					<span class="month"><?php echo esc_attr( date_i18n( 'M', $event_date ) ); ?></span>

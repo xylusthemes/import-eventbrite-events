@@ -279,6 +279,26 @@ class Import_Eventbrite_Events_IEE {
 			update_post_meta( $inserted_event_id, 'iee_event_link', esc_url( $ticket_uri ) );
 			update_post_meta( $inserted_event_id, 'iee_event_origin', $event_args['import_origin'] );
 
+			$online_event = isset( $centralize_array['online_event'] ) ? $centralize_array['online_event'] : 'no';
+			$is_sold_out  = isset( $centralize_array['is_sold_out'] ) ? $centralize_array['is_sold_out'] : 'no';
+			update_post_meta( $inserted_event_id, 'iee_online_event', $online_event );
+			update_post_meta( $inserted_event_id, 'iee_is_sold_out', $is_sold_out );
+			
+			if ( isset( $centralize_array['has_tickets'] ) ) {
+				update_post_meta( $inserted_event_id, 'iee_has_tickets', $centralize_array['has_tickets'] );
+			}
+
+			// Pre-fill live check transient during import so no API load happens on first display
+			$iee_options = get_option( IEE_OPTIONS );
+			if ( isset( $iee_options['live_sold_out_check'] ) && 'yes' === $iee_options['live_sold_out_check'] ) {
+				$duration = isset( $iee_options['live_sold_out_duration'] ) ? absint( $iee_options['live_sold_out_duration'] ) : 30;
+				if ( $duration < 1 ) {
+					$duration = 30;
+				}
+				$transient_key = 'iee_sold_out_check_' . $inserted_event_id;
+				set_transient( $transient_key, 'checked', $duration * MINUTE_IN_SECONDS );
+			}
+
 			// Structured Content
 			$structured = isset( $centralize_array['structured_content'] ) ? $centralize_array['structured_content'] : array();
 

@@ -55,7 +55,18 @@ $event_description = wp_trim_words( get_the_excerpt(), 15, '...' );
 ?>
 <div <?php post_class( array( $css_class, 'archive-event' ) ); ?> >
     <div class="iee6_event-card">
-        <div class="iee6_event-image">
+        <div class="iee6_event-image" style="position: relative;">
+            <?php
+                $is_sold_out = get_post_meta( get_the_ID(), 'iee_is_sold_out', true );
+                $is_online   = get_post_meta( get_the_ID(), 'iee_online_event', true );
+                if ( 'yes' === $is_sold_out || 'yes' === $is_online ) {
+                    echo '<div class="iee-badges-wrapper">';
+                    if ( 'yes' === $is_sold_out ) { echo '<span class="iee-badge">' . esc_html__( 'Sold Out', 'import-eventbrite-events' ) . '</span>'; }
+                    if ( 'yes' === $is_online ) { echo '<span class="iee-badge">' . esc_html__( 'Online', 'import-eventbrite-events' ) . '</span>'; }
+                    echo '</div>';
+                }
+            ?>
+
             <a href="<?php echo esc_url( $event_url ); ?>" <?php echo esc_attr( $target ); ?> >
                 <?php // phpcs:disable PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage  ?>
                 <img src="<?php echo esc_url( $event_image ); ?>" alt="<?php echo esc_attr( $event_title ); ?>">

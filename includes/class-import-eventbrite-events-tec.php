@@ -405,6 +405,8 @@ class Import_Eventbrite_Events_TEC {
 			'iee_ticket_currency' => $t_currency,
 			'start_ts'            => $start_time,
 			'end_ts'              => $end_time,
+			'iee_online_event'    => isset( $centralize_array['online_event'] ) ? $centralize_array['online_event'] : 'no',
+			'iee_is_sold_out'     => isset( $centralize_array['is_sold_out'] ) ? $centralize_array['is_sold_out'] : 'no',
 		);
 
 		if( isset( $centralize_array['is_all_day'] ) && true === $centralize_array['is_all_day'] ){

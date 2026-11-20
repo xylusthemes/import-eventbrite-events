@@ -973,6 +973,18 @@ class Shortcode_List_Table extends WP_List_Table {
 					'shortcode'     => '<p class="iee_short_code">[eventbrite_events  col="2" posts_per_page="12" category="cat1" past_events="yes" order="desc" orderby="post_title" start_date="YYYY-MM-DD" end_date="YYYY-MM-DD"]</p>',
 					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events col=\"2\" posts_per_page=\"12\" category=\"cat1\" past_events=\"yes\" order=\"desc\" orderby=\"post_title\" start_date=\"YYYY-MM-DD\" end_date=\"YYYY-MM-DD\"]' >Copy</button>",
 					);
+		$data[] = array(
+					'id'            => 17,
+					'how_to_use'    => 'Display only Sold Out events',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events display_sold_out="yes"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events display_sold_out=\"yes\"]' >Copy</button>",
+					);
+		$data[] = array(
+					'id'            => 18,
+					'how_to_use'    => 'Display only Online events',
+					'shortcode'     => '<p class="iee_short_code">[eventbrite_events display_online="yes"]</p>',
+					'action'     	=> "<button class='iee-btn-copy-shortcode button-primary' data-value='[eventbrite_events display_online=\"yes\"]' >Copy</button>",
+					);
 		return $data;
 	}
 	
