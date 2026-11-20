@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Import Eventbrite Events 1.8.2\n"
+"Project-Id-Version: Import Eventbrite Events 1.8.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/import-eventbrite-events\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,8 +40,8 @@ msgstr ""
 msgid "https://xylusthemes.com"
 msgstr ""
 
-#: import-eventbrite-events.php:155
-#: import-eventbrite-events.php:164
+#: import-eventbrite-events.php:136
+#: import-eventbrite-events.php:145
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Setting"
 msgstr ""
 
-#: import-eventbrite-events.php:312
+#: import-eventbrite-events.php:274
 #: includes/class-import-eventbrite-events-common.php:1744
 msgid "Docs"
 msgstr ""
