@@ -821,10 +821,16 @@ class Import_Eventbrite_Events_Admin {
 	 * @return void
 	 */
 	public function iee_view_import_history_handler() {
+	    if ( ! current_user_can( 'manage_options' ) ) {
+	        wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'import-eventbrite-events' ), '', array( 'response' => 403 ) );
+	    }
+
+	    check_admin_referer( 'iee_view_import_history_nonce' );
+
 	    define( 'IFRAME_REQUEST', true );
 	    iframe_header();
-	    $history_id = isset($_GET['history']) ? absint($_GET['history']) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	    if( $history_id > 0){
+	    $history_id = isset( $_GET['history'] ) ? absint( $_GET['history'] ) : 0;
+	    if ( $history_id > 0 && 'iee_import_history' === get_post_type( $history_id ) ) {
 	    	$imported_data = get_post_meta($history_id, 'imported_data', true);
 	    	if(!empty($imported_data)){
 	    		?>
