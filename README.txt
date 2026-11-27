@@ -4,8 +4,8 @@ Donate link: http://xylusthemes.com/
 Tags: eventbrite, events, import, calendar, eventbrite event
 Requires at least: 6.0
 Requires PHP: 7.6
-Tested up to: 7.1
-Stable tag: 1.8.4
+Tested up to: 7.2
+Stable tag: 1.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -159,6 +159,12 @@ Here is detail instruction on how to get [Eventbrite Oauth] (http://docs.xylusth
 
 
 == Changelog ==
+
+= 1.8.5 =
+* ADDED: Support for multiple comma-separated organizer IDs in Eventbrite feed. ( PRO )
+* ADDED: Classic Editor compatibility to preserve raw HTML event descriptions when Classic Editor is active.
+* FIXED: Missing authorization and nonce verification in the import history viewer.
+* IMPROVEMENTS: Support for WordPress 7.2.
 
 = 1.8.4 =
 * ADDED: Live Sold Out Check setting to automatically detect and display "Sold Out" status via Eventbrite API.
