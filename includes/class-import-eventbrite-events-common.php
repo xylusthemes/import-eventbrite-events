@@ -41,6 +41,26 @@ class Import_Eventbrite_Events_Common {
 	}
 
 	/**
+	 * Convert description conditionally.
+	 *
+	 * @param string $post_description The post description.
+	 * @return string
+	 */
+	public function convert_description( $post_description ) {
+		global $iee_events;
+
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( is_plugin_active( 'classic-editor/classic-editor.php' ) ) {
+			return $post_description;
+		}
+
+		return $iee_events->htmltblock->convert( $post_description );
+	}
+
+	/**
 	 * Migrate existing cron args from associative to indexed arrays to fix PHP 8 named parameter issues.
 	 *
 	 * @since 1.8.2
