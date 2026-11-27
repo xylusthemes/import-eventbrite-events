@@ -3,7 +3,7 @@
 > Import Eventbrite Events into WordPress website and/or Event Calendar. Nice Display with shortcode & Event widget.
 
 [![Release Version](https://img.shields.io/github/v/release/xylusthemes/import-eventbrite-events.svg)](https://github.com/xylusthemes/import-eventbrite-events/releases/latest)
-![WordPress tested up to version](https://img.shields.io/badge/WordPress-v7.1%20tested-success.svg)
+![WordPress tested up to version](https://img.shields.io/badge/WordPress-v7.2%20tested-success.svg)
 [![GPLv2.0 License](https://img.shields.io/github/license/xylusthemes/import-eventbrite-events.svg)](https://github.com/xylusthemes/import-eventbrite-events/blob/master/LICENSE.txt)
 
 ## Description
