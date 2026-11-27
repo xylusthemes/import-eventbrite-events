@@ -641,18 +641,19 @@ class Import_Eventbrite_Events_History_List_Table extends WP_List_Table {
 		$url = add_query_arg( array(
 			'action'    => 'iee_view_import_history',
 			'history'   => $item['ID'],
+			'_wpnonce'  => wp_create_nonce( 'iee_view_import_history_nonce' ),
 			'TB_iframe' => 'true',
 			'width'     => '800',
-			'height'    => '500'
+			'height'    => '500',
 		), admin_url( 'admin.php' ) );
 
 		$imported_data = get_post_meta($item['ID'], 'imported_data', true);
 		if(!empty($imported_data)){
 			return sprintf(
 				'<a href="%1$s" title="%2$s" class="open-history-details-modal button button-primary thickbox">%3$s</a>',
-				$url,
-				$item['title'],
-				__( 'View Imported Events', 'import-eventbrite-events' )
+				esc_url( $url ),
+				esc_attr( $item['title'] ),
+				esc_html__( 'View Imported Events', 'import-eventbrite-events' )
 			);
 		}else{
 			return '-';
